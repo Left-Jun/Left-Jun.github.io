@@ -1,0 +1,102 @@
+﻿baseURL: "https://left-jun.github.io/"
+languageCode: "zh-cn"
+title: "Left Jun"
+theme: "hugo-theme-stack"
+
+defaultContentLanguage: "zh-cn"
+hasCJKLanguage: true
+
+pagination:
+  pagerSize: 6
+  path: "page"
+
+permalinks:
+  post: "/posts/:slug/"
+  page: "/:slug/"
+
+markup:
+  goldmark:
+    renderer:
+      unsafe: true
+  highlight:
+    noClasses: false
+    codeFences: true
+    guessSyntax: true
+    lineNos: true
+    lineNumbersInTable: true
+    style: "monokai"
+
+caches:
+  images:
+    dir: ":cacheDir/images"
+
+menus:
+  main:
+    - identifier: "home"
+      name: "首页"
+      url: "/"
+      weight: 10
+      params:
+        icon: "home"
+    - identifier: "about"
+      name: "关于我"
+      url: "/about/"
+      weight: 20
+      params:
+        icon: "user"
+    - identifier: "projects"
+      name: "项目"
+      url: "/projects/"
+      weight: 30
+      params:
+        icon: "link"
+    - identifier: "posts"
+      name: "文章"
+      url: "/posts/"
+      weight: 40
+      params:
+        icon: "archives"
+
+params:
+  mainSections:
+    - post
+  featuredImageField: "image"
+  rssFullContent: true
+  favicon: "/img/avatar.svg"
+
+  footer:
+    since: 2026
+    customText: "Built with Hugo"
+
+  dateFormat:
+    published: "2006-01-02"
+    lastUpdated: "2006-01-02 15:04"
+
+  sidebar:
+    compact: false
+    emoji: "👋"
+    subtitle: "记录产品、技术、想法，也展示我正在做的项目。"
+    avatar: "img/avatar.svg"
+
+  article:
+    math: false
+    toc: true
+    readingTime: true
+
+  comments:
+    enabled: false
+
+  widgets:
+    homepage:
+      - type: "categories"
+        params:
+          limit: 8
+      - type: "tag-cloud"
+        params:
+          limit: 10
+    page:
+      - type: "toc"
+
+  colorScheme:
+    toggle: true
+    default: "auto"
