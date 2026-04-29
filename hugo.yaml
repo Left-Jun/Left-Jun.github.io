@@ -69,7 +69,7 @@ params:
     - post
   featuredImageField: "image"
   rssFullContent: true
-  favicon: "/img/avatar.svg"
+  favicon: "/favicon.ico"
 
   footer:
     since: 2026
@@ -83,7 +83,7 @@ params:
     compact: false
     emoji: "👋"
     subtitle: "四川大学电子信息本科生，持续做游戏原型、互动作品与软硬件项目。"
-    avatar: "img/avatar.svg"
+    avatar: "img/avatar.jpg"
 
   article:
     math: false
