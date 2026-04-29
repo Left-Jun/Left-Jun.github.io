@@ -5,6 +5,8 @@ draft: true
 description: ""
 image: "cover.svg"
 slug: ""
+weight: 100
+portfolioType: "game"
 tags: []
 ---
 

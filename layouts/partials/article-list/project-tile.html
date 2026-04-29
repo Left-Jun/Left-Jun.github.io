@@ -1,5 +1,5 @@
 {{ $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources) }}
-<article class="project-card {{ if $image }}has-image{{ end }}">
+<article class="project-card {{ if $image }}has-image{{ end }}" data-project-type="{{ .Params.portfolioType | default "other" }}">
     <a href="{{ .RelPermalink }}">
         {{ if $image }}
             <div class="project-card__image">

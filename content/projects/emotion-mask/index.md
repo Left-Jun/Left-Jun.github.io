@@ -5,6 +5,8 @@ draft: false
 slug: "emotion-mask"
 description: "一款围绕情绪状态切换展开的 2D 平台跳跃游戏，48 小时内完成并上线 TapTap。"
 image: "cover.svg"
+weight: 40
+portfolioType: "game"
 tags:
   - "Unity"
   - "C#"

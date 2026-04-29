@@ -5,6 +5,8 @@ draft: false
 slug: "ashe-lament"
 description: "一款 2D 平台跳跃 / 资源管理游戏，强调双形态切换、收集循环和团队协作开发。"
 image: "cover.svg"
+weight: 20
+portfolioType: "game"
 tags:
   - "Unity"
   - "Platformer"
