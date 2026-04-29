@@ -23,11 +23,50 @@
         </div>
     </header>
 
-    <section class="project-list">
-        {{ range .Pages.ByDate.Reverse }}
-            {{ partial "article-list/project-tile" . }}
-        {{ end }}
+    <section class="project-showcase" data-view="single">
+        <div class="project-view-toggle" role="group" aria-label="切换项目展示方式">
+            <button class="project-view-toggle__button is-active" type="button" data-view-target="single">单列</button>
+            <button class="project-view-toggle__button" type="button" data-view-target="grid">网格</button>
+        </div>
+
+        <div class="project-list">
+            {{ range .Pages.ByDate.Reverse }}
+                {{ partial "article-list/project-tile" . }}
+            {{ end }}
+        </div>
     </section>
+
+    <script>
+        (() => {
+            const showcase = document.querySelector(".project-showcase");
+            if (!showcase) return;
+
+            const storageKey = "left-jun-project-view";
+            const buttons = showcase.querySelectorAll("[data-view-target]");
+            const allowedViews = new Set(["single", "grid"]);
+
+            const applyView = (view) => {
+                if (!allowedViews.has(view)) view = "single";
+                showcase.dataset.view = view;
+                buttons.forEach((button) => {
+                    const active = button.dataset.viewTarget === view;
+                    button.classList.toggle("is-active", active);
+                    button.setAttribute("aria-pressed", active ? "true" : "false");
+                });
+            };
+
+            const savedView = localStorage.getItem(storageKey);
+            applyView(savedView || "single");
+
+            buttons.forEach((button) => {
+                button.addEventListener("click", () => {
+                    const view = button.dataset.viewTarget;
+                    applyView(view);
+                    localStorage.setItem(storageKey, view);
+                });
+            });
+        })();
+    </script>
 
     {{ partialCached "footer/footer" . }}
 {{ end }}

@@ -10,7 +10,7 @@
                     alt="Featured image of project {{ .Title }}">
             </div>
         {{ end }}
-        <div class="project-card__overlay">
+        <div class="project-card__content">
             <h2 class="project-card__title">{{ .Title }}</h2>
             {{ with .Params.description }}
                 <p class="project-card__description">{{ . }}</p>

@@ -2,3 +2,5 @@
 /resources/_gen/
 /.hugo_build.lock
 /hugo.exe
+/hugo-server.log
+/hugo-server.err.log
