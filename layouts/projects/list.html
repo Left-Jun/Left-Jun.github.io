@@ -2,21 +2,27 @@
     <header>
         <h3 class="section-title">{{ .Title }}</h3>
 
-        <div class="section-card">
+        <div class="section-card project-section-card">
             <div class="section-details">
-                <h3 class="section-count">{{ len .Pages }} 个项目</h3>
-                <h1 class="section-term">{{ .Title }}</h1>
-                {{ with .Params.description }}
-                    <h2 class="section-description">{{ . }}</h2>
-                {{ end }}
+                <h3 class="section-count">{{ len .Pages }} {{ .Params.countSuffix | default "个项目" }}</h3>
+                <div class="project-section-heading">
+                    <h1 class="section-term">{{ .Title }}</h1>
+                    {{ with .Params.description }}
+                        <h2 class="section-description">{{ . }}</h2>
+                    {{ end }}
+                </div>
+                <div class="project-filter-toggle" role="group" aria-label="{{ .Params.filterAriaLabel | default "筛选项目分类" }}">
+                    <button class="project-filter-toggle__button" type="button" data-filter-target="game">{{ .Params.gameFilterLabel | default "游戏开发" }}</button>
+                    <button class="project-filter-toggle__button" type="button" data-filter-target="embedded">{{ .Params.embeddedFilterLabel | default "嵌入式开发" }}</button>
+                </div>
             </div>
 
             {{- $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources) -}}
             {{ if $image }}
                 <div class="section-image">
                     <img src="{{ $image.Permalink }}"
-                        width="{{ $image.Width }}"
-                        height="{{ $image.Height }}"
+                        {{ with $image.Width }}width="{{ . }}"{{ end }}
+                        {{ with $image.Height }}height="{{ . }}"{{ end }}
                         loading="lazy">
                 </div>
             {{ end }}
@@ -25,14 +31,9 @@
 
     <section class="project-showcase" data-view="single">
         <div class="project-controls">
-            <div class="project-view-toggle" role="group" aria-label="切换项目展示方式">
-                <button class="project-view-toggle__button is-active" type="button" data-view-target="single">单列</button>
-                <button class="project-view-toggle__button" type="button" data-view-target="grid">网格</button>
-            </div>
-
-            <div class="project-filter-toggle" role="group" aria-label="筛选项目分类">
-                <button class="project-filter-toggle__button" type="button" data-filter-target="game">游戏开发</button>
-                <button class="project-filter-toggle__button" type="button" data-filter-target="embedded">嵌入式开发</button>
+            <div class="project-view-toggle" role="group" aria-label="{{ .Params.viewAriaLabel | default "切换项目展示方式" }}">
+                <button class="project-view-toggle__button is-active" type="button" data-view-target="single">{{ .Params.singleViewLabel | default "单列" }}</button>
+                <button class="project-view-toggle__button" type="button" data-view-target="grid">{{ .Params.gridViewLabel | default "网格" }}</button>
             </div>
         </div>
 
@@ -51,7 +52,7 @@
             const viewStorageKey = 'left-jun-project-view';
             const filterStorageKey = 'left-jun-project-filter';
             const viewButtons = showcase.querySelectorAll('[data-view-target]');
-            const filterButtons = showcase.querySelectorAll('[data-filter-target]');
+            const filterButtons = document.querySelectorAll('[data-filter-target]');
             const cards = showcase.querySelectorAll('.project-card');
             const allowedViews = new Set(['single', 'grid']);
             const allowedFilters = new Set(['game', 'embedded']);

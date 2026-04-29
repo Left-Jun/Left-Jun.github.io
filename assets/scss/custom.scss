@@ -1,5 +1,29 @@
 .project-showcase {
-  margin-top: 2rem;
+  margin-top: calc(-1 * var(--section-separation) + 1rem);
+}
+
+.project-section-card .section-details {
+  flex: 1 1 auto;
+}
+
+.project-section-heading {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem 1.25rem;
+  align-items: baseline;
+}
+
+.project-section-heading .section-term,
+.project-section-heading .section-description {
+  margin-bottom: 0;
+}
+
+.project-section-heading .section-description {
+  max-width: 46rem;
+}
+
+.project-section-card .project-filter-toggle {
+  margin-top: 1.15rem;
 }
 
 .project-controls {
@@ -7,8 +31,8 @@
   flex-wrap: wrap;
   gap: 0.9rem 1rem;
   align-items: center;
-  justify-content: space-between;
-  margin-bottom: 1.25rem;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
 }
 
 .project-view-toggle,
@@ -192,6 +216,10 @@
 @media (max-width: 768px) {
   .project-controls {
     align-items: flex-start;
+  }
+
+  .project-section-heading {
+    display: block;
   }
 
   .project-showcase[data-view="grid"] .project-list {

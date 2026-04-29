@@ -4,8 +4,8 @@
         {{ if $image }}
             <div class="project-card__image">
                 <img src="{{ $image.Permalink }}"
-                    width="{{ $image.Width }}"
-                    height="{{ $image.Height }}"
+                    {{ with $image.Width }}width="{{ . }}"{{ end }}
+                    {{ with $image.Height }}height="{{ . }}"{{ end }}
                     loading="lazy"
                     alt="Featured image of project {{ .Title }}">
             </div>

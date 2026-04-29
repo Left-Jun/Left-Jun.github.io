@@ -11,7 +11,7 @@ pagination:
   path: "page"
 
 permalinks:
-  post: "/posts/:slug/"
+  posts: "/posts/:slug/"
   page: "/:slug/"
 
 markup:
@@ -30,43 +30,146 @@ caches:
   images:
     dir: ":cacheDir/images"
 
-menus:
-  main:
-    - identifier: "home"
-      name: "首页"
-      url: "/"
-      weight: 10
-      params:
-        icon: "home"
-    - identifier: "about"
-      name: "关于我"
-      url: "/about/"
-      weight: 20
-      params:
-        icon: "user"
-    - identifier: "projects"
-      name: "项目"
-      url: "/projects/"
-      weight: 30
-      params:
-        icon: "link"
-    - identifier: "posts"
-      name: "文章"
-      url: "/posts/"
-      weight: 40
-      params:
-        icon: "archives"
-  social:
-    - identifier: "github"
-      name: "GitHub"
-      url: "https://github.com/Left-Jun"
-      params:
-        icon: "brand-github"
-        newTab: true
+languages:
+  zh-cn:
+    languageName: "中文"
+    languageCode: "zh-cn"
+    weight: 1
+    title: "左涵俊 | Left Jun"
+    menus:
+      main:
+        - identifier: "home"
+          name: "首页"
+          url: "/"
+          weight: 10
+          params:
+            icon: "home"
+        - identifier: "about"
+          name: "关于我"
+          url: "/about/"
+          weight: 20
+          params:
+            icon: "user"
+        - identifier: "projects"
+          name: "项目"
+          url: "/projects/"
+          weight: 30
+          params:
+            icon: "link"
+        - identifier: "posts"
+          name: "文章"
+          url: "/posts/"
+          weight: 40
+          params:
+            icon: "archives"
+        - identifier: "contact"
+          name: "联系我"
+          url: "/contact/"
+          weight: 50
+          params:
+            icon: "messages"
+      social:
+        - identifier: "github"
+          name: "GitHub"
+          url: "https://github.com/Left-Jun"
+          weight: 10
+          params:
+            icon: "brand-github"
+            newTab: true
+        - identifier: "youtube"
+          name: "YouTube"
+          url: "https://www.youtube.com/@Limenaut"
+          weight: 20
+          params:
+            icon: "brand-youtube"
+            newTab: true
+        - identifier: "bilibili"
+          name: "Bilibili"
+          url: "https://space.bilibili.com/498452594?spm_id_from=333.1007.0.0"
+          weight: 30
+          params:
+            icon: "brand-bilibili"
+            newTab: true
+        - identifier: "xiaohongshu"
+          name: "小红书"
+          url: "https://www.xiaohongshu.com/user/profile/608d850d000000000100987d"
+          weight: 40
+          params:
+            icon: "brand-xiaohongshu"
+            newTab: true
+  en:
+    languageName: "English"
+    languageCode: "en"
+    weight: 2
+    title: "Left Jun"
+    params:
+      sidebar:
+        subtitle: "Electronic Information undergraduate at Sichuan University, building game prototypes, interactive works, and software-hardware projects."
+    menus:
+      main:
+        - identifier: "home"
+          name: "Home"
+          url: "/en/"
+          weight: 10
+          params:
+            icon: "home"
+        - identifier: "about"
+          name: "About"
+          url: "/en/about/"
+          weight: 20
+          params:
+            icon: "user"
+        - identifier: "projects"
+          name: "Projects"
+          url: "/en/projects/"
+          weight: 30
+          params:
+            icon: "link"
+        - identifier: "posts"
+          name: "Posts"
+          url: "/en/posts/"
+          weight: 40
+          params:
+            icon: "archives"
+        - identifier: "contact"
+          name: "Contact"
+          url: "/en/contact/"
+          weight: 50
+          params:
+            icon: "messages"
+      social:
+        - identifier: "github"
+          name: "GitHub"
+          url: "https://github.com/Left-Jun"
+          weight: 10
+          params:
+            icon: "brand-github"
+            newTab: true
+        - identifier: "youtube"
+          name: "YouTube"
+          url: "https://www.youtube.com/@Limenaut"
+          weight: 20
+          params:
+            icon: "brand-youtube"
+            newTab: true
+        - identifier: "bilibili"
+          name: "Bilibili"
+          url: "https://space.bilibili.com/498452594?spm_id_from=333.1007.0.0"
+          weight: 30
+          params:
+            icon: "brand-bilibili"
+            newTab: true
+        - identifier: "xiaohongshu"
+          name: "Xiaohongshu"
+          url: "https://www.xiaohongshu.com/user/profile/608d850d000000000100987d"
+          weight: 40
+          params:
+            icon: "brand-xiaohongshu"
+            newTab: true
 
 params:
   mainSections:
-    - post
+    - posts
   featuredImageField: "image"
   rssFullContent: true
   favicon: "/favicon.ico"
