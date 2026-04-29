@@ -15,6 +15,13 @@
             {{ with .Params.description }}
                 <p class="project-card__description">{{ . }}</p>
             {{ end }}
+            {{ with .Params.tags }}
+                <div class="project-card__tags">
+                    {{ range . }}
+                        <span class="project-card__tag">{{ . }}</span>
+                    {{ end }}
+                </div>
+            {{ end }}
         </div>
     </a>
 </article>
