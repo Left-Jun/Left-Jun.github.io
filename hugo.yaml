@@ -1,6 +1,6 @@
 ﻿baseURL: "https://left-jun.github.io/"
 languageCode: "zh-cn"
-title: "Left Jun"
+title: "左涵俊 | Left Jun"
 theme: "hugo-theme-stack"
 
 defaultContentLanguage: "zh-cn"
@@ -56,6 +56,13 @@ menus:
       weight: 40
       params:
         icon: "archives"
+  social:
+    - identifier: "github"
+      name: "GitHub"
+      url: "https://github.com/Left-Jun"
+      params:
+        icon: "brand-github"
+        newTab: true
 
 params:
   mainSections:
@@ -75,7 +82,7 @@ params:
   sidebar:
     compact: false
     emoji: "👋"
-    subtitle: "记录产品、技术、想法，也展示我正在做的项目。"
+    subtitle: "四川大学电子信息本科生，持续做游戏原型、互动作品与软硬件项目。"
     avatar: "img/avatar.svg"
 
   article:
