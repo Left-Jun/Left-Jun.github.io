@@ -1,0 +1,37 @@
+{{ define "main" }}
+    <header>
+        <h3 class="section-title">{{ .Title }}</h3>
+
+        <div class="section-card">
+            <div class="section-details">
+                <h3 class="section-count">{{ len .Pages }} 个项目</h3>
+                <h1 class="section-term">{{ .Title }}</h1>
+                {{ with .Params.description }}
+                    <h2 class="section-description">{{ . }}</h2>
+                {{ end }}
+            </div>
+
+            {{- $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources) -}}
+            {{ if $image }}
+                <div class="section-image">
+                    <img src="{{ $image.Permalink }}"
+                        width="{{ $image.Width }}"
+                        height="{{ $image.Height }}"
+                        loading="lazy">
+                </div>
+            {{ end }}
+        </div>
+    </header>
+
+    <section class="project-list">
+        {{ range .Pages.ByDate.Reverse }}
+            {{ partial "article-list/project-tile" . }}
+        {{ end }}
+    </section>
+
+    {{ partialCached "footer/footer" . }}
+{{ end }}
+
+{{ define "right-sidebar" }}
+    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+{{ end }}

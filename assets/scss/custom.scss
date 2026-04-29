@@ -1,0 +1,50 @@
+.project-list {
+  display: grid;
+  gap: 1.5rem;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  margin-top: 2rem;
+}
+
+.project-card {
+  position: relative;
+  border-radius: var(--card-border-radius);
+  overflow: hidden;
+  background: var(--card-background);
+  box-shadow: var(--shadow-l1);
+}
+
+.project-card a {
+  display: block;
+  position: relative;
+  color: inherit;
+  text-decoration: none;
+  min-height: 260px;
+}
+
+.project-card__image img {
+  width: 100%;
+  height: 100%;
+  min-height: 260px;
+  object-fit: cover;
+  display: block;
+}
+
+.project-card__overlay {
+  position: absolute;
+  inset: auto 0 0 0;
+  padding: 1.25rem;
+  color: #fff;
+  background: linear-gradient(180deg, rgba(15, 23, 42, 0.02) 0%, rgba(15, 23, 42, 0.82) 72%, rgba(15, 23, 42, 0.96) 100%);
+}
+
+.project-card__title {
+  font-size: 1.45rem;
+  margin: 0;
+}
+
+.project-card__description {
+  margin: 0.5rem 0 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.88);
+}

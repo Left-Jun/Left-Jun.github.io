@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#281d3d" />
+      <stop offset="55%" stop-color="#533483" />
+      <stop offset="100%" stop-color="#ff7f50" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" rx="32" />
+  <circle cx="930" cy="180" r="120" fill="#ffffff14" />
+  <circle cx="1010" cy="300" r="180" fill="#ffffff10" />
+  <text x="72" y="468" fill="#fff" font-size="78" font-family="Arial, sans-serif" font-weight="700">Emotion Mask</text>
+  <text x="78" y="532" fill="#fce7f3" font-size="30" font-family="Arial, sans-serif">2D Platformer · Game Jam · Unity / C#</text>
+</svg>

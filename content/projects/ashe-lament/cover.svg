@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#101820" />
+      <stop offset="50%" stop-color="#2b4c7e" />
+      <stop offset="100%" stop-color="#9ad1d4" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bg)" rx="32" />
+  <rect x="760" y="88" width="280" height="280" rx="28" fill="#ffffff12" />
+  <rect x="840" y="180" width="240" height="240" rx="28" fill="#ffffff0f" />
+  <text x="72" y="468" fill="#fff" font-size="78" font-family="Arial, sans-serif" font-weight="700">亚舍拉挽歌</text>
+  <text x="78" y="532" fill="#d9f99d" font-size="30" font-family="Arial, sans-serif">Platformer · Resource Loop · Team Production</text>
+</svg>

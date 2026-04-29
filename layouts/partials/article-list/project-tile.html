@@ -1,0 +1,20 @@
+{{ $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources) }}
+<article class="project-card {{ if $image }}has-image{{ end }}">
+    <a href="{{ .RelPermalink }}">
+        {{ if $image }}
+            <div class="project-card__image">
+                <img src="{{ $image.Permalink }}"
+                    width="{{ $image.Width }}"
+                    height="{{ $image.Height }}"
+                    loading="lazy"
+                    alt="Featured image of project {{ .Title }}">
+            </div>
+        {{ end }}
+        <div class="project-card__overlay">
+            <h2 class="project-card__title">{{ .Title }}</h2>
+            {{ with .Params.description }}
+                <p class="project-card__description">{{ . }}</p>
+            {{ end }}
+        </div>
+    </a>
+</article>
