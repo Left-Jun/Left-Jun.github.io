@@ -4,7 +4,7 @@ date: 2026-03-28T10:00:00+08:00
 draft: false
 slug: "smart-boat"
 description: "A complete software-hardware project covering remote control, receiver design, driver programming, PCB design, and debugging."
-image: "cover.svg"
+image: "cover.png"
 weight: 10
 portfolioType: "embedded"
 tags:

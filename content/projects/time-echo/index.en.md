@@ -4,7 +4,7 @@ date: 2025-11-20T10:00:00+08:00
 draft: false
 slug: "time-echo"
 description: "A narrative puzzle game about time travel, where I mainly worked on worldbuilding, structure, and team coordination."
-image: "cover.svg"
+image: "cover.png"
 weight: 50
 portfolioType: "game"
 tags:

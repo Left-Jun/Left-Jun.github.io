@@ -4,7 +4,7 @@ date: 2026-01-25T10:00:00+08:00
 draft: false
 slug: "emotion-mask"
 description: "A 2D platformer built around emotional state switching, completed and published on TapTap within 48 hours."
-image: "cover.svg"
+image: "cover.png"
 weight: 40
 portfolioType: "game"
 tags:

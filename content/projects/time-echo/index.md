@@ -4,7 +4,7 @@ date: 2025-11-20T10:00:00+08:00
 draft: false
 slug: "time-echo"
 description: "一款围绕时空穿越展开的叙事解谜游戏，我在其中主要负责世界观、结构和团队推进。"
-image: "cover.svg"
+image: "cover.png"
 weight: 50
 portfolioType: "game"
 tags:

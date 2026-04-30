@@ -117,6 +117,19 @@
   object-fit: cover;
 }
 
+.project-card__image video {
+  pointer-events: none;
+}
+
+.article-page .main-article .article-header .article-image video {
+  width: 100%;
+  height: auto;
+  max-height: 50vh;
+  display: block;
+  object-fit: cover;
+  pointer-events: none;
+}
+
 .project-card__title {
   margin: 0;
   color: var(--card-text-color-main);
