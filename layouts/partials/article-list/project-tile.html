@@ -4,7 +4,7 @@
 {{ with $video }}
     {{ $videoResource = $.Resources.GetMatch . }}
 {{ end }}
-<article class="project-card {{ if or $image $videoResource }}has-image{{ end }}" data-project-type="{{ .Params.portfolioType | default "other" }}">
+<article id="project-{{ .Params.slug | default (.Title | anchorize) }}" class="project-card {{ if or $image $videoResource }}has-image{{ end }}" data-project-type="{{ .Params.portfolioType | default "other" }}">
     <a href="{{ .RelPermalink }}">
         {{ if or $image $videoResource }}
             <div class="project-card__image">

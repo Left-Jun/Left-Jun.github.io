@@ -134,6 +134,43 @@
   background: linear-gradient(0deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.38) 100%);
 }
 
+.project-card {
+  scroll-margin-top: 1.5rem;
+}
+
+.project-index-widget {
+  gap: 1rem;
+}
+
+.project-index-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.project-index-list a {
+  display: block;
+  padding: 0.85rem 1rem;
+  border-radius: var(--tag-border-radius);
+  background: var(--card-background);
+  box-shadow: var(--shadow-l1);
+  color: var(--card-text-color-main);
+  line-height: 1.45;
+  transition: box-shadow 0.2s ease, color 0.2s ease;
+}
+
+.project-index-list a:hover {
+  color: var(--accent-color);
+  box-shadow: var(--shadow-l2);
+}
+
+.footer-single-line {
+  margin-bottom: 0;
+}
+
 .project-card__title {
   margin: 0;
   color: var(--card-text-color-main);

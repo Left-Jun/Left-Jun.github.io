@@ -1,4 +1,5 @@
 {{ define "main" }}
+    {{ $projectPages := partial "projects/sorted-pages" . }}
     <header>
         <h3 class="section-title">{{ .Title }}</h3>
 
@@ -38,7 +39,7 @@
         </div>
 
         <div class="project-list">
-            {{ range .Pages.ByWeight }}
+            {{ range $projectPages }}
                 {{ partial "article-list/project-tile" . }}
             {{ end }}
         </div>
@@ -124,5 +125,22 @@
 {{ end }}
 
 {{ define "right-sidebar" }}
-    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+    {{ $projectPages := partial "projects/sorted-pages" . }}
+    <aside class="sidebar right-sidebar sticky project-index-sidebar">
+        <section class="widget project-index-widget">
+            <div class="widget-icon">
+                {{ partial "helper/icon" "link" }}
+            </div>
+            <h2 class="widget-title section-title">{{ .Params.indexTitle | default "项目索引" }}</h2>
+            <ol class="project-index-list">
+                {{ range $projectPages }}
+                    <li>
+                        <a href="#project-{{ .Params.slug | default (.Title | anchorize) }}">
+                            {{ .Title }}
+                        </a>
+                    </li>
+                {{ end }}
+            </ol>
+        </section>
+    </aside>
 {{ end }}

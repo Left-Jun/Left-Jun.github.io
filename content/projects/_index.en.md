@@ -4,6 +4,7 @@ description: "A portfolio of my works, prototypes, experiments, and stage-by-sta
 slug: "projects"
 image: "section-cover.svg"
 countSuffix: "projects"
+indexTitle: "Project Index"
 singleViewLabel: "Single"
 gridViewLabel: "Grid"
 gameFilterLabel: "Game Development"

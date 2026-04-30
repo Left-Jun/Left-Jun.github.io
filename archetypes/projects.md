@@ -6,6 +6,8 @@ description: ""
 image: "cover.svg"
 # Optional: use an MP4/WebM animated preview for project cards.
 # coverVideo: "cover.mp4"
+pinned: false
+pinWeight: 100
 slug: ""
 weight: 100
 portfolioType: "game"
