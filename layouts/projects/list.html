@@ -127,6 +127,17 @@
 {{ define "right-sidebar" }}
     {{ $projectPages := partial "projects/sorted-pages" . }}
     <aside class="sidebar right-sidebar sticky project-index-sidebar">
+        <section class="widget project-type-widget">
+            <div class="widget-icon">
+                {{ partial "helper/icon" "categories" }}
+            </div>
+            <h2 class="widget-title section-title">{{ .Params.typeTitle | default "项目类型" }}</h2>
+            <div class="project-index-type-list" role="group" aria-label="{{ .Params.filterAriaLabel | default "筛选项目分类" }}">
+                <button class="project-index-type-button" type="button" data-filter-target="game">{{ .Params.gameFilterLabel | default "游戏开发" }}</button>
+                <button class="project-index-type-button" type="button" data-filter-target="embedded">{{ .Params.embeddedFilterLabel | default "嵌入式开发" }}</button>
+            </div>
+        </section>
+
         <section class="widget project-index-widget">
             <div class="widget-icon">
                 {{ partial "helper/icon" "link" }}

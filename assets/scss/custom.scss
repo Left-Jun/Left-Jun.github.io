@@ -142,6 +142,39 @@
   gap: 1rem;
 }
 
+.project-type-widget {
+  gap: 1rem;
+}
+
+.project-index-type-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.project-index-type-button {
+  appearance: none;
+  border: 0;
+  text-align: left;
+  display: block;
+  width: 100%;
+  padding: 0.85rem 1rem;
+  border-radius: var(--tag-border-radius);
+  background: var(--card-background);
+  box-shadow: var(--shadow-l1);
+  color: var(--card-text-color-main);
+  font: inherit;
+  line-height: 1.45;
+  cursor: pointer;
+  transition: box-shadow 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+}
+
+.project-index-type-button:hover,
+.project-index-type-button.is-active {
+  color: var(--accent-color);
+  box-shadow: var(--shadow-l2);
+}
+
 .project-index-list {
   list-style: none;
   margin: 0;

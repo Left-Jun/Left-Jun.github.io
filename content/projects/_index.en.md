@@ -4,6 +4,7 @@ description: "A portfolio of my works, prototypes, experiments, and stage-by-sta
 slug: "projects"
 image: "section-cover.svg"
 countSuffix: "projects"
+typeTitle: "Project Types"
 indexTitle: "Project Index"
 singleViewLabel: "Single"
 gridViewLabel: "Grid"
