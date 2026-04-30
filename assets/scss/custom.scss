@@ -1,3 +1,24 @@
+.container.extended {
+  @media (min-width: 768px) {
+    --left-sidebar-max-width: 22%;
+    --right-sidebar-max-width: 24%;
+  }
+
+  @media (min-width: 1024px) {
+    --left-sidebar-max-width: 18%;
+    --right-sidebar-max-width: 22%;
+  }
+
+  @media (min-width: 1280px) {
+    --left-sidebar-max-width: 14%;
+    --right-sidebar-max-width: 18%;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
 .project-showcase {
   margin-top: calc(-1 * var(--section-separation) + 1rem);
 }
@@ -202,6 +223,105 @@
 
 .footer-single-line {
   margin-bottom: 0;
+}
+
+.article-list--compact {
+  --compact-image-width: clamp(180px, 24vw, 280px);
+}
+
+.article-list--compact article > a {
+  align-items: stretch;
+  gap: 1rem;
+  padding: 0.85rem;
+}
+
+.article-list--compact article .article-details {
+  min-height: 0;
+  justify-content: center;
+  gap: 0.65rem;
+  padding: 0.65rem 0.85rem;
+}
+
+.compact-title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.article-list--compact article .article-title {
+  font-size: 1.95rem;
+  line-height: 1.25;
+}
+
+.compact-pill-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-left: auto;
+  justify-content: flex-end;
+  flex-shrink: 0;
+}
+
+.compact-pill {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.75rem;
+  padding: 0.28rem 0.62rem;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.08);
+  color: var(--card-text-color-secondary);
+  font-size: 1.05rem;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+[data-scheme="dark"] .compact-pill {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.article-list--compact article .compact-subtitle {
+  margin: 0;
+  font-size: 1.35rem;
+  line-height: 1.45;
+  color: var(--card-text-color-secondary);
+}
+
+.article-list--compact article .article-time {
+  margin-top: 0.1rem;
+  font-size: 1.25rem;
+  color: var(--card-text-color-tertiary);
+}
+
+.article-list--compact article .article-image {
+  width: var(--compact-image-width);
+  flex: 0 0 var(--compact-image-width);
+  align-self: center;
+  aspect-ratio: 16 / 9;
+  overflow: hidden;
+  border-radius: 8px;
+}
+
+.article-list--compact article .article-image img {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+@media (max-width: 768px) {
+  .article-list--compact {
+    --compact-image-width: 38vw;
+  }
+
+  .compact-title-row {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .compact-pill-list {
+    margin-left: 0;
+    justify-content: flex-start;
+  }
 }
 
 .project-card__title {
