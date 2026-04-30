@@ -4,7 +4,7 @@ date: 2026-03-20T10:00:00+08:00
 draft: false
 slug: "ashe-lament"
 description: "A 2D platformer and resource-management game built around dual-state switching, collection loops, and team collaboration."
-image: "cover.svg"
+image: "cover.png"
 coverVideo: "cover.mp4"
 weight: 20
 portfolioType: "game"

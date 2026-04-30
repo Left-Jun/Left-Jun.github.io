@@ -4,7 +4,7 @@ date: 2026-03-20T10:00:00+08:00
 draft: false
 slug: "ashe-lament"
 description: "一款 2D 平台跳跃 / 资源管理游戏，强调双形态切换、收集循环和团队协作开发。"
-image: "cover.svg"
+image: "cover.png"
 coverVideo: "cover.mp4"
 weight: 20
 portfolioType: "game"

@@ -130,6 +130,10 @@
   pointer-events: none;
 }
 
+.related-content article.has-image .article-details {
+  background: linear-gradient(0deg, rgba(0, 0, 0, 0.08) 0%, rgba(0, 0, 0, 0.38) 100%);
+}
+
 .project-card__title {
   margin: 0;
   color: var(--card-text-color-main);
