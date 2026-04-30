@@ -1,13 +1,31 @@
 {{ $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources) }}
-<article class="project-card {{ if $image }}has-image{{ end }}" data-project-type="{{ .Params.portfolioType | default "other" }}">
+{{ $video := or .Params.coverVideo .Params.video }}
+{{ $videoResource := "" }}
+{{ with $video }}
+    {{ $videoResource = $.Resources.GetMatch . }}
+{{ end }}
+<article class="project-card {{ if or $image $videoResource }}has-image{{ end }}" data-project-type="{{ .Params.portfolioType | default "other" }}">
     <a href="{{ .RelPermalink }}">
-        {{ if $image }}
+        {{ if or $image $videoResource }}
             <div class="project-card__image">
-                <img src="{{ $image.Permalink }}"
-                    {{ with $image.Width }}width="{{ . }}"{{ end }}
-                    {{ with $image.Height }}height="{{ . }}"{{ end }}
-                    loading="lazy"
-                    alt="Featured image of project {{ .Title }}">
+                {{ if $videoResource }}
+                    <video
+                        autoplay
+                        muted
+                        loop
+                        playsinline
+                        preload="metadata"
+                        {{ with $image }}poster="{{ .Permalink }}"{{ end }}
+                        aria-label="Video preview of project {{ .Title }}">
+                        <source src="{{ $videoResource.RelPermalink }}" type="{{ $videoResource.MediaType }}">
+                    </video>
+                {{ else if $image }}
+                    <img src="{{ $image.Permalink }}"
+                        {{ with $image.Width }}width="{{ . }}"{{ end }}
+                        {{ with $image.Height }}height="{{ . }}"{{ end }}
+                        loading="lazy"
+                        alt="Featured image of project {{ .Title }}">
+                {{ end }}
             </div>
         {{ end }}
         <div class="project-card__content">

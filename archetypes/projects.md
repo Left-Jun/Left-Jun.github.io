@@ -4,6 +4,8 @@ date: {{ .Date }}
 draft: true
 description: ""
 image: "cover.svg"
+# Optional: use an MP4/WebM animated preview for project cards.
+# coverVideo: "cover.mp4"
 slug: ""
 weight: 100
 portfolioType: "game"
