@@ -1,0 +1,29 @@
+{{- $pages := slice -}}
+{{- $title := T "article.relatedContent" -}}
+
+{{- if eq .Section "projects" -}}
+    {{- $title = cond (eq .Site.Language.Lang "en") "Related Projects" "相关项目" -}}
+    {{- with .Site.GetPage "section" "projects" -}}
+        {{- $sortedProjects := partial "projects/sorted-pages" . -}}
+        {{- $pages = where $sortedProjects "Permalink" "!=" $.Permalink | first 5 -}}
+    {{- end -}}
+{{- else -}}
+    {{- $pages = (.Site.RegularPages.Related .) | first 5 -}}
+    {{- if not $pages -}}
+        {{- $sectionPages := where .Site.RegularPages "Section" .Section -}}
+        {{- $pages = where $sectionPages "Permalink" "!=" .Permalink | first 5 -}}
+    {{- end -}}
+{{- end -}}
+
+{{- with $pages -}}
+<aside class="related-content--wrapper">
+    <h2 class="section-title">{{ $title }}</h2>
+    <div class="related-content">
+        <div class="flex article-list--tile">
+            {{ range . }}
+                {{ partial "article-list/tile" (dict "context" . "size" "250x150" "Type" "articleList") }}
+            {{ end }}
+        </div>
+    </div>
+</aside>
+{{- end -}}
