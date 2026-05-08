@@ -195,6 +195,20 @@ params:
 
   comments:
     enabled: false
+    provider: "giscus"
+    giscus:
+      repo: "Left-Jun/Left-Jun.github.io"
+      repoID: ""
+      category: "General"
+      categoryID: ""
+      mapping: "pathname"
+      strict: 0
+      reactionsEnabled: 1
+      emitMetadata: 0
+      inputPosition: "bottom"
+      lightTheme: "light"
+      darkTheme: "dark"
+      loading: "lazy"
 
   widgets:
     homepage:
