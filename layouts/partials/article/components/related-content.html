@@ -5,9 +5,10 @@
     {{- $title = cond (eq .Site.Language.Lang "en") "Related Projects" "相关项目" -}}
     {{- with .Site.GetPage "section" "projects" -}}
         {{- $sortedProjects := partial "projects/sorted-pages" . -}}
-        {{- $pages = where $sortedProjects "Permalink" "!=" $.Permalink | first 5 -}}
+        {{- $sameTypeProjects := where $sortedProjects "Params.portfolioType" $.Params.portfolioType -}}
+        {{- $pages = where $sameTypeProjects "Permalink" "!=" $.Permalink | first 5 -}}
     {{- end -}}
-{{- else -}}
+{{- else if in .Site.Params.mainSections .Section -}}
     {{- $pages = (.Site.RegularPages.Related .) | first 5 -}}
     {{- if not $pages -}}
         {{- $sectionPages := where .Site.RegularPages "Section" .Section -}}
