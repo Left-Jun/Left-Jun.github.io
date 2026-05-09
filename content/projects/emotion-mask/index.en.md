@@ -36,6 +36,28 @@ The mask works as a bridge between character ability and level solution. Each em
 
 The level design encourages players to keep switching states. The strongest solution is rarely staying in one mode; it is choosing the right emotional state for the current problem.
 
+## Screenshots and Mechanics
+
+![Emotion Mask title screen](cover.png)
+
+This title image places the three emotional states into one composition: blue for Calm, yellow for Joy, and red for Anger. It works better as the project cover than a single gameplay screenshot because visitors can immediately read the visual theme and ability split.
+
+![Platforms visible under the Calm mask](screenshot-neutral-platform.png)
+
+In the Calm state, certain hidden platforms become visible, allowing the player to observe the level and choose a safer route.
+
+![The same platform logic under the Joy mask](screenshot-happy-platform.png)
+
+After switching to Joy, the same platform is no longer visible, but the character gains faster movement. This contrast shows the core idea: masks are not simple buffs; they change how the level can be read.
+
+![Platforming and state switching inside the level](screenshot-level.png)
+
+The level combines spikes, walls, moving platforms, and mask states so the player keeps switching between execution and decision-making.
+
+![Mask-switching tutorial area](screenshot-mask-tutorial.png)
+
+The tutorial area explains the three mask abilities: Calm reveals moving platforms, Joy is faster, and Anger can destroy obstacles.
+
 ## Theme
 
 The game explores the idea that emotions are not mistakes to be removed, but different ways of responding to the world. Calm, Joy, and Anger each have value: observation, movement, and breakthrough.
