@@ -19,8 +19,12 @@ html {
   scroll-behavior: smooth;
 }
 
+.project-hero {
+  margin-bottom: 1.25rem;
+}
+
 .project-showcase {
-  margin-top: calc(-1 * var(--section-separation) + 1rem);
+  margin-top: 0;
 }
 
 .project-section-card .section-details {
@@ -43,8 +47,17 @@ html {
   max-width: 46rem;
 }
 
-.project-section-card .project-filter-toggle {
+.project-section-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem 1rem;
+  align-items: center;
+  justify-content: space-between;
   margin-top: 1.15rem;
+}
+
+.project-section-card {
+  padding-right: var(--card-padding);
 }
 
 .project-controls {
@@ -486,6 +499,11 @@ html {
 }
 
 @media (max-width: 768px) {
+  .project-section-actions {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
   .project-controls {
     align-items: flex-start;
   }
