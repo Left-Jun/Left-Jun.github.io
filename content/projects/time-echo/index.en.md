@@ -42,6 +42,28 @@ The game is built around three timelines of the same location. The ancient, mode
 
 The platforming layer uses wall jumps, conditional double jumps, and timeline switching. Players need to read what changes and what remains in different eras, then alter the past to open paths in the present and future.
 
+## Screenshots and Scenes
+
+![Opening setup](screenshot-opening.png)
+
+The opening image introduces the world in a quiet tone: music is disappearing together with humanity, and the protagonist Huan is the last guardian of sound.
+
+![Ancient musician dialogue](screenshot-ancient-dialogue.png)
+
+The ancient act connects the flute and musician to the theme of awe, tying music to nature, mountains, and older memories.
+
+![Ancient platforming scene](screenshot-ancient-platforming.png)
+
+The ancient level uses ink-wash mountains, bamboo, clouds, and light platforms to create a poetic sense of movement.
+
+![Modern scene with guitarist](screenshot-modern-scene.png)
+
+The modern act places the park, fountain, guitarist, and time gate in one scene, carrying the melody of remembrance.
+
+![Future tower platforming](screenshot-future-platforming.png)
+
+The future act shifts into a darker cyberpunk space. Platforms and pipes create a colder, more oppressive contrast with the earlier eras.
+
 ## Narrative Structure
 
 The three acts correspond to three forms of musical memory.

@@ -27,6 +27,16 @@ This is a 2D / 3D switching puzzle prototype. I used it to test whether the same
 
 The idea came from the keyword "dot." A dot can be a point in one dimension, a mark on a 2D plane, or a projection inside 3D space. I turned that idea into a spatial prototype where the player switches between 2D projection and 3D space to understand the same level through different rules.
 
+## Screenshots and Mechanics
+
+![2D view](screenshot-2d-view.png)
+
+In 2D mode, the player sees a side-view projection of the level. Movement is constrained to one plane, and obstacles behave more like a traditional 2D puzzle.
+
+![3D view](screenshot-3d-view.png)
+
+After switching to 3D, the camera and movement rules change together. Structures that look like blockers in 2D can be reinterpreted through spatial depth.
+
 ## My role
 
 - Designed the mechanic and developed the prototype independently.

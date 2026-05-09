@@ -36,6 +36,20 @@ This is a complete software-hardware project. The core goal was to build a wirel
 - Optimized power ripple and joystick jitter with parallel capacitors and software filtering.
 - Completed input sampling, PWM mapping, and a version that could operate on water.
 
+## Screenshots and Engineering Details
+
+![STM32CubeMX pinout configuration](screenshot-stm32-pinout.png)
+
+The pinout is built around the STM32F103C8T6, including ADC input, SPI communication, USART debugging, and basic GPIO output.
+
+![Receiver schematic](screenshot-schematic.png)
+
+The schematic includes 3.3V regulation, power filtering, crystal oscillator, nRF24L01 communication module, status LED, and external connectors.
+
+![STM32CubeIDE code debugging](screenshot-code.png)
+
+The code side handles ADC sampling, throttle and steering mapping, nRF24L01 data transmission, and LED feedback, forming the control chain from remote input to onboard actuation.
+
 ## Result
 
 - Became one of the few teams to finish the race and reached the final stage.

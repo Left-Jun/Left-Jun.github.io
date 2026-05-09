@@ -38,10 +38,6 @@ The level design encourages players to keep switching states. The strongest solu
 
 ## Screenshots and Mechanics
 
-![Emotion Mask title screen](cover.png)
-
-This title image places the three emotional states into one composition: blue for Calm, yellow for Joy, and red for Anger. It works better as the project cover than a single gameplay screenshot because visitors can immediately read the visual theme and ability split.
-
 ![Platforms visible under the Calm mask](screenshot-neutral-platform.png)
 
 In the Calm state, certain hidden platforms become visible, allowing the player to observe the level and choose a safer route.

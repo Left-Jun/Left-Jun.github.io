@@ -36,6 +36,20 @@ tags:
 - 通过并联电容与软件滤波优化电源纹波和摇杆抖动。
 - 完成输入采样、PWM 映射和可下水运行版本。
 
+## 截图与工程展示
+
+![STM32CubeMX 引脚配置](screenshot-stm32-pinout.png)
+
+引脚配置围绕 STM32F103C8T6 展开，包含 ADC 输入、SPI 通信、USART 调试和基础 GPIO 输出。
+
+![接收端原理图](screenshot-schematic.png)
+
+原理图包含 3.3V 稳压、电源滤波、晶振、nRF24L01 通信模块、状态指示灯和外部接口。
+
+![STM32CubeIDE 代码调试](screenshot-code.png)
+
+代码侧完成 ADC 采样、油门/舵机映射、nRF24L01 数据发送和状态灯反馈，形成遥控器到船端执行机构的控制链路。
+
 ## 项目结果
 
 - 成为少数完赛队伍，并进入决赛阶段。
