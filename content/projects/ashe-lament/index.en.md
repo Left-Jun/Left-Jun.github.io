@@ -46,6 +46,40 @@ The game is built around two connected loops.
 
 Spirit energy functions as health, action fuel, time pressure, and ending resource at once. It naturally drains over time and can be consumed faster through risky actions. The amount of spirit energy delivered at the end determines the ending, directly connecting resource management to narrative outcome.
 
+## Screenshots and Systems
+
+![Gameplay notice board](screenshot-notice-board.png)
+
+The notice board explains spirit energy, bones, the timer, enhanced form, and shortcut construction in one screen, helping players understand the resource pressure before entering the main loop.
+
+![Story dialogue box](screenshot-dialogue.png)
+
+The dialogue system carries both progression and worldbuilding. Qizhi, the remaining echo of the Mother Tree's will, introduces rules and gives emotional guidance during the journey.
+
+![Enhanced form and underground collection](screenshot-underground.png)
+
+The underground area focuses on time pressure and execution efficiency. The player can enter an enhanced form to move more effectively, but spirit energy drains faster, forcing a tradeoff between reward and risk.
+
+![Surface climbing and shortcut construction](screenshot-shortcut.png)
+
+The surface phase is more about long-term planning. Players can spend resources to build shortcuts, turning underground collection results into route advantages.
+
+![Spirit-energy prompt](screenshot-speed-board.png)
+
+Process prompts are layered directly into the scene, giving strong feedback when player actions consume or change core resources.
+
+![Ending screen](screenshot-ending.png)
+
+Different endings are triggered by the final amount of delivered spirit energy, connecting the player's resource-management performance to the narrative conclusion.
+
+![Epilogue screen](screenshot-epilogue.png)
+
+The epilogue visualizes a new pulse after decay, echoing the game's themes of cycle, sacrifice, and renewal.
+
+![Staff roll](screenshot-staff.png)
+
+The staff screen records the team roles and gives the 72-hour collaboration a clear closing note.
+
 ## My Role
 
 - Served as team lead, main programmer, gameplay designer, and music producer.
