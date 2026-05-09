@@ -7,6 +7,13 @@ description: "一个偏软硬件结合的完整项目，覆盖遥控器、接收
 image: "cover.png"
 weight: 10
 portfolioType: "embedded"
+projectFacts:
+  developmentTime: "2026.3"
+  duration: "课程 / 竞赛周期"
+  role: "队长 / 主程 / 硬件设计"
+  tools: "STM32F103C8T6 / HAL / 嘉立创 EDA"
+  platform: "无线遥控器 + 船载接收器"
+  result: "完成软硬件联调和可下水运行版本，进入决赛阶段。"
 tags:
   - "STM32"
   - "Embedded"

@@ -10,6 +10,13 @@ pinned: true
 pinWeight: 10
 weight: 20
 portfolioType: "game"
+projectFacts:
+  developmentTime: "2026.3（腾讯高校游戏极限开发大赛）"
+  duration: "72h"
+  role: "队长 / 主程 / 玩法策划 / 音乐制作（AI 辅助）"
+  tools: "Unity / C#"
+  platform: "Windows 可执行版本"
+  result: "完成限时跑酷、资源收集、捷径建造、灵能结算与低 / 中 / 高三种结局。"
 tags:
   - "Unity"
   - "Platformer"
@@ -55,6 +62,18 @@ tags:
 - 实现地下安全时间、地上攀登节奏、资源收集、遗骨消耗和捷径建造逻辑。
 - 使用异步场景加载和区域触发器组织地上/地下切换，减少流程割裂感。
 - 为多结局设计可调整阈值，让玩家的资源管理结果可以被清晰地结算。
+
+## 系统结构
+
+为了在 72 小时内保证可玩闭环，我把脚本按功能拆成五个核心模块：
+
+- 玩家控制系统：`PlayerMove`、`PlayerJump`、`PlayerDash`、`GroundCheck`、`WallCheck`、`Respawn`，负责平台跳跃的基础手感。
+- 形态与灵能系统：`MaskControl`、`EnergyManager`、`EnergyDrainController`、`SafetyTimer`，负责普通 / 强化状态、灵能流逝和地下安全时间。
+- 关卡交互系统：`CheckPoint`、`PlatformMove`、`TrapCheck`、`ShortcutBuilder`，负责检查点、机关、陷阱和捷径构建。
+- 对话与 UI 系统：`SimpleDialogue`、`AdvancedText`、`UIManager`、`ChoicePanel`，负责文本、交互和界面反馈。
+- 场景表现与结局系统：`BackgroundSwitcher`、`CharacterLightController`、`MusicManager`、`EndingManager`，负责背景、灯光、音乐和结局切换。
+
+玩家行为会从输入、移动、跳跃、冲刺进入地面/墙体/受伤判定，再联动形态切换、灵能状态、地下安全时间、机关反馈和最终结局。这个结构让玩法、资源、对话和表现可以在短开发周期里保持相对清晰。
 
 ## 设计亮点
 

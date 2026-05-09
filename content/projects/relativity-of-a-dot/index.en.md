@@ -8,6 +8,13 @@ image: "cover.png"
 imagePosition: "45% center"
 weight: 30
 portfolioType: "game"
+projectFacts:
+  developmentTime: "2026.2, Mengya Cup 2026 creative prototype"
+  duration: "6 hours"
+  role: "Solo developer / creative demo"
+  tools: "Unity / C# / Cinemachine"
+  platform: "Windows playable build"
+  result: "Completed the core loop of 2D/3D switching, camera linking, and spatial puzzle solving."
 tags:
   - "Unity"
   - "Prototype"
@@ -17,6 +24,8 @@ tags:
 ## Overview
 
 This is a 2D / 3D switching puzzle prototype. I used it to test whether the same level could produce different solutions under different spatial rules.
+
+The idea came from the keyword "dot." A dot can be a point in one dimension, a mark on a 2D plane, or a projection inside 3D space. I turned that idea into a spatial prototype where the player switches between 2D projection and 3D space to understand the same level through different rules.
 
 ## My role
 
@@ -28,6 +37,15 @@ This is a 2D / 3D switching puzzle prototype. I used it to test whether the same
 - Used `DimensionManager` to control dimension state, camera switching, and object behavior.
 - Allowed the same player object to switch movement rules between 2D and 3D.
 - Used collider switching and projected-position correction to make one scene support multiple solutions.
+
+## System Structure
+
+- Dimension switching: `DimensionManager` controls 2D/3D state and synchronizes Cinemachine camera priority.
+- Player control: `PlayerMove`, `PlayerJump`, `GroundCheck2D`, and `GroundCheck3D` handle movement, jumping, and grounded checks under two spatial rules.
+- Spatial object rules: `DimensionObject` enables different colliders depending on the current dimension and corrects projected player position in 2D mode.
+- Menu and flow: start menu, pause menu, and basic flow control keep the prototype playable as a complete loop.
+
+The prototype focuses on validating one clear chain: pressing `Tab` changes the dimension state, switches the camera, changes movement axes, updates collision rules, and creates a new spatial solution inside the same level.
 
 ## Links
 

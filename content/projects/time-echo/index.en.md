@@ -7,6 +7,13 @@ description: "A 2D narrative puzzle-platformer set across ancient, modern, and f
 image: "cover.png"
 weight: 50
 portfolioType: "game"
+projectFacts:
+  developmentTime: "2025.11, SCU & UESTC & Sichuan Fine Arts Institute Sanjiao Cup Game Jam"
+  duration: "7 days"
+  role: "Team lead / designer / writer / gameplay designer / programming coordination"
+  tools: "Godot / AI-assisted scene generation"
+  platform: "Windows playable build"
+  result: "Completed the design document, map and background direction, narrative writing, and coordinated daily team progress."
 tags:
   - "Narrative"
   - "Puzzle"
@@ -71,4 +78,5 @@ The ancient lake and bamboo forest, the modern park and tree, and the future tow
 
 ## Links
 
+- [Bilibili demo video](https://www.bilibili.com/video/BV1wUSmBfEnQ/)
 - [Playable build](https://pan.quark.cn/s/7800338109ee?pwd=k8XM)

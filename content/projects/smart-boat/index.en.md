@@ -7,6 +7,13 @@ description: "A complete software-hardware project covering remote control, rece
 image: "cover.png"
 weight: 10
 portfolioType: "embedded"
+projectFacts:
+  developmentTime: "2026.3"
+  duration: "Course / competition cycle"
+  role: "Team lead / main programmer / hardware designer"
+  tools: "STM32F103C8T6 / HAL / JLC EDA"
+  platform: "Wireless remote controller + onboard receiver"
+  result: "Completed software-hardware integration and a water-testable version, reaching the final stage."
 tags:
   - "STM32"
   - "Embedded"

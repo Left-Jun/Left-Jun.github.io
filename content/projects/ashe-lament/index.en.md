@@ -10,6 +10,13 @@ pinned: true
 pinWeight: 10
 weight: 20
 portfolioType: "game"
+projectFacts:
+  developmentTime: "2026.3, Tencent University Game Extreme Development Competition"
+  duration: "72 hours"
+  role: "Team lead / main programmer / gameplay designer / music producer with AI assistance"
+  tools: "Unity / C#"
+  platform: "Windows playable build"
+  result: "Completed time-limited platforming, resource collection, shortcut construction, spirit-energy settlement, and three endings."
 tags:
   - "Unity"
   - "Platformer"
@@ -55,6 +62,18 @@ The game was developed in Unity, with the main challenge being to build a comple
 - Implemented underground safe time, surface climbing rhythm, resource collection, bone spending, and shortcut construction.
 - Used asynchronous scene loading and area triggers to connect underground and surface phases with less friction.
 - Designed tunable thresholds for multiple endings so that the player's management performance could be clearly resolved.
+
+## System Structure
+
+To keep the 72-hour project manageable, I separated the scripts into five main modules:
+
+- Player control: `PlayerMove`, `PlayerJump`, `PlayerDash`, `GroundCheck`, `WallCheck`, and `Respawn` for the platforming feel.
+- Form and spirit-energy systems: `MaskControl`, `EnergyManager`, `EnergyDrainController`, and `SafetyTimer` for normal/enhanced states, energy drain, and underground safety time.
+- Level interaction: `CheckPoint`, `PlatformMove`, `TrapCheck`, and `ShortcutBuilder` for checkpoints, moving platforms, hazards, and shortcut construction.
+- Dialogue and UI: `SimpleDialogue`, `AdvancedText`, `UIManager`, and `ChoicePanel` for text display, interaction, and feedback.
+- Presentation and endings: `BackgroundSwitcher`, `CharacterLightController`, `MusicManager`, and `EndingManager` for background changes, lighting, music, and ending logic.
+
+The core flow links player input to movement, jump, dash, collision checks, state switching, energy updates, safety timers, interaction feedback, and ending resolution. This structure helped the gameplay, resource management, dialogue, and presentation systems stay readable under a short production window.
 
 ## Design Highlights
 

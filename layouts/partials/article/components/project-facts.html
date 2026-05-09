@@ -1,0 +1,44 @@
+{{- with .Params.projectFacts -}}
+{{- $isEn := eq $.Site.Language.Lang "en" -}}
+<section class="project-facts" aria-label="{{ cond $isEn "Project Profile" "项目档案" }}">
+    <h2 class="project-facts__title">{{ cond $isEn "Project Profile" "项目档案" }}</h2>
+    <dl class="project-facts__grid">
+        {{- with .developmentTime -}}
+        <div class="project-facts__item">
+            <dt>{{ cond $isEn "Time" "开发时间" }}</dt>
+            <dd>{{ . }}</dd>
+        </div>
+        {{- end -}}
+        {{- with .duration -}}
+        <div class="project-facts__item">
+            <dt>{{ cond $isEn "Duration" "开发周期" }}</dt>
+            <dd>{{ . }}</dd>
+        </div>
+        {{- end -}}
+        {{- with .role -}}
+        <div class="project-facts__item">
+            <dt>{{ cond $isEn "Role" "职能" }}</dt>
+            <dd>{{ . }}</dd>
+        </div>
+        {{- end -}}
+        {{- with .tools -}}
+        <div class="project-facts__item">
+            <dt>{{ cond $isEn "Tools" "工具 / 技术" }}</dt>
+            <dd>{{ . }}</dd>
+        </div>
+        {{- end -}}
+        {{- with .platform -}}
+        <div class="project-facts__item">
+            <dt>{{ cond $isEn "Platform" "平台" }}</dt>
+            <dd>{{ . }}</dd>
+        </div>
+        {{- end -}}
+        {{- with .result -}}
+        <div class="project-facts__item project-facts__item--wide">
+            <dt>{{ cond $isEn "Outcome" "成果" }}</dt>
+            <dd>{{ . }}</dd>
+        </div>
+        {{- end -}}
+    </dl>
+</section>
+{{- end -}}

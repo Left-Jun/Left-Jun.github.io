@@ -7,16 +7,33 @@ slug: "about"
 
 I am Zuo Hanjun, and I also publish work as Left Jun.
 
-I am currently an undergraduate student in Electronic Information at Sichuan University. My main interests are game development, interaction systems, gameplay prototypes, and software-hardware projects. Rather than turning this site into a standard resume, I want it to become a long-term portfolio archive: a place for the things I have actually built, the problems I ran into, and the methods I formed while solving them.
+I am currently an Electronic Information undergraduate at Sichuan University, expected to graduate in July 2029. My main interests are game prototypes, interaction systems, gameplay implementation, and software-hardware projects. This site is not a static resume; it is a living portfolio archive of the projects I have built since November 2025, the systems I was responsible for, and the methods I have formed through jam development and engineering practice.
 
-## What I am working on now
+## Current Focus
 
-- Building 2D and 3D game prototypes in Unity.
-- Turning ideas into playable mechanics and level loops quickly.
-- Strengthening my foundations in C#, C, C++, engineering collaboration, and client development.
-- Exploring how AI tools can genuinely help with creation, debugging, and iteration.
+- Game development: mainly Unity and C#, with a focus on platformer feel, state switching, level interaction, and playable prototype loops.
+- Gameplay design: turning a theme into mechanics, level flow, narrative structure, and art requirements.
+- Software-hardware projects: STM32, HAL, PCB design, sensor input, PWM control, and system debugging.
+- Team execution: leading small teams, breaking down tasks, running daily syncs, integrating versions, and turning ideas into playable builds.
 
-## What I care about
+## Representative Projects
+
+- Asherah's Lament: a 72-hour team project where I served as team lead, main programmer, gameplay designer, and music producer, building platforming, spirit-energy resources, shortcut construction, and multi-ending systems.
+- Emotion Mask: a solo 48-hour Global Game Jam 2026 project, covering design, programming, pixel art, music, and release preparation; published on TapTap.
+- Relativity of a Dot: a 6-hour creative prototype that validates 2D/3D switching, camera linking, and spatial puzzle solving.
+- Echoes of Time: a 7-day game jam team project where I worked as team lead, designer, writer, and gameplay designer, building a narrative puzzle experience around three timelines, music, and memory.
+- Wireless Remote-Control System for a Wind-Powered Smart Boat Model: a software-hardware project covering the remote controller, receiver, drivers, PCB design, and debugging.
+
+## Skills and Tools
+
+- Languages: C#, C, and continuing to strengthen C++ and engineering ability.
+- Game engines: mainly Unity, with experience in Godot.
+- Game systems: movement, jump/dash/wall detection, state machines, resource systems, checkpoints, settlement, multiple endings, and basic UI.
+- Embedded and hardware: STM32F103C8T6, HAL, SPI, ADC, PWM, JLC EDA, soldering, and integration debugging.
+- Development tools: Git, Visual Studio, VS Code, and Keil.
+- Support tools: I use AI tools for debugging, logic analysis, script completion, feature breakdown, writing, and prototype building.
+
+## What I Care About
 
 I am especially interested in these questions:
 
@@ -24,18 +41,5 @@ I am especially interested in these questions:
 - How can core systems such as character control, state switching, and feedback rhythm feel smoother?
 - How can narrative, levels, and interaction support each other instead of staying separate?
 - When a project is still small, how can its engineering stay clear without becoming heavy?
-
-## Skills and tools
-
-- Languages: C#, C, and continuing to strengthen C++ and engineering ability.
-- Game engines: mainly Unity, with some experience in Godot.
-- Development tools: Git, Visual Studio, VS Code, Keil, and JLC EDA.
-- Support tools: I use AI tools for debugging, logic analysis, script completion, feature breakdown, and prototype building.
-
-## What this site contains
-
-- Representative projects and playable prototypes.
-- Project retrospectives, including design ideas, system implementation, and lessons learned.
-- Notes about creation, technology, and my learning process.
 
 If you want a quick picture of me, start with [Projects](/en/projects/).
