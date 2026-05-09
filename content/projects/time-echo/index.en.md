@@ -3,7 +3,7 @@ title: "Echoes of Time"
 date: 2025-11-20T10:00:00+08:00
 draft: false
 slug: "time-echo"
-description: "A narrative puzzle game about time travel, where I mainly worked on worldbuilding, structure, and team coordination."
+description: "A 2D narrative puzzle-platformer set across ancient, modern, and future timelines, built around music, memory, and temporal echoes."
 image: "cover.png"
 weight: 50
 portfolioType: "game"
@@ -15,19 +15,59 @@ tags:
 
 ## Overview
 
-Echoes of Time is a narrative puzzle game centered on three time periods: ancient, modern, and future.
+Echoes of Time is a 2D narrative puzzle-platformer created for the 2025 Autumn Sanjiao Cup Game Jam. The player controls a cat-like mythical creature inspired by Huan from ancient Chinese mythology, traveling through ancient, modern, and future versions of the same place. Across the journey, the player collects instruments and melodies, eventually bringing the echoes of three eras into a future where music has disappeared.
 
-## My role
+The central question of the project is: why does music matter, and what do humans lose when music vanishes? Our answer was expressed through both narrative and mechanics: music is not only sound, but also emotion, memory, cultural identity, and one of the most direct forms of human connection.
 
-- Served as lead designer and team coordinator.
-- Built the world setting, three-act structure, and core gameplay concept.
-- Coordinated programmers, artists, musicians, and other teammates during development.
+## World and Theme
 
-## Technical implementation
+The story takes place in a future where music has died. Technology has built towers higher and higher, while humans have gradually lost their sensitivity to their own inner lives. As a time-traveling Huan, the player returns to the past and the present to recover awe, remembrance, and the last hope of the future.
 
-- Produced design documents for programmers and artists, defining interaction, scene structure, and visual hierarchy.
-- Organized time-travel logic, dialogue variations, and UI copy.
-- Managed daily progress synchronization and task breakdown.
+The "echo" in the title has two meanings. It refers to music traveling across eras, and also to the way choices made in the past reshape the future. The protagonist does not simply save the world; they help people remember how to listen again.
+
+## Core Gameplay
+
+The game is built around three timelines of the same location. The ancient, modern, and future maps correspond spatially, but buildings, trees, roads, and towers change as time passes.
+
+- Ancient era: cross the lake, enter the bamboo forest, collect Echo Bamboo, bring it to the ancient musician, craft a flute, and learn the melody of awe.
+- Modern era: travel to a recent past, use nutrient fluid to save a dying tree, return to the present, climb the revived tree to reach a rooftop, collect a wooden guitar, and learn the melody of remembrance.
+- Future era: search a cyberpunk wasteland tower for a robot core, repair the damaged robot, receive a tuner, climb to the top, and perform the final movement.
+
+The platforming layer uses wall jumps, conditional double jumps, and timeline switching. Players need to read what changes and what remains in different eras, then alter the past to open paths in the present and future.
+
+## Narrative Structure
+
+The three acts correspond to three forms of musical memory.
+
+- Ancient musician and flute: music as awe, the first act of listening to nature and life.
+- Modern guitarist Su Wang and wooden guitar: music as remembrance, connecting people with cities, old trees, and personal emotion.
+- Future robot and tuner: music as hope, the last protocol left after civilization has nearly lost its voice.
+
+In the ending, the ancient musician, modern songwriter, and future robot symbolically join the protagonist on top of the tower. The sounds of the past travel across the future city, awakening a heart that has gone cold.
+
+## My Role
+
+- Served as lead designer and team coordinator, building the world setting, three-act structure, core mechanics, and level flow.
+- Wrote the main design document, post-jam revised design document, character dialogue, ending narration, and art requirement documents.
+- Translated the idea of "one place across three eras" into executable level layouts and asset lists.
+- Coordinated programmers, artists, and musicians by clarifying character actions, scene assets, interactive props, and performance needs.
+- Participated in debugging, map design, partial art support, and flow integration.
+
+## Technical and Production Design
+
+The project used Godot as the development environment. My design work focused on turning a complex time-travel concept into a structure that programmers and artists could implement quickly.
+
+- Broke down character behavior for programming: movement, wall jump, roll, conditional double jump, interaction triggers, and timeline switching.
+- Broke down layered art assets: distant backgrounds, tileable ground, temporary platforms, characters, NPCs, key props, and interactive buildings.
+- Designed transformation rules for the same location across eras, such as an ancient house becoming a modern villa and later a future tower.
+- Built the "save the tree" puzzle as the core example: the player changes the tree's fate in the past, returns to the present, and uses the revived branches to reach a previously inaccessible rooftop.
+- Planned the final performance sequence: three instruments sound in order, echoes of past musicians appear, the robot joins with future electronic music, and the ending resolves into an orchestral finale.
+
+## Design Highlights
+
+The most important design attempt in Echoes of Time was to make time travel feel like understanding the history of one place rather than simply loading three unrelated maps. The player sees a single space grow, change, and lose its voice across eras.
+
+The ancient lake and bamboo forest, the modern park and tree, and the future tower and robot form one emotional curve: awe in nature, remembrance in the city, and hope in a future ruin. Music ties these moments together as the thread between time, place, and human feeling.
 
 ## Links
 
