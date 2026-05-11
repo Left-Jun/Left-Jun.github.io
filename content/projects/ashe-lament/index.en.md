@@ -8,6 +8,8 @@ image: "cover.png"
 coverVideo: "cover.mp4"
 pinned: true
 pinWeight: 10
+featured: true
+featuredWeight: 10
 weight: 20
 portfolioType: "game"
 projectFacts:
@@ -17,6 +19,10 @@ projectFacts:
   tools: "Unity / C#"
   platform: "Windows playable build"
   result: "Completed time-limited platforming, resource collection, shortcut construction, spirit-energy settlement, and three endings."
+projectLinks:
+  - label: "Playable build"
+    url: "https://pan.quark.cn/s/efcee623b3f4?pwd=TQCA"
+    icon: "link"
 tags:
   - "Unity"
   - "Platformer"
@@ -114,7 +120,3 @@ The core flow links player input to movement, jump, dash, collision checks, stat
 The strongest part of Asherah's Lament is the way theme, mechanics, and narrative share the same center. Spirit energy draining represents the world's decay. Underground exploration creates pressure. Surface planning gives the player room to think. Multiple endings reflect the long-term results of the player's management decisions.
 
 As a result, each jump and each resource cost carries more than mechanical weight. It also asks whether anything can still be saved before the world goes silent.
-
-## Links
-
-- [Playable build](https://pan.quark.cn/s/efcee623b3f4?pwd=TQCA)

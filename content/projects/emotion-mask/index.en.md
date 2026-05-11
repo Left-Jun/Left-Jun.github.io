@@ -5,6 +5,8 @@ draft: false
 slug: "emotion-mask"
 description: "A 2D platformer-puzzle game built around emotion switching, completed solo within 48 hours and published on TapTap."
 image: "cover.png"
+featured: true
+featuredWeight: 20
 weight: 40
 portfolioType: "game"
 projectFacts:
@@ -14,6 +16,19 @@ projectFacts:
   tools: "Unity / C#"
   platform: "Windows / TapTap"
   result: "Completed solo and published on TapTap, with a 9.4 store rating."
+projectLinks:
+  - label: "TapTap page"
+    url: "https://www.taptap.cn/app/814556?os=pc"
+    icon: "link"
+  - label: "Global Game Jam"
+    url: "https://globalgamejam.org/games/2026/emotion-mask-6"
+    icon: "link"
+  - label: "Bilibili demo video"
+    url: "https://www.bilibili.com/video/BV15e6tBNEKg/"
+    icon: "brand-bilibili"
+  - label: "Playable build"
+    url: "https://pan.quark.cn/s/e9fadb101a75?pwd=duyj"
+    icon: "link"
 tags:
   - "Unity"
   - "C#"
@@ -93,10 +108,3 @@ The three masks change more than character stats. They also affect platform visi
 Emotion Mask was published on TapTap and submitted to Global Game Jam 2026. The TapTap page presents the game description, platform requirements, developer note, and player rating, while the GGJ page records the jam year, theme, site, platform, tools, and project links.
 
 This project helped me understand that finishing a prototype is only one part of showing a game. Screenshots, cover art, tags, store copy, download links, and external pages all affect how the work is perceived.
-
-## Links
-
-- [TapTap page](https://www.taptap.cn/app/814556?os=pc)
-- [Global Game Jam page](https://globalgamejam.org/games/2026/emotion-mask-6)
-- [Bilibili demo video](https://www.bilibili.com/video/BV15e6tBNEKg/)
-- [Playable build](https://pan.quark.cn/s/e9fadb101a75?pwd=duyj)

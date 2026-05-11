@@ -14,6 +14,13 @@ projectFacts:
   tools: "Godot / AI 辅助场景生成"
   platform: "Windows 可执行版本"
   result: "完成策划案、地图与背景设计、叙事文案，并通过每日例会推进团队交付。"
+projectLinks:
+  - label: "B站演示视频"
+    url: "https://www.bilibili.com/video/BV1wUSmBfEnQ/"
+    icon: "brand-bilibili"
+  - label: "可执行版本"
+    url: "https://pan.quark.cn/s/7800338109ee?pwd=k8XM"
+    icon: "link"
 tags:
   - "Narrative"
   - "Puzzle"
@@ -97,8 +104,3 @@ tags:
 《时瞳回响》最重要的设计尝试，是把时间穿越从“换地图”变成“理解同一地点的历史”。玩家看到的不是三个无关卡关，而是一片空间在时代中的生长、变形和失声。
 
 古代的湖与竹林、现代的公园与树、未来的高塔与机器人共同构成一条情绪曲线：从自然中的敬畏，到城市中的怀念，再到未来废墟里的希望。音乐贯穿其中，成为连接时间、场景和人的线索。
-
-## 项目链接
-
-- [B站演示视频](https://www.bilibili.com/video/BV1wUSmBfEnQ/)
-- [可执行版本](https://pan.quark.cn/s/7800338109ee?pwd=k8XM)

@@ -1,0 +1,83 @@
+{{ define "main" }}
+    {{- $isEn := eq .Site.Language.Lang "en" -}}
+    {{- $projectsURL := "projects/" | relLangURL -}}
+    {{- $aboutURL := "about/" | relLangURL -}}
+    {{- $contactURL := "contact/" | relLangURL -}}
+    {{- $postsURL := "posts/" | relLangURL -}}
+
+    <section class="home-hero">
+        <p class="home-hero__eyebrow">
+            {{ cond $isEn "Sichuan University · Electronic Information · Class of 2029" "四川大学 · 电子信息类 · 2029届" }}
+        </p>
+        <h1 class="home-hero__title">
+            {{ cond $isEn "Game Prototypes, Interaction Systems, and Software-Hardware Projects" "游戏原型、交互系统与软硬件项目" }}
+        </h1>
+        <p class="home-hero__summary">
+            {{ cond $isEn "I am Zuo Hanjun, also known as Left Jun. This site collects my jam projects, Unity and Godot prototypes, embedded experiments, process notes, and public builds." "我是左涵俊，也会以 Left Jun 发布作品。这里整理我的 Game Jam 项目、Unity / Godot 原型、嵌入式实践、制作过程和可体验版本。" }}
+        </p>
+        <div class="home-hero__actions">
+            <a class="home-action home-action--primary" href="{{ $projectsURL }}">
+                {{ partial "helper/icon" "link" }}
+                <span>{{ cond $isEn "View Projects" "查看项目" }}</span>
+            </a>
+            <a class="home-action" href="{{ $aboutURL }}">
+                {{ partial "helper/icon" "user" }}
+                <span>{{ cond $isEn "About Me" "关于我" }}</span>
+            </a>
+            <a class="home-action" href="{{ $contactURL }}">
+                {{ partial "helper/icon" "messages" }}
+                <span>{{ cond $isEn "Contact" "联系我" }}</span>
+            </a>
+        </div>
+    </section>
+
+    {{- with .Site.GetPage "section" "projects" -}}
+        {{- $sortedProjects := partial "projects/sorted-pages" . -}}
+        {{- $featured := where $sortedProjects "Params.featured" true -}}
+        {{- if not $featured -}}
+            {{- $featured = first 3 $sortedProjects -}}
+        {{- else -}}
+            {{- $featured = sort $featured "Params.featuredWeight" "asc" | first 3 -}}
+        {{- end -}}
+        {{- with $featured -}}
+        <section class="home-section home-featured-projects">
+            <div class="home-section__header">
+                <div>
+                    <p class="home-section__eyebrow">{{ cond $isEn "Selected Work" "精选作品" }}</p>
+                    <h2>{{ cond $isEn "Representative Projects" "代表项目" }}</h2>
+                </div>
+                <a class="home-section__link" href="{{ $projectsURL }}">{{ cond $isEn "All projects" "全部项目" }}</a>
+            </div>
+            <div class="home-project-grid">
+                {{ range . }}
+                    {{ partial "article-list/project-tile" . }}
+                {{ end }}
+            </div>
+        </section>
+        {{- end -}}
+    {{- end -}}
+
+    {{- $posts := where .Site.RegularPages "Section" "posts" | first 3 -}}
+    {{- with $posts -}}
+    <section class="home-section home-latest-posts">
+        <div class="home-section__header">
+            <div>
+                <p class="home-section__eyebrow">{{ cond $isEn "Latest Notes" "最近更新" }}</p>
+                <h2>{{ cond $isEn "Posts and Records" "文章与记录" }}</h2>
+            </div>
+            <a class="home-section__link" href="{{ $postsURL }}">{{ cond $isEn "All posts" "全部文章" }}</a>
+        </div>
+        <section class="article-list article-list--compact home-post-list">
+            {{ range . }}
+                {{ partial "article-list/compact" . }}
+            {{ end }}
+        </section>
+    </section>
+    {{- end -}}
+
+    {{- partial "footer/footer" . -}}
+{{ end }}
+
+{{ define "right-sidebar" }}
+    {{ partial "sidebar/right.html" (dict "Context" . "Scope" "homepage") }}
+{{ end }}

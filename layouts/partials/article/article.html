@@ -3,6 +3,7 @@
 
     {{ if eq .Section "projects" }}
         {{ partial "article/components/project-facts" . }}
+        {{ partial "article/components/project-links" . }}
     {{ end }}
 
     {{ if .Scratch.Get "TOCEnabled" }}

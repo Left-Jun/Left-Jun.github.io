@@ -6,6 +6,8 @@ slug: "relativity-of-a-dot"
 description: "一个二维 / 三维切换解谜原型，用很短时间验证空间规则变化能否带来新的关卡体验。"
 image: "cover.png"
 imagePosition: "45% center"
+featured: true
+featuredWeight: 30
 weight: 30
 portfolioType: "game"
 projectFacts:
@@ -15,6 +17,10 @@ projectFacts:
   tools: "Unity / C# / Cinemachine"
   platform: "Windows 可执行版本"
   result: "完成二维 / 三维切换、视角联动与空间解谜的核心闭环。"
+projectLinks:
+  - label: "可执行版本"
+    url: "https://pan.quark.cn/s/0e4e5440844f?pwd=RvND"
+    icon: "link"
 tags:
   - "Unity"
   - "Prototype"
@@ -56,7 +62,3 @@ tags:
 - 菜单与流程系统：开始界面、暂停菜单和基础流程控制，保证原型具备可体验闭环。
 
 这个原型的重点不是内容量，而是验证一条清晰链路：玩家按下 `Tab` 后，维度状态切换、相机视角切换、移动轴限制、碰撞规则变化，同一关卡因此产生新的空间解法。
-
-## 项目链接
-
-- [可执行版本](https://pan.quark.cn/s/0e4e5440844f?pwd=RvND)

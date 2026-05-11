@@ -6,6 +6,8 @@ slug: "relativity-of-a-dot"
 description: "A 2D / 3D switching puzzle prototype that quickly tests whether spatial-rule changes can create new level experiences."
 image: "cover.png"
 imagePosition: "45% center"
+featured: true
+featuredWeight: 30
 weight: 30
 portfolioType: "game"
 projectFacts:
@@ -15,6 +17,10 @@ projectFacts:
   tools: "Unity / C# / Cinemachine"
   platform: "Windows playable build"
   result: "Completed the core loop of 2D/3D switching, camera linking, and spatial puzzle solving."
+projectLinks:
+  - label: "Playable build"
+    url: "https://pan.quark.cn/s/0e4e5440844f?pwd=RvND"
+    icon: "link"
 tags:
   - "Unity"
   - "Prototype"
@@ -56,7 +62,3 @@ After switching to 3D, the camera and movement rules change together. Structures
 - Menu and flow: start menu, pause menu, and basic flow control keep the prototype playable as a complete loop.
 
 The prototype focuses on validating one clear chain: pressing `Tab` changes the dimension state, switches the camera, changes movement axes, updates collision rules, and creates a new spatial solution inside the same level.
-
-## Links
-
-- [Playable build](https://pan.quark.cn/s/0e4e5440844f?pwd=RvND)

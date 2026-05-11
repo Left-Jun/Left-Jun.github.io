@@ -1,0 +1,14 @@
+{{- with .Params.projectLinks -}}
+{{- $isEn := eq $.Site.Language.Lang "en" -}}
+<section class="project-links" aria-label="{{ cond $isEn "Project Links" "项目链接" }}">
+    <h2 class="project-links__title">{{ cond $isEn "Project Links" "项目链接" }}</h2>
+    <div class="project-links__list">
+        {{- range . -}}
+            <a class="project-links__button" href="{{ .url }}" target="_blank" rel="noopener noreferrer">
+                {{ partial "helper/icon" (.icon | default "link") }}
+                <span>{{ .label }}</span>
+            </a>
+        {{- end -}}
+    </div>
+</section>
+{{- end -}}

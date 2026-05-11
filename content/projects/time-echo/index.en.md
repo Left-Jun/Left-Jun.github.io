@@ -14,6 +14,13 @@ projectFacts:
   tools: "Godot / AI-assisted scene generation"
   platform: "Windows playable build"
   result: "Completed the design document, map and background direction, narrative writing, and coordinated daily team progress."
+projectLinks:
+  - label: "Bilibili demo video"
+    url: "https://www.bilibili.com/video/BV1wUSmBfEnQ/"
+    icon: "brand-bilibili"
+  - label: "Playable build"
+    url: "https://pan.quark.cn/s/7800338109ee?pwd=k8XM"
+    icon: "link"
 tags:
   - "Narrative"
   - "Puzzle"
@@ -97,8 +104,3 @@ The project used Godot as the development environment. My design work focused on
 The most important design attempt in Echoes of Time was to make time travel feel like understanding the history of one place rather than simply loading three unrelated maps. The player sees a single space grow, change, and lose its voice across eras.
 
 The ancient lake and bamboo forest, the modern park and tree, and the future tower and robot form one emotional curve: awe in nature, remembrance in the city, and hope in a future ruin. Music ties these moments together as the thread between time, place, and human feeling.
-
-## Links
-
-- [Bilibili demo video](https://www.bilibili.com/video/BV1wUSmBfEnQ/)
-- [Playable build](https://pan.quark.cn/s/7800338109ee?pwd=k8XM)

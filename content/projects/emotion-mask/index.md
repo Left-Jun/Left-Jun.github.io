@@ -5,6 +5,8 @@ draft: false
 slug: "emotion-mask"
 description: "一款围绕情绪状态切换展开的 2D 平台跳跃解谜游戏，48 小时内独立完成并上线 TapTap。"
 image: "cover.png"
+featured: true
+featuredWeight: 20
 weight: 40
 portfolioType: "game"
 projectFacts:
@@ -14,6 +16,19 @@ projectFacts:
   tools: "Unity / C#"
   platform: "Windows / TapTap"
   result: "单人完成并上架 TapTap，商店评分 9.4。"
+projectLinks:
+  - label: "TapTap 页面"
+    url: "https://www.taptap.cn/app/814556?os=pc"
+    icon: "link"
+  - label: "Global Game Jam"
+    url: "https://globalgamejam.org/games/2026/emotion-mask-6"
+    icon: "link"
+  - label: "B站演示视频"
+    url: "https://www.bilibili.com/video/BV15e6tBNEKg/"
+    icon: "brand-bilibili"
+  - label: "可执行版本"
+    url: "https://pan.quark.cn/s/e9fadb101a75?pwd=duyj"
+    icon: "link"
 tags:
   - "Unity"
   - "C#"
@@ -93,10 +108,3 @@ tags:
 《Emotion Mask》已发布到 TapTap，并同步提交到 Global Game Jam 2026。TapTap 页面展示了游戏简介、平台配置、开发者说明和玩家评分；GGJ 页面记录了项目的 Jam 年份、主题、站点、平台和开发工具。
 
 这次发布让我第一次完整经历了“原型完成之后如何被别人看到”的过程：不仅要做出能玩的版本，还要思考封面、简介、标签、配置说明和下载入口如何共同呈现作品。
-
-## 项目链接
-
-- [TapTap 页面](https://www.taptap.cn/app/814556?os=pc)
-- [Global Game Jam 页面](https://globalgamejam.org/games/2026/emotion-mask-6)
-- [B站演示视频](https://www.bilibili.com/video/BV15e6tBNEKg/)
-- [可执行版本](https://pan.quark.cn/s/e9fadb101a75?pwd=duyj)
