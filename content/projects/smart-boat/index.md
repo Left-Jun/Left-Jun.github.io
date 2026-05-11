@@ -5,6 +5,8 @@ draft: false
 slug: "smart-boat"
 description: "一个偏软硬件结合的完整项目，覆盖遥控器、接收器、驱动编写、PCB 设计和调试。"
 image: "cover.png"
+featured: true
+featuredWeight: 20
 weight: 10
 portfolioType: "embedded"
 projectFacts:

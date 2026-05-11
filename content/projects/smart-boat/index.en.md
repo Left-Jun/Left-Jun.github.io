@@ -5,6 +5,8 @@ draft: false
 slug: "smart-boat"
 description: "A complete software-hardware project covering remote control, receiver design, driver programming, PCB design, and debugging."
 image: "cover.png"
+featured: true
+featuredWeight: 20
 weight: 10
 portfolioType: "embedded"
 projectFacts:

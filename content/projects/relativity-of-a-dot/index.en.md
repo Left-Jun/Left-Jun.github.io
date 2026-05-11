@@ -6,8 +6,6 @@ slug: "relativity-of-a-dot"
 description: "A 2D / 3D switching puzzle prototype that quickly tests whether spatial-rule changes can create new level experiences."
 image: "cover.png"
 imagePosition: "45% center"
-featured: true
-featuredWeight: 30
 weight: 30
 portfolioType: "game"
 projectFacts:

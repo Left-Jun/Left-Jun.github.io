@@ -6,7 +6,7 @@ slug: "emotion-mask"
 description: "A 2D platformer-puzzle game built around emotion switching, completed solo within 48 hours and published on TapTap."
 image: "cover.png"
 featured: true
-featuredWeight: 20
+featuredWeight: 30
 weight: 40
 portfolioType: "game"
 projectFacts:

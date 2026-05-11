@@ -6,7 +6,7 @@ slug: "emotion-mask"
 description: "一款围绕情绪状态切换展开的 2D 平台跳跃解谜游戏，48 小时内独立完成并上线 TapTap。"
 image: "cover.png"
 featured: true
-featuredWeight: 20
+featuredWeight: 30
 weight: 40
 portfolioType: "game"
 projectFacts:

@@ -6,8 +6,6 @@ slug: "relativity-of-a-dot"
 description: "一个二维 / 三维切换解谜原型，用很短时间验证空间规则变化能否带来新的关卡体验。"
 image: "cover.png"
 imagePosition: "45% center"
-featured: true
-featuredWeight: 30
 weight: 30
 portfolioType: "game"
 projectFacts:
