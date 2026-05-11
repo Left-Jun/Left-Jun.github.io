@@ -23,6 +23,9 @@ tags:
   - "Unity"
   - "Prototype"
   - "Puzzle"
+roleTags:
+  - "Solo Developer"
+  - "Prototype"
 ---
 
 ## Overview

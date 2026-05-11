@@ -20,6 +20,10 @@ tags:
   - "STM32"
   - "Embedded"
   - "Hardware"
+roleTags:
+  - "队长"
+  - "主程"
+  - "硬件设计"
 ---
 
 ## 项目简介

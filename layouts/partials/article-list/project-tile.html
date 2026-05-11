@@ -39,6 +39,13 @@
             {{ with .Params.description }}
                 <p class="project-card__description">{{ . }}</p>
             {{ end }}
+            {{ with .Params.roleTags }}
+                <div class="project-card__roles">
+                    {{ range . }}
+                        <span class="project-card__role">{{ . }}</span>
+                    {{ end }}
+                </div>
+            {{ end }}
             {{ with .Params.tags }}
                 <div class="project-card__tags">
                     {{ range . }}

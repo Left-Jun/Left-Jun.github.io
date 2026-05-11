@@ -33,6 +33,10 @@ tags:
   - "Unity"
   - "C#"
   - "Game Jam"
+roleTags:
+  - "Solo Developer"
+  - "Designer"
+  - "Programmer"
 ---
 
 ## Overview

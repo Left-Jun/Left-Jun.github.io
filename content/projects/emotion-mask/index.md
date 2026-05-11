@@ -33,6 +33,10 @@ tags:
   - "Unity"
   - "C#"
   - "Game Jam"
+roleTags:
+  - "独立开发"
+  - "策划"
+  - "程序"
 ---
 
 ## 项目简介

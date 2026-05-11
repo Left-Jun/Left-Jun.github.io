@@ -27,6 +27,10 @@ tags:
   - "Unity"
   - "Platformer"
   - "Team Project"
+roleTags:
+  - "Team Lead"
+  - "Main Programmer"
+  - "Gameplay Designer"
 ---
 
 ## Overview

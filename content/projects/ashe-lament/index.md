@@ -27,6 +27,10 @@ tags:
   - "Unity"
   - "Platformer"
   - "Team Project"
+roleTags:
+  - "队长"
+  - "主程"
+  - "玩法策划"
 ---
 
 ## 项目简介

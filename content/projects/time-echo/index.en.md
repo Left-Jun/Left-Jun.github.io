@@ -25,6 +25,10 @@ tags:
   - "Narrative"
   - "Puzzle"
   - "Godot"
+roleTags:
+  - "Team Lead"
+  - "Designer"
+  - "Writer"
 ---
 
 ## Overview

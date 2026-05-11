@@ -20,6 +20,10 @@
                 {{ partial "helper/icon" "link" }}
                 <span>{{ cond $isEn "View Projects" "查看项目" }}</span>
             </a>
+            <a class="home-action" href="{{ "/files/left-jun-portfolio.pdf" | relURL }}" target="_blank" rel="noopener noreferrer">
+                {{ partial "helper/icon" "archives" }}
+                <span>{{ cond $isEn "Portfolio PDF" "作品集 PDF" }}</span>
+            </a>
             <a class="home-action" href="{{ $aboutURL }}">
                 {{ partial "helper/icon" "user" }}
                 <span>{{ cond $isEn "About Me" "关于我" }}</span>
@@ -56,6 +60,37 @@
         </section>
         {{- end -}}
     {{- end -}}
+
+    <section class="home-section home-workflow">
+        <div class="home-section__header">
+            <div>
+                <p class="home-section__eyebrow">{{ cond $isEn "How I Work" "我的工作方式" }}</p>
+                <h2>{{ cond $isEn "From Idea to Playable Build" "从想法到可玩版本" }}</h2>
+            </div>
+        </div>
+        <div class="home-workflow__grid">
+            <article class="home-workflow__item">
+                <div class="home-workflow__icon">{{ partial "helper/icon" "infinity" }}</div>
+                <h3>{{ cond $isEn "Rapid Prototyping" "快速原型" }}</h3>
+                <p>{{ cond $isEn "Use jam-style constraints to turn concepts into playable loops within 48 to 72 hours." "用 Game Jam 式限制把想法压缩成可体验闭环，在 48 到 72 小时内验证核心机制。" }}</p>
+            </article>
+            <article class="home-workflow__item">
+                <div class="home-workflow__icon">{{ partial "helper/icon" "categories" }}</div>
+                <h3>{{ cond $isEn "Gameplay Systems" "游戏系统" }}</h3>
+                <p>{{ cond $isEn "Build movement, state switching, resource loops, checkpoints, UI feedback, and endings around the same design goal." "围绕同一个设计目标组织移动、状态切换、资源循环、检查点、UI 反馈和结局判定。" }}</p>
+            </article>
+            <article class="home-workflow__item">
+                <div class="home-workflow__icon">{{ partial "helper/icon" "messages" }}</div>
+                <h3>{{ cond $isEn "Narrative Design" "叙事策划" }}</h3>
+                <p>{{ cond $isEn "Translate themes into worlds, level flow, dialogue, art requirements, and final performance beats." "把主题拆成世界观、关卡流程、对话文案、美术需求和最终演出节奏。" }}</p>
+            </article>
+            <article class="home-workflow__item">
+                <div class="home-workflow__icon">{{ partial "helper/icon" "link" }}</div>
+                <h3>{{ cond $isEn "Hardware Practice" "软硬件实践" }}</h3>
+                <p>{{ cond $isEn "Work with STM32, PCB design, wireless communication, signal filtering, and integrated debugging." "实践 STM32、PCB 设计、无线通信、信号滤波和整机联调。" }}</p>
+            </article>
+        </div>
+    </section>
 
     {{- $posts := where .Site.RegularPages "Section" "posts" | first 3 -}}
     {{- with $posts -}}

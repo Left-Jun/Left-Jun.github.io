@@ -25,6 +25,10 @@ tags:
   - "Narrative"
   - "Puzzle"
   - "Godot"
+roleTags:
+  - "队长"
+  - "策划"
+  - "文案"
 ---
 
 ## 项目简介

@@ -20,6 +20,10 @@ tags:
   - "STM32"
   - "Embedded"
   - "Hardware"
+roleTags:
+  - "Team Lead"
+  - "Main Programmer"
+  - "Hardware Designer"
 ---
 
 ## Overview
