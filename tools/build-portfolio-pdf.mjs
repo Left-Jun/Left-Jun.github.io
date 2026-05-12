@@ -46,6 +46,13 @@ const featured = [
       "设计灵能流失、遗骨收集、捷径建造和多结局结算，让资源管理直接影响叙事收束。",
       "担任队长推进 72 小时内的程序、美术、文案、音乐和版本整合。",
     ],
+    systems: [
+      "PlayerMove / PlayerJump / PlayerDash：平台跳跃基础操作、移动参数与冲刺反馈。",
+      "GroundCheck / WallCheck / Respawn：落地、贴墙、死亡与检查点复活。",
+      "MaskControl / EnergyManager / EnergyDrainController：普通/强化状态与灵能流逝。",
+      "SafetyTimer / ShortcutBuilder / EndingManager：地下安全时间、捷径建造与结局阈值。",
+      "SimpleDialogue / UIManager / MusicManager：对话、UI 反馈、音乐与场景表现联动。",
+    ],
   },
   {
     title: "智能风动船模无线遥控系统",
@@ -60,6 +67,13 @@ const featured = [
       "用 STM32 HAL 完成 ADC、SPI、PWM 和状态指示灯等底层驱动。",
       "设计接收端原理图和 PCB，处理 3.3V 稳压、滤波、晶振、通信模块与外部接口。",
       "通过软件滤波和电源优化降低摇杆抖动与纹波影响，完成可下水运行版本。",
+    ],
+    systems: [
+      "ADC1 / ADC2：读取摇杆输入并做范围限制、死区与比例映射。",
+      "SPI1 + nRF24L01：遥控端打包舵机角度与油门数据，接收端解析执行。",
+      "PWM：将输入映射到舵机和动力输出，形成遥控器到船端执行机构链路。",
+      "电源与通信硬件：AMS1117-3.3 稳压、滤波电容、晶振、状态 LED 与外部接口。",
+      "调试策略：用状态灯、串口与逐项外设验证排查供电、抖动和通信问题。",
     ],
   },
   {
@@ -76,6 +90,13 @@ const featured = [
       "将情绪状态绑定到移动参数、平台显示、障碍处理和场景反馈。",
       "上架 TapTap 并同步提交 Global Game Jam 项目页，完成从原型到公开展示的闭环。",
     ],
+    systems: [
+      "PlayerMove / PlayerJump / PlayerDash：移动、长短跳、二段跳、冲刺与贴墙判定。",
+      "MaskControl / MaskAnimator：平静、快乐、愤怒三种状态的能力与表现切换。",
+      "EmotionalPlatform / TrapCheck：按状态控制平台显示、陷阱判定和关卡路径变化。",
+      "CheckPoint / Respawn / GameTimer：死亡复活、流程推进、计时与结算统计。",
+      "MusicManager：不同面具状态下的背景、音乐与操作反馈联动。",
+    ],
   },
 ];
 
@@ -88,6 +109,17 @@ const secondary = [
     image: img("time-echo", "cover.png"),
     text:
       "围绕古代、现代、未来三重时间线，设计音乐、记忆与时间回响的叙事解谜结构。负责世界观、三幕式流程、对话文案、美术需求拆解与团队推进。",
+    systems: [
+      "Godot 场景组织：按古代、现代、未来拆分场景层级，保持同一地点在三个时代中的对应关系。",
+      "角色与平台规则：拆解移动、蹬墙跳、翻滚、条件二段跳、交互触发和时间切换需求。",
+      "交互道具：时间门、乐器、NPC 对话、可改变过去并影响现在的场景状态。",
+      "团队协作：把策划案拆成程序任务、美术分层素材、对白文本和每日可验收版本。",
+    ],
+    gallery: [
+      [img("time-echo", "screenshot-ancient-dialogue.png"), "古代乐师与竹笛：音乐作为敬畏"],
+      [img("time-echo", "screenshot-modern-scene.png"), "现代公园与吉他：时间门和怀念乐章"],
+      [img("time-echo", "screenshot-future-platforming.png"), "未来高塔：冷色空间与机器人核心"],
+    ],
   },
   {
     title: "Relativity of a Dot",
@@ -97,16 +129,57 @@ const secondary = [
     image: img("relativity-of-a-dot", "cover.png"),
     text:
       "验证同一关卡在二维投影与三维空间规则下产生不同解法的可能性。完成相机切换、移动规则切换、碰撞体切换和空间解谜闭环。",
+    systems: [
+      "DimensionManager：统一维护 2D / 3D 状态，并切换 Cinemachine 相机优先级。",
+      "PlayerMove：根据维度状态切换移动轴，二维限制单轴，三维开放平面移动。",
+      "GroundCheck2D / GroundCheck3D：分别处理两种空间规则下的落地检测。",
+      "DimensionObject：按当前维度启用不同碰撞体，并在二维状态下修正玩家投影位置。",
+      "流程联动：Tab 输入触发维度、相机、玩家控制、碰撞规则和关卡解法同步变化。",
+    ],
+    gallery: [
+      [img("relativity-of-a-dot", "screenshot-2d-view.png"), "二维投影视角：规则更接近传统平台关卡"],
+      [img("relativity-of-a-dot", "screenshot-3d-view.png"), "三维视角：空间深度改变路径理解"],
+    ],
   },
 ];
 
 const skills = [
-  ["游戏开发", "Unity / C#、角色控制、跳跃/冲刺/贴墙、状态机、资源系统、检查点、结算与多结局。"],
-  ["玩法策划", "从主题拆解核心机制、关卡流程、叙事结构和可执行素材需求，适合限时原型开发。"],
-  ["叙事交互", "把世界观、道具、UI 提示和系统压力合并，让玩家在机制中理解故事。"],
-  ["嵌入式", "STM32F103C8T6、HAL、SPI、ADC、PWM、nRF24L01、PCB 绘制、焊接与联调。"],
-  ["团队推进", "多次担任队长，负责拆任务、推进例会、整合版本、控制范围和保证可运行交付。"],
-  ["工具链", "Git、Visual Studio、VS Code、Keil、STM32CubeIDE、嘉立创 EDA、Hugo、AI 辅助开发。"],
+  ["Unity / C#", "角色控制、跳跃/冲刺/贴墙、状态机、资源系统、检查点、结算、多结局、UI 与音频反馈。"],
+  ["工程拆分", "按玩家控制、状态资源、关卡交互、UI 对话、场景表现、结局流程拆模块，保持短周期可维护。"],
+  ["Godot 原型", "做过叙事解谜项目的场景组织、交互道具拆解、时间线切换需求设计和流程调试。"],
+  ["STM32 / HAL", "ADC、SPI、PWM、USART、GPIO、nRF24L01，无线遥控链路与船端执行机构控制。"],
+  ["硬件实践", "嘉立创 EDA 原理图/PCB、稳压滤波、晶振、接口、焊接、供电与通信问题排查。"],
+  ["发布与协作", "Git、Visual Studio、VS Code、Keil、STM32CubeIDE、TapTap/GGJ 发布、Hugo 作品集维护。"],
+];
+
+const techStack = [
+  {
+    title: "游戏程序",
+    items: [
+      "角色控制：移动、长短跳、二段跳、冲刺、贴墙、受伤、死亡、复活。",
+      "状态系统：面具/强化状态、参数切换、能力开关、场景反馈和音乐联动。",
+      "关卡交互：移动平台、陷阱、隐藏平台、检查点、资源收集、道具与触发器。",
+      "流程系统：开始/暂停、计时、结算、多结局阈值、对话和 UI 反馈。",
+    ],
+  },
+  {
+    title: "嵌入式与硬件",
+    items: [
+      "STM32F103C8T6 + HAL，外设包含 ADC、SPI、PWM、USART、GPIO。",
+      "nRF24L01 无线通信，遥控器端打包发送舵机角度与油门数据。",
+      "PCB 原理图与布局，处理稳压、滤波、晶振、外部接口和状态 LED。",
+      "调试中使用死区、范围限制、软件滤波和状态反馈定位抖动/供电/通信问题。",
+    ],
+  },
+  {
+    title: "项目组织",
+    items: [
+      "能把 Game Jam 创意拆成核心闭环、可验收模块和后续表现增强。",
+      "多次担任队长，负责功能拆解、版本整合、每日推进和交付范围控制。",
+      "将策划文本转译为程序任务、美术素材清单、交互节点和测试路径。",
+      "维护 Hugo 双语作品集，并能将项目内容整理成网页与 PDF 展示材料。",
+    ],
+  },
 ];
 
 const pages = [];
@@ -184,6 +257,45 @@ page(`
 
 page(`
   <div class="section-title">
+    <p class="eyebrow">Technical Stack</p>
+    <h2>技术栈与工程能力</h2>
+  </div>
+  <div class="tech-stack-grid">
+    ${techStack
+      .map(
+        (group) => `
+      <article>
+        <h3>${esc(group.title)}</h3>
+        <ul>${group.items.map((item) => `<li>${esc(item)}</li>`).join("")}</ul>
+      </article>
+    `,
+      )
+      .join("")}
+  </div>
+  <div class="code-tree">
+    <h3>常见项目拆分方式</h3>
+    <div class="tree-grid">
+      <pre>Player Control
+├─ PlayerMove / PlayerJump
+├─ PlayerDash
+├─ GroundCheck / WallCheck
+└─ Respawn / CheckPoint</pre>
+      <pre>State & Resource
+├─ MaskControl
+├─ EnergyManager
+├─ EnergyDrainController
+└─ EndingManager</pre>
+      <pre>Embedded Control
+├─ ADC sampling
+├─ SPI + nRF24L01
+├─ PWM mapping
+└─ PCB / power debug</pre>
+    </div>
+  </div>
+`, "tech-page");
+
+page(`
+  <div class="section-title">
     <p class="eyebrow">Representative Works</p>
     <h2>三个最能代表当前能力面的项目</h2>
   </div>
@@ -219,17 +331,19 @@ page(`
       <p><strong>工具</strong>${esc(featured[0].tools)}</p>
     </div>
   </div>
-  <div class="two-col">
+  <div class="project-copy-row">
     <div>
       <h3>我完成的关键工作</h3>
       <ul>${featured[0].highlights.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
-      <h3>设计重点</h3>
-      <p>项目把灵能设计成生命、行动能量和结局评价资源，让玩家每一次探索、返回、攀登、建造捷径都会影响最终叙事。玩法压力和世界观衰亡主题因此被压在同一套规则上。</p>
     </div>
-    <div class="image-grid two">
-      ${imageCard(img("ashe-lament", "screenshot-notice-board.png"), "告示板：资源、加时器、捷径与强化状态")}
-      ${imageCard(img("ashe-lament", "screenshot-dialogue.png"), "对话框：栖枝与母树意识残响")}
+    <div>
+      <h3>程序模块</h3>
+      <ul>${featured[0].systems.slice(0, 4).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
     </div>
+  </div>
+  <div class="wide-image-row">
+    ${imageCard(img("ashe-lament", "screenshot-notice-board.png"), "告示板：资源、加时器、捷径与强化状态")}
+    ${imageCard(img("ashe-lament", "screenshot-dialogue.png"), "对话框：栖枝与母树意识残响")}
   </div>
 `, "project-page");
 
@@ -238,7 +352,7 @@ page(`
     <p class="eyebrow">Asherah System Details</p>
     <h2>亚舍拉挽歌：资源循环与结果反馈</h2>
   </div>
-  <div class="image-grid four">
+  <div class="image-grid two-by-two">
     ${imageCard(img("ashe-lament", "screenshot-underground.png"), "地下收集：时间压力与强化风险")}
     ${imageCard(img("ashe-lament", "screenshot-shortcut.png"), "地上攀登：资源换捷径")}
     ${imageCard(img("ashe-lament", "screenshot-ending.png"), "结局：按资源管理结果结算")}
@@ -263,18 +377,20 @@ page(`
       <p><strong>工具</strong>${esc(featured[1].tools)}</p>
     </div>
   </div>
-  <div class="two-col embedded">
+  <div class="project-copy-row compact-copy">
     <div>
       <h3>工程链路</h3>
       <ul>${featured[1].highlights.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
-      <h3>可展示能力</h3>
-      <p>这个项目能补足纯游戏作品里不容易体现的工程面：硬件原理图、外设配置、无线通信、输入采样、执行机构映射和现场调试。</p>
     </div>
-    <div class="image-grid three">
-      ${imageCard(img("smart-boat", "screenshot-stm32-pinout.png"), "STM32CubeMX 引脚配置")}
-      ${imageCard(img("smart-boat", "screenshot-schematic.png"), "接收端原理图")}
-      ${imageCard(img("smart-boat", "screenshot-code.png"), "ADC / PWM / nRF24L01 代码调试")}
+    <div>
+      <h3>底层与调试</h3>
+      <ul>${featured[1].systems.slice(0, 4).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
     </div>
+  </div>
+  <div class="boat-showcase">
+    ${imageCard(img("smart-boat", "screenshot-schematic.png"), "接收端原理图")}
+    ${imageCard(img("smart-boat", "screenshot-code.png"), "ADC / PWM / nRF24L01 代码调试")}
+    ${imageCard(img("smart-boat", "screenshot-stm32-pinout.png"), "STM32CubeMX 引脚配置")}
   </div>
 `, "project-page");
 
@@ -296,10 +412,10 @@ page(`
     <div>
       <h3>机制表达</h3>
       <p>三种面具不是简单数值增益：平静负责观察隐藏平台，快乐带来更强机动性，愤怒负责破坏和突破。玩家需要在不同情绪之间切换，才能读懂关卡。</p>
-      <h3>我完成的关键工作</h3>
-      <ul>${featured[2].highlights.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+      <h3>程序模块</h3>
+      <ul>${featured[2].systems.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
     </div>
-    <div class="image-grid four small-cards">
+    <div class="image-grid two-by-two small-cards">
       ${imageCard(img("emotion-mask", "screenshot-neutral-platform.png"), "平静：隐藏平台可见")}
       ${imageCard(img("emotion-mask", "screenshot-happy-platform.png"), "快乐：同位置平台不可见")}
       ${imageCard(img("emotion-mask", "screenshot-level.png"), "关卡：尖刺、墙面、移动平台")}
@@ -309,34 +425,60 @@ page(`
 `, "project-page");
 
 page(`
-  <div class="section-title">
-    <p class="eyebrow">Additional Works</p>
-    <h2>补充项目：叙事策划与快速原型能力</h2>
+  <div class="project-header">
+    <div>
+      <p class="eyebrow">Additional Work / Narrative Prototype</p>
+      <h2>${esc(secondary[0].title)}</h2>
+      <p>${esc(secondary[0].text)}</p>
+      ${chipList(["Godot", "三时间线", "叙事解谜", "团队推进"])}
+    </div>
+    <div class="fact-box">
+      <p><strong>时间</strong>2025.11 · 7 天</p>
+      <p><strong>角色</strong>${esc(secondary[0].role)}</p>
+      <p><strong>工具</strong>${esc(secondary[0].tools)}</p>
+    </div>
   </div>
-  <div class="secondary-grid">
-    ${secondary
-      .map(
-        (item) => `
-      <article>
-        <img src="${item.image}" alt="">
-        <div>
-          <h3>${esc(item.title)}</h3>
-          <p class="muted">${esc(item.subtitle)}</p>
-          <p><strong>角色：</strong>${esc(item.role)}</p>
-          <p><strong>工具：</strong>${esc(item.tools)}</p>
-          <p>${esc(item.text)}</p>
-        </div>
-      </article>
-    `,
-      )
-      .join("")}
+  <div class="chapter-layout time-echo-chapter">
+    ${imageCard(secondary[0].image, "封面：音乐、记忆与时间回响")}
+    <div>
+      <h3>程序与制作拆分</h3>
+      <ul>${secondary[0].systems.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+      <h3>我负责的内容</h3>
+      <p>我负责将“同一地点在三个时代变化”的概念拆解成可执行结构：每个时代有什么场景、道具、NPC、音乐线索，以及哪些行为会改变后续时间线。</p>
+    </div>
   </div>
-  <div class="image-strip">
-    <img src="${img("time-echo", "screenshot-ancient-dialogue.png")}" alt="">
-    <img src="${img("relativity-of-a-dot", "screenshot-3d-view.png")}" alt="">
-    <img src="${img("time-echo", "screenshot-future-platforming.png")}" alt="">
+  <div class="chapter-gallery three-wide">
+    ${secondary[0].gallery.map(([src, caption]) => imageCard(src, caption)).join("")}
   </div>
-`, "additional");
+`, "chapter-page");
+
+page(`
+  <div class="project-header">
+    <div>
+      <p class="eyebrow">Additional Work / Spatial Prototype</p>
+      <h2>${esc(secondary[1].title)}</h2>
+      <p>${esc(secondary[1].text)}</p>
+      ${chipList(["Unity", "C#", "Cinemachine", "维度切换"])}
+    </div>
+    <div class="fact-box">
+      <p><strong>时间</strong>2026.2 · 6h</p>
+      <p><strong>角色</strong>${esc(secondary[1].role)}</p>
+      <p><strong>工具</strong>${esc(secondary[1].tools)}</p>
+    </div>
+  </div>
+  <div class="chapter-layout relativity-chapter">
+    ${imageCard(secondary[1].image, "封面：二维/三维切换创意原型")}
+    <div>
+      <h3>技术实现</h3>
+      <ul>${secondary[1].systems.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+      <h3>核心验证</h3>
+      <p>这个原型重点验证一条完整联动链路：玩家按下 Tab 后，维度状态、相机、玩家移动轴、碰撞规则和关卡解法同步变化。</p>
+    </div>
+  </div>
+  <div class="chapter-gallery two-wide">
+    ${secondary[1].gallery.map(([src, caption]) => imageCard(src, caption)).join("")}
+  </div>
+`, "chapter-page");
 
 page(`
   <div class="section-title">
@@ -516,7 +658,12 @@ const html = `<!doctype html>
     border-radius: 6mm;
     background: #fffdf8;
   }
-  .featured-three img { height: 51mm; margin-bottom: 4mm; }
+  .featured-three img {
+    height: 48mm;
+    margin-bottom: 4mm;
+    object-fit: contain;
+    background: #eef2f3;
+  }
   .rank {
     position: absolute;
     top: 6mm;
@@ -553,24 +700,63 @@ const html = `<!doctype html>
     gap: 8mm;
   }
   .two-col.embedded { grid-template-columns: .8fr 1.22fr; }
+  .project-copy-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8mm;
+    margin-bottom: 5mm;
+  }
+  .project-copy-row.compact-copy {
+    margin-bottom: 4mm;
+  }
+  .project-copy-row.compact-copy li,
+  .project-copy-row.compact-copy p {
+    font-size: 9.7pt;
+  }
   .image-grid { display: grid; gap: 4mm; }
   .image-grid.two { grid-template-columns: 1fr 1fr; }
   .image-grid.three { grid-template-columns: repeat(3, 1fr); }
   .image-grid.four { grid-template-columns: repeat(4, 1fr); }
+  .image-grid.two-by-two { grid-template-columns: repeat(2, 1fr); }
   .image-card {
     margin: 0;
     border-radius: 5mm;
   }
   .image-card img { height: 73mm; object-fit: cover; }
+  .wide-image-row {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 5mm;
+  }
+  .wide-image-row .image-card img {
+    height: 58mm;
+    object-fit: contain;
+    background: #eef2f3;
+  }
+  .image-grid.two-by-two .image-card img {
+    height: 50mm;
+    object-fit: contain;
+    background: #eef2f3;
+  }
   .image-grid.three .image-card img { height: 73mm; object-fit: contain; background: #fff; }
   .image-grid.four .image-card img { height: 88mm; }
-  .small-cards .image-card img { height: 58mm; }
+  .small-cards .image-card img { height: 43mm; }
+  .boat-showcase {
+    display: grid;
+    grid-template-columns: 1fr 1fr .68fr;
+    gap: 4mm;
+  }
+  .boat-showcase .image-card img {
+    height: 58mm;
+    object-fit: contain;
+    background: #fff;
+  }
   figcaption {
     padding-top: 2mm;
     color: #5d6570;
     font-size: 8.5pt;
   }
-  .gallery-page .image-grid.four .image-card img { height: 108mm; }
+  .gallery-page .image-grid.two-by-two .image-card img { height: 52mm; }
   .note-band {
     margin-top: 8mm;
     font-size: 11pt;
