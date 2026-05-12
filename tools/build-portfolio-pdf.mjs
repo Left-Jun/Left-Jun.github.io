@@ -427,34 +427,6 @@ page(`
 page(`
   <div class="project-header">
     <div>
-      <p class="eyebrow">Additional Work / Narrative Prototype</p>
-      <h2>${esc(secondary[0].title)}</h2>
-      <p>${esc(secondary[0].text)}</p>
-      ${chipList(["Godot", "三时间线", "叙事解谜", "团队推进"])}
-    </div>
-    <div class="fact-box">
-      <p><strong>时间</strong>2025.11 · 7 天</p>
-      <p><strong>角色</strong>${esc(secondary[0].role)}</p>
-      <p><strong>工具</strong>${esc(secondary[0].tools)}</p>
-    </div>
-  </div>
-  <div class="chapter-layout time-echo-chapter">
-    ${imageCard(secondary[0].image, "封面：音乐、记忆与时间回响")}
-    <div>
-      <h3>程序与制作拆分</h3>
-      <ul>${secondary[0].systems.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
-      <h3>我负责的内容</h3>
-      <p>我负责将“同一地点在三个时代变化”的概念拆解成可执行结构：每个时代有什么场景、道具、NPC、音乐线索，以及哪些行为会改变后续时间线。</p>
-    </div>
-  </div>
-  <div class="chapter-gallery three-wide">
-    ${secondary[0].gallery.map(([src, caption]) => imageCard(src, caption)).join("")}
-  </div>
-`, "chapter-page");
-
-page(`
-  <div class="project-header">
-    <div>
       <p class="eyebrow">Additional Work / Spatial Prototype</p>
       <h2>${esc(secondary[1].title)}</h2>
       <p>${esc(secondary[1].text)}</p>
@@ -477,6 +449,34 @@ page(`
   </div>
   <div class="chapter-gallery two-wide">
     ${secondary[1].gallery.map(([src, caption]) => imageCard(src, caption)).join("")}
+  </div>
+`, "chapter-page");
+
+page(`
+  <div class="project-header">
+    <div>
+      <p class="eyebrow">Additional Work / Narrative Prototype</p>
+      <h2>${esc(secondary[0].title)}</h2>
+      <p>${esc(secondary[0].text)}</p>
+      ${chipList(["Godot", "三时间线", "叙事解谜", "团队推进"])}
+    </div>
+    <div class="fact-box">
+      <p><strong>时间</strong>2025.11 · 7 天</p>
+      <p><strong>角色</strong>${esc(secondary[0].role)}</p>
+      <p><strong>工具</strong>${esc(secondary[0].tools)}</p>
+    </div>
+  </div>
+  <div class="chapter-layout time-echo-chapter">
+    ${imageCard(secondary[0].image, "封面：音乐、记忆与时间回响")}
+    <div>
+      <h3>程序与制作拆分</h3>
+      <ul>${secondary[0].systems.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+      <h3>我负责的内容</h3>
+      <p>我负责将“同一地点在三个时代变化”的概念拆解成可执行结构：每个时代有什么场景、道具、NPC、音乐线索，以及哪些行为会改变后续时间线。</p>
+    </div>
+  </div>
+  <div class="chapter-gallery three-wide">
+    ${secondary[0].gallery.map(([src, caption]) => imageCard(src, caption)).join("")}
   </div>
 `, "chapter-page");
 
@@ -615,6 +615,10 @@ const html = `<!doctype html>
     border-radius: 5mm;
     box-shadow: 0 8px 26px rgba(9, 26, 39, .22);
   }
+  .main-art, .cover-art .mini-row img {
+    object-fit: contain;
+    background: rgba(255, 255, 255, .08);
+  }
   .mini-row { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; }
   .profile-layout {
     display: grid;
@@ -645,6 +649,46 @@ const html = `<!doctype html>
   .quick-facts strong { margin-bottom: 1mm; color: #c94a3d; }
   .profile-side ol { margin: 0; padding-left: 6mm; }
   .profile-side li { font-weight: 800; }
+  .tech-stack-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5mm;
+  }
+  .tech-stack-grid article {
+    min-height: 84mm;
+    padding: 5mm;
+    border: 1px solid #dde0df;
+    border-radius: 5mm;
+    background: #fffdf8;
+  }
+  .tech-stack-grid h3 { color: #0c546d; }
+  .tech-stack-grid li {
+    font-size: 9.35pt;
+    margin-bottom: 2.1mm;
+  }
+  .code-tree {
+    margin-top: 7mm;
+    padding: 5mm;
+    border-radius: 5mm;
+    background: #102236;
+    color: #fff;
+  }
+  .tree-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+  }
+  pre {
+    margin: 0;
+    padding: 4mm;
+    border-radius: 4mm;
+    background: rgba(255, 255, 255, .08);
+    color: #eaf3f5;
+    font-family: Consolas, "Cascadia Mono", monospace;
+    font-size: 9pt;
+    line-height: 1.45;
+    white-space: pre-wrap;
+  }
   .featured-three {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -683,7 +727,7 @@ const html = `<!doctype html>
     grid-template-columns: 1fr .56fr;
     gap: 10mm;
     align-items: start;
-    margin-bottom: 7mm;
+    margin-bottom: 5mm;
   }
   .project-header h2 { margin-bottom: 4mm; }
   .fact-box p {
@@ -704,7 +748,7 @@ const html = `<!doctype html>
     display: grid;
     grid-template-columns: 1fr 1fr;
     gap: 8mm;
-    margin-bottom: 5mm;
+    margin-bottom: 4mm;
   }
   .project-copy-row.compact-copy {
     margin-bottom: 4mm;
@@ -729,7 +773,7 @@ const html = `<!doctype html>
     gap: 5mm;
   }
   .wide-image-row .image-card img {
-    height: 58mm;
+    height: 49mm;
     object-fit: contain;
     background: #eef2f3;
   }
@@ -784,6 +828,43 @@ const html = `<!doctype html>
     height: 42mm;
   }
   .image-strip img { border-radius: 4mm; }
+  .chapter-layout {
+    display: grid;
+    grid-template-columns: .92fr 1.08fr;
+    gap: 7mm;
+    align-items: start;
+    margin-bottom: 5mm;
+  }
+  .chapter-layout .image-card img {
+    height: 58mm;
+    object-fit: contain;
+    background: #eef2f3;
+  }
+  .chapter-layout li {
+    font-size: 9pt;
+    margin-bottom: 1.45mm;
+  }
+  .chapter-layout p {
+    font-size: 9.25pt;
+  }
+  .chapter-gallery {
+    display: grid;
+    gap: 4mm;
+  }
+  .chapter-gallery.three-wide {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .chapter-gallery.two-wide {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .chapter-gallery .image-card img {
+    height: 41mm;
+    object-fit: contain;
+    background: #eef2f3;
+  }
+  .chapter-gallery.two-wide .image-card img {
+    height: 46mm;
+  }
   .skill-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
