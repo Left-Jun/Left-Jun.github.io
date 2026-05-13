@@ -19,6 +19,49 @@ html {
   scroll-behavior: smooth;
 }
 
+:root {
+  --leftjun-hover-duration: 0.16s;
+  --leftjun-hover-lift: -2px;
+  --leftjun-hover-border: rgba(20, 184, 166, 0.38);
+  --leftjun-hover-surface: rgba(15, 23, 42, 0.035);
+  --leftjun-hover-shadow: 0 14px 34px rgba(0, 0, 0, 0.1);
+}
+
+[data-scheme="dark"] {
+  --leftjun-hover-border: rgba(45, 212, 191, 0.38);
+  --leftjun-hover-surface: rgba(255, 255, 255, 0.055);
+  --leftjun-hover-shadow: 0 18px 42px rgba(0, 0, 0, 0.28);
+}
+
+.section-card,
+.article-list:not(.article-list--compact) > article,
+.article-list--tile article {
+  border: 1px solid var(--card-separator-color);
+  transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease;
+}
+
+.section-card:hover,
+.section-card:focus-within,
+.article-list:not(.article-list--compact) > article:hover,
+.article-list:not(.article-list--compact) > article:focus-within,
+.article-list--tile article:hover,
+.article-list--tile article:focus-within {
+  border-color: var(--leftjun-hover-border);
+  box-shadow: var(--leftjun-hover-shadow);
+  transform: translateY(var(--leftjun-hover-lift));
+}
+
+.article-list--compact {
+  border: 1px solid var(--card-separator-color);
+  transition: box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease;
+}
+
+.article-list--compact:hover,
+.article-list--compact:focus-within {
+  border-color: var(--leftjun-hover-border);
+  box-shadow: var(--leftjun-hover-shadow);
+}
+
 .site-avatar {
   .status-emoji {
     cursor: help;
@@ -177,7 +220,7 @@ html {
 .project-links__button:hover {
   color: var(--accent-color);
   box-shadow: var(--shadow-l2);
-  transform: translateY(-1px);
+  transform: translateY(var(--leftjun-hover-lift));
 }
 
 .home-action--primary {
@@ -253,9 +296,18 @@ html {
 
 .home-workflow__item {
   padding: 1.2rem;
+  border: 1px solid var(--card-separator-color);
   border-radius: var(--card-border-radius);
   background: var(--card-background);
   box-shadow: var(--shadow-l1);
+  transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease;
+}
+
+.home-workflow__item:hover,
+.home-workflow__item:focus-within {
+  border-color: var(--leftjun-hover-border);
+  box-shadow: var(--leftjun-hover-shadow);
+  transform: translateY(var(--leftjun-hover-lift));
 }
 
 .home-workflow__icon {
@@ -416,6 +468,14 @@ html {
   background: var(--card-background);
   box-shadow: var(--shadow-l1);
   border: 1px solid var(--card-separator-color);
+  transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease;
+}
+
+.project-card:hover,
+.project-card:focus-within {
+  border-color: var(--leftjun-hover-border);
+  box-shadow: var(--leftjun-hover-shadow);
+  transform: translateY(var(--leftjun-hover-lift));
 }
 
 .project-card a {
@@ -435,6 +495,14 @@ html {
   height: 100%;
   display: block;
   object-fit: cover;
+  transition: transform 0.18s ease;
+}
+
+.project-card:hover .project-card__image img,
+.project-card:hover .project-card__image video,
+.project-card:focus-within .project-card__image img,
+.project-card:focus-within .project-card__image video {
+  transform: scale(1.015);
 }
 
 .project-card__image video {
@@ -550,13 +618,17 @@ html {
   font: inherit;
   line-height: 1.45;
   cursor: pointer;
-  transition: box-shadow 0.2s ease, color 0.2s ease, background-color 0.2s ease;
+  transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease;
 }
 
 .project-index-type-button:hover,
 .project-index-type-button.is-active {
   color: var(--accent-color);
   box-shadow: var(--shadow-l2);
+}
+
+.project-index-type-button:hover {
+  transform: translateY(var(--leftjun-hover-lift));
 }
 
 .project-index-list {
@@ -576,12 +648,13 @@ html {
   box-shadow: var(--shadow-l1);
   color: var(--card-text-color-main);
   line-height: 1.45;
-  transition: box-shadow 0.2s ease, color 0.2s ease;
+  transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease;
 }
 
 .project-index-list a:hover {
   color: var(--accent-color);
   box-shadow: var(--shadow-l2);
+  transform: translateY(var(--leftjun-hover-lift));
 }
 
 .footer-single-line {
@@ -596,6 +669,14 @@ html {
   align-items: stretch;
   gap: 1rem;
   padding: 0.85rem;
+  border-radius: calc(var(--card-border-radius) - 2px);
+  transition: transform var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease;
+}
+
+.article-list--compact article > a:hover,
+.article-list--compact article > a:focus-visible {
+  background: var(--leftjun-hover-surface);
+  transform: translateY(var(--leftjun-hover-lift));
 }
 
 .article-list--compact article .article-details {
@@ -858,5 +939,46 @@ html {
   .project-showcase[data-view="single"] .project-card__description,
   .project-showcase[data-view="grid"] .project-card__description {
     font-size: 0.95rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-card,
+  .home-action,
+  .project-links__button,
+  .home-workflow__item,
+  .project-card,
+  .project-card__image img,
+  .project-card__image video,
+  .project-index-type-button,
+  .project-index-list a,
+  .article-list:not(.article-list--compact) > article,
+  .article-list--tile article,
+  .article-list--compact,
+  .article-list--compact article > a {
+    transition: none;
+  }
+
+  .section-card:hover,
+  .section-card:focus-within,
+  .home-action:hover,
+  .project-links__button:hover,
+  .home-workflow__item:hover,
+  .home-workflow__item:focus-within,
+  .project-card:hover,
+  .project-card:focus-within,
+  .project-card:hover .project-card__image img,
+  .project-card:hover .project-card__image video,
+  .project-card:focus-within .project-card__image img,
+  .project-card:focus-within .project-card__image video,
+  .project-index-type-button:hover,
+  .project-index-list a:hover,
+  .article-list:not(.article-list--compact) > article:hover,
+  .article-list:not(.article-list--compact) > article:focus-within,
+  .article-list--tile article:hover,
+  .article-list--tile article:focus-within,
+  .article-list--compact article > a:hover,
+  .article-list--compact article > a:focus-visible {
+    transform: none;
   }
 }
