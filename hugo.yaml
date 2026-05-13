@@ -1,7 +1,6 @@
 ﻿baseURL: "https://left-jun.github.io/"
 languageCode: "zh-cn"
 title: "左涵俊 | Left Jun"
-theme: "hugo-theme-stack"
 
 defaultContentLanguage: "zh-cn"
 hasCJKLanguage: true
