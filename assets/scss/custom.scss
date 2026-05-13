@@ -1,16 +1,16 @@
 .container.extended {
   @media (min-width: 768px) {
-    --left-sidebar-max-width: 22%;
+    --left-sidebar-max-width: 25%;
     --right-sidebar-max-width: 24%;
   }
 
   @media (min-width: 1024px) {
-    --left-sidebar-max-width: 18%;
+    --left-sidebar-max-width: 21%;
     --right-sidebar-max-width: 22%;
   }
 
   @media (min-width: 1280px) {
-    --left-sidebar-max-width: 14%;
+    --left-sidebar-max-width: 18%;
     --right-sidebar-max-width: 18%;
   }
 }
@@ -47,24 +47,26 @@ html {
 }
 
 .section-card:hover,
-.section-card:focus-within,
-.article-list:not(.article-list--compact) > article:hover,
-.article-list:not(.article-list--compact) > article:focus-within,
-.article-list--tile article:hover,
-.article-list--tile article:focus-within {
+.section-card:focus-within {
   border-color: var(--leftjun-hover-border);
   box-shadow: var(--leftjun-hover-shadow);
   transform: translateY(var(--leftjun-hover-lift));
 }
 
+.article-list:not(.article-list--compact) > article:hover,
+.article-list:not(.article-list--compact) > article:focus-within,
+.article-list--tile article:hover,
+.article-list--tile article:focus-within {
+  box-shadow: var(--leftjun-hover-shadow);
+}
+
 .article-list--compact {
   border: 1px solid var(--card-separator-color);
-  transition: box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease;
+  transition: box-shadow var(--leftjun-hover-duration) ease;
 }
 
 .article-list--compact:hover,
 .article-list--compact:focus-within {
-  border-color: var(--leftjun-hover-border);
   box-shadow: var(--leftjun-hover-shadow);
 }
 
@@ -75,13 +77,7 @@ html {
   background: var(--leftjun-sidebar-background);
   box-shadow: var(--leftjun-sidebar-shadow);
   backdrop-filter: blur(18px);
-  transition: border-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
-}
-
-.left-sidebar:hover,
-.left-sidebar:focus-within {
-  border-color: var(--leftjun-hover-border);
-  box-shadow: var(--leftjun-hover-shadow);
+  overflow-x: hidden;
 }
 
 .left-sidebar > :not(:last-child) {
@@ -90,16 +86,6 @@ html {
 
 .left-sidebar header {
   gap: 1rem;
-}
-
-.left-sidebar .site-avatar .site-logo {
-  transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
-}
-
-.left-sidebar .site-avatar a:hover .site-logo,
-.left-sidebar .site-avatar a:focus-visible .site-logo {
-  box-shadow: var(--leftjun-hover-shadow);
-  transform: translateY(-1px) scale(1.02);
 }
 
 .menu-social {
@@ -182,6 +168,10 @@ html {
 }
 
 @media (min-width: 768px) {
+  .main-container {
+    padding-left: 8px;
+  }
+
   .left-sidebar {
     top: var(--main-top-padding);
     align-self: flex-start;
@@ -190,12 +180,13 @@ html {
     margin-top: var(--main-top-padding);
     padding: 1.55rem;
     overflow-y: auto;
+    overflow-x: hidden;
   }
 }
 
 @media (min-width: 1280px) {
   .container.extended {
-    --left-sidebar-max-width: 16%;
+    --left-sidebar-max-width: 18%;
   }
 }
 
@@ -270,6 +261,26 @@ html {
       font-size: 0.78rem;
     }
   }
+}
+
+.left-sidebar .site-avatar .status-tooltip {
+  left: 0;
+  top: calc(100% + 12px);
+  bottom: auto;
+  width: 23rem;
+  max-width: 100%;
+  transform: translateY(-6px);
+
+  &::before {
+    top: -6px;
+    left: calc(var(--emoji-size) + 0.3rem);
+    transform: rotate(135deg);
+  }
+}
+
+.left-sidebar .site-avatar .status-emoji:hover .status-tooltip,
+.left-sidebar .site-avatar .status-emoji:focus-visible .status-tooltip {
+  transform: translateY(0);
 }
 
 @media (max-width: 767px) {
@@ -807,13 +818,6 @@ html {
   gap: 1rem;
   padding: 0.85rem;
   border-radius: calc(var(--card-border-radius) - 2px);
-  transition: transform var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease;
-}
-
-.article-list--compact article > a:hover,
-.article-list--compact article > a:focus-visible {
-  background: var(--leftjun-hover-surface);
-  transform: translateY(var(--leftjun-hover-lift));
 }
 
 .article-list--compact article .article-details {
