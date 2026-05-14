@@ -122,8 +122,8 @@ html {
 }
 
 .right-sidebar .widget--toc {
-  border: 1px solid var(--card-separator-color);
-  box-shadow: var(--shadow-l1);
+  background: transparent;
+  box-shadow: none;
 }
 
 .right-sidebar .toc-nav {
@@ -154,6 +154,7 @@ html {
   padding-left: 0.75rem;
   border-left-color: var(--leftjun-hover-accent);
   background: var(--leftjun-hover-surface);
+  box-shadow: var(--leftjun-hover-shadow);
   color: var(--leftjun-hover-accent);
   transform: translateX(2px);
 }
@@ -849,14 +850,14 @@ html {
 
 .project-index-type-button {
   appearance: none;
-  border: 1px solid var(--card-separator-color);
+  border: 1px solid transparent;
   text-align: left;
   display: block;
   width: 100%;
   padding: 0.85rem 1rem;
   border-radius: var(--tag-border-radius);
-  background: var(--card-background);
-  box-shadow: var(--shadow-l1);
+  background: transparent;
+  box-shadow: none;
   color: var(--card-text-color-main);
   font: inherit;
   line-height: 1.45;
@@ -888,10 +889,10 @@ html {
 .project-index-list a {
   display: block;
   padding: 0.85rem 1rem;
-  border: 1px solid var(--card-separator-color);
+  border: 1px solid transparent;
   border-radius: var(--tag-border-radius);
-  background: var(--card-background);
-  box-shadow: var(--shadow-l1);
+  background: transparent;
+  box-shadow: none;
   color: var(--card-text-color-main);
   line-height: 1.45;
   transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease;
