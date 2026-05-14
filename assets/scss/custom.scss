@@ -80,6 +80,101 @@ html {
   overflow-x: hidden;
 }
 
+.right-sidebar {
+  overflow-x: hidden;
+}
+
+.right-sidebar .widget {
+  padding: 1.35rem;
+  border: 1px solid var(--card-separator-color);
+  border-radius: 22px;
+  background: var(--leftjun-sidebar-background);
+  box-shadow: var(--leftjun-sidebar-shadow);
+  backdrop-filter: blur(18px);
+  overflow-x: hidden;
+}
+
+.right-sidebar .widget-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 3.4rem;
+  height: 3.4rem;
+  margin-bottom: 0.75rem;
+  border: 1px solid var(--card-separator-color);
+  border-radius: 999px;
+  background: var(--card-background);
+  color: var(--body-text-color);
+  box-shadow: var(--shadow-l1);
+}
+
+.right-sidebar .widget-icon svg {
+  width: 1.9rem;
+  height: 1.9rem;
+  color: currentColor;
+  stroke: currentColor;
+}
+
+.right-sidebar .section-title,
+.right-sidebar .widget-title {
+  margin-top: 0;
+  color: var(--card-text-color-main);
+}
+
+.right-sidebar .widget--toc {
+  border: 1px solid var(--card-separator-color);
+  box-shadow: var(--shadow-l1);
+}
+
+.right-sidebar .toc-nav {
+  overflow-x: hidden;
+  padding: 0.45rem;
+}
+
+.right-sidebar .toc-nav li {
+  margin: 0.28rem 0;
+  padding: 0;
+}
+
+.right-sidebar .toc-nav li a {
+  display: block;
+  padding: 0.62rem 0.75rem;
+  border-left: 3px solid transparent;
+  border-radius: 10px;
+  color: var(--card-text-color-secondary);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  transition: transform var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease;
+}
+
+.right-sidebar .toc-nav li a:hover,
+.right-sidebar .toc-nav li a:focus-visible,
+.right-sidebar .toc-nav li.active-class > a {
+  margin-left: 0;
+  padding-left: 0.75rem;
+  border-left-color: var(--leftjun-hover-accent);
+  background: var(--leftjun-hover-surface);
+  color: var(--leftjun-hover-accent);
+  transform: translateX(2px);
+}
+
+.right-sidebar .tagCloud-tags a {
+  border: 1px solid var(--card-separator-color);
+  border-radius: 999px;
+  color: var(--card-text-color-secondary);
+  box-shadow: var(--shadow-l1);
+  transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease;
+}
+
+.right-sidebar .tagCloud-tags a:hover,
+.right-sidebar .tagCloud-tags a:focus-visible {
+  border-color: var(--leftjun-hover-border);
+  background: var(--leftjun-hover-surface);
+  color: var(--leftjun-hover-accent);
+  box-shadow: var(--leftjun-hover-shadow);
+  transform: translateY(var(--leftjun-hover-lift));
+}
+
 .left-sidebar > :not(:last-child) {
   margin-bottom: 1.25rem;
 }
@@ -754,7 +849,7 @@ html {
 
 .project-index-type-button {
   appearance: none;
-  border: 0;
+  border: 1px solid var(--card-separator-color);
   text-align: left;
   display: block;
   width: 100%;
@@ -771,8 +866,10 @@ html {
 
 .project-index-type-button:hover,
 .project-index-type-button.is-active {
-  color: var(--accent-color);
-  box-shadow: var(--shadow-l2);
+  border-color: var(--leftjun-hover-border);
+  background: var(--leftjun-hover-surface);
+  color: var(--leftjun-hover-accent);
+  box-shadow: var(--leftjun-hover-shadow);
 }
 
 .project-index-type-button:hover {
@@ -791,6 +888,7 @@ html {
 .project-index-list a {
   display: block;
   padding: 0.85rem 1rem;
+  border: 1px solid var(--card-separator-color);
   border-radius: var(--tag-border-radius);
   background: var(--card-background);
   box-shadow: var(--shadow-l1);
@@ -800,8 +898,10 @@ html {
 }
 
 .project-index-list a:hover {
-  color: var(--accent-color);
-  box-shadow: var(--shadow-l2);
+  border-color: var(--leftjun-hover-border);
+  background: var(--leftjun-hover-surface);
+  color: var(--leftjun-hover-accent);
+  box-shadow: var(--leftjun-hover-shadow);
   transform: translateY(var(--leftjun-hover-lift));
 }
 
@@ -1087,6 +1187,9 @@ html {
   .section-card,
   .left-sidebar,
   .left-sidebar .site-avatar .site-logo,
+  .right-sidebar .widget,
+  .right-sidebar .toc-nav li a,
+  .right-sidebar .tagCloud-tags a,
   .menu-social li a,
   #main-menu li:not(.menu-bottom-section) > a,
   #i18n-switch,
@@ -1112,6 +1215,11 @@ html {
   .left-sidebar .site-avatar a:focus-visible .site-logo,
   .menu-social li a:hover,
   .menu-social li a:focus-visible,
+  .right-sidebar .toc-nav li a:hover,
+  .right-sidebar .toc-nav li a:focus-visible,
+  .right-sidebar .toc-nav li.active-class > a,
+  .right-sidebar .tagCloud-tags a:hover,
+  .right-sidebar .tagCloud-tags a:focus-visible,
   #main-menu li:not(.menu-bottom-section) > a:hover,
   #main-menu li:not(.menu-bottom-section) > a:focus-visible,
   #main-menu li.current:not(.menu-bottom-section) > a,
