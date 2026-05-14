@@ -1,17 +1,24 @@
 .container.extended {
   @media (min-width: 768px) {
-    --left-sidebar-max-width: 25%;
-    --right-sidebar-max-width: 24%;
+    --leftjun-layout-gutter: clamp(14px, 1.6vw, 28px);
+    --leftjun-sidebar-width: clamp(250px, 20vw, 292px);
+    --leftjun-column-gap: clamp(18px, 1.7vw, 28px);
+    --left-sidebar-max-width: var(--leftjun-sidebar-width);
+    --right-sidebar-max-width: clamp(230px, 20vw, 280px);
+    max-width: none;
   }
 
   @media (min-width: 1024px) {
-    --left-sidebar-max-width: 21%;
-    --right-sidebar-max-width: 22%;
+    --leftjun-sidebar-width: clamp(260px, 18vw, 300px);
+    --leftjun-column-gap: clamp(18px, 1.45vw, 26px);
+    --right-sidebar-max-width: clamp(236px, 17vw, 288px);
   }
 
   @media (min-width: 1280px) {
-    --left-sidebar-max-width: 18%;
-    --right-sidebar-max-width: 18%;
+    --leftjun-layout-gutter: clamp(12px, 1.25vw, 24px);
+    --leftjun-sidebar-width: clamp(270px, 17vw, 310px);
+    --leftjun-column-gap: clamp(18px, 1.25vw, 24px);
+    --right-sidebar-max-width: clamp(240px, 15vw, 292px);
   }
 }
 
@@ -265,24 +272,37 @@ html {
 
 @media (min-width: 768px) {
   .main-container {
-    padding-left: 8px;
+    --leftjun-layout-gutter: clamp(14px, 1.6vw, 28px);
+    --leftjun-sidebar-width: clamp(250px, 20vw, 292px);
+    --leftjun-column-gap: clamp(18px, 1.7vw, 28px);
+    width: 100%;
+    max-width: none;
+    margin-left: 0;
+    margin-right: 0;
+    gap: var(--leftjun-column-gap);
+    padding-left: calc(var(--leftjun-layout-gutter) + var(--leftjun-sidebar-width) + var(--leftjun-column-gap));
+    padding-right: var(--leftjun-layout-gutter);
   }
 
-  .left-sidebar {
+  .left-sidebar.sticky {
+    position: fixed;
+    left: var(--leftjun-layout-gutter);
     top: var(--main-top-padding);
-    align-self: flex-start;
+    width: var(--leftjun-sidebar-width);
+    max-width: var(--leftjun-sidebar-width);
     min-height: calc(100vh - var(--main-top-padding) * 2);
     max-height: calc(100vh - var(--main-top-padding) * 2);
-    margin-top: var(--main-top-padding);
+    margin-top: 0;
     padding: 1.55rem;
     overflow-y: auto;
     overflow-x: hidden;
+    z-index: 10;
   }
 }
 
 @media (min-width: 1280px) {
   .container.extended {
-    --left-sidebar-max-width: 18%;
+    --left-sidebar-max-width: var(--leftjun-sidebar-width);
   }
 }
 
