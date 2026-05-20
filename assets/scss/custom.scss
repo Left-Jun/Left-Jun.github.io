@@ -307,7 +307,7 @@ html {
 
 .site-avatar {
   .status-emoji {
-    cursor: help;
+    cursor: default;
     outline: none;
     transition: transform 0.18s ease, box-shadow 0.18s ease;
 
@@ -366,43 +366,49 @@ html {
     }
 
     strong {
-      font-size: 0.92rem;
+      font-size: 1.9rem;
       font-weight: 800;
     }
 
     small {
-      margin-top: 0.18rem;
+      margin-top: 0.72rem;
       color: var(--card-text-color-secondary);
-      font-size: 0.78rem;
+      font-size: 1.45rem;
     }
   }
 }
 
 .left-sidebar .site-avatar .status-tooltip {
-  left: 0;
-  top: calc(100% + 12px);
+  left: calc(100% + 16px);
+  top: 50%;
   bottom: auto;
-  width: 26rem;
-  min-width: 22rem;
-  max-width: calc(100vw - var(--leftjun-layout-gutter) - 2rem);
-  transform: translateY(-6px);
+  width: 34rem;
+  min-width: 30rem;
+  max-width: calc(100vw - var(--leftjun-layout-gutter) - var(--leftjun-sidebar-width) - 2rem);
+  padding: 1.25rem 1.45rem;
+  border-radius: 14px;
+  transform: translateY(-50%) translateX(-8px);
 
   &::before {
-    top: -6px;
-    left: calc(var(--emoji-size) + 0.3rem);
-    transform: rotate(135deg);
+    top: 50%;
+    left: -6px;
+    transform: translateY(-50%) rotate(45deg);
   }
 }
 
 .left-sidebar .site-avatar .status-emoji:hover .status-tooltip,
 .left-sidebar .site-avatar .status-emoji:focus-visible .status-tooltip {
-  transform: translateY(0);
+  transform: translateY(-50%) translateX(0);
 }
 
 @media (max-width: 767px) {
-  .site-avatar .status-tooltip {
+  .site-avatar .status-tooltip,
+  .left-sidebar .site-avatar .status-tooltip {
     left: 50%;
     top: calc(100% + 12px);
+    width: 26rem;
+    min-width: 0;
+    max-width: calc(100vw - 2rem);
     transform: translateX(-50%) translateY(-6px);
 
     &::before {
@@ -413,7 +419,9 @@ html {
   }
 
   .site-avatar .status-emoji:hover .status-tooltip,
-  .site-avatar .status-emoji:focus-visible .status-tooltip {
+  .site-avatar .status-emoji:focus-visible .status-tooltip,
+  .left-sidebar .site-avatar .status-emoji:hover .status-tooltip,
+  .left-sidebar .site-avatar .status-emoji:focus-visible .status-tooltip {
     transform: translateX(-50%) translateY(0);
   }
 }
