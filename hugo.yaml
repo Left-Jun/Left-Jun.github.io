@@ -55,6 +55,12 @@ languages:
           weight: 30
           params:
             icon: "link"
+        - identifier: "plans"
+          name: "开发计划"
+          url: "/plans/"
+          weight: 35
+          params:
+            icon: "clock"
         - identifier: "posts"
           name: "文章"
           url: "/posts/"
