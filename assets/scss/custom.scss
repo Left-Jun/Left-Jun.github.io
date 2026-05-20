@@ -366,14 +366,14 @@ html {
     }
 
     strong {
-      font-size: 1.9rem;
+      font-size: 1.65rem;
       font-weight: 800;
     }
 
     small {
-      margin-top: 0.72rem;
+      margin-top: 0.52rem;
       color: var(--card-text-color-secondary);
-      font-size: 1.45rem;
+      font-size: 1.28rem;
     }
   }
 }
@@ -382,11 +382,11 @@ html {
   left: calc(100% + 16px);
   top: 50%;
   bottom: auto;
-  width: 34rem;
-  min-width: 30rem;
+  width: 29rem;
+  min-width: 25rem;
   max-width: calc(100vw - var(--leftjun-layout-gutter) - var(--leftjun-sidebar-width) - 2rem);
-  padding: 1.25rem 1.45rem;
-  border-radius: 14px;
+  padding: 1rem 1.18rem;
+  border-radius: 12px;
   transform: translateY(-50%) translateX(-8px);
 
   &::before {
