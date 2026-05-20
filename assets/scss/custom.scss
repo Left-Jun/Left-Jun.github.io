@@ -294,8 +294,7 @@ html {
     max-height: calc(100vh - var(--main-top-padding) * 2);
     margin-top: 0;
     padding: 1.55rem;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: visible;
     z-index: 10;
   }
 }
@@ -383,8 +382,9 @@ html {
   left: 0;
   top: calc(100% + 12px);
   bottom: auto;
-  width: 23rem;
-  max-width: 100%;
+  width: 26rem;
+  min-width: 22rem;
+  max-width: calc(100vw - var(--leftjun-layout-gutter) - 2rem);
   transform: translateY(-6px);
 
   &::before {
