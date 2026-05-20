@@ -382,9 +382,9 @@ html {
   left: calc(100% + 16px);
   top: 50%;
   bottom: auto;
-  width: 29rem;
-  min-width: 25rem;
-  max-width: calc(100vw - var(--leftjun-layout-gutter) - var(--leftjun-sidebar-width) - 2rem);
+  width: max-content;
+  min-width: 15rem;
+  max-width: 23rem;
   padding: 1rem 1.18rem;
   border-radius: 12px;
   transform: translateY(-50%) translateX(-8px);
