@@ -55,6 +55,12 @@ languages:
           weight: 30
           params:
             icon: "link"
+        - identifier: "retrospectives"
+          name: "项目复盘"
+          url: "/retrospectives/"
+          weight: 33
+          params:
+            icon: "infinity"
         - identifier: "plans"
           name: "开发计划"
           url: "/plans/"
