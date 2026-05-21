@@ -1,6 +1,6 @@
 ---
 title: "《时瞳回响》项目复盘"
-date: 2026-05-21T11:00:00+08:00
+date: 2026-05-21T10:00:00+08:00
 draft: false
 slug: "time-echo-retrospective"
 description: "复盘《时瞳回响》从三教杯 Game Jam 策划、三时代关卡结构、叙事文案到团队协作的开发过程。"
