@@ -3,7 +3,7 @@ title: "Echoes of Time"
 date: 2025-11-20T10:00:00+08:00
 draft: false
 slug: "time-echo"
-description: "A 2D narrative puzzle-platformer set across ancient, modern, and future timelines, built around music, memory, and temporal echoes."
+description: "An early Limenauts team project: a 2D narrative puzzle-platformer set across ancient, modern, and future timelines, built around music and memory."
 image: "cover.png"
 weight: 50
 portfolioType: "game"
@@ -33,7 +33,7 @@ roleTags:
 
 ## Overview
 
-Echoes of Time is a 2D narrative puzzle-platformer created for the 2025 Autumn Sanjiao Cup Game Jam. The player controls a cat-like mythical creature inspired by Huan from ancient Chinese mythology, traveling through ancient, modern, and future versions of the same place. Across the journey, the player collects instruments and melodies, eventually bringing the echoes of three eras into a future where music has disappeared.
+Echoes of Time is an early Limenauts team project created for the 2025 Autumn Sanjiao Cup Game Jam. I served as team lead, main designer, writer, and gameplay designer. The player controls a cat-like mythical creature inspired by Huan from ancient Chinese mythology, traveling through ancient, modern, and future versions of the same place. Across the journey, the player collects instruments and melodies, eventually bringing the echoes of three eras into a future where music has disappeared.
 
 The central question of the project is: why does music matter, and what do humans lose when music vanishes? Our answer was expressed through both narrative and mechanics: music is not only sound, but also emotion, memory, cultural identity, and one of the most direct forms of human connection.
 

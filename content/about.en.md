@@ -3,10 +3,12 @@ title: "About"
 date: 2026-04-22T10:30:00+08:00
 draft: false
 slug: "about"
-description: "An introduction to Left Jun, focused on Unity gameplay, indie game prototypes, technical-art experiments, Game Jam projects, and software-hardware practice."
+description: "An introduction to Left Jun and Limenauts, focused on Unity gameplay, indie game prototypes, Game Jam projects, and software-hardware practice."
 ---
 
 I publish work as Left Jun. In formal resumes, competition materials, and recruiting contexts, I use my legal name, Zuo Hanjun.
+
+Limenauts is the long-term project team name I use as team lead, and it also appears as my personal competition team name across Game Jam entries, competition works, and team projects I lead. It is less a separate organization and more a creative banner tied to my ongoing game prototypes, team development, and project records.
 
 I am currently an Electronic Information undergraduate at Sichuan University, expected to graduate in July 2029. My main interests are game prototypes, interaction systems, gameplay implementation, and software-hardware projects. This site is not a static resume; it is a living portfolio archive of the projects I have built since November 2025, the systems I was responsible for, and the methods I have formed through jam development and engineering practice.
 
@@ -15,7 +17,7 @@ I am currently an Electronic Information undergraduate at Sichuan University, ex
 - Game development: mainly Unity and C#, with a focus on platformer feel, state switching, level interaction, and playable prototype loops.
 - Gameplay design: turning a theme into mechanics, level flow, narrative structure, and art requirements.
 - Software-hardware projects: STM32, HAL, PCB design, sensor input, PWM control, and system debugging.
-- Team execution: leading small teams, breaking down tasks, running daily syncs, integrating versions, and turning ideas into playable builds.
+- Team execution: organizing projects under the Limenauts name, leading small teams, breaking down tasks, running daily syncs, integrating versions, and turning ideas into playable builds.
 
 ## Representative Projects
 

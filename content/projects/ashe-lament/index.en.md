@@ -3,7 +3,7 @@ title: "Asherah's Lament"
 date: 2026-03-20T10:00:00+08:00
 draft: false
 slug: "ashe-lament"
-description: "A 2D platformer and resource-management game built around dual-state switching, collection loops, multi-ending progression, and team collaboration."
+description: "A Limenauts 72-hour team project: a 2D platformer and resource-management game built around dual-state switching, collection loops, and multi-ending progression."
 image: "cover.png"
 coverVideo: "cover.mp4"
 pinned: true
@@ -35,7 +35,7 @@ roleTags:
 
 ## Overview
 
-Asherah's Lament is a 2D platformer and resource-management game created for the Tencent University Game Extreme Development Competition, Chengdu site. The player becomes the last "root speaker" in a dying world sustained by Asherah, the Mother Tree. To delay the final silence, the player travels between underground roots and the surface trunk, gathers remaining spirit energy, builds shortcuts, climbs upward, and tries to return the last power to the heart of the world before their own energy runs out.
+Asherah's Lament is a Limenauts 72-hour team project created for the Tencent University Game Extreme Development Competition, Chengdu site. I served as team lead, main programmer, gameplay designer, and music producer. The player becomes the last "root speaker" in a dying world sustained by Asherah, the Mother Tree. To delay the final silence, the player travels between underground roots and the surface trunk, gathers remaining spirit energy, builds shortcuts, climbs upward, and tries to return the last power to the heart of the world before their own energy runs out.
 
 The project is not only about moving quickly or jumping precisely. Its central challenge is management: time, resources, risk, and route planning all compete with each other.
 
