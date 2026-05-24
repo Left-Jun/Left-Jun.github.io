@@ -188,7 +188,51 @@ html {
 }
 
 .left-sidebar header {
-  gap: 1rem;
+  gap: 1.05rem;
+}
+
+.left-sidebar header .site-meta {
+  gap: 0.72rem;
+}
+
+.left-sidebar header .site-name {
+  color: var(--card-text-color-main);
+  font-size: clamp(2.15rem, 2.1vw, 2.55rem);
+  font-weight: 800;
+  line-height: 1.12;
+  letter-spacing: 0;
+}
+
+.left-sidebar header .site-name a {
+  color: inherit;
+}
+
+.left-sidebar header .site-name a:hover {
+  color: var(--leftjun-hover-accent);
+}
+
+.left-sidebar header .site-identity {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  min-height: 2.6rem;
+  padding: 0.48rem 0.98rem;
+  border-color: color-mix(in srgb, var(--leftjun-hover-accent) 42%, var(--card-separator-color));
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--leftjun-hover-accent) 9%, var(--card-background));
+  color: var(--leftjun-hover-accent);
+  box-shadow: 0 8px 20px rgba(47, 114, 184, 0.08);
+  font-size: 1.12rem;
+  font-weight: 800;
+  line-height: 1.1;
+  white-space: nowrap;
+}
+
+.left-sidebar header .site-description {
+  margin-top: 0.08rem;
+  font-size: clamp(1.35rem, 1.35vw, 1.55rem);
+  line-height: 1.6;
 }
 
 .menu-social {
