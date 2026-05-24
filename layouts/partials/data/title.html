@@ -9,6 +9,10 @@
     {{ $title = $title | append (printf "Page %d" $paginator.PageNumber) }}
 {{- end -}}
 
-{{- $title = $title | append (default $siteTitle $pageTitle) -}}
+{{- if .IsHome -}}
+    {{- $title = $title | append (default $siteTitle .Site.Params.homeTitle) -}}
+{{- else -}}
+    {{- $title = $title | append (default $siteTitle $pageTitle) -}}
+{{- end -}}
 
 {{ return delimit $title " - " }}

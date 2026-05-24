@@ -3,7 +3,7 @@
 
 <meta property='og:title' {{ printf "content=%q" $title | safeHTMLAttr }}>
 <meta property='og:description' {{ printf "content=%q" $description | safeHTMLAttr }}>
-<meta property='og:url' content='{{ .Permalink }}'>
+<meta property='og:url' content='{{ absURL .RelPermalink }}'>
 <meta property='og:site_name' content='{{ .Site.Title }}'>
 <meta property='og:type' content='
     {{- if .IsPage -}}
@@ -40,4 +40,10 @@
 {{ $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources) }}
 {{- if $image -}}
     <meta property='og:image' content='{{ absURL $image.permalink }}' />
+    {{ with .Site.Params.opengraph.imageAlt }}<meta property='og:image:alt' content='{{ . }}' />{{ end }}
+{{- else -}}
+    {{- with .Site.Params.opengraph.image -}}
+        <meta property='og:image' content='{{ . | absURL }}' />
+        {{ with $.Site.Params.opengraph.imageAlt }}<meta property='og:image:alt' content='{{ . }}' />{{ end }}
+    {{- end -}}
 {{- end -}}

@@ -13,4 +13,9 @@
 {{- if $image -}}
     <meta name="twitter:card" content="{{ .Site.Params.opengraph.twitter.card }}">
     <meta name="twitter:image" content='{{ absURL $image.permalink }}' />
+{{- else -}}
+    {{- with .Site.Params.opengraph.image -}}
+        <meta name="twitter:card" content="{{ $.Site.Params.opengraph.twitter.card }}">
+        <meta name="twitter:image" content='{{ . | absURL }}' />
+    {{- end -}}
 {{- end -}}

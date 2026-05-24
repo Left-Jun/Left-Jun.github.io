@@ -3,12 +3,18 @@
 
 {{- $description := partialCached "data/description" . .RelPermalink -}}
 <meta name='description' {{ printf "content=%q" $description | safeHTMLAttr }}>
-{{ with .Params.Keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
+{{- $keywords := default .Site.Params.keywords .Params.Keywords -}}
+{{ with $keywords }}<meta name="keywords" content="{{ delimit . ", " }}">{{ end }}
+<meta name='author' content='Left Jun / 左涵俊'>
+<meta name='robots' content='index, follow'>
+<meta name='application-name' content='Left Jun Portfolio'>
+<meta name='theme-color' content='#f7f8fb' media='(prefers-color-scheme: light)'>
+<meta name='theme-color' content='#17191d' media='(prefers-color-scheme: dark)'>
 
 {{- $title := partial "data/title" . -}}
 <title>{{ $title }}</title>
 
-<link rel='canonical' href='{{ .Permalink }}'>
+<link rel='canonical' href='{{ absURL .RelPermalink }}'>
 
 {{- partial "head/style.html" . -}}
 {{- partial "head/script.html" . -}}
@@ -18,9 +24,11 @@
     <link rel="{{ .Rel }}" type="{{ .MediaType.Type }}" href="{{ .Permalink | safeURL }}">
 {{- end -}}
 
-{{- $favicon := partial "helper/image" (dict "Image" .Site.Params.favicon "Resources" resources) -}}
-{{ with $favicon }}
-    <link rel="shortcut icon" href="{{ .Permalink }}" />
+{{- $favicon := default "/favicon.ico" .Site.Params.favicon -}}
+<link rel='icon' href='{{ $favicon | absURL }}'>
+<link rel='shortcut icon' href='{{ $favicon | absURL }}'>
+{{ with .Site.Params.opengraph.image }}
+    <link rel='apple-touch-icon' href='{{ . | absURL }}'>
 {{ end }}
 
 {{- partial "google_analytics.html" . -}}

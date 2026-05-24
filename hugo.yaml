@@ -1,4 +1,4 @@
-﻿baseURL: "https://leftjun.com/"
+baseurl: "https://leftjun.com/"
 languageCode: "zh-cn"
 title: "左涵俊 | Left Jun"
 
@@ -188,6 +188,24 @@ params:
   featuredImageField: "image"
   rssFullContent: true
   favicon: "/favicon.ico"
+  homeTitle: "Left Jun / 左涵俊 - Gameplay Programmer & Indie Game Developer"
+  description: "Left Jun（左涵俊）的个人游戏开发作品集，记录 Unity / C# 游戏原型、Gameplay 系统、技术美术探索、Game Jam 项目与软硬件实践。"
+  keywords:
+    - Left Jun
+    - LeftJun
+    - 左涵俊
+    - Unity
+    - C#
+    - Gameplay Programmer
+    - Technical Artist
+    - 独立游戏开发
+    - Emotion Mask
+    - 亚舍拉挽歌
+  opengraph:
+    image: "img/avatar.jpg"
+    imageAlt: "Left Jun / 左涵俊"
+    twitter:
+      card: "summary_large_image"
 
   footer:
     since: 2026
