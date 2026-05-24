@@ -1,5 +1,5 @@
 ﻿---
-title: "文章"
+title: "文章与记录"
 description: "这里收集我的文章、笔记和阶段性思考。"
 slug: "posts"
 ---

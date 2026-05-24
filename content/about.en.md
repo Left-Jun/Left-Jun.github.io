@@ -3,9 +3,10 @@ title: "About"
 date: 2026-04-22T10:30:00+08:00
 draft: false
 slug: "about"
+description: "An introduction to Left Jun, focused on Unity gameplay, indie game prototypes, technical-art experiments, Game Jam projects, and software-hardware practice."
 ---
 
-I am Zuo Hanjun, and I also publish work as Left Jun.
+I publish work as Left Jun. In formal resumes, competition materials, and recruiting contexts, I use my legal name, Zuo Hanjun.
 
 I am currently an Electronic Information undergraduate at Sichuan University, expected to graduate in July 2029. My main interests are game prototypes, interaction systems, gameplay implementation, and software-hardware projects. This site is not a static resume; it is a living portfolio archive of the projects I have built since November 2025, the systems I was responsible for, and the methods I have formed through jam development and engineering practice.
 
