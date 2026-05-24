@@ -21,7 +21,7 @@ I am currently an Electronic Information undergraduate at Sichuan University, ex
 
 ## Representative Projects
 
-- Asherah's Lament: a 72-hour team project where I served as team lead, main programmer, gameplay designer, and music producer, building platforming, spirit-energy resources, shortcut construction, and multi-ending systems.
+- Elegy of Asherah: a 72-hour team project where I served as team lead, main programmer, gameplay designer, and music producer, building platforming, spirit-energy resources, shortcut construction, and multi-ending systems.
 - Emotion Mask: a solo 48-hour Global Game Jam 2026 project, covering design, programming, pixel art, music, and release preparation; published on TapTap.
 - Relativity of a Dot: a 6-hour creative prototype that validates 2D/3D switching, camera linking, and spatial puzzle solving.
 - Echoes of Time: a 7-day game jam team project where I worked as team lead, designer, writer, and gameplay designer, building a narrative puzzle experience around three timelines, music, and memory.

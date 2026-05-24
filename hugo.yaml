@@ -115,7 +115,8 @@ languages:
     title: "Left Jun"
     params:
       sidebar:
-        subtitle: "Electronic Information undergraduate at Sichuan University, team lead of Limenauts, building game prototypes, interactive works, and software-hardware projects."
+        identity: "Limenauts"
+        subtitle: "Electronic Information undergraduate at Sichuan University, building game prototypes, interactive works, and software-hardware projects."
         status:
           emoji: "💻"
           title: "Focused"
@@ -189,7 +190,7 @@ params:
   rssFullContent: true
   favicon: "/favicon.ico"
   homeTitle: "Left Jun - Gameplay Programmer & Indie Game Developer"
-  description: "Left Jun 的个人游戏开发作品集，也是阈限开拓者 / Limenauts 的项目档案，记录 Unity / C# 游戏原型、Gameplay 系统、Game Jam 项目与软硬件实践。"
+  description: "Left Jun 的个人游戏开发作品集，也是阈限开拓者的项目档案，记录 Unity / C# 游戏原型、Gameplay 系统、Game Jam 项目与软硬件实践。"
   keywords:
     - Left Jun
     - LeftJun
@@ -223,7 +224,8 @@ params:
       emoji: "💻"
       title: "专注中"
       description: "正在疯狂改 bug 调试。"
-    subtitle: "四川大学电子信息本科生，阈限开拓者 / Limenauts 队长，持续做游戏原型、互动作品与软硬件项目。"
+    identity: "阈限开拓者"
+    subtitle: "四川大学电子信息本科生，持续做游戏原型、互动作品与软硬件项目。"
     avatar: "img/avatar.jpg"
 
   article:
