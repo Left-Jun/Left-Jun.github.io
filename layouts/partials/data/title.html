@@ -13,6 +13,9 @@
     {{- $title = $title | append (default $siteTitle .Site.Params.homeTitle) -}}
 {{- else -}}
     {{- $title = $title | append (default $siteTitle $pageTitle) -}}
+    {{- if ne (default $siteTitle $pageTitle) $siteTitle -}}
+        {{- $title = $title | append $siteTitle -}}
+    {{- end -}}
 {{- end -}}
 
 {{ return delimit $title " - " }}

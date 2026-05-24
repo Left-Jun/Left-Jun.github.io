@@ -1,6 +1,6 @@
 ---
-title: "Projects"
-description: "A portfolio of my works, prototypes, experiments, and stage-by-stage results."
+title: "Project Portfolio"
+description: "A project-based portfolio for Left Jun, covering Unity gameplay prototypes, technical-art experiments, Game Jam works, and hardware-software practice such as Emotion Mask and Elegy of Asherah."
 slug: "projects"
 image: "section-cover.svg"
 countSuffix: "projects"
