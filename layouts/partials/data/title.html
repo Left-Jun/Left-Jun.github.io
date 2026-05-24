@@ -12,8 +12,14 @@
 {{- if .IsHome -}}
     {{- $title = $title | append (default $siteTitle .Site.Params.homeTitle) -}}
 {{- else -}}
-    {{- $title = $title | append (default $siteTitle $pageTitle) -}}
-    {{- if ne (default $siteTitle $pageTitle) $siteTitle -}}
+    {{- $displayTitle := default $siteTitle $pageTitle -}}
+    {{- if eq .Kind "term" -}}
+        {{- $displayTitle = printf "%s 标签页" $displayTitle -}}
+    {{- else if eq .Kind "taxonomy" -}}
+        {{- $displayTitle = printf "%s 索引" $displayTitle -}}
+    {{- end -}}
+    {{- $title = $title | append $displayTitle -}}
+    {{- if ne $displayTitle $siteTitle -}}
         {{- $title = $title | append $siteTitle -}}
     {{- end -}}
 {{- end -}}
