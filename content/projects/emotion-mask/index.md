@@ -108,6 +108,10 @@ roleTags:
 - 流程与结算系统：`GameManager`、`GameTimer`、`LevelLeaderboard`、`PlayerCheckpoints`，负责目标碎片、最终用时、关卡排名和流程锁定。
 - 菜单与界面系统：`StartMenu`、`GamingMenu`、`SceneLoadButton`、`MapSelector` 与基础 UI 动效，负责开始、暂停、选关、重开和返回。
 
+整理成流程后，这个项目的关键不是“状态越多越好”，而是每个状态都要接回关卡反馈：
+
+![Emotion Mask 系统流程图](flow-system.svg)
+
 核心数据流是：玩家按键切换面具，`MaskControl` 更新当前状态和角色参数，再通过事件驱动平台显隐与音乐切换；玩家移动、跳跃和冲刺进入关卡交互，陷阱走复活链路，愤怒冲刺走破坏链路，碎片收集走结算链路。这个结构让 48 小时内的系统足够轻，但每个反馈都能回到“情绪切换”这个核心机制上。
 
 ## 发布与反馈

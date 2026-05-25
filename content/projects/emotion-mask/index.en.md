@@ -108,6 +108,10 @@ The scripts are mainly organized into five modules:
 - Flow and settlement: `GameManager`, `GameTimer`, `LevelLeaderboard`, and `PlayerCheckpoints` for shard goals, final time, level ranking, and input locking.
 - Menu and UI: `StartMenu`, `GamingMenu`, `SceneLoadButton`, `MapSelector`, and basic UI animation for start, pause, level select, restart, and return flow.
 
+As a flow, the key is not having many states, but making every state return to level feedback:
+
+![Emotion Mask system flow](flow-system-en.svg)
+
 The core data flow is: the player switches masks, `MaskControl` updates state and character parameters, state events drive platform visibility and music, and player movement/jumping/dashing enters level interaction. Traps go through the respawn chain, angry dashes go through the breaking chain, and shard collection goes through the settlement chain. This kept the 48-hour implementation light while making every feedback path point back to emotion switching.
 
 ## Release

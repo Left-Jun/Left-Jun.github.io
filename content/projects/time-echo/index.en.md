@@ -3,7 +3,7 @@ title: "Echoes of Time"
 date: 2025-11-20T10:00:00+08:00
 draft: false
 slug: "time-echo"
-description: "An early Limenauts team project: a 2D narrative puzzle-platformer set across ancient, modern, and future timelines, built around music and memory."
+description: "An early Limenauts team project: a 2D narrative puzzle-platformer built around timeline switching, instrument collection, and music-driven level progression."
 image: "cover.png"
 weight: 50
 portfolioType: "game"
@@ -102,6 +102,22 @@ The project used Godot as the development environment. My design work focused on
 - Designed transformation rules for the same location across eras, such as an ancient house becoming a modern villa and later a future tower.
 - Built the "save the tree" puzzle as the core example: the player changes the tree's fate in the past, returns to the present, and uses the revived branches to reach a previously inaccessible rooftop.
 - Planned the final performance sequence: three instruments sound in order, echoes of past musicians appear, the robot joins with future electronic music, and the ending resolves into an orchestral finale.
+
+## System Structure
+
+This project was not driven by a complex code architecture. My main contribution was turning the timeline narrative into a level structure the team could actually build. The production was organized into five layers:
+
+- Timeline structure: ancient, modern, and future eras share the logic of one location, while buildings, roads, and reachable paths change across eras.
+- Player action layer: movement, wall jump, roll, conditional double jump, and time-gate interaction give the platforming layer its exploration rhythm.
+- Puzzle-prop layer: Echo Bamboo, flute, nutrient fluid, wooden guitar, robot core, and tuner each move one era's task chain forward.
+- Narrative presentation layer: NPC dialogue, melody rewards, era themes, and the final ensemble connect gameplay results back to story.
+- Team-production layer: design documents, art requirement lists, and daily meetings broke maps, assets, text, and programming tasks into deliverable units.
+
+As a flow, the player experience is not just moving through maps, but building cause and effect across eras:
+
+![Echoes of Time era flow](flow-system-en.svg)
+
+This better reflects my role: I was not only writing lore, but breaking "one place across three eras" into routes, props, NPCs, scenes, and performance requirements so the team could move along one emotional curve within seven days.
 
 ## Design Highlights
 

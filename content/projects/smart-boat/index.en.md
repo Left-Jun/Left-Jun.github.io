@@ -55,6 +55,12 @@ This is a complete software-hardware project. The core goal was to build a wirel
 - Protection and feedback layer: throttle dead zone reduces center jitter, output limiting keeps values in range, and LED feedback reports startup, self-check, fault, and throttle state.
 - Hardware layer: the PCB connects power, the communication module, crystal, status LEDs, and external interfaces so the software control chain can run on the physical boat.
 
+As a control flow, the system is a direct input-communication-output chain:
+
+![Smart boat control flow](flow-system-en.svg)
+
+The protocol is intentionally small and explicit: the remote sends only steering angle and throttle, while the onboard receiver decodes, limits, and outputs PWM. That made debugging layered: first check ADC stability, then `tx_data[3]`, then NRF24L01 packet reception, and finally actuator response.
+
 ## Screenshots and Engineering Details
 
 ![STM32CubeMX pinout configuration](screenshot-stm32-pinout.png)

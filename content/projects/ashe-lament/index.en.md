@@ -120,6 +120,10 @@ To keep the 72-hour project manageable, I separated the scripts into five main m
 - Dialogue and UI: `SimpleDialogue`, `AdvancedText`, `UIManager`, `ChoicePanel`, `EnergyValueDisplay`, `EnergyShardDisplay`, and `TimerDisplay` for text, choices, resource values, and countdown feedback.
 - Presentation and endings: `BackgroundSwitcher`, `CharacterLightController`, `MusicManager`, `EndingManager`, and `TreeTopInteraction` for backgrounds, lighting, music, ending trigger, and ending flow.
 
+As a flow, the implementation moves from player input into action checks, then lets form state, resource state, and area state decide feedback:
+
+![Elegy of Asherah system flow](flow-system-en.svg)
+
 The core data flow is: player input drives movement, jumping, and dashing; areas and triggers change resources or progression state; `EnergyManager` distributes spirit-energy and shard changes; `MaskControl` and UI react to that state; and `TreeTopInteraction` plus `EndingManager` resolve the run based on remaining energy. This kept gameplay, resources, dialogue, and presentation tied to one central resource while still being adjustable under jam pressure.
 
 ## Design Highlights

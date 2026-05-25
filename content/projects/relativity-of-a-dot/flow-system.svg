@@ -1,0 +1,34 @@
+﻿<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="700" viewBox="0 0 1000 700" role="img" aria-labelledby="title">
+<title>Relativity of a Dot 系统流程图</title>
+<defs>
+<marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+<path d="M 0 0 L 10 5 L 0 10 z" fill="#64748b"/>
+</marker>
+</defs>
+<rect width="100%" height="100%" rx="24" fill="#ffffff"/>
+<g font-family="Microsoft YaHei, Noto Sans SC, Inter, Arial, sans-serif">
+<path d="M500 100 C500 115.0, 500 115.0, 500 130" fill="none" stroke="#64748b" stroke-width="2.4" marker-end="url(#arrow)"/>
+<path d="M395 200 C395 227.5, 190 227.5, 190 255" fill="none" stroke="#64748b" stroke-width="2.4" marker-end="url(#arrow)"/>
+<path d="M500 200 C500 227.5, 500 227.5, 500 255" fill="none" stroke="#64748b" stroke-width="2.4" marker-end="url(#arrow)"/>
+<path d="M605 200 C605 227.5, 810 227.5, 810 255" fill="none" stroke="#64748b" stroke-width="2.4" marker-end="url(#arrow)"/>
+<path d="M500 325 C500 365.0, 500 365.0, 500 405" fill="none" stroke="#64748b" stroke-width="2.4" marker-end="url(#arrow)"/>
+<path d="M810 325 C810 365.0, 810 365.0, 810 405" fill="none" stroke="#64748b" stroke-width="2.4" marker-end="url(#arrow)"/>
+<path d="M500 475 C500 520.0, 500 520.0, 500 565" fill="none" stroke="#64748b" stroke-width="2.4" marker-end="url(#arrow)"/>
+<path d="M810 475 C810 520.0, 500 520.0, 500 565" fill="none" stroke="#64748b" stroke-width="2.4" marker-end="url(#arrow)"/>
+<rect x="375" y="30" width="250" height="70" rx="14" fill="#eef6ff" stroke="#9fc5f8" stroke-width="2"/>
+<text text-anchor="middle" font-size="22" font-weight="600" fill="#1f2937"><tspan x="500.0" y="65.0">玩家按下 Tab</tspan></text>
+<rect x="340" y="130" width="320" height="70" rx="14" fill="#eef6ff" stroke="#9fc5f8" stroke-width="2"/>
+<text text-anchor="middle" font-size="22" font-weight="600" fill="#1f2937"><tspan x="500.0" y="153.0">DimensionManager</tspan><tspan x="500.0" y="177.0">切换维度</tspan></text>
+<rect x="60" y="255" width="260" height="70" rx="14" fill="#f8fbff" stroke="#cfd9e6" stroke-width="2"/>
+<text text-anchor="middle" font-size="22" font-weight="600" fill="#1f2937"><tspan x="190.0" y="278.0">Cinemachine</tspan><tspan x="190.0" y="302.0">视角优先级</tspan></text>
+<rect x="370" y="255" width="260" height="70" rx="14" fill="#f8fbff" stroke="#cfd9e6" stroke-width="2"/>
+<text text-anchor="middle" font-size="22" font-weight="600" fill="#1f2937"><tspan x="500.0" y="278.0">PlayerMove</tspan><tspan x="500.0" y="302.0">切换移动轴</tspan></text>
+<rect x="680" y="255" width="260" height="70" rx="14" fill="#f8fbff" stroke="#cfd9e6" stroke-width="2"/>
+<text text-anchor="middle" font-size="22" font-weight="600" fill="#1f2937"><tspan x="810.0" y="278.0">DimensionObject</tspan><tspan x="810.0" y="302.0">切换碰撞体</tspan></text>
+<rect x="370" y="405" width="260" height="70" rx="14" fill="#f8fbff" stroke="#cfd9e6" stroke-width="2"/>
+<text text-anchor="middle" font-size="22" font-weight="600" fill="#1f2937"><tspan x="500.0" y="428.0">2D / 3D</tspan><tspan x="500.0" y="452.0">落地检测</tspan></text>
+<rect x="680" y="405" width="260" height="70" rx="14" fill="#f8fbff" stroke="#cfd9e6" stroke-width="2"/>
+<text text-anchor="middle" font-size="22" font-weight="600" fill="#1f2937"><tspan x="810.0" y="428.0">二维投影</tspan><tspan x="810.0" y="452.0">位置修正</tspan></text>
+<rect x="340" y="565" width="320" height="70" rx="14" fill="#eef6ff" stroke="#9fc5f8" stroke-width="2"/>
+<text text-anchor="middle" font-size="22" font-weight="600" fill="#1f2937"><tspan x="500.0" y="588.0">同一关卡</tspan><tspan x="500.0" y="612.0">产生不同解法</tspan></text>
+</g></svg>
