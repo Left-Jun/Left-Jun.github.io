@@ -3,7 +3,7 @@ title: "Elegy of Asherah"
 date: 2026-03-20T10:00:00+08:00
 draft: false
 slug: "ashe-lament"
-description: "A Limenauts 72-hour team project: a 2D platformer and resource-management game built around dual-state switching, collection loops, and multi-ending progression."
+description: "A Limenauts 72-hour team project: a 2D platformer and resource-management game built around spirit energy, underground safe time, shortcut construction, and multi-ending settlement."
 image: "cover.png"
 coverVideo: "cover.mp4"
 pinned: true
@@ -92,32 +92,35 @@ The staff screen records the team roles and gives the 72-hour collaboration a cl
 
 ## My Role
 
-- Served as team lead, main programmer, gameplay designer, and music producer.
-- Designed and implemented core movement, dual-state switching, spirit energy consumption, collection loops, shortcut construction, and multi-ending checks.
-- Coordinated the overall flow from underground collection to surface climbing to ending feedback.
-- Worked with writing and art teammates to translate concepts such as the Mother Tree, root speaker, Great Withering, and spirit energy into scenes, UI, and progression.
+- Served as team lead, main programmer, gameplay designer, and music producer, turning the team's ideas, level flow, writing, art, and code into a playable build within 72 hours.
+- Led the core loop design: timed underground collection, surface climbing, bone-based shortcut construction, final spirit-energy delivery, and multi-ending feedback.
+- Implemented the main gameplay systems, including movement, jumping, dashing, form switching, spirit-energy drain, safe-time logic, pickups, shortcut construction, and ending checks.
+- Turned the narrative idea of fading spirit energy into tunable gameplay pressure: area, form, remaining safe time, and final delivery all affect resource management.
+- Worked with writing and art teammates to translate the Mother Tree, root speaker, Great Withering, Qizhi, and spirit energy into UI prompts, scene feedback, and progression beats.
 
 ## Technical Implementation
 
-The game was developed in Unity, with the main challenge being to build a complete and adjustable system under a short production window.
+The game was developed in Unity and C#. The key implementation decision was to treat resource management as a shared state center rather than a set of isolated mechanics.
 
-- Implemented movement, jumping, dashing, wall detection, respawn, area triggers, and dual-state switching.
-- Built a spirit-energy system that unifies health, time pressure, action cost, and ending conditions.
-- Implemented underground safe time, surface climbing rhythm, resource collection, bone spending, and shortcut construction.
-- Used asynchronous scene loading and area triggers to connect underground and surface phases with less friction.
-- Designed tunable thresholds for multiple endings so that the player's management performance could be clearly resolved.
+- `EnergyManager` stores spirit energy and bone shards, then broadcasts changes to UI, form visuals, and settlement logic through events.
+- `EnergyDrainController` calculates drain rate from player Y position, current form, and remaining `SafetyTimer` time. Surface, underground safe time, underground danger time, and enhanced form all have different costs.
+- `SafetyTimer` uses a Y-axis threshold to count down only while the player is underground; time-extension pickups turn exploration risk into recoverable time.
+- `MaskControl` applies normal/enhanced stats to movement speed, jumping, air jumps, wall jumps, dashing, character visuals, and background state.
+- `ShortcutBuilder` spends both bone shards and spirit energy when the player enters a trigger zone and presses the build key, while also handling insufficient-resource prompts.
+- `EndingManager` reads final spirit energy and uses tunable thresholds for high, normal, and low endings. When energy reaches zero, it triggers a death ending, disables player control, switches music, and loads the configured return scene.
+- Menus, restart, and ending return use `SceneManager.LoadScene`; the main surface/underground distinction is handled through Y-axis thresholds and triggers, keeping the jam build simpler than a heavy scene-streaming setup.
 
 ## System Structure
 
 To keep the 72-hour project manageable, I separated the scripts into five main modules:
 
 - Player control: `PlayerMove`, `PlayerJump`, `PlayerDash`, `GroundCheck`, `WallCheck`, and `Respawn` for the platforming feel.
-- Form and spirit-energy systems: `MaskControl`, `EnergyManager`, `EnergyDrainController`, and `SafetyTimer` for normal/enhanced states, energy drain, and underground safety time.
-- Level interaction: `CheckPoint`, `PlatformMove`, `TrapCheck`, and `ShortcutBuilder` for checkpoints, moving platforms, hazards, and shortcut construction.
-- Dialogue and UI: `SimpleDialogue`, `AdvancedText`, `UIManager`, and `ChoicePanel` for text display, interaction, and feedback.
-- Presentation and endings: `BackgroundSwitcher`, `CharacterLightController`, `MusicManager`, and `EndingManager` for background changes, lighting, music, and ending logic.
+- Form and spirit-energy systems: `MaskControl`, `EnergyManager`, `EnergyDrainController`, and `SafetyTimer` for form stats, resource drain, underground safe time, and energy-stage visuals.
+- Level interaction: `CheckPoint`, `PlatformMove`, `TrapCheck`, `EnergyPickup`, `TimeExtendPickup`, and `ShortcutBuilder` for checkpoints, moving platforms, hazards, pickups, and shortcut construction.
+- Dialogue and UI: `SimpleDialogue`, `AdvancedText`, `UIManager`, `ChoicePanel`, `EnergyValueDisplay`, `EnergyShardDisplay`, and `TimerDisplay` for text, choices, resource values, and countdown feedback.
+- Presentation and endings: `BackgroundSwitcher`, `CharacterLightController`, `MusicManager`, `EndingManager`, and `TreeTopInteraction` for backgrounds, lighting, music, ending trigger, and ending flow.
 
-The core flow links player input to movement, jump, dash, collision checks, state switching, energy updates, safety timers, interaction feedback, and ending resolution. This structure helped the gameplay, resource management, dialogue, and presentation systems stay readable under a short production window.
+The core data flow is: player input drives movement, jumping, and dashing; areas and triggers change resources or progression state; `EnergyManager` distributes spirit-energy and shard changes; `MaskControl` and UI react to that state; and `TreeTopInteraction` plus `EndingManager` resolve the run based on remaining energy. This kept gameplay, resources, dialogue, and presentation tied to one central resource while still being adjustable under jam pressure.
 
 ## Design Highlights
 

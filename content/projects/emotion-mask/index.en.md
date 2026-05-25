@@ -3,7 +3,7 @@ title: "Emotion Mask"
 date: 2026-01-25T10:00:00+08:00
 draft: false
 slug: "emotion-mask"
-description: "A 2D platformer-puzzle game built around emotion switching, completed solo within 48 hours and published on TapTap."
+description: "A 2D platformer-puzzle game built around an emotion state machine, platform visibility, dash-based breaking, and shard collection, completed solo within 48 hours and published on TapTap."
 image: "cover.png"
 featured: true
 featuredWeight: 30
@@ -81,31 +81,34 @@ In that sense, the mask is both a mechanic and a metaphor. It turns inner emotio
 
 ## My Role
 
-- Independently handled game design, programming, level design, art integration, sound integration, and release preparation.
-- Designed three emotional mask states and connected them to movement parameters, dash logic, visual feedback, and level interactions.
-- Completed a playable loop within the 48-hour jam window, including menu flow, level progression, death and respawn, collectible fragments, and ending feedback.
-- Prepared the public TapTap and Global Game Jam pages with descriptions, tags, platform information, and presentation material.
+- Independently handled game design, programming, level design, pixel-art integration, audio integration, build release, and store-page preparation.
+- Designed three emotional mask states and connected state switching to movement speed, jumping, air jumps, wall jumps, dash count, character visuals, backgrounds, and music.
+- Built the core rule that each state changes how the level is read: Calm reveals hidden platforms, Joy improves mobility, and Anger enables dash-based obstacle breaking.
+- Completed the full 48-hour loop: start menu, level flow, checkpoints, death and respawn, shard collection, timer settlement, and victory screen.
+- Prepared the TapTap page, Global Game Jam page, Bilibili demo, playable package, descriptions, tags, platform information, and presentation material.
 
 ## Technical Implementation
 
-The game was built in Unity with C#, with a focus on responsive character control and fast iteration.
+The game was built in Unity with C#, with the main focus on responsive character control, state events, and fast level-feedback loops.
 
-- Implemented movement, variable jumping, double jump, dash, wall detection, death, and respawn.
-- Used a state-machine structure to drive emotion-specific abilities, visual changes, movement tuning, and scene feedback.
-- Connected hidden platforms, breakable obstacles, and emotion fragments to the state system so that ability switching becomes the core puzzle language.
-- Prioritized a minimal but complete gameplay loop under game jam time pressure, making sure the prototype had readable feedback and a finishable flow.
+- `MaskControl` acts as the emotion state center. It maintains `Neutral`, `Happy`, and `Angry`, then notifies platform, music, and feedback systems through `OnEmotionChangedEvent`.
+- Each emotion owns an `EmotionStats` set that writes into `PlayerMove`, `PlayerJump`, and `PlayerDash`, changing movement speed, jump force, air jumps, wall jumps, dash speed, cooldown, and air-dash count.
+- Calm-state platforms are controlled through `neutralPlatforms` and `EmotionalPlatform`, which toggle renderer and collider state. When leaving Calm, the script also detaches the player from hidden platforms to avoid carrying the player with a disabled object.
+- Anger connects to the dash and breakable-wall systems: `PlayerDash` checks whether the current emotion is `Angry`, and `Hurtcheck` only calls `BreakableTilemap` or obstacle animation when the player is both angry and dashing.
+- Death and respawn are linked through `Hurtcheck`, `CheckPoint`, and `GetRespawn`: traps trigger death feedback and then return the player to the latest checkpoint instead of breaking the level flow.
+- Shard collection notifies `GameManager`; once the target count is reached, the game stops the timer, records leaderboard data, locks player control, switches to ending music, and shows the win flow.
 
 ## System Structure
 
 The scripts are mainly organized into five modules:
 
-- Player control: `PlayerMove`, `PlayerJump`, `PlayerDash`, `GroundCheck`, `WallCheck`, `HurtCheck`, and `Respawn`.
-- Mask switching and presentation: `MaskControl`, `MaskAnimator`, `EmotionalPlatform`, and `MusicManager`.
-- Level interaction: `CheckPoint`, `PlatformMove`, `TrapCheck`, and `CollectibleRotation`.
-- Flow and settlement: `GameManager`, `GameTimer`, and `PlayerCheckpoints`.
-- Menu and UI: start menu, pause menu, and basic interface feedback.
+- Player control: `PlayerMove`, `PlayerJump`, `PlayerDash`, `GroundCheck`, and `WallCheck` for platforming feel and dash behavior.
+- Mask switching and presentation: `MaskControl`, `MaskAnimator`, `EmotionalPlatform`, and `MusicManager` for state, visuals, platform visibility, and music switching.
+- Level interaction: `CheckPoint`, `GetRespawn`, `Hurtcheck`, `TrapCheck`, `PlatformMove`, `BreakableTilemap`, and `CollectibleRotation` for failure, respawn, moving platforms, breakable obstacles, and shard feedback.
+- Flow and settlement: `GameManager`, `GameTimer`, `LevelLeaderboard`, and `PlayerCheckpoints` for shard goals, final time, level ranking, and input locking.
+- Menu and UI: `StartMenu`, `GamingMenu`, `SceneLoadButton`, `MapSelector`, and basic UI animation for start, pause, level select, restart, and return flow.
 
-The three masks change more than character stats. They also affect platform visibility, obstacle handling, background state, and music feedback. Player input flows through movement, jumping, dashing, mask switching, character-parameter updates, scene-state changes, platform logic, and final settlement.
+The core data flow is: the player switches masks, `MaskControl` updates state and character parameters, state events drive platform visibility and music, and player movement/jumping/dashing enters level interaction. Traps go through the respawn chain, angry dashes go through the breaking chain, and shard collection goes through the settlement chain. This kept the 48-hour implementation light while making every feedback path point back to emotion switching.
 
 ## Release
 
