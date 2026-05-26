@@ -27,39 +27,39 @@ html {
 }
 
 :root {
-  --body-background: #f7f4ee;
+  --body-background: #f6f9fd;
   --accent-color: #2f72b8;
   --accent-color-darker: #245f9d;
-  --body-text-color: #746e65;
-  --card-background: #fffaf1;
-  --card-background-selected: #efece4;
-  --card-text-color-main: #25211d;
-  --card-text-color-secondary: #746e65;
-  --card-text-color-tertiary: #8a8175;
-  --card-separator-color: rgba(56, 48, 38, 0.14);
+  --body-text-color: #667285;
+  --card-background: #f9fcff;
+  --card-background-selected: #eaf2fb;
+  --card-text-color-main: #142033;
+  --card-text-color-secondary: #667285;
+  --card-text-color-tertiary: #7f8da0;
+  --card-separator-color: rgba(72, 101, 132, 0.16);
   --leftjun-hover-duration: 0.16s;
   --leftjun-hover-lift: -2px;
   --leftjun-hover-accent: #2f72b8;
   --leftjun-hover-border: rgba(47, 114, 184, 0.34);
   --leftjun-hover-surface: rgba(47, 114, 184, 0.075);
-  --leftjun-hover-shadow: 0 16px 38px rgba(47, 114, 184, 0.13), 0 8px 20px rgba(49, 41, 30, 0.06);
-  --leftjun-surface-shadow: 0 18px 50px rgba(49, 41, 30, 0.1);
-  --leftjun-surface-shadow-soft: 0 12px 32px rgba(49, 41, 30, 0.075);
+  --leftjun-hover-shadow: 0 16px 38px rgba(47, 114, 184, 0.14), 0 8px 20px rgba(42, 76, 108, 0.07);
+  --leftjun-surface-shadow: 0 18px 50px rgba(42, 76, 108, 0.11);
+  --leftjun-surface-shadow-soft: 0 12px 32px rgba(42, 76, 108, 0.08);
   --leftjun-page-wash:
-    radial-gradient(circle at 9% 8%, rgba(15, 118, 110, 0.11), transparent 29rem),
-    radial-gradient(circle at 88% 18%, rgba(199, 93, 59, 0.08), transparent 26rem),
-    radial-gradient(circle at 54% 92%, rgba(47, 114, 184, 0.085), transparent 32rem),
-    #f7f4ee;
-  --leftjun-surface: rgba(255, 250, 241, 0.82);
-  --leftjun-surface-strong: rgba(255, 253, 248, 0.94);
-  --leftjun-surface-muted: rgba(250, 247, 239, 0.86);
-  --leftjun-hero-background: linear-gradient(135deg, rgba(255, 251, 244, 0.94), rgba(239, 249, 247, 0.84) 56%, rgba(235, 246, 255, 0.76));
-  --leftjun-game-card-background: linear-gradient(135deg, rgba(255, 251, 244, 0.9), rgba(232, 244, 255, 0.72));
+    radial-gradient(circle at 9% 8%, rgba(47, 114, 184, 0.13), transparent 30rem),
+    radial-gradient(circle at 86% 18%, rgba(15, 118, 110, 0.09), transparent 28rem),
+    radial-gradient(circle at 54% 92%, rgba(120, 159, 205, 0.055), transparent 32rem),
+    #f6f9fd;
+  --leftjun-surface: rgba(249, 252, 255, 0.82);
+  --leftjun-surface-strong: rgba(255, 255, 255, 0.94);
+  --leftjun-surface-muted: rgba(243, 248, 253, 0.86);
+  --leftjun-hero-background: linear-gradient(135deg, rgba(255, 255, 255, 0.94), rgba(232, 244, 255, 0.84) 56%, rgba(228, 248, 247, 0.76));
+  --leftjun-game-card-background: linear-gradient(135deg, rgba(250, 253, 255, 0.9), rgba(229, 243, 255, 0.74));
   --leftjun-game-card-border: rgba(47, 114, 184, 0.2);
-  --leftjun-embedded-card-background: linear-gradient(135deg, rgba(255, 251, 244, 0.9), rgba(226, 248, 240, 0.74));
+  --leftjun-embedded-card-background: linear-gradient(135deg, rgba(250, 253, 255, 0.9), rgba(224, 248, 241, 0.76));
   --leftjun-embedded-card-border: rgba(15, 118, 110, 0.22);
-  --leftjun-neutral-card-background: linear-gradient(135deg, rgba(255, 251, 244, 0.9), rgba(248, 251, 250, 0.78));
-  --leftjun-sidebar-background: rgba(255, 250, 241, 0.86);
+  --leftjun-neutral-card-background: linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(242, 248, 253, 0.78));
+  --leftjun-sidebar-background: rgba(249, 252, 255, 0.86);
   --leftjun-sidebar-shadow: var(--leftjun-surface-shadow);
 }
 
