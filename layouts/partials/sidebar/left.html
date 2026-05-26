@@ -82,34 +82,41 @@
             </a>
         </li>
         {{ end }}
-        <li class="menu-bottom-section">
-            <ol class="menu">
-                {{- $currentLanguageCode := .Language.Lang -}}
-                {{ if hugo.IsMultilingual }}
-                    <li id="i18n-switch">
-                        {{ partial "helper/icon" "language" }}
-                        <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
-                            {{ range .Site.Home.AllTranslations }}
-                                {{ $target := . }}
-                                {{ range $.AllTranslations }}
-                                    {{ if eq .Language.Lang $target.Language.Lang }}
-                                        {{ $target = . }}
-                                    {{ end }}
-                                {{ end }}
-                                <option value="{{ $target.RelPermalink }}" {{ if eq $target.Language.Lang $currentLanguageCode }}selected{{ end }}>{{ .Language.LanguageName }}</option>
-                            {{ end }}
-                        </select>
-                    </li>
-                {{ end }}
-
-                {{ if .Site.Params.colorScheme.toggle }}
-                    <li id="dark-mode-toggle">
-                        {{ partial "helper/icon" "toggle-left" }}
-                        {{ partial "helper/icon" "toggle-right" }}
-                        <span>{{ T "darkMode" }}</span>
-                    </li>
-                {{ end }}
-            </ol>
-        </li>
     </ol>
+
+    <div class="sidebar-bottom-actions">
+        {{- $currentLanguageCode := .Language.Lang -}}
+        {{ if hugo.IsMultilingual }}
+            <div id="i18n-switch">
+                {{ partial "helper/icon" "language" }}
+                <select name="language" title="language" onchange="window.location.href = this.selectedOptions[0].value">
+                    {{ range .Site.Home.AllTranslations }}
+                        {{ $target := . }}
+                        {{ range $.AllTranslations }}
+                            {{ if eq .Language.Lang $target.Language.Lang }}
+                                {{ $target = . }}
+                            {{ end }}
+                        {{ end }}
+                        <option value="{{ $target.RelPermalink }}" {{ if eq $target.Language.Lang $currentLanguageCode }}selected{{ end }}>{{ .Language.LanguageName }}</option>
+                    {{ end }}
+                </select>
+            </div>
+        {{ end }}
+
+        {{ if .Site.Params.colorScheme.toggle }}
+            <button
+                id="dark-mode-toggle"
+                type="button"
+                data-dark-label="{{ T `darkMode` }}"
+                data-light-label="{{ T `lightMode` }}"
+                aria-label="{{ T `darkMode` }}"
+            >
+                <span class="theme-toggle__icon" aria-hidden="true">
+                    {{ partial "helper/icon" "toggle-left" }}
+                    {{ partial "helper/icon" "toggle-right" }}
+                </span>
+                <span class="theme-toggle__label">{{ T "darkMode" }}</span>
+            </button>
+        {{ end }}
+    </div>
 </aside>

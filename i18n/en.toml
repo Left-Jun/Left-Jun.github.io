@@ -1,5 +1,6 @@
 toggleMenu = "Toggle Menu"
 darkMode   = "Dark Mode"
+lightMode  = "Light Mode"
 
 [list]
     section = "Section"

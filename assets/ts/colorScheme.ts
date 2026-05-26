@@ -4,9 +4,11 @@ class LeftJunColorScheme {
     private localStorageKey = 'LeftJunColorScheme';
     private currentScheme: colorScheme;
     private systemPreferScheme: colorScheme;
+    private toggleEl: HTMLElement | null = null;
 
     constructor(toggleEl: HTMLElement) {
         this.bindMatchMedia();
+        this.toggleEl = toggleEl;
         this.currentScheme = this.getSavedScheme();
         if (window.matchMedia('(prefers-color-scheme: dark)').matches === true)
             this.systemPreferScheme = 'dark'
@@ -17,6 +19,8 @@ class LeftJunColorScheme {
 
         if (toggleEl)
             this.bindClick(toggleEl);
+
+        this.updateToggle();
 
         if (document.body.style.transition == '')
             document.body.style.setProperty('transition', 'background-color .3s ease');
@@ -44,6 +48,7 @@ class LeftJunColorScheme {
             }
 
             this.saveScheme();
+            this.updateToggle();
         })
     }
 
@@ -58,6 +63,21 @@ class LeftJunColorScheme {
         window.dispatchEvent(event);
     }
 
+    private updateToggle() {
+        if (!this.toggleEl) return;
+
+        const isDark = this.isDark();
+        const label = this.toggleEl.querySelector('.theme-toggle__label');
+        const nextLabel = isDark ? this.toggleEl.dataset.lightLabel : this.toggleEl.dataset.darkLabel;
+
+        this.toggleEl.dataset.schemeState = isDark ? 'dark' : 'light';
+        this.toggleEl.setAttribute('aria-label', nextLabel || '');
+
+        if (label && nextLabel) {
+            label.textContent = nextLabel;
+        }
+    }
+
     private setBodyClass() {
         if (this.isDark()) {
             document.documentElement.dataset.scheme = 'dark';
@@ -67,6 +87,7 @@ class LeftJunColorScheme {
         }
 
         this.dispatchEvent(document.documentElement.dataset.scheme as colorScheme);
+        this.updateToggle();
     }
 
     private getSavedScheme(): colorScheme {
