@@ -4,12 +4,35 @@ import LeftJunColorScheme from './colorScheme';
 import { setupScrollspy } from './scrollspy';
 import { setupSmoothAnchors } from './smoothAnchors';
 
+function setupCursorGlow() {
+    if (!window.matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+
+    const glowCards = document.querySelectorAll<HTMLElement>('.home-workflow__item');
+
+    glowCards.forEach(card => {
+        card.addEventListener('pointermove', (event) => {
+            const rect = card.getBoundingClientRect();
+            const x = ((event.clientX - rect.left) / rect.width) * 100;
+            const y = ((event.clientY - rect.top) / rect.height) * 100;
+
+            card.style.setProperty('--cursor-x', `${x}%`);
+            card.style.setProperty('--cursor-y', `${y}%`);
+        });
+
+        card.addEventListener('pointerleave', () => {
+            card.style.removeProperty('--cursor-x');
+            card.style.removeProperty('--cursor-y');
+        });
+    });
+}
+
 let LeftJunSite = {
     init: () => {
         /**
          * Bind menu event
          */
         menu();
+        setupCursorGlow();
 
         const articleContent = document.querySelector('.article-content') as HTMLElement;
         if (articleContent) {
