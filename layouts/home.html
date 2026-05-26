@@ -4,6 +4,12 @@
     {{- $aboutURL := "about/" | relLangURL -}}
     {{- $contactURL := "contact/" | relLangURL -}}
     {{- $postsURL := "posts/" | relLangURL -}}
+    {{- $workflowItems := slice
+        (dict "Icon" "infinity" "TitleEn" "Rapid Prototyping" "TitleZh" "快速原型" "BodyEn" "Use jam-style constraints to turn concepts into playable loops within 48 to 72 hours." "BodyZh" "用 Game Jam 式限制把想法压缩成可体验闭环，在 48 到 72 小时内验证核心机制。" "Slugs" (slice "emotion-mask" "relativity-of-a-dot"))
+        (dict "Icon" "categories" "TitleEn" "Gameplay Systems" "TitleZh" "游戏系统" "BodyEn" "Build movement, state switching, resource loops, checkpoints, UI feedback, and endings around the same design goal." "BodyZh" "围绕同一个设计目标组织移动、状态切换、资源循环、检查点、UI 反馈和结局判定。" "Slugs" (slice "ashe-lament" "emotion-mask"))
+        (dict "Icon" "messages" "TitleEn" "Narrative Design" "TitleZh" "叙事策划" "BodyEn" "Translate themes into worlds, level flow, dialogue, art requirements, and final performance beats." "BodyZh" "把主题拆成世界观、关卡流程、对话文案、美术需求和最终演出节奏。" "Slugs" (slice "time-echo" "ashe-lament"))
+        (dict "Icon" "link" "TitleEn" "Hardware Practice" "TitleZh" "软硬件实践" "BodyEn" "Work with STM32, PCB design, wireless communication, signal filtering, and integrated debugging." "BodyZh" "实践 STM32、PCB 设计、无线通信、信号滤波和整机联调。" "Slugs" (slice "smart-boat"))
+    -}}
 
     <section class="home-hero">
         <p class="home-hero__eyebrow">
@@ -69,26 +75,34 @@
             </div>
         </div>
         <div class="home-workflow__grid">
-            <article class="home-workflow__item">
-                <div class="home-workflow__icon">{{ partial "helper/icon" "infinity" }}</div>
-                <h3>{{ cond $isEn "Rapid Prototyping" "快速原型" }}</h3>
-                <p>{{ cond $isEn "Use jam-style constraints to turn concepts into playable loops within 48 to 72 hours." "用 Game Jam 式限制把想法压缩成可体验闭环，在 48 到 72 小时内验证核心机制。" }}</p>
-            </article>
-            <article class="home-workflow__item">
-                <div class="home-workflow__icon">{{ partial "helper/icon" "categories" }}</div>
-                <h3>{{ cond $isEn "Gameplay Systems" "游戏系统" }}</h3>
-                <p>{{ cond $isEn "Build movement, state switching, resource loops, checkpoints, UI feedback, and endings around the same design goal." "围绕同一个设计目标组织移动、状态切换、资源循环、检查点、UI 反馈和结局判定。" }}</p>
-            </article>
-            <article class="home-workflow__item">
-                <div class="home-workflow__icon">{{ partial "helper/icon" "messages" }}</div>
-                <h3>{{ cond $isEn "Narrative Design" "叙事策划" }}</h3>
-                <p>{{ cond $isEn "Translate themes into worlds, level flow, dialogue, art requirements, and final performance beats." "把主题拆成世界观、关卡流程、对话文案、美术需求和最终演出节奏。" }}</p>
-            </article>
-            <article class="home-workflow__item">
-                <div class="home-workflow__icon">{{ partial "helper/icon" "link" }}</div>
-                <h3>{{ cond $isEn "Hardware Practice" "软硬件实践" }}</h3>
-                <p>{{ cond $isEn "Work with STM32, PCB design, wireless communication, signal filtering, and integrated debugging." "实践 STM32、PCB 设计、无线通信、信号滤波和整机联调。" }}</p>
-            </article>
+            {{ range $workflowItems }}
+                <article class="home-workflow__item">
+                    <div class="home-workflow__body">
+                        <div class="home-workflow__icon">{{ partial "helper/icon" .Icon }}</div>
+                        <h3>{{ cond $isEn .TitleEn .TitleZh }}</h3>
+                        <p>{{ cond $isEn .BodyEn .BodyZh }}</p>
+                    </div>
+                    <div class="home-workflow__projects" aria-label="{{ cond $isEn "Representative projects" "代表项目" }}">
+                        {{ range .Slugs }}
+                            {{- with $.Site.GetPage (printf "projects/%s" .) -}}
+                                {{- $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources) -}}
+                                <a class="home-workflow__project" href="{{ .RelPermalink }}">
+                                    <span class="home-workflow__project-label">{{ .Title }}</span>
+                                    {{ with $image }}
+                                        <span class="home-workflow__preview" aria-hidden="true">
+                                            <img src="{{ .Permalink }}"
+                                                {{ with .Width }}width="{{ . }}"{{ end }}
+                                                {{ with .Height }}height="{{ . }}"{{ end }}
+                                                loading="lazy"
+                                                alt="">
+                                        </span>
+                                    {{ end }}
+                                </a>
+                            {{- end -}}
+                        {{ end }}
+                    </div>
+                </article>
+            {{ end }}
         </div>
     </section>
 
