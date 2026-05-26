@@ -46,6 +46,7 @@ This is a complete software-hardware project. The core goal was to build a wirel
 - Steering uses TIM2 PWM, mapping 0-180 degrees to a 0.5ms-2.5ms pulse. Throttle uses TIM1 PWM, mapping 0-1000 throttle to a 1ms-2ms ESC pulse.
 - On startup, the receiver centers the servo, runs NRF24L01 self-check, performs ESC calibration, and uses LED blink patterns for normal and fault states.
 - The PCB was designed in JLC EDA and soldered by hand. The hardware side combines 3.3V regulation, parallel capacitors, and power filtering to reduce instability around the wireless module.
+The main engineering decision was to keep the protocol small. The remote does not send a complex structure; it sends only the interpreted steering angle and throttle. The receiver does not care about raw joystick values; it only decodes, limits, and outputs PWM. During water-side debugging, that made it possible to separate ADC jitter, wireless packet issues, ESC calibration, and servo response.
 
 ## System Structure
 
@@ -60,6 +61,7 @@ As a control flow, the system is a direct input-communication-output chain:
 ![Smart boat control flow](flow-system-en.svg)
 
 The protocol is intentionally small and explicit: the remote sends only steering angle and throttle, while the onboard receiver decodes, limits, and outputs PWM. That made debugging layered: first check ADC stability, then `tx_data[3]`, then NRF24L01 packet reception, and finally actuator response.
+As an engineering chain, the system is straightforward: joystick analog values enter ADC, are mapped into control values, compressed into a 3-byte packet, written to NRF24L01 over SPI, received on the boat, and converted into two 50Hz PWM outputs. Each layer has an observable checkpoint: ADC value, `tx_data`, NRF24L01 status, LED feedback, and actuator response.
 
 ## Screenshots and Engineering Details
 

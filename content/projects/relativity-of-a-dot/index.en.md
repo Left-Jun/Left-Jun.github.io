@@ -59,6 +59,7 @@ After switching to 3D, the camera and movement rules change together. Structures
 - `DimensionObject` stores separate 2D and 3D colliders for the same spatial object, enabling different collider sets depending on the current dimension.
 - When the player lands on a dimension object while in 2D mode, `DimensionObject` uses the contact normal to correct the player's Z position, keeping the 3D object aligned with its 2D projection.
 - `GroundCheck2D` and `GroundCheck3D` use 2D and 3D raycasts respectively, so jumping and grounded logic can follow the current spatial rule.
+Because the prototype was built in only six hours, I avoided a full level editor or a large puzzle framework. The priority was to prove that one state switch could pull every necessary rule together. Camera, movement axes, grounded checks, and colliders all answer the same question: should the current moment run under 2D rules or 3D rules?
 
 ## System Structure
 
@@ -72,3 +73,4 @@ As a flow, it is a short but complete spatial-rule chain:
 ![Relativity of a Dot system flow](flow-system-en.svg)
 
 The prototype focuses on validating one clear chain: pressing `Tab` changes the dimension state, switches the camera, changes movement axes, updates collision rules, and creates a new spatial solution inside the same level.
+After this pass, I position it more clearly as a mechanic-validation sample: it shows how I break an abstract idea into a testable implementation chain and decide what can be left out at prototype stage.

@@ -96,6 +96,7 @@ In the ending, the ancient musician, modern songwriter, and future robot symboli
 ## Technical and Production Design
 
 The project used Godot as the development environment. My design work focused on turning a complex time-travel concept into a structure that programmers and artists could implement quickly.
+I reorganized this page around the production workflow: define the transformation rules for one place across three eras, then break that into player actions, puzzle props, NPC dialogue, and final performance beats. Its technical value is not a single complex script, but the way I compressed a broad narrative idea into tasks the team could advance day by day.
 
 - Broke down character behavior for programming: movement, wall jump, roll, conditional double jump, interaction triggers, and timeline switching.
 - Broke down layered art assets: distant backgrounds, tileable ground, temporary platforms, characters, NPCs, key props, and interactive buildings.
@@ -118,6 +119,7 @@ As a flow, the player experience is not just moving through maps, but building c
 ![Echoes of Time era flow](flow-system-en.svg)
 
 This better reflects my role: I was not only writing lore, but breaking "one place across three eras" into routes, props, NPCs, scenes, and performance requirements so the team could move along one emotional curve within seven days.
+In the portfolio, this project now occupies the "team design and production breakdown" position. It is less code-heavy than the later Unity works, but it shows how I connect worldbuilding, mechanics, maps, and collaboration rhythm.
 
 ## Design Highlights
 

@@ -101,6 +101,7 @@ The staff screen records the team roles and gives the 72-hour collaboration a cl
 ## Technical Implementation
 
 The game was developed in Unity and C#. The key implementation decision was to treat resource management as a shared state center rather than a set of isolated mechanics.
+I reframed the implementation around three inputs: player commands, area state, and resource triggers. Commands drive movement, jumping, dashing, and form switching; area state decides safe-time and drain rules; triggers handle pickups, shortcuts, dialogue, and endings. That made debugging easier under jam pressure because most bugs could be traced to the input layer, the shared state layer, or the output/feedback layer.
 
 - `EnergyManager` stores spirit energy and bone shards, then broadcasts changes to UI, form visuals, and settlement logic through events.
 - `EnergyDrainController` calculates drain rate from player Y position, current form, and remaining `SafetyTimer` time. Surface, underground safe time, underground danger time, and enhanced form all have different costs.
@@ -125,6 +126,7 @@ As a flow, the implementation moves from player input into action checks, then l
 ![Elegy of Asherah system flow](flow-system-en.svg)
 
 The core data flow is: player input drives movement, jumping, and dashing; areas and triggers change resources or progression state; `EnergyManager` distributes spirit-energy and shard changes; `MaskControl` and UI react to that state; and `TreeTopInteraction` plus `EndingManager` resolve the run based on remaining energy. This kept gameplay, resources, dialogue, and presentation tied to one central resource while still being adjustable under jam pressure.
+For team integration, I kept frequently changing level content separate from reusable system scripts. Values were exposed in the Inspector, shortcuts and pickups relied on trigger zones, and ending thresholds were centralized in `EndingManager`. That let writing, art, and level changes move quickly while I focused the final pass on wiring, thresholds, and flow bugs.
 
 ## Design Highlights
 

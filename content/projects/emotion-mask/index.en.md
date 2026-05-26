@@ -90,6 +90,7 @@ In that sense, the mask is both a mechanic and a metaphor. It turns inner emotio
 ## Technical Implementation
 
 The game was built in Unity with C#, with the main focus on responsive character control, state events, and fast level-feedback loops.
+I explain the project through five layers: player control, emotion state, level feedback, death/respawn, and release flow. This structure reflects the real core of Emotion Mask: the masks are not three skins, but a state machine that changes how the level can be read and solved.
 
 - `MaskControl` acts as the emotion state center. It maintains `Neutral`, `Happy`, and `Angry`, then notifies platform, music, and feedback systems through `OnEmotionChangedEvent`.
 - Each emotion owns an `EmotionStats` set that writes into `PlayerMove`, `PlayerJump`, and `PlayerDash`, changing movement speed, jump force, air jumps, wall jumps, dash speed, cooldown, and air-dash count.
@@ -113,6 +114,7 @@ As a flow, the key is not having many states, but making every state return to l
 ![Emotion Mask system flow](flow-system-en.svg)
 
 The core data flow is: the player switches masks, `MaskControl` updates state and character parameters, state events drive platform visibility and music, and player movement/jumping/dashing enters level interaction. Traps go through the respawn chain, angry dashes go through the breaking chain, and shard collection goes through the settlement chain. This kept the 48-hour implementation light while making every feedback path point back to emotion switching.
+The main engineering tradeoff was reliability over spectacle. Before hidden platforms are disabled, the player is detached from them; traps return the player to the latest checkpoint; and the victory sequence locks player control while switching to ending music. Those details are quiet, but they made the jam build much easier for strangers to finish.
 
 ## Release
 
