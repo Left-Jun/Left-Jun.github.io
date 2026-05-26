@@ -86,15 +86,21 @@
                         {{ range .Slugs }}
                             {{- with $.Site.GetPage (printf "projects/%s" .) -}}
                                 {{- $image := partial "helper/image" (dict "Image" .Params.image "Resources" .Resources) -}}
+                                {{- $description := .Params.description -}}
                                 <a class="home-workflow__project" href="{{ .RelPermalink }}">
                                     <span class="home-workflow__project-label">{{ .Title }}</span>
                                     {{ with $image }}
                                         <span class="home-workflow__preview" aria-hidden="true">
-                                            <img src="{{ .Permalink }}"
-                                                {{ with .Width }}width="{{ . }}"{{ end }}
-                                                {{ with .Height }}height="{{ . }}"{{ end }}
-                                                loading="lazy"
-                                                alt="">
+                                            <span class="home-workflow__preview-media">
+                                                <img src="{{ .Permalink }}"
+                                                    {{ with .Width }}width="{{ . }}"{{ end }}
+                                                    {{ with .Height }}height="{{ . }}"{{ end }}
+                                                    loading="lazy"
+                                                    alt="">
+                                            </span>
+                                            {{ with $description }}
+                                                <span class="home-workflow__preview-caption">{{ . }}</span>
+                                            {{ end }}
                                         </span>
                                     {{ end }}
                                 </a>
