@@ -27,51 +27,75 @@ html {
 }
 
 :root {
+  --body-background: #f7f4ee;
+  --accent-color: #2f72b8;
+  --accent-color-darker: #245f9d;
+  --body-text-color: #746e65;
+  --card-background: #fffaf1;
+  --card-background-selected: #efece4;
+  --card-text-color-main: #25211d;
+  --card-text-color-secondary: #746e65;
+  --card-text-color-tertiary: #8a8175;
+  --card-separator-color: rgba(56, 48, 38, 0.14);
   --leftjun-hover-duration: 0.16s;
   --leftjun-hover-lift: -2px;
   --leftjun-hover-accent: #2f72b8;
-  --leftjun-hover-border: rgba(47, 114, 184, 0.42);
-  --leftjun-hover-surface: rgba(47, 114, 184, 0.08);
-  --leftjun-hover-shadow: 0 14px 34px rgba(47, 114, 184, 0.16), var(--shadow-l1);
+  --leftjun-hover-border: rgba(47, 114, 184, 0.34);
+  --leftjun-hover-surface: rgba(47, 114, 184, 0.075);
+  --leftjun-hover-shadow: 0 16px 38px rgba(47, 114, 184, 0.13), 0 8px 20px rgba(49, 41, 30, 0.06);
+  --leftjun-surface-shadow: 0 18px 50px rgba(49, 41, 30, 0.1);
+  --leftjun-surface-shadow-soft: 0 12px 32px rgba(49, 41, 30, 0.075);
   --leftjun-page-wash:
-    radial-gradient(circle at 9% 8%, rgba(47, 114, 184, 0.12), transparent 28rem),
-    radial-gradient(circle at 86% 18%, rgba(15, 118, 110, 0.09), transparent 26rem),
-    radial-gradient(circle at 52% 92%, rgba(199, 93, 59, 0.055), transparent 30rem),
-    #f6f8fc;
-  --leftjun-surface: rgba(255, 255, 255, 0.78);
-  --leftjun-surface-strong: rgba(255, 255, 255, 0.9);
-  --leftjun-surface-muted: rgba(248, 251, 255, 0.82);
-  --leftjun-hero-background: linear-gradient(135deg, rgba(255, 255, 255, 0.91), rgba(236, 246, 255, 0.78));
-  --leftjun-game-card-background: linear-gradient(135deg, rgba(239, 247, 255, 0.92), rgba(246, 253, 252, 0.84));
-  --leftjun-game-card-border: rgba(47, 114, 184, 0.24);
-  --leftjun-embedded-card-background: linear-gradient(135deg, rgba(235, 251, 255, 0.92), rgba(243, 250, 246, 0.86));
-  --leftjun-embedded-card-border: rgba(15, 118, 110, 0.26);
-  --leftjun-neutral-card-background: linear-gradient(135deg, rgba(255, 255, 255, 0.88), rgba(248, 251, 255, 0.76));
-  --leftjun-sidebar-background: rgba(255, 255, 255, 0.78);
-  --leftjun-sidebar-shadow: 0 18px 50px rgba(49, 56, 72, 0.1);
+    radial-gradient(circle at 9% 8%, rgba(15, 118, 110, 0.11), transparent 29rem),
+    radial-gradient(circle at 88% 18%, rgba(199, 93, 59, 0.08), transparent 26rem),
+    radial-gradient(circle at 54% 92%, rgba(47, 114, 184, 0.085), transparent 32rem),
+    #f7f4ee;
+  --leftjun-surface: rgba(255, 250, 241, 0.82);
+  --leftjun-surface-strong: rgba(255, 253, 248, 0.94);
+  --leftjun-surface-muted: rgba(250, 247, 239, 0.86);
+  --leftjun-hero-background: linear-gradient(135deg, rgba(255, 251, 244, 0.94), rgba(239, 249, 247, 0.84) 56%, rgba(235, 246, 255, 0.76));
+  --leftjun-game-card-background: linear-gradient(135deg, rgba(255, 251, 244, 0.9), rgba(232, 244, 255, 0.72));
+  --leftjun-game-card-border: rgba(47, 114, 184, 0.2);
+  --leftjun-embedded-card-background: linear-gradient(135deg, rgba(255, 251, 244, 0.9), rgba(226, 248, 240, 0.74));
+  --leftjun-embedded-card-border: rgba(15, 118, 110, 0.22);
+  --leftjun-neutral-card-background: linear-gradient(135deg, rgba(255, 251, 244, 0.9), rgba(248, 251, 250, 0.78));
+  --leftjun-sidebar-background: rgba(255, 250, 241, 0.86);
+  --leftjun-sidebar-shadow: var(--leftjun-surface-shadow);
 }
 
 [data-scheme="dark"] {
+  --body-background: #171b1a;
+  --accent-color: #8ab8ef;
+  --accent-color-darker: #c9e3ff;
+  --body-text-color: #b5ac9e;
+  --card-background: #20241f;
+  --card-background-selected: rgba(240, 236, 227, 0.1);
+  --card-text-color-main: #f0ece3;
+  --card-text-color-secondary: #c5bcad;
+  --card-text-color-tertiary: #a79f92;
+  --card-separator-color: rgba(240, 236, 227, 0.13);
   --leftjun-hover-accent: #8ab8ef;
-  --leftjun-hover-border: rgba(138, 184, 239, 0.46);
-  --leftjun-hover-surface: rgba(138, 184, 239, 0.11);
-  --leftjun-hover-shadow: 0 18px 42px rgba(39, 96, 174, 0.34), var(--shadow-l1);
+  --leftjun-hover-border: rgba(138, 184, 239, 0.42);
+  --leftjun-hover-surface: rgba(138, 184, 239, 0.1);
+  --leftjun-hover-shadow: 0 18px 42px rgba(39, 96, 174, 0.24), 0 12px 32px rgba(0, 0, 0, 0.2);
+  --leftjun-surface-shadow: 0 18px 50px rgba(0, 0, 0, 0.24);
+  --leftjun-surface-shadow-soft: 0 12px 32px rgba(0, 0, 0, 0.18);
   --leftjun-page-wash:
-    radial-gradient(circle at 10% 8%, rgba(138, 184, 239, 0.18), transparent 30rem),
-    radial-gradient(circle at 86% 18%, rgba(106, 197, 181, 0.12), transparent 28rem),
-    radial-gradient(circle at 52% 92%, rgba(240, 139, 107, 0.08), transparent 30rem),
-    #24272d;
-  --leftjun-surface: rgba(50, 55, 61, 0.78);
-  --leftjun-surface-strong: rgba(58, 64, 72, 0.88);
-  --leftjun-surface-muted: rgba(46, 52, 60, 0.82);
-  --leftjun-hero-background: linear-gradient(135deg, rgba(55, 61, 70, 0.9), rgba(32, 45, 61, 0.78));
-  --leftjun-game-card-background: linear-gradient(135deg, rgba(39, 58, 79, 0.92), rgba(33, 59, 64, 0.8));
-  --leftjun-game-card-border: rgba(138, 184, 239, 0.27);
-  --leftjun-embedded-card-background: linear-gradient(135deg, rgba(31, 68, 75, 0.9), rgba(35, 57, 48, 0.82));
-  --leftjun-embedded-card-border: rgba(106, 197, 181, 0.28);
-  --leftjun-neutral-card-background: linear-gradient(135deg, rgba(58, 64, 72, 0.86), rgba(43, 48, 56, 0.76));
-  --leftjun-sidebar-background: rgba(50, 55, 61, 0.74);
-  --leftjun-sidebar-shadow: 0 20px 52px rgba(0, 0, 0, 0.34);
+    radial-gradient(circle at 10% 8%, rgba(106, 197, 181, 0.13), transparent 30rem),
+    radial-gradient(circle at 86% 18%, rgba(240, 139, 107, 0.075), transparent 27rem),
+    radial-gradient(circle at 52% 92%, rgba(138, 184, 239, 0.12), transparent 32rem),
+    #171b1a;
+  --leftjun-surface: rgba(32, 36, 31, 0.78);
+  --leftjun-surface-strong: rgba(39, 44, 39, 0.9);
+  --leftjun-surface-muted: rgba(34, 39, 36, 0.82);
+  --leftjun-hero-background: linear-gradient(135deg, rgba(35, 40, 36, 0.92), rgba(30, 50, 49, 0.82) 56%, rgba(31, 45, 62, 0.76));
+  --leftjun-game-card-background: linear-gradient(135deg, rgba(35, 40, 36, 0.88), rgba(31, 49, 65, 0.74));
+  --leftjun-game-card-border: rgba(138, 184, 239, 0.23);
+  --leftjun-embedded-card-background: linear-gradient(135deg, rgba(35, 40, 36, 0.88), rgba(28, 61, 54, 0.76));
+  --leftjun-embedded-card-border: rgba(106, 197, 181, 0.24);
+  --leftjun-neutral-card-background: linear-gradient(135deg, rgba(35, 40, 36, 0.88), rgba(37, 45, 48, 0.76));
+  --leftjun-sidebar-background: rgba(32, 36, 31, 0.82);
+  --leftjun-sidebar-shadow: var(--leftjun-surface-shadow);
 }
 
 body {
@@ -84,6 +108,7 @@ body {
 .article-list--tile article {
   border: 1px solid var(--card-separator-color);
   background: var(--leftjun-surface);
+  box-shadow: var(--leftjun-surface-shadow-soft);
   backdrop-filter: blur(16px);
   transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease;
 }
@@ -105,12 +130,14 @@ body {
 .article-list--compact {
   border: 1px solid var(--card-separator-color);
   background: var(--leftjun-surface);
+  box-shadow: var(--leftjun-surface-shadow-soft);
   backdrop-filter: blur(16px);
 }
 
 .article-page .main-article {
   border: 1px solid var(--card-separator-color);
   background: var(--leftjun-surface);
+  box-shadow: var(--leftjun-surface-shadow-soft);
   backdrop-filter: blur(16px);
 }
 
@@ -284,9 +311,9 @@ body {
   height: 3.4rem;
   border: 1px solid var(--card-separator-color);
   border-radius: 999px;
-  background: var(--card-background);
+  background: var(--leftjun-surface-strong);
   color: var(--body-text-color);
-  box-shadow: var(--shadow-l1);
+  box-shadow: var(--leftjun-surface-shadow-soft);
   transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease;
 }
 
@@ -509,10 +536,10 @@ body {
 
 .home-hero {
   padding: clamp(2.25rem, 5vw, 4.5rem);
-  border-radius: var(--card-border-radius);
-  border: 1px solid rgba(47, 114, 184, 0.16);
+  border-radius: 22px;
+  border: 1px solid color-mix(in srgb, var(--leftjun-hover-accent) 18%, var(--card-separator-color));
   background: var(--leftjun-hero-background);
-  box-shadow: 0 18px 52px rgba(47, 114, 184, 0.12), var(--shadow-l1);
+  box-shadow: var(--leftjun-surface-shadow);
   backdrop-filter: blur(18px);
 }
 
@@ -561,7 +588,7 @@ body {
   color: var(--card-text-color-main);
   font-weight: 700;
   text-decoration: none;
-  box-shadow: var(--shadow-l1);
+  box-shadow: var(--leftjun-surface-shadow-soft);
   transition: transform 0.2s ease, box-shadow 0.2s ease, color 0.2s ease;
 }
 
@@ -574,12 +601,12 @@ body {
 .home-action:hover,
 .project-links__button:hover {
   color: var(--accent-color);
-  box-shadow: var(--shadow-l2);
+  box-shadow: var(--leftjun-hover-shadow);
   transform: translateY(var(--leftjun-hover-lift));
 }
 
 .home-action--primary {
-  background: linear-gradient(135deg, #17365f, #2f72b8);
+  background: linear-gradient(135deg, #0f766e, #2f72b8);
   color: #fff;
   border-color: rgba(47, 114, 184, 0.55);
 }
@@ -659,7 +686,7 @@ body {
   border: 1px solid rgba(47, 114, 184, 0.18);
   border-radius: var(--card-border-radius);
   background: var(--leftjun-game-card-background);
-  box-shadow: var(--shadow-l1);
+  box-shadow: var(--leftjun-surface-shadow-soft);
   backdrop-filter: blur(16px);
   transition: border-color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease;
 }
@@ -718,8 +745,8 @@ body {
   padding: 0.46rem 0.86rem;
   border: 1px solid rgba(47, 114, 184, 0.36);
   border-radius: 999px;
-  background: linear-gradient(135deg, rgba(219, 239, 255, 0.96), rgba(232, 250, 255, 0.9));
-  box-shadow: 0 6px 16px rgba(47, 114, 184, 0.1);
+  background: linear-gradient(135deg, rgba(226, 240, 255, 0.96), rgba(235, 250, 249, 0.9));
+  box-shadow: 0 6px 16px rgba(47, 114, 184, 0.09);
   color: #245f9d;
   font-size: 0.86rem;
   font-weight: 700;
@@ -731,7 +758,7 @@ body {
 
 .home-workflow__project[href*="/smart-boat/"] {
   border-color: rgba(15, 118, 110, 0.36);
-  background: linear-gradient(135deg, rgba(219, 251, 255, 0.96), rgba(225, 250, 241, 0.9));
+  background: linear-gradient(135deg, rgba(224, 249, 248, 0.96), rgba(229, 249, 238, 0.9));
   box-shadow: 0 6px 16px rgba(15, 118, 110, 0.1);
   color: #0f766e;
 }
@@ -773,7 +800,7 @@ body {
   border: 1px solid var(--leftjun-hover-border);
   border-radius: 12px;
   background: var(--leftjun-surface-strong);
-  box-shadow: var(--leftjun-hover-shadow);
+  box-shadow: var(--leftjun-surface-shadow);
   opacity: 0;
   pointer-events: none;
   transform: translateY(0.45rem) scale(0.96);
@@ -948,7 +975,7 @@ body {
   border-radius: 22px;
   overflow: hidden;
   background: var(--leftjun-neutral-card-background);
-  box-shadow: var(--shadow-l1);
+  box-shadow: var(--leftjun-surface-shadow-soft);
   border: 1px solid var(--card-separator-color);
   backdrop-filter: blur(16px);
   transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease;
@@ -1020,7 +1047,7 @@ body {
   padding: 1.25rem;
   border-radius: var(--card-border-radius);
   background: var(--leftjun-surface);
-  box-shadow: var(--shadow-l1);
+  box-shadow: var(--leftjun-surface-shadow-soft);
   backdrop-filter: blur(16px);
 }
 
@@ -1028,8 +1055,8 @@ body {
   margin: 1.25rem var(--card-padding) 0;
   padding: 1.15rem 1.25rem;
   border-radius: 14px;
-  background: linear-gradient(135deg, rgba(47, 114, 184, 0.06), rgba(15, 118, 110, 0.045));
-  border: 1px solid rgba(47, 114, 184, 0.16);
+  background: linear-gradient(135deg, rgba(47, 114, 184, 0.055), rgba(15, 118, 110, 0.045));
+  border: 1px solid color-mix(in srgb, var(--leftjun-hover-accent) 18%, var(--card-separator-color));
 }
 
 [data-scheme="dark"] .project-facts {
