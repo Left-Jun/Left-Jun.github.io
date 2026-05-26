@@ -4,6 +4,16 @@
     {{- $aboutURL := "about/" | relLangURL -}}
     {{- $contactURL := "contact/" | relLangURL -}}
     {{- $postsURL := "posts/" | relLangURL -}}
+    {{- $plansSection := .Site.GetPage "section" "plans" -}}
+    {{- $planPages := where .Site.RegularPages "Section" "plans" -}}
+    {{- if not $planPages -}}
+        {{- range .Site.Sites -}}
+            {{- if eq .Language.Lang "zh-cn" -}}
+                {{- $plansSection = .GetPage "section" "plans" -}}
+                {{- $planPages = where .RegularPages "Section" "plans" -}}
+            {{- end -}}
+        {{- end -}}
+    {{- end -}}
     {{- $workflowItems := slice
         (dict "Icon" "infinity" "TitleEn" "Rapid Prototyping" "TitleZh" "快速原型" "BodyEn" "Use jam-style constraints to turn concepts into playable loops within 48 to 72 hours." "BodyZh" "用 Game Jam 式限制把想法压缩成可体验闭环，在 48 到 72 小时内验证核心机制。" "Slugs" (slice "emotion-mask" "relativity-of-a-dot"))
         (dict "Icon" "categories" "TitleEn" "Gameplay Systems" "TitleZh" "游戏系统" "BodyEn" "Build movement, state switching, resource loops, checkpoints, UI feedback, and endings around the same design goal." "BodyZh" "围绕同一个设计目标组织移动、状态切换、资源循环、检查点、UI 反馈和结局判定。" "Slugs" (slice "ashe-lament" "emotion-mask"))
@@ -111,6 +121,42 @@
             {{ end }}
         </div>
     </section>
+
+    {{- with $planPages -}}
+        {{- $recentPlans := first 2 (sort . "Date" "desc") -}}
+        {{- with $recentPlans -}}
+        <section class="home-section home-development-plans">
+            <div class="home-section__header">
+                <div>
+                    <p class="home-section__eyebrow">{{ cond $isEn "In Progress" "进行中" }}</p>
+                    <h2>{{ cond $isEn "Development Plans" "开发计划" }}</h2>
+                </div>
+                {{ with $plansSection }}
+                    <a class="home-section__link" href="{{ .RelPermalink }}">{{ cond $isEn "All plans" "全部计划" }}</a>
+                {{ end }}
+            </div>
+            <div class="home-plan-grid">
+                {{ range . }}
+                    <a class="home-plan-card" href="{{ .RelPermalink }}">
+                        <span class="home-plan-card__meta">{{ .Date.Format "2006-01-02" }}</span>
+                        <span class="home-plan-card__title">{{ .Title }}</span>
+                        {{ with .Params.description }}
+                            <span class="home-plan-card__description">{{ . }}</span>
+                        {{ end }}
+                        {{ with .Params.tags }}
+                            <span class="home-plan-card__tags" aria-label="{{ cond $isEn "Plan tags" "计划标签" }}">
+                                {{ range first 3 . }}
+                                    <span class="home-plan-card__tag">{{ . }}</span>
+                                {{ end }}
+                            </span>
+                        {{ end }}
+                        <span class="home-plan-card__action">{{ cond $isEn "View plan" "查看计划" }}</span>
+                    </a>
+                {{ end }}
+            </div>
+        </section>
+        {{- end -}}
+    {{- end -}}
 
     {{- $posts := where .Site.RegularPages "Section" "posts" | first 3 -}}
     {{- with $posts -}}

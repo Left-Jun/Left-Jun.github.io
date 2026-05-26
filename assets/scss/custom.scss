@@ -899,9 +899,9 @@ body {
   z-index: 0;
   border-radius: inherit;
   background:
-    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(255, 255, 255, 0.22), transparent 14%),
-    radial-gradient(circle at calc(var(--liquid-x) + 10%) calc(var(--liquid-y) + 16%), rgba(41, 151, 255, 0.08), transparent 46%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04) 42%, transparent 68%);
+    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(255, 255, 255, 0.13), transparent 24%),
+    radial-gradient(circle at calc(var(--liquid-x) + 12%) calc(var(--liquid-y) + 18%), rgba(41, 151, 255, 0.055), transparent 58%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.2), rgba(255, 255, 255, 0.035) 46%, transparent 72%);
   opacity: 0;
   pointer-events: none;
   box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.64), inset 0 -1px 0 rgba(31, 126, 212, 0.06);
@@ -915,8 +915,9 @@ body {
   z-index: 0;
   border-radius: inherit;
   background:
-    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(31, 126, 212, 0.34), transparent 16%),
-    radial-gradient(circle at calc(var(--liquid-x) - 18%) calc(var(--liquid-y) + 22%), rgba(0, 190, 210, 0.2), transparent 30%);
+    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(31, 126, 212, 0.34), transparent 28%),
+    radial-gradient(circle at calc(var(--liquid-x) - 16%) calc(var(--liquid-y) + 18%), rgba(0, 190, 210, 0.17), transparent 46%),
+    radial-gradient(circle at calc(var(--liquid-x) + 24%) calc(var(--liquid-y) - 20%), rgba(94, 178, 255, 0.13), transparent 54%);
   opacity: 0;
   pointer-events: none;
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -936,15 +937,15 @@ body {
 .home-workflow__item:focus-within {
   background:
     linear-gradient(145deg, rgba(252, 254, 255, 0.92), rgba(232, 245, 255, 0.86)) padding-box,
-    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(31, 126, 212, 0.44), rgba(0, 168, 196, 0.22) 34%, rgba(31, 126, 212, 0.14) 66%) border-box;
-  box-shadow: 0 16px 38px rgba(31, 126, 212, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.82), inset 0 -18px 48px rgba(31, 126, 212, 0.035);
+    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(31, 126, 212, 0.38), rgba(0, 168, 196, 0.2) 48%, rgba(31, 126, 212, 0.15) 78%) border-box;
+  box-shadow: 0 16px 38px rgba(31, 126, 212, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.82), inset 0 -18px 48px rgba(31, 126, 212, 0.03);
   z-index: 30;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .home-workflow__item:hover::before,
   .home-workflow__item:hover::after {
-    opacity: 0.82;
+    opacity: 0.72;
   }
 }
 
@@ -1152,6 +1153,97 @@ body {
   background: linear-gradient(135deg, rgba(26, 78, 91, 0.82), rgba(27, 80, 59, 0.72));
   border-color: rgba(106, 197, 181, 0.34);
   color: #a8eee0;
+}
+
+.home-plan-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.home-plan-card {
+  display: flex;
+  min-height: 13rem;
+  flex-direction: column;
+  gap: 0.7rem;
+  padding: 1.25rem;
+  border: 1px solid var(--leftjun-game-card-border);
+  border-radius: var(--card-border-radius);
+  background: var(--leftjun-surface);
+  box-shadow: var(--leftjun-surface-shadow-soft);
+  color: var(--card-text-color-main);
+  text-decoration: none;
+  transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease;
+}
+
+.home-plan-card:hover,
+.home-plan-card:focus-visible {
+  border-color: var(--leftjun-hover-border);
+  background: var(--leftjun-surface-strong);
+  box-shadow: var(--leftjun-hover-shadow);
+  transform: translateY(var(--leftjun-hover-lift));
+}
+
+.home-plan-card__meta {
+  color: var(--leftjun-hover-accent);
+  font-size: 0.88rem;
+  font-weight: 800;
+  letter-spacing: 0.02em;
+}
+
+.home-plan-card__title {
+  color: var(--card-text-color-main);
+  font-size: 1.35rem;
+  font-weight: 820;
+  line-height: 1.28;
+}
+
+.home-plan-card__description {
+  color: var(--card-text-color-secondary);
+  font-size: 1rem;
+  line-height: 1.65;
+}
+
+.home-plan-card__tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  margin-top: auto;
+}
+
+.home-plan-card__tag {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.7rem;
+  padding: 0.28rem 0.62rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--leftjun-hover-accent) 11%, transparent);
+  color: color-mix(in srgb, var(--leftjun-hover-accent) 78%, var(--card-text-color-main));
+  font-size: 0.82rem;
+  font-weight: 700;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.home-plan-card__action {
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  min-height: 2rem;
+  margin-top: 0.2rem;
+  padding: 0.36rem 0.78rem;
+  border: 1px solid var(--leftjun-hover-border);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--leftjun-hover-accent) 8%, var(--leftjun-surface-strong));
+  color: var(--leftjun-hover-accent);
+  font-size: 0.88rem;
+  font-weight: 800;
+  line-height: 1;
+}
+
+[data-scheme="dark"] .home-plan-card {
+  background: var(--leftjun-surface);
+  border-color: rgba(138, 184, 239, 0.22);
 }
 
 .project-links {
@@ -1760,6 +1852,14 @@ body {
     grid-template-columns: 1fr;
   }
 
+  .home-plan-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .home-plan-card {
+    min-height: 0;
+  }
+
   .home-workflow__grid {
     grid-template-columns: 1fr;
   }
@@ -1827,6 +1927,7 @@ body {
   .home-workflow__item,
   .home-workflow__project,
   .home-workflow__preview,
+  .home-plan-card,
   .project-card,
   .project-card__image img,
   .project-card__image video,
@@ -1865,6 +1966,8 @@ body {
   .home-workflow__project:focus-visible,
   .home-workflow__project:hover .home-workflow__preview,
   .home-workflow__project:focus-visible .home-workflow__preview,
+  .home-plan-card:hover,
+  .home-plan-card:focus-visible,
   .project-card:hover,
   .project-card:focus-within,
   .project-card:hover .project-card__image img,
