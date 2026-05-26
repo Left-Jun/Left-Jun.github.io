@@ -170,6 +170,7 @@ body {
   box-shadow: var(--leftjun-sidebar-shadow);
   backdrop-filter: blur(12px);
   overflow-x: hidden;
+  scrollbar-gutter: stable;
 }
 
 .right-sidebar {
@@ -419,12 +420,69 @@ body {
     top: var(--main-top-padding);
     width: var(--leftjun-sidebar-width);
     max-width: var(--leftjun-sidebar-width);
-    min-height: calc(100vh - var(--main-top-padding) * 2);
+    height: calc(100vh - var(--main-top-padding) * 2);
+    height: calc(100dvh - var(--main-top-padding) * 2);
+    min-height: 0;
     max-height: calc(100vh - var(--main-top-padding) * 2);
+    max-height: calc(100dvh - var(--main-top-padding) * 2);
     margin-top: 0;
     padding: 1.55rem;
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
     z-index: 10;
+  }
+
+  .left-sidebar.sticky::-webkit-scrollbar {
+    width: 0.55rem;
+  }
+
+  .left-sidebar.sticky::-webkit-scrollbar-thumb {
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--leftjun-hover-accent) 28%, transparent);
+  }
+
+  .left-sidebar.sticky::-webkit-scrollbar-track {
+    background: transparent;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 1180px) {
+  .left-sidebar.sticky {
+    padding: 1.05rem;
+  }
+
+  .left-sidebar > :not(:last-child) {
+    margin-bottom: 0.85rem;
+  }
+
+  .left-sidebar header {
+    gap: 0.8rem;
+  }
+
+  .menu-social {
+    gap: 0.42rem;
+  }
+
+  .menu-social li a {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  #main-menu {
+    gap: 0.42rem;
+  }
+
+  #main-menu .menu-bottom-section ol {
+    gap: 0.42rem;
+  }
+
+  #main-menu li:not(.menu-bottom-section) > a,
+  #i18n-switch,
+  #dark-mode-toggle {
+    min-height: 3.65rem;
+    padding: 0.72rem 0.85rem;
   }
 }
 
@@ -709,6 +767,7 @@ body {
 
 .home-workflow__item {
   position: relative;
+  z-index: 0;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -719,15 +778,13 @@ body {
   background: var(--leftjun-surface);
   box-shadow: var(--leftjun-surface-shadow-soft);
   backdrop-filter: blur(6px);
-  transition: transform var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease;
+  transition: border-color var(--leftjun-hover-duration) ease;
 }
 
 .home-workflow__item:hover,
 .home-workflow__item:focus-within {
   border-color: var(--leftjun-hover-border);
-  background: var(--leftjun-surface-strong);
-  box-shadow: var(--leftjun-hover-shadow);
-  transform: translateY(var(--leftjun-hover-lift));
+  z-index: 30;
 }
 
 .home-workflow__icon {
@@ -764,6 +821,8 @@ body {
 }
 
 .home-workflow__projects {
+  position: relative;
+  z-index: 1;
   display: flex;
   flex-wrap: wrap;
   gap: 0.68rem;
@@ -806,7 +865,7 @@ body {
 
 .home-workflow__project:hover,
 .home-workflow__project:focus-visible {
-  z-index: 5;
+  z-index: 120;
   border-color: var(--leftjun-hover-border);
   background: linear-gradient(135deg, rgba(202, 231, 255, 0.98), rgba(222, 249, 255, 0.94));
   box-shadow: 0 16px 34px rgba(47, 114, 184, 0.18), var(--shadow-l1);
@@ -826,7 +885,7 @@ body {
   position: absolute;
   left: 0;
   bottom: calc(100% + 0.7rem);
-  z-index: 10;
+  z-index: 220;
   width: 24rem;
   max-width: calc(100vw - 2rem);
   padding: 0.38rem;
