@@ -27,7 +27,7 @@ html {
 }
 
 :root {
-  --body-background: #e7f2fb;
+  --body-background: #ebf5fc;
   --accent-color: #1f7ed4;
   --accent-color-darker: #1768b5;
   --body-text-color: #667285;
@@ -46,21 +46,21 @@ html {
   --leftjun-surface-shadow: 0 18px 48px rgba(35, 86, 136, 0.1);
   --leftjun-surface-shadow-soft: 0 10px 26px rgba(35, 86, 136, 0.06);
   --leftjun-page-wash:
-    radial-gradient(circle at 7% 5%, rgba(31, 126, 212, 0.34), transparent 34rem),
-    radial-gradient(circle at 88% 12%, rgba(0, 168, 196, 0.26), transparent 31rem),
-    radial-gradient(circle at 52% 90%, rgba(80, 147, 222, 0.18), transparent 38rem),
-    linear-gradient(180deg, #eaf5ff 0%, #ddecf8 48%, #eef7ff 100%);
+    radial-gradient(circle at 7% 5%, rgba(31, 126, 212, 0.29), transparent 34rem),
+    radial-gradient(circle at 88% 12%, rgba(0, 168, 196, 0.22), transparent 31rem),
+    radial-gradient(circle at 52% 90%, rgba(80, 147, 222, 0.15), transparent 38rem),
+    linear-gradient(180deg, #edf7ff 0%, #e3f1fb 48%, #f1f8ff 100%);
   --leftjun-reading-surface: rgba(255, 255, 255, 0.985);
-  --leftjun-surface: rgba(235, 247, 255, 0.94);
-  --leftjun-surface-strong: rgba(247, 252, 255, 0.98);
-  --leftjun-surface-muted: rgba(225, 240, 252, 0.94);
-  --leftjun-hero-background: rgba(232, 245, 255, 0.94);
-  --leftjun-game-card-background: rgba(239, 249, 255, 0.98);
+  --leftjun-surface: rgba(240, 249, 255, 0.96);
+  --leftjun-surface-strong: rgba(249, 253, 255, 0.985);
+  --leftjun-surface-muted: rgba(231, 243, 253, 0.96);
+  --leftjun-hero-background: rgba(238, 248, 255, 0.96);
+  --leftjun-game-card-background: rgba(243, 251, 255, 0.985);
   --leftjun-game-card-border: rgba(31, 126, 212, 0.23);
-  --leftjun-embedded-card-background: rgba(237, 253, 252, 0.98);
+  --leftjun-embedded-card-background: rgba(241, 253, 252, 0.985);
   --leftjun-embedded-card-border: rgba(0, 145, 166, 0.24);
   --leftjun-neutral-card-background: var(--leftjun-surface-strong);
-  --leftjun-sidebar-background: rgba(232, 245, 255, 0.94);
+  --leftjun-sidebar-background: rgba(238, 248, 255, 0.96);
   --leftjun-sidebar-shadow: var(--leftjun-surface-shadow);
 }
 
@@ -559,6 +559,30 @@ body {
 }
 
 @media (max-width: 767px) {
+  #toggle-menu.is-active .hamburger-inner {
+    background-color: transparent;
+    transform: none;
+    transition-delay: 0s;
+  }
+
+  #toggle-menu.is-active .hamburger-inner::before,
+  #toggle-menu.is-active .hamburger-inner::after {
+    top: 0;
+    bottom: auto;
+    width: 21px;
+    background-color: var(--accent-color);
+    opacity: 1;
+    transition: transform 0.16s ease, background-color 0.16s ease;
+  }
+
+  #toggle-menu.is-active .hamburger-inner::before {
+    transform: translateX(-6px) rotate(-42deg);
+  }
+
+  #toggle-menu.is-active .hamburger-inner::after {
+    transform: translateX(7px) rotate(42deg);
+  }
+
   .sidebar-bottom-actions {
     display: none;
   }
@@ -860,10 +884,10 @@ body {
   border: 1px solid transparent;
   border-radius: var(--card-border-radius);
   background:
-    linear-gradient(145deg, rgba(247, 252, 255, 0.82), rgba(226, 241, 253, 0.78)) padding-box,
-    linear-gradient(135deg, rgba(31, 126, 212, 0.16), rgba(0, 168, 196, 0.12)) border-box;
-  box-shadow: var(--leftjun-surface-shadow-soft), inset 0 1px 0 rgba(255, 255, 255, 0.62);
-  backdrop-filter: blur(14px) saturate(1.28);
+    linear-gradient(145deg, rgba(249, 253, 255, 0.86), rgba(231, 244, 254, 0.82)) padding-box,
+    linear-gradient(135deg, rgba(31, 126, 212, 0.18), rgba(0, 168, 196, 0.13)) border-box;
+  box-shadow: var(--leftjun-surface-shadow-soft), inset 0 1px 0 rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(16px) saturate(1.18);
   overflow: visible;
   transition: background var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, filter var(--leftjun-hover-duration) ease;
 }
@@ -875,13 +899,13 @@ body {
   z-index: 0;
   border-radius: inherit;
   background:
-    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(255, 255, 255, 0.62), transparent 0.1rem, rgba(255, 255, 255, 0.28) 12%, transparent 34%),
-    radial-gradient(circle at calc(var(--liquid-x) + 8%) calc(var(--liquid-y) + 12%), rgba(41, 151, 255, 0.2), transparent 42%),
-    linear-gradient(135deg, rgba(255, 255, 255, 0.18), transparent 56%);
+    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(255, 255, 255, 0.22), transparent 14%),
+    radial-gradient(circle at calc(var(--liquid-x) + 10%) calc(var(--liquid-y) + 16%), rgba(41, 151, 255, 0.08), transparent 46%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.22), rgba(255, 255, 255, 0.04) 42%, transparent 68%);
   opacity: 0;
   pointer-events: none;
-  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.72), inset 0 -1px 0 rgba(31, 126, 212, 0.08);
-  transition: opacity 0.18s ease;
+  box-shadow: inset 0 1px 1px rgba(255, 255, 255, 0.64), inset 0 -1px 0 rgba(31, 126, 212, 0.06);
+  transition: opacity 0.18s ease, background 0.18s ease;
 }
 
 .home-workflow__item::after {
@@ -891,8 +915,8 @@ body {
   z-index: 0;
   border-radius: inherit;
   background:
-    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(31, 126, 212, 0.46), transparent 18%),
-    radial-gradient(circle at calc(var(--liquid-x) - 16%) calc(var(--liquid-y) + 18%), rgba(0, 190, 210, 0.28), transparent 28%);
+    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(31, 126, 212, 0.34), transparent 16%),
+    radial-gradient(circle at calc(var(--liquid-x) - 18%) calc(var(--liquid-y) + 22%), rgba(0, 190, 210, 0.2), transparent 30%);
   opacity: 0;
   pointer-events: none;
   -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
@@ -911,16 +935,16 @@ body {
 .home-workflow__item:hover,
 .home-workflow__item:focus-within {
   background:
-    linear-gradient(145deg, rgba(250, 253, 255, 0.9), rgba(226, 242, 255, 0.82)) padding-box,
-    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(31, 126, 212, 0.62), rgba(0, 168, 196, 0.3) 34%, rgba(31, 126, 212, 0.18) 64%) border-box;
-  box-shadow: 0 16px 38px rgba(31, 126, 212, 0.14), inset 0 1px 0 rgba(255, 255, 255, 0.78);
+    linear-gradient(145deg, rgba(252, 254, 255, 0.92), rgba(232, 245, 255, 0.86)) padding-box,
+    radial-gradient(circle at var(--liquid-x) var(--liquid-y), rgba(31, 126, 212, 0.44), rgba(0, 168, 196, 0.22) 34%, rgba(31, 126, 212, 0.14) 66%) border-box;
+  box-shadow: 0 16px 38px rgba(31, 126, 212, 0.11), inset 0 1px 0 rgba(255, 255, 255, 0.82), inset 0 -18px 48px rgba(31, 126, 212, 0.035);
   z-index: 30;
 }
 
 @media (hover: hover) and (pointer: fine) {
   .home-workflow__item:hover::before,
   .home-workflow__item:hover::after {
-    opacity: 1;
+    opacity: 0.82;
   }
 }
 

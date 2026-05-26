@@ -72,11 +72,20 @@ let slideToggle = (target, duration = 500) => {
 
 export default function () {
     const toggleMenu = document.getElementById('toggle-menu');
+    const mainMenu = document.getElementById('main-menu');
+    const mobileMenu = window.matchMedia('(max-width: 767px)');
+
+    if (toggleMenu && mainMenu && mobileMenu.matches) {
+        document.body.classList.add('show-menu');
+        mainMenu.classList.add('show');
+        toggleMenu.classList.add('is-active');
+    }
+
     if (toggleMenu) {
         toggleMenu.addEventListener('click', () => {
-            if (document.getElementById('main-menu').classList.contains('transiting')) return;
+            if (!mainMenu || mainMenu.classList.contains('transiting')) return;
             document.body.classList.toggle('show-menu');
-            slideToggle(document.getElementById('main-menu'), 300);
+            slideToggle(mainMenu, 300);
             toggleMenu.classList.toggle('is-active');
         });
     }
