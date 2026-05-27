@@ -79,24 +79,30 @@ export default function () {
     const toggleMenu = document.getElementById('toggle-menu');
     const mainMenu = document.getElementById('main-menu');
     const mobileMenu = window.matchMedia('(max-width: 767px)');
+    const mobilePreopenClass = 'mobile-menu-preopen';
     let autoCollapseTimer: number | undefined;
     let userToggled = false;
 
-    if (toggleMenu && mainMenu && mobileMenu.matches && isHomepage()) {
+    const openMenu = () => {
         document.body.classList.add('show-menu');
-        mainMenu.classList.add('show');
-        toggleMenu.classList.add('is-active');
-        document.body.classList.remove('mobile-home-menu-preopen');
+        mainMenu?.classList.add('show');
+        toggleMenu?.classList.add('is-active');
+        document.body.classList.remove(mobilePreopenClass);
+    };
 
-        autoCollapseTimer = window.setTimeout(() => {
-            if (userToggled || mainMenu.classList.contains('transiting')) return;
+    const closeMenu = () => {
+        if (!mainMenu) return;
 
-            document.body.classList.remove('show-menu');
-            document.body.classList.remove('mobile-home-menu-preopen');
+        document.body.classList.remove('show-menu');
+        document.body.classList.remove(mobilePreopenClass);
+        toggleMenu?.classList.remove('is-active');
+
+        if (window.getComputedStyle(mainMenu).display !== 'none') {
             slideUp(mainMenu, 300);
-            toggleMenu.classList.remove('is-active');
-        }, 1000);
-    }
+        } else {
+            mainMenu.classList.remove('show');
+        }
+    };
 
     if (toggleMenu) {
         toggleMenu.addEventListener('click', () => {
@@ -106,11 +112,22 @@ export default function () {
             if (autoCollapseTimer) {
                 window.clearTimeout(autoCollapseTimer);
             }
-            document.body.classList.remove('mobile-home-menu-preopen');
+            document.body.classList.remove(mobilePreopenClass);
 
             document.body.classList.toggle('show-menu');
             slideToggle(mainMenu, 300);
             toggleMenu.classList.toggle('is-active');
         });
+    }
+
+    if (toggleMenu && mainMenu && mobileMenu.matches) {
+        openMenu();
+
+        autoCollapseTimer = window.setTimeout(() => {
+            if (userToggled || mainMenu.classList.contains('transiting')) return;
+            closeMenu();
+        }, isHomepage() ? 1000 : 0);
+    } else {
+        document.body.classList.remove(mobilePreopenClass);
     }
 }

@@ -1,8 +1,8 @@
 <aside class="sidebar left-sidebar sticky {{ if .Site.Params.sidebar.compact }}compact{{ end }}">
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="{{ T `toggleMenu` }}">
-        <span class="hamburger-box">
-            <span class="hamburger-inner"></span>
-        </span>
+    <button class="mobile-menu-toggle" type="button" id="toggle-menu" aria-label="{{ T `toggleMenu` }}">
+        <svg class="mobile-menu-triangle" viewBox="0 0 32 32" aria-hidden="true" focusable="false">
+            <path d="M8.35 10.35c-1.85 0-2.82 2.18-1.58 3.56l7.4 8.24c.96 1.07 2.7 1.07 3.66 0l7.4-8.24c1.24-1.38.27-3.56-1.58-3.56H8.35Z" />
+        </svg>
     </button>
 
     <header>
