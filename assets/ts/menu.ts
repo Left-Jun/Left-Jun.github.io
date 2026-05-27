@@ -70,20 +70,41 @@ let slideToggle = (target, duration = 500) => {
     }
 }
 
+let isHomepage = () => {
+    const normalizedPath = `${window.location.pathname.replace(/\/+$/, '')}/`;
+    return normalizedPath === '/' || normalizedPath === '/en/';
+}
+
 export default function () {
     const toggleMenu = document.getElementById('toggle-menu');
     const mainMenu = document.getElementById('main-menu');
     const mobileMenu = window.matchMedia('(max-width: 767px)');
+    let autoCollapseTimer: number | undefined;
+    let userToggled = false;
 
-    if (toggleMenu && mainMenu && mobileMenu.matches) {
+    if (toggleMenu && mainMenu && mobileMenu.matches && isHomepage()) {
         document.body.classList.add('show-menu');
         mainMenu.classList.add('show');
         toggleMenu.classList.add('is-active');
+
+        autoCollapseTimer = window.setTimeout(() => {
+            if (userToggled || mainMenu.classList.contains('transiting')) return;
+
+            document.body.classList.remove('show-menu');
+            slideUp(mainMenu, 300);
+            toggleMenu.classList.remove('is-active');
+        }, 1000);
     }
 
     if (toggleMenu) {
         toggleMenu.addEventListener('click', () => {
             if (!mainMenu || mainMenu.classList.contains('transiting')) return;
+
+            userToggled = true;
+            if (autoCollapseTimer) {
+                window.clearTimeout(autoCollapseTimer);
+            }
+
             document.body.classList.toggle('show-menu');
             slideToggle(mainMenu, 300);
             toggleMenu.classList.toggle('is-active');
