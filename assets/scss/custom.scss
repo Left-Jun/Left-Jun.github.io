@@ -560,37 +560,41 @@ body {
 
 @media (max-width: 767px) {
   #toggle-menu {
+    position: fixed;
     display: grid;
     place-items: center;
-    top: 0.82rem;
-    right: 0.82rem;
-    width: 3.9rem;
-    height: 3.9rem;
+    top: auto;
+    right: calc(1.05rem + env(safe-area-inset-right));
+    bottom: calc(1.35rem + env(safe-area-inset-bottom));
+    width: 4.35rem;
+    height: 4.35rem;
     padding: 0;
-    color: var(--accent-color);
+    color: color-mix(in srgb, var(--accent-color) 58%, #eaf8ff);
+    z-index: 320;
   }
 
   .mobile-menu-triangle {
     display: block;
-    width: 2.9rem;
-    height: 2.9rem;
+    width: 3.2rem;
+    height: 3.2rem;
     overflow: visible;
     color: inherit;
     fill: none;
     stroke: currentColor;
-    stroke-width: 3.25;
+    stroke-width: 3.15;
     stroke-linecap: round;
     stroke-linejoin: round;
+    transform-box: fill-box;
     transform-origin: 50% 50%;
-    filter: drop-shadow(0 0.14rem 0.3rem color-mix(in srgb, var(--accent-color) 22%, transparent));
+    filter: drop-shadow(0 0.1rem 0.22rem color-mix(in srgb, var(--accent-color) 16%, transparent));
     transition: color 0.18s ease, filter 0.18s ease, transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform;
   }
 
   #toggle-menu:hover .mobile-menu-triangle,
   #toggle-menu:focus-visible .mobile-menu-triangle {
-    color: color-mix(in srgb, var(--accent-color) 78%, #1bb8d4);
-    filter: drop-shadow(0 0.18rem 0.42rem color-mix(in srgb, var(--accent-color) 34%, transparent));
+    color: color-mix(in srgb, var(--accent-color) 68%, #dff8ff);
+    filter: drop-shadow(0 0.13rem 0.32rem color-mix(in srgb, var(--accent-color) 22%, transparent));
   }
 
   html.mobile-menu-preopen #main-menu {
