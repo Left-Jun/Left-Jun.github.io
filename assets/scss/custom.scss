@@ -563,38 +563,57 @@ body {
     position: fixed;
     display: grid;
     place-items: center;
-    top: auto;
-    right: calc(1.05rem + env(safe-area-inset-right));
-    bottom: calc(1.35rem + env(safe-area-inset-bottom));
-    width: 4.35rem;
-    height: 4.35rem;
+    top: calc(0.82rem + env(safe-area-inset-top));
+    right: calc(0.82rem + env(safe-area-inset-right));
+    bottom: auto;
+    width: 3.7rem;
+    height: 3.7rem;
     padding: 0;
-    color: color-mix(in srgb, var(--accent-color) 58%, #eaf8ff);
+    border-radius: 999px;
+    color: color-mix(in srgb, var(--accent-color) 56%, #dbeeff);
+    outline: none;
     z-index: 320;
   }
 
-  .mobile-menu-triangle {
-    display: block;
-    width: 3.2rem;
-    height: 3.2rem;
-    overflow: visible;
-    color: inherit;
-    fill: none;
-    stroke: currentColor;
-    stroke-width: 3.15;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    transform-box: fill-box;
-    transform-origin: 50% 50%;
-    filter: drop-shadow(0 0.1rem 0.22rem color-mix(in srgb, var(--accent-color) 16%, transparent));
-    transition: color 0.18s ease, filter 0.18s ease, transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
-    will-change: transform;
+  #toggle-menu:focus {
+    outline: none;
   }
 
-  #toggle-menu:hover .mobile-menu-triangle,
-  #toggle-menu:focus-visible .mobile-menu-triangle {
-    color: color-mix(in srgb, var(--accent-color) 68%, #dff8ff);
-    filter: drop-shadow(0 0.13rem 0.32rem color-mix(in srgb, var(--accent-color) 22%, transparent));
+  #toggle-menu:focus-visible {
+    background: color-mix(in srgb, var(--leftjun-hover-surface) 58%, transparent);
+    box-shadow: 0 0 0 0.18rem color-mix(in srgb, var(--accent-color) 18%, transparent);
+  }
+
+  #toggle-menu:hover {
+    opacity: 1;
+    color: color-mix(in srgb, var(--accent-color) 70%, #dff8ff);
+  }
+
+  #toggle-menu .hamburger-box {
+    width: 2.25rem;
+    height: 1.65rem;
+  }
+
+  #toggle-menu .hamburger-inner {
+    top: 50%;
+    margin-top: -1px;
+  }
+
+  #toggle-menu .hamburger-inner,
+  #toggle-menu .hamburger-inner::before,
+  #toggle-menu .hamburger-inner::after {
+    width: 2.25rem;
+    height: 2px;
+    border-radius: 999px;
+    background-color: currentColor !important;
+  }
+
+  #toggle-menu .hamburger-inner::before {
+    top: -0.68rem;
+  }
+
+  #toggle-menu .hamburger-inner::after {
+    bottom: -0.68rem;
   }
 
   html.mobile-menu-preopen #main-menu {
@@ -605,9 +624,22 @@ body {
     display: grid;
   }
 
-  html.mobile-menu-preopen #toggle-menu .mobile-menu-triangle,
-  #toggle-menu.is-active .mobile-menu-triangle {
-    transform: rotate(180deg);
+  html.mobile-menu-preopen #toggle-menu .hamburger-inner {
+    transform: rotate(225deg);
+    transition-delay: 0.12s;
+    transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
+  }
+
+  html.mobile-menu-preopen #toggle-menu .hamburger-inner::before {
+    top: 0;
+    opacity: 0;
+    transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
+  }
+
+  html.mobile-menu-preopen #toggle-menu .hamburger-inner::after {
+    bottom: 0;
+    transform: rotate(-90deg);
+    transition: bottom 0.1s ease-out, transform 0.22s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 
   .sidebar-bottom-actions {
