@@ -14,6 +14,13 @@ tags:
   - "Emotion Mask"
   - "亚舍拉挽歌"
   - "独立游戏"
+relatedPages:
+  - "projects/emotion-mask"
+  - "projects/ashe-lament"
+  - "retrospectives/emotion-mask-retrospective"
+  - "retrospectives/ashe-lament-retrospective"
+  - "plans/emotion-mask-roadmap"
+  - "plans/ashe-lament-roadmap"
 ---
 
 5 月 16 日，我带着《Emotion Mask》和《亚舍拉挽歌》参加了成都第一届《蜀光游集》线下路演。
@@ -21,6 +28,8 @@ tags:
 这是由卢德工作室主办、成都工业大学承办的一次校园游戏展。现场聚集了来自 16 所学校的 50 多款游戏，展位之间的气氛很密集：有人在展示完整 Demo，有人在测试手感，有人在给陌生玩家讲世界观，也有人只是站在旁边看几分钟，就会忍不住问一句“这个能不能玩”。
 
 对我来说，这次路演不是单纯把作品摆出来，而是一次很直接的压力测试。电脑、海报、鼠标键盘和试玩排队的人都摆在面前时，游戏里那些平时自己已经习惯的操作、提示、节奏问题，会被玩家非常真实地指出来。
+
+这篇文章更像一份现场记录：它记录的是我如何观察玩家第一次接触作品。更完整的开发过程放在对应的项目复盘里，后续要改什么则拆到了开发计划页。这样做是为了把“现场发生了什么”“项目为什么会这样做”“下一步怎么改”分开说清楚。
 
 ![《Emotion Mask》和《亚舍拉挽歌》的现场展位](booth-overview.png)
 
@@ -127,6 +136,11 @@ tags:
 
 - [《Emotion Mask》后续开发计划](/plans/emotion-mask-roadmap/)
 - [《亚舍拉挽歌》后续开发计划](/plans/ashe-lament-roadmap/)
+
+如果想看更偏开发过程的部分，也可以继续看对应复盘：
+
+- [《Emotion Mask》项目复盘](/retrospectives/emotion-mask-retrospective/)
+- [《亚舍拉挽歌》项目复盘](/retrospectives/ashe-lament-retrospective/)
 
 这次《蜀光游集》对我最大的意义，是让我更清楚地看到：一个游戏有没有潜力，不只看它的设定是不是完整，也看陌生玩家愿不愿意在几分钟内理解它、挑战它，并且在离开展位后还记得它。
 

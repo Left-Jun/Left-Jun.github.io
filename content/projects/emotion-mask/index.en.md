@@ -37,6 +37,10 @@ roleTags:
   - "Solo Developer"
   - "Designer"
   - "Programmer"
+relatedPages:
+  - "retrospectives/emotion-mask-retrospective"
+  - "plans/emotion-mask-roadmap"
+  - "posts/shuguang-youji-roadshow"
 ---
 
 ## Overview

@@ -31,6 +31,10 @@ roleTags:
   - "队长"
   - "主程"
   - "玩法策划"
+relatedPages:
+  - "retrospectives/ashe-lament-retrospective"
+  - "plans/ashe-lament-roadmap"
+  - "posts/shuguang-youji-roadshow"
 ---
 
 ## 项目简介

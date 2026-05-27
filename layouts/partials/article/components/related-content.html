@@ -1,7 +1,18 @@
 {{- $pages := slice -}}
 {{- $title := T "article.relatedContent" -}}
 
-{{- if eq .Section "projects" -}}
+{{- with .Params.relatedPages -}}
+    {{- range . -}}
+        {{- $page := partial "helper/resolve-page" (dict "context" $ "ref" .) -}}
+        {{- if and $page (ne $page.Permalink $.Permalink) -}}
+            {{- $pages = $pages | append $page -}}
+        {{- end -}}
+    {{- end -}}
+{{- end -}}
+
+{{- if $pages -}}
+    {{- $title = cond (eq .Site.Language.Lang "en") "Related Records" "关联阅读" -}}
+{{- else if eq .Section "projects" -}}
     {{- $title = cond (eq .Site.Language.Lang "en") "Related Projects" "相关项目" -}}
     {{- with .Site.GetPage "section" "projects" -}}
         {{- $sortedProjects := partial "projects/sorted-pages" . -}}

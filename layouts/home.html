@@ -137,21 +137,35 @@
             </div>
             <div class="home-plan-grid">
                 {{ range . }}
-                    <a class="home-plan-card" href="{{ .RelPermalink }}">
-                        <span class="home-plan-card__meta">{{ .Date.Format "2006-01-02" }}</span>
-                        <span class="home-plan-card__title">{{ .Title }}</span>
-                        {{ with .Params.description }}
-                            <span class="home-plan-card__description">{{ . }}</span>
+                    {{- $retrospective := false -}}
+                    {{- range .Params.relatedPages -}}
+                        {{- $page := partial "helper/resolve-page" (dict "context" $ "ref" .) -}}
+                        {{- if and $page (eq $page.Section "retrospectives") -}}
+                            {{- $retrospective = $page -}}
                         {{ end }}
-                        {{ with .Params.tags }}
-                            <span class="home-plan-card__tags" aria-label="{{ cond $isEn "Plan tags" "计划标签" }}">
-                                {{ range first 3 . }}
-                                    <span class="home-plan-card__tag">{{ . }}</span>
-                                {{ end }}
-                            </span>
-                        {{ end }}
-                        <span class="home-plan-card__action">{{ cond $isEn "View plan" "查看计划" }}</span>
-                    </a>
+                    {{- end -}}
+                    <article class="home-plan-card">
+                        <a class="home-plan-card__main" href="{{ .RelPermalink }}">
+                            <span class="home-plan-card__meta">{{ .Date.Format "2006-01-02" }}</span>
+                            <span class="home-plan-card__title">{{ .Title }}</span>
+                            {{ with .Params.description }}
+                                <span class="home-plan-card__description">{{ . }}</span>
+                            {{ end }}
+                            {{ with .Params.tags }}
+                                <span class="home-plan-card__tags" aria-label="{{ cond $isEn "Plan tags" "计划标签" }}">
+                                    {{ range first 3 . }}
+                                        <span class="home-plan-card__tag">{{ . }}</span>
+                                    {{ end }}
+                                </span>
+                            {{ end }}
+                        </a>
+                        <span class="home-plan-card__actions">
+                            <a class="home-plan-card__pill home-plan-card__pill--plan" href="{{ .RelPermalink }}">{{ cond $isEn "View plan" "查看计划" }}</a>
+                            {{ with $retrospective }}
+                                <a class="home-plan-card__pill home-plan-card__pill--retrospective" href="{{ .RelPermalink }}">{{ cond $isEn "View retrospective" "查看复盘" }}</a>
+                            {{ end }}
+                        </span>
+                    </article>
                 {{ end }}
             </div>
         </section>

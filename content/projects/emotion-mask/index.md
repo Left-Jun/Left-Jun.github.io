@@ -37,6 +37,10 @@ roleTags:
   - "独立开发"
   - "策划"
   - "程序"
+relatedPages:
+  - "retrospectives/emotion-mask-retrospective"
+  - "plans/emotion-mask-roadmap"
+  - "posts/shuguang-youji-roadshow"
 ---
 
 ## 项目简介

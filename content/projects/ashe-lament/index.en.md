@@ -31,6 +31,10 @@ roleTags:
   - "Team Lead"
   - "Main Programmer"
   - "Gameplay Designer"
+relatedPages:
+  - "retrospectives/ashe-lament-retrospective"
+  - "plans/ashe-lament-roadmap"
+  - "posts/shuguang-youji-roadshow"
 ---
 
 ## Overview

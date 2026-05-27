@@ -50,7 +50,7 @@ languages:
           params:
             icon: "user"
         - identifier: "projects"
-          name: "项目"
+          name: "项目&作品集"
           url: "/projects/"
           weight: 30
           params:
@@ -136,11 +136,23 @@ languages:
           params:
             icon: "user"
         - identifier: "projects"
-          name: "Projects"
+          name: "Projects & Portfolio"
           url: "/en/projects/"
           weight: 30
           params:
             icon: "link"
+        - identifier: "retrospectives"
+          name: "Retrospectives"
+          url: "/retrospectives/"
+          weight: 33
+          params:
+            icon: "infinity"
+        - identifier: "plans"
+          name: "Development Plans"
+          url: "/plans/"
+          weight: 35
+          params:
+            icon: "clock"
         - identifier: "posts"
           name: "Posts"
           url: "/en/posts/"

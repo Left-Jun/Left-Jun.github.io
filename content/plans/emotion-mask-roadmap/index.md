@@ -11,11 +11,17 @@ tags:
   - "Emotion Mask"
   - "蜀光游集"
   - "平台跳跃"
+relatedPages:
+  - "projects/emotion-mask"
+  - "retrospectives/emotion-mask-retrospective"
+  - "posts/shuguang-youji-roadshow"
 ---
 
 这份计划来自 2026 年 5 月 16 日成都第一届《蜀光游集》线下路演。
 
 当天《Emotion Mask》和《亚舍拉挽歌》一起参展，两个游戏累计接近 100 人试玩。《Emotion Mask》的反馈明显更集中：玩家对“情绪面具切换”这个机制很感兴趣，也会主动追问后续是否会更新更多面具、更多关卡。路演之后，我也建立了一个玩家催更群，用来继续收集体验反馈。
+
+所以这份计划不只是“想加什么内容”的清单，而是一次基于现场反馈的优先级重排：先把手感、镜头和切换结构打稳，再考虑扩展更多面具和关卡。
 
 ## 当前判断
 
