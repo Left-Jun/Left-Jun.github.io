@@ -562,24 +562,27 @@ body {
   #toggle-menu {
     display: grid;
     place-items: center;
-    width: 3.2rem;
-    height: 3.2rem;
+    top: 0.82rem;
+    right: 0.82rem;
+    width: 3.9rem;
+    height: 3.9rem;
     padding: 0;
     color: var(--accent-color);
   }
 
   .mobile-menu-triangle {
     display: block;
-    width: 2.35rem;
-    height: 2.35rem;
+    width: 2.9rem;
+    height: 2.9rem;
     overflow: visible;
     color: inherit;
-    fill: currentColor;
-    stroke: color-mix(in srgb, var(--accent-color) 22%, white);
-    stroke-width: 0.55;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 3.25;
+    stroke-linecap: round;
     stroke-linejoin: round;
     transform-origin: 50% 50%;
-    filter: drop-shadow(0 0.14rem 0.28rem color-mix(in srgb, var(--accent-color) 24%, transparent));
+    filter: drop-shadow(0 0.14rem 0.3rem color-mix(in srgb, var(--accent-color) 22%, transparent));
     transition: color 0.18s ease, filter 0.18s ease, transform 0.36s cubic-bezier(0.16, 1, 0.3, 1);
     will-change: transform;
   }
@@ -590,15 +593,15 @@ body {
     filter: drop-shadow(0 0.18rem 0.42rem color-mix(in srgb, var(--accent-color) 34%, transparent));
   }
 
-  body.mobile-menu-preopen #main-menu {
+  html.mobile-menu-preopen #main-menu {
     display: flex;
   }
 
-  body.mobile-menu-preopen .sidebar-bottom-actions {
+  html.mobile-menu-preopen .sidebar-bottom-actions {
     display: grid;
   }
 
-  body.mobile-menu-preopen #toggle-menu .mobile-menu-triangle,
+  html.mobile-menu-preopen #toggle-menu .mobile-menu-triangle,
   #toggle-menu.is-active .mobile-menu-triangle {
     transform: rotate(180deg);
   }
