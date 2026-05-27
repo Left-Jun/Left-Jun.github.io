@@ -160,10 +160,10 @@
                             {{ end }}
                         </a>
                         <span class="home-plan-card__actions">
-                            <a class="home-plan-card__pill home-plan-card__pill--plan" href="{{ .RelPermalink }}">{{ cond $isEn "View plan" "查看计划" }}</a>
                             {{ with $retrospective }}
                                 <a class="home-plan-card__pill home-plan-card__pill--retrospective" href="{{ .RelPermalink }}">{{ cond $isEn "View retrospective" "查看复盘" }}</a>
                             {{ end }}
+                            <a class="home-plan-card__pill home-plan-card__pill--plan" href="{{ .RelPermalink }}">{{ cond $isEn "View plan" "查看计划" }}</a>
                         </span>
                     </article>
                 {{ end }}
