@@ -699,9 +699,9 @@ body {
   .left-sidebar .site-avatar .status-tooltip {
     left: calc(100% + 0.65rem);
     top: 50%;
-    width: 18rem;
+    width: 16.5rem;
     min-width: 0;
-    max-width: calc(100vw - 8rem);
+    max-width: calc(100vw - 10.5rem);
     z-index: 260;
     transform: translateY(-50%) translateX(-6px);
 
@@ -717,6 +717,16 @@ body {
   .left-sidebar .site-avatar .status-emoji:hover .status-tooltip,
   .left-sidebar .site-avatar .status-emoji:focus-visible .status-tooltip {
     transform: translateY(-50%) translateX(0);
+  }
+
+  .site-avatar .status-tooltip strong,
+  .left-sidebar .site-avatar .status-tooltip strong {
+    font-size: 1.35rem;
+  }
+
+  .site-avatar .status-tooltip small,
+  .left-sidebar .site-avatar .status-tooltip small {
+    font-size: 1.08rem;
   }
 }
 
@@ -1267,6 +1277,7 @@ body {
   border-color: color-mix(in srgb, var(--leftjun-hover-accent) 58%, var(--leftjun-hover-border));
   background: linear-gradient(135deg, color-mix(in srgb, var(--leftjun-hover-accent) 16%, var(--leftjun-surface-strong)), rgba(232, 248, 255, 0.95));
   box-shadow: 0 8px 18px rgba(31, 126, 212, 0.12);
+  transform: none;
 }
 
 .home-plan-card__pill--retrospective {
@@ -1280,6 +1291,7 @@ body {
   border-color: rgba(15, 118, 110, 0.52);
   background: linear-gradient(135deg, rgba(210, 249, 247, 0.96), rgba(229, 249, 238, 0.95));
   box-shadow: 0 8px 18px rgba(15, 118, 110, 0.12);
+  transform: none;
 }
 
 .home-plan-card__tag {

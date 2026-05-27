@@ -10,6 +10,7 @@ const CONTENT_ROOT = path.join(ROOT, 'content');
 const STATIC_IMG_ROOT = path.join(ROOT, 'static', 'img');
 const PUBLIC_ROOT = path.join(__dirname, 'public');
 const HUGO_CONFIG = path.join(ROOT, 'hugo.yaml');
+const ALLOWED_SECTIONS = new Set(['posts', 'projects', 'retrospectives', 'plans']);
 
 function isInside(child, parent) {
   const relative = path.relative(parent, child);
@@ -328,7 +329,15 @@ function cleanFrontMatter(input) {
 
 async function saveContent(payload) {
   const section = payload.section || 'posts';
+  if (!ALLOWED_SECTIONS.has(section)) {
+    throw new Error('Unsupported content section.');
+  }
+
   const frontMatter = cleanFrontMatter(payload.frontMatter || {});
+  if (!frontMatter.title) {
+    throw new Error('Front matter title is required.');
+  }
+
   const body = String(payload.body || '').replace(/\r\n/g, '\n').trimEnd() + '\n';
   let relativePath = payload.path;
 
@@ -339,6 +348,10 @@ async function saveContent(payload) {
   }
 
   const absolute = contentPath(relativePath);
+  if (!absolute.endsWith('.md')) {
+    throw new Error('Only Markdown files can be saved.');
+  }
+
   await fsp.mkdir(path.dirname(absolute), { recursive: true });
   await fsp.writeFile(absolute, stringifyFrontMatter(frontMatter) + body, 'utf8');
   return readContent(path.relative(ROOT, absolute));

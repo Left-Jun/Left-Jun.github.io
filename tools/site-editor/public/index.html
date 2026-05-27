@@ -69,6 +69,17 @@
     </section>
 
     <section class="panel editor-panel">
+      <div class="editor-hint">
+        <div>
+          <strong>保存路径预览</strong>
+          <small id="pathPreview">选择或新建内容后显示。</small>
+        </div>
+        <div>
+          <strong>显式关联</strong>
+          <small id="relatedSummary">未选择关联。</small>
+        </div>
+      </div>
+
       <div class="form-grid">
         <label><span>当前文件</span><input id="pathField" readonly></label>
         <label><span>标题 title</span><input id="titleField"></label>
@@ -78,8 +89,16 @@
         <label><span>description</span><textarea id="descriptionField" rows="3"></textarea></label>
         <label><span>image</span><input id="imageField" placeholder="cover.png"></label>
         <label><span>portfolioType</span><input id="portfolioTypeField" placeholder="game / embedded"></label>
-        <label><span>categories（逗号或换行）</span><textarea id="categoriesField" rows="3"></textarea></label>
-        <label><span>tags（逗号或换行）</span><textarea id="tagsField" rows="3"></textarea></label>
+        <label>
+          <span>categories（逗号或换行）</span>
+          <textarea id="categoriesField" rows="3"></textarea>
+          <div id="categorySuggestions" class="suggestion-row" aria-label="已有分类"></div>
+        </label>
+        <label>
+          <span>tags（逗号或换行）</span>
+          <textarea id="tagsField" rows="3"></textarea>
+          <div id="tagSuggestions" class="suggestion-row" aria-label="已有标签"></div>
+        </label>
         <label><span>roleTags（项目页）</span><textarea id="roleTagsField" rows="3"></textarea></label>
       </div>
 

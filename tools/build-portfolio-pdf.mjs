@@ -1,19 +1,97 @@
 import fs from "node:fs/promises";
+import fsSync from "node:fs";
 import path from "node:path";
 import { fileURLToPath, pathToFileURL } from "node:url";
 import { createRequire } from "node:module";
+import { spawn } from "node:child_process";
 
 const require = createRequire(import.meta.url);
-const { chromium } = require("playwright");
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const buildDir = path.join(root, ".portfolio-build");
 const outputPdf = path.join(root, "static", "files", "left-jun-portfolio.pdf");
 const outputHtml = path.join(buildDir, "left-jun-portfolio.html");
 const previewPng = path.join(buildDir, "left-jun-portfolio-preview.png");
+const pdfAssetDir = path.join(buildDir, "pdf-assets");
 const edgePath = "C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe";
 
-const projectPath = (slug, file) => path.join(root, "content", "projects", slug, file);
+function runWithInput(command, args, input) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(command, args, { stdio: ["pipe", "pipe", "pipe"] });
+    let stdout = "";
+    let stderr = "";
+    child.stdout.on("data", (chunk) => (stdout += chunk.toString()));
+    child.stderr.on("data", (chunk) => (stderr += chunk.toString()));
+    child.on("error", reject);
+    child.on("close", (code) => {
+      if (code === 0) resolve({ stdout, stderr });
+      else reject(new Error(`${command} exited with ${code}\n${stdout}\n${stderr}`));
+    });
+    child.stdin.end(input);
+  });
+}
+
+async function prepareOptimizedPdfImages() {
+  const pythonCandidates = [
+    process.env.PYTHON,
+    path.join(
+      process.env.USERPROFILE || "",
+      ".cache",
+      "codex-runtimes",
+      "codex-primary-runtime",
+      "dependencies",
+      "python",
+      "python.exe",
+    ),
+    "python",
+  ].filter(Boolean);
+
+  const script = `
+import pathlib
+import sys
+from PIL import Image
+
+src_root = pathlib.Path(sys.argv[1])
+out_root = pathlib.Path(sys.argv[2])
+out_root.mkdir(parents=True, exist_ok=True)
+for src in src_root.rglob("*"):
+    if src.suffix.lower() not in {".png", ".jpg", ".jpeg"}:
+        continue
+    rel = src.relative_to(src_root).with_suffix(".jpg")
+    out = out_root / rel
+    out.parent.mkdir(parents=True, exist_ok=True)
+    with Image.open(src) as im:
+        im.thumbnail((1500, 1000), Image.Resampling.LANCZOS)
+        if im.mode in ("RGBA", "LA") or (im.mode == "P" and "transparency" in im.info):
+            rgba = im.convert("RGBA")
+            bg = Image.new("RGB", rgba.size, (246, 248, 250))
+            bg.paste(rgba, mask=rgba.split()[-1])
+            im = bg
+        else:
+            im = im.convert("RGB")
+        im.save(out, "JPEG", quality=84, optimize=True, progressive=True)
+`;
+
+  for (const python of pythonCandidates) {
+    try {
+      await fs.mkdir(pdfAssetDir, { recursive: true });
+      await runWithInput(python, ["-", path.join(root, "content", "projects"), path.join(pdfAssetDir, "projects")], script);
+      return true;
+    } catch {
+      // Try the next Python runtime, then fall back to original images.
+    }
+  }
+
+  return false;
+}
+
+await prepareOptimizedPdfImages();
+
+const originalProjectPath = (slug, file) => path.join(root, "content", "projects", slug, file);
+const projectPath = (slug, file) => {
+  const optimized = path.join(pdfAssetDir, "projects", slug, file.replace(/\.[^.]+$/, ".jpg"));
+  return fsSync.existsSync(optimized) ? optimized : originalProjectPath(slug, file);
+};
 const img = (slug, file) => pathToFileURL(projectPath(slug, file)).href;
 
 const profile = {
@@ -182,6 +260,42 @@ const techStack = [
   },
 ];
 
+const systemIndex = [
+  {
+    title: "Emotion Mask",
+    accent: "#2b82d8",
+    flow: "输入：移动 / 跳跃 / 冲刺 / 面具切换 → 状态：MaskControl 维护平静、快乐、愤怒 → 输出：隐藏平台、破坏物、音乐、死亡复活、碎片结算。",
+    modules: [
+      "MaskControl / EmotionStats：情绪状态与角色参数中心。",
+      "PlayerMove / PlayerJump / PlayerDash：把状态变化落到手感。",
+      "EmotionalPlatform / Hurtcheck：把状态变化落到关卡读法。",
+      "GameManager / GameTimer：收束碎片、计时和胜利流程。",
+    ],
+  },
+  {
+    title: "亚舍拉挽歌",
+    accent: "#2b82d8",
+    flow: "输入：玩家动作 / 区域高度 / 资源触发器 → 状态：灵能、遗骨、地下安全时间、普通/强化形态 → 输出：UI、捷径、死亡复活、多结局。",
+    modules: [
+      "EnergyManager：统一维护灵能与遗骨，驱动 UI 和结局。",
+      "EnergyDrainController / SafetyTimer：处理地下压力和形态消耗。",
+      "ShortcutBuilder：把收集资源转换为路线优势。",
+      "EndingManager：用灵能阈值完成低/中/高结局判断。",
+    ],
+  },
+  {
+    title: "智能船模",
+    accent: "#149f96",
+    flow: "输入：ADC 摇杆采样 → 通信：3 字节无线包经 nRF24L01 / SPI 发送 → 输出：接收端解析后映射 50Hz PWM，驱动舵机与电调。",
+    modules: [
+      "ADC + 死区/限幅：降低摇杆抖动对控制的影响。",
+      "nRF24L01 + SPI：完成遥控端到船载端的数据链路。",
+      "PWM：把舵机角度和油门转换成可执行信号。",
+      "PCB / 电源滤波：处理稳压、纹波和整机联调问题。",
+    ],
+  },
+];
+
 const pages = [];
 
 function esc(value) {
@@ -293,6 +407,33 @@ page(`
     </div>
   </div>
 `, "tech-page");
+
+page(`
+  <div class="section-title">
+    <p class="eyebrow">Left Jun Portfolio · 2026 Content Update</p>
+    <h2>技术索引：系统流程与脚本结构</h2>
+    <p>这一页不是新增经历，而是把网站近期补充的流程图和脚本结构压缩成便于快速阅读的工程索引。</p>
+  </div>
+  <div class="system-index-grid">
+    ${systemIndex
+      .map(
+        (item) => `
+      <article style="--system-accent: ${item.accent}">
+        <div class="system-index-head">
+          <span>#</span>
+          <h3>${esc(item.title)}</h3>
+        </div>
+        <p class="system-flow">${esc(item.flow)}</p>
+        <ul>${item.modules.map((module) => `<li>${esc(module)}</li>`).join("")}</ul>
+      </article>
+    `,
+      )
+      .join("")}
+  </div>
+  <div class="system-index-note">
+    <strong>阅读方式：</strong>先看输入如何进入状态中心，再看状态如何分发到 UI、关卡、结算或硬件输出。这样比脚本清单更容易判断项目是否有清晰工程主线。
+  </div>
+`, "system-index-page");
 
 page(`
   <div class="section-title">
@@ -689,6 +830,67 @@ const html = `<!doctype html>
     line-height: 1.45;
     white-space: pre-wrap;
   }
+  .system-index-page .section-title {
+    margin-bottom: 7mm;
+  }
+  .system-index-page .section-title p:not(.eyebrow) {
+    max-width: 210mm;
+    color: #626b77;
+  }
+  .system-index-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5mm;
+  }
+  .system-index-grid article {
+    min-height: 114mm;
+    padding: 7mm 6mm;
+    border: 1.5px solid color-mix(in srgb, var(--system-accent) 44%, #d9e3ec);
+    border-radius: 7mm;
+    background: #edf8ff;
+    box-shadow: 0 12px 28px rgba(28, 86, 136, .09);
+  }
+  .system-index-head {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+    margin-bottom: 7mm;
+  }
+  .system-index-head span {
+    display: grid;
+    place-items: center;
+    width: 13mm;
+    height: 10mm;
+    border-radius: 999px;
+    background: var(--system-accent);
+    color: #fff;
+    font-size: 12pt;
+    font-weight: 900;
+  }
+  .system-index-head h3 {
+    margin: 0;
+    font-size: 17pt;
+  }
+  .system-flow {
+    min-height: 34mm;
+    margin-bottom: 6mm;
+    color: #526173;
+    font-size: 10pt;
+    line-height: 1.65;
+  }
+  .system-index-grid li {
+    margin-bottom: 2.25mm;
+    font-size: 9.45pt;
+  }
+  .system-index-note {
+    margin-top: 7mm;
+    padding: 5mm 6mm;
+    border-left: 2mm solid #2b82d8;
+    border-radius: 5mm;
+    background: #fffdf8;
+    color: #526173;
+    font-size: 11pt;
+  }
   .featured-three {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -894,22 +1096,88 @@ await fs.mkdir(buildDir, { recursive: true });
 await fs.mkdir(path.dirname(outputPdf), { recursive: true });
 await fs.writeFile(outputHtml, html, "utf8");
 
-const browser = await chromium.launch({
-  headless: true,
-  executablePath: edgePath,
-});
-const pageRef = await browser.newPage({ viewport: { width: 1684, height: 1190 }, deviceScaleFactor: 1 });
-await pageRef.goto(pathToFileURL(outputHtml).href, { waitUntil: "networkidle" });
-await pageRef.pdf({
-  path: outputPdf,
-  printBackground: true,
-  preferCSSPageSize: true,
-});
-await pageRef.screenshot({
-  path: previewPng,
-  fullPage: false,
-});
-await browser.close();
+function runEdge(args) {
+  return new Promise((resolve, reject) => {
+    const child = spawn(edgePath, args, { stdio: ["ignore", "pipe", "pipe"] });
+    let stdout = "";
+    let stderr = "";
+    child.stdout.on("data", (chunk) => (stdout += chunk.toString()));
+    child.stderr.on("data", (chunk) => (stderr += chunk.toString()));
+    child.on("error", reject);
+    child.on("close", (code) => {
+      if (code === 0) resolve({ stdout, stderr });
+      else reject(new Error(`Edge exited with ${code}\n${stdout}\n${stderr}`));
+    });
+  });
+}
+
+function loadPlaywright() {
+  const candidates = [
+    () => require("playwright"),
+    () => {
+      const bundled = path.join(
+        process.env.USERPROFILE || "",
+        ".cache",
+        "codex-runtimes",
+        "codex-primary-runtime",
+        "dependencies",
+        "node",
+        "node_modules",
+      );
+      return createRequire(path.join(bundled, "package.json"))("playwright");
+    },
+  ];
+
+  for (const candidate of candidates) {
+    try {
+      return candidate();
+    } catch {
+      // Fall back to the next local runtime or Edge CLI.
+    }
+  }
+
+  return null;
+}
+
+const htmlUrl = pathToFileURL(outputHtml).href;
+const playwright = loadPlaywright();
+let renderer = "edge-cli";
+
+if (playwright?.chromium) {
+  renderer = "playwright";
+  const browser = await playwright.chromium.launch({
+    headless: true,
+    executablePath: edgePath,
+  });
+  const pageRef = await browser.newPage({ viewport: { width: 1684, height: 1190 }, deviceScaleFactor: 1 });
+  await pageRef.goto(htmlUrl, { waitUntil: "networkidle" });
+  await pageRef.pdf({
+    path: outputPdf,
+    printBackground: true,
+    preferCSSPageSize: true,
+  });
+  await pageRef.screenshot({
+    path: previewPng,
+    fullPage: false,
+  });
+  await browser.close();
+} else {
+  await runEdge([
+    "--headless=new",
+    "--disable-gpu",
+    "--allow-file-access-from-files",
+    `--print-to-pdf=${outputPdf}`,
+    htmlUrl,
+  ]);
+  await runEdge([
+    "--headless=new",
+    "--disable-gpu",
+    "--allow-file-access-from-files",
+    "--window-size=1684,1190",
+    `--screenshot=${previewPng}`,
+    htmlUrl,
+  ]);
+}
 
 const stat = await fs.stat(outputPdf);
 console.log(JSON.stringify({
@@ -918,4 +1186,5 @@ console.log(JSON.stringify({
   preview: previewPng,
   bytes: stat.size,
   pages: pages.length,
+  renderer,
 }, null, 2));

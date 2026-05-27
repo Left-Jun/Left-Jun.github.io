@@ -29,8 +29,40 @@ function textToList(value) {
   return String(value || '').split(/\n|,/).map(item => item.trim()).filter(Boolean);
 }
 
+function slugify(text) {
+  return String(text || 'untitled')
+    .trim()
+    .toLowerCase()
+    .replace(/[\s_]+/g, '-')
+    .replace(/[^\w\u4e00-\u9fa5-]+/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '') || 'untitled';
+}
+
 function getSection() {
   return $('#sectionFilter').value;
+}
+
+function pageRef(page) {
+  return page.path
+    .replace(/^content\//, '')
+    .replace(/\/index\.en\.md$/, '')
+    .replace(/\/index\.md$/, '')
+    .replace(/\.en\.md$/, '')
+    .replace(/\.md$/, '');
+}
+
+function updatePathPreview() {
+  const existingPath = $('#pathField').value.trim();
+  const section = getSection();
+  const slug = slugify($('#slugField').value.trim() || $('#titleField').value.trim());
+  const nextPath = existingPath || `content/${section}/${slug}/index.md`;
+  $('#pathPreview').textContent = nextPath;
+}
+
+function updateRelatedSummary() {
+  const checked = document.querySelectorAll('#relatedPicker input:checked').length;
+  $('#relatedSummary').textContent = checked ? `已选择 ${checked} 个关联页面。` : '未选择关联。';
 }
 
 function filterPages() {
@@ -68,15 +100,43 @@ function renderRelatedPicker() {
 
   for (const page of state.pages) {
     if (page.path === currentPath) continue;
-    const ref = page.path
-      .replace(/^content\//, '')
-      .replace(/\/index\.md$/, '')
-      .replace(/\.en\.md$/, '')
-      .replace(/\.md$/, '');
+    const ref = pageRef(page);
+    const language = page.path.includes('.en.md') || page.path.includes('/en/') ? 'EN' : 'ZH';
     const label = document.createElement('label');
     const checked = selected.has(ref) ? 'checked' : '';
-    label.innerHTML = `<input type="checkbox" value="${ref}" ${checked}><span><strong>${page.title}</strong><br><small>${ref}</small></span>`;
+    label.innerHTML = `<input type="checkbox" value="${ref}" ${checked}><span><strong>${page.title}</strong><br><small><b>${page.section}</b> · ${language} · ${ref}</small></span>`;
+    label.querySelector('input').addEventListener('change', updateRelatedSummary);
     box.append(label);
+  }
+  updateRelatedSummary();
+}
+
+function addListValue(textarea, value) {
+  const values = new Set(textToList(textarea.value));
+  values.add(value);
+  textarea.value = [...values].join('\n');
+}
+
+function renderTaxonomySuggestions() {
+  const categories = $('#categorySuggestions');
+  const tags = $('#tagSuggestions');
+  categories.innerHTML = '';
+  tags.innerHTML = '';
+
+  for (const category of state.taxonomies.categories || []) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = category;
+    button.addEventListener('click', () => addListValue($('#categoriesField'), category));
+    categories.append(button);
+  }
+
+  for (const tag of state.taxonomies.tags || []) {
+    const button = document.createElement('button');
+    button.type = 'button';
+    button.textContent = tag;
+    button.addEventListener('click', () => addListValue($('#tagsField'), tag));
+    tags.append(button);
   }
 }
 
@@ -99,14 +159,23 @@ function fillForm(page) {
   $('#bodyField').value = page.body || '';
   renderRelatedPicker();
   renderList();
+  updatePathPreview();
 }
 
 function readForm() {
+  const title = $('#titleField').value.trim();
+  if (!title) throw new Error('保存前需要填写 title。');
+
+  const date = $('#dateField').value.trim();
+  if (date && !/^\d{4}-\d{2}-\d{2}/.test(date)) {
+    throw new Error('date 至少需要以 YYYY-MM-DD 开头。');
+  }
+
   const relatedPages = [...document.querySelectorAll('#relatedPicker input:checked')].map(input => input.value);
   const frontMatter = {
     ...(state.current?.frontMatter || {}),
-    title: $('#titleField').value.trim(),
-    date: $('#dateField').value.trim(),
+    title,
+    date,
     draft: $('#draftField').checked,
     slug: $('#slugField').value.trim(),
     description: $('#descriptionField').value.trim(),
@@ -121,8 +190,20 @@ function readForm() {
 
   const facts = $('#projectFactsField').value.trim();
   const links = $('#projectLinksField').value.trim();
-  if (facts) frontMatter.projectFacts = JSON.parse(facts);
-  if (links) frontMatter.projectLinks = JSON.parse(links);
+  if (facts) {
+    try {
+      frontMatter.projectFacts = JSON.parse(facts);
+    } catch {
+      throw new Error('projectFacts 不是合法 JSON。');
+    }
+  }
+  if (links) {
+    try {
+      frontMatter.projectLinks = JSON.parse(links);
+    } catch {
+      throw new Error('projectLinks 不是合法 JSON。');
+    }
+  }
 
   return {
     section: getSection(),
@@ -140,6 +221,7 @@ async function loadContent() {
   state.pages = content.pages;
   state.taxonomies = taxonomies;
   renderList();
+  renderTaxonomySuggestions();
   log(`已加载 ${state.pages.length} 个内容文件。`);
 }
 
@@ -217,8 +299,13 @@ async function runBuild() {
 }
 
 function bind() {
-  $('#sectionFilter').addEventListener('change', renderList);
+  $('#sectionFilter').addEventListener('change', () => {
+    renderList();
+    updatePathPreview();
+  });
   $('#searchInput').addEventListener('input', renderList);
+  $('#titleField').addEventListener('input', updatePathPreview);
+  $('#slugField').addEventListener('input', updatePathPreview);
   $('#refreshButton').addEventListener('click', loadContent);
   $('#newButton').addEventListener('click', newPage);
   $('#saveButton').addEventListener('click', () => save(false).catch(error => log(error.message)));

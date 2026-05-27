@@ -18,3 +18,11 @@ node .\tools\site-editor\server.js
 - `static/img/`
 
 它不会自动提交 Git；保存后可以在编辑器里运行 Hugo 构建，再回到 Codex 或终端提交。
+
+## 能编辑什么
+
+- 打开或新建 `posts`、`projects`、`retrospectives`、`plans` 下的 Markdown 内容。
+- 编辑常用 front matter：标题、slug、日期、草稿、描述、封面、分类、标签、显式关联。
+- 项目页可编辑 `portfolioType`、`roleTags`、`projectFacts`、`projectLinks`。
+- 头像旁小状态支持中英文 emoji、标题和描述。
+- 保存前会校验标题、日期格式和 JSON 字段，避免把错误字段静默写回。
