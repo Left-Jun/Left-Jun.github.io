@@ -86,11 +86,13 @@ export default function () {
         document.body.classList.add('show-menu');
         mainMenu.classList.add('show');
         toggleMenu.classList.add('is-active');
+        document.body.classList.remove('mobile-home-menu-preopen');
 
         autoCollapseTimer = window.setTimeout(() => {
             if (userToggled || mainMenu.classList.contains('transiting')) return;
 
             document.body.classList.remove('show-menu');
+            document.body.classList.remove('mobile-home-menu-preopen');
             slideUp(mainMenu, 300);
             toggleMenu.classList.remove('is-active');
         }, 1000);
@@ -104,6 +106,7 @@ export default function () {
             if (autoCollapseTimer) {
                 window.clearTimeout(autoCollapseTimer);
             }
+            document.body.classList.remove('mobile-home-menu-preopen');
 
             document.body.classList.toggle('show-menu');
             slideToggle(mainMenu, 300);
