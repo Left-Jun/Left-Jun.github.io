@@ -597,6 +597,7 @@ body {
   #toggle-menu .hamburger-inner {
     top: 50%;
     margin-top: -1px;
+    transform-origin: center;
   }
 
   #toggle-menu .hamburger-inner,
@@ -606,6 +607,7 @@ body {
     height: 2px;
     border-radius: 999px;
     background-color: currentColor !important;
+    transform-origin: center;
   }
 
   #toggle-menu .hamburger-inner::before {
@@ -624,22 +626,25 @@ body {
     display: grid;
   }
 
-  html.mobile-menu-preopen #toggle-menu .hamburger-inner {
-    transform: rotate(225deg);
-    transition-delay: 0.12s;
+  html.mobile-menu-preopen #toggle-menu .hamburger-inner,
+  #toggle-menu.is-active .hamburger-inner {
+    transform: rotate(45deg);
+    transition-delay: 0s;
     transition-timing-function: cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 
-  html.mobile-menu-preopen #toggle-menu .hamburger-inner::before {
+  html.mobile-menu-preopen #toggle-menu .hamburger-inner::before,
+  #toggle-menu.is-active .hamburger-inner::before {
     top: 0;
     opacity: 0;
-    transition: top 0.1s ease-out, opacity 0.1s 0.12s ease-out;
+    transition: top 0.1s ease-out, opacity 0.1s ease-out;
   }
 
-  html.mobile-menu-preopen #toggle-menu .hamburger-inner::after {
+  html.mobile-menu-preopen #toggle-menu .hamburger-inner::after,
+  #toggle-menu.is-active .hamburger-inner::after {
     bottom: 0;
     transform: rotate(-90deg);
-    transition: bottom 0.1s ease-out, transform 0.22s 0.12s cubic-bezier(0.215, 0.61, 0.355, 1);
+    transition: bottom 0.1s ease-out, transform 0.18s cubic-bezier(0.215, 0.61, 0.355, 1);
   }
 
   .sidebar-bottom-actions {
