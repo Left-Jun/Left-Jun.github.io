@@ -564,13 +564,13 @@ body {
     display: grid;
     place-items: center;
     top: calc(0.82rem + env(safe-area-inset-top));
-    right: calc(0.82rem + env(safe-area-inset-right));
+    right: calc(1rem + env(safe-area-inset-right));
     bottom: auto;
-    width: 4.05rem;
-    height: 4.05rem;
+    width: 4.18rem;
+    height: 4.18rem;
     padding: 0;
     border-radius: 999px;
-    color: color-mix(in srgb, var(--accent-color) 56%, #dbeeff);
+    color: color-mix(in srgb, var(--accent-color) 48%, #eaf8ff);
     outline: none;
     z-index: 320;
   }
@@ -586,12 +586,12 @@ body {
 
   #toggle-menu:hover {
     opacity: 1;
-    color: color-mix(in srgb, var(--accent-color) 70%, #dff8ff);
+    color: color-mix(in srgb, var(--accent-color) 62%, #eaf8ff);
   }
 
   #toggle-menu .hamburger-box {
-    width: 2.55rem;
-    height: 1.86rem;
+    width: 2.68rem;
+    height: 1.95rem;
   }
 
   #toggle-menu .hamburger-inner {
@@ -603,19 +603,19 @@ body {
   #toggle-menu .hamburger-inner,
   #toggle-menu .hamburger-inner::before,
   #toggle-menu .hamburger-inner::after {
-    width: 2.55rem;
-    height: 2.2px;
+    width: 2.68rem;
+    height: 2.25px;
     border-radius: 999px;
     background-color: currentColor !important;
     transform-origin: center;
   }
 
   #toggle-menu .hamburger-inner::before {
-    top: -0.78rem;
+    top: -0.82rem;
   }
 
   #toggle-menu .hamburger-inner::after {
-    bottom: -0.78rem;
+    bottom: -0.82rem;
   }
 
   html.mobile-menu-preopen #main-menu {
