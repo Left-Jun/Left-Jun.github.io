@@ -7,7 +7,7 @@ import { getEntries, getSectionPage } from "../../lib/content.js";
 const section = await getSectionPage("plans", "zh-cn");
 const entries = await getEntries("plans");
 ---
-<BaseLayout title={section.data.title} description={section.data.description} active="plans">
+<BaseLayout title={section.data.title} description={section.data.description} active="plans" bodyClass="list-page">
   <header>
     <h3 class="section-title">开发计划</h3>
     <section class="section-card">

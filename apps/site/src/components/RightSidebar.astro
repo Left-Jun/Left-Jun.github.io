@@ -8,6 +8,7 @@ type SidebarEntry = {
     title: string;
     categories?: string[];
     tags?: string[];
+    portfolioType?: string;
   };
 };
 
@@ -77,7 +78,7 @@ const tagTitle = isEn ? "Tag Cloud" : "标签云";
         <h2 class="widget-title section-title">{indexTitle}</h2>
         <ol class="project-index-list">
           {entries.map((entry) => (
-            <li>
+            <li data-project-type={entry.data.portfolioType || "other"}>
               <a href={`#project-${entry.slug}`}>{entry.data.title}</a>
             </li>
           ))}

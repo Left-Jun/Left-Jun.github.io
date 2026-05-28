@@ -7,7 +7,7 @@ import { getEntries, getSectionPage } from "../../lib/content.js";
 const section = await getSectionPage("retrospectives", "zh-cn");
 const entries = await getEntries("retrospectives");
 ---
-<BaseLayout title={section.data.title} description={section.data.description} active="retrospectives">
+<BaseLayout title={section.data.title} description={section.data.description} active="retrospectives" bodyClass="list-page">
   <header>
     <h3 class="section-title">项目复盘</h3>
     <section class="section-card">

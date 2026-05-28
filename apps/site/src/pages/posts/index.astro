@@ -8,7 +8,7 @@ const lang = "zh-cn";
 const section = await getSectionPage("posts", lang);
 const posts = await getEntries("posts", { lang });
 ---
-<BaseLayout lang={lang} title={section.data.title} description={section.data.description} active="posts">
+<BaseLayout lang={lang} title={section.data.title} description={section.data.description} active="posts" bodyClass="list-page">
   <header>
     <h3 class="section-title">文章</h3>
     <section class="section-card">

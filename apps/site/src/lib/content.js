@@ -70,7 +70,20 @@ export async function getEntries(section, options = {}) {
     if (!options.includeDrafts && entry.data.draft) return false;
     return true;
   });
+  if (section === "projects") return sortProjects(filtered);
   return sortByDateDesc(filtered);
+}
+
+function sortProjects(entries) {
+  return [...entries].sort((a, b) => {
+    const ap = Number.isFinite(a.data?.pinWeight) ? a.data.pinWeight : null;
+    const bp = Number.isFinite(b.data?.pinWeight) ? b.data.pinWeight : null;
+    if (ap !== null || bp !== null) return (ap ?? Number.POSITIVE_INFINITY) - (bp ?? Number.POSITIVE_INFINITY);
+    const aw = Number.isFinite(a.data?.weight) ? a.data.weight : Number.POSITIVE_INFINITY;
+    const bw = Number.isFinite(b.data?.weight) ? b.data.weight : Number.POSITIVE_INFINITY;
+    if (aw !== bw) return aw - bw;
+    return sortByDateDesc([a, b])[0] === a ? -1 : 1;
+  });
 }
 
 export async function getAllEntries(options = {}) {

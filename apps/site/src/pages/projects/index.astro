@@ -45,61 +45,75 @@ const gridLabel = section.data.gridViewLabel || "网格";
   </Fragment>
   <script is:inline>
     (() => {
-      const showcase = document.querySelector(".project-showcase");
-      if (!showcase) return;
-      const viewStorageKey = "left-jun-project-view";
-      const filterStorageKey = "left-jun-project-filter";
-      const viewButtons = document.querySelectorAll("[data-view-target]");
-      const filterButtons = document.querySelectorAll("[data-filter-target]");
-      const cards = showcase.querySelectorAll(".project-card");
-      const allowedViews = new Set(["single", "grid"]);
-      const allowedFilters = new Set(["game", "embedded"]);
+      const initProjectControls = () => {
+        const showcase = document.querySelector(".project-showcase");
+        if (!showcase) return;
+        const viewStorageKey = "left-jun-project-view";
+        const filterStorageKey = "left-jun-project-filter";
+        const viewButtons = [...document.querySelectorAll("[data-view-target]")];
+        const filterButtons = [...document.querySelectorAll("[data-filter-target]")];
+        const cards = [...showcase.querySelectorAll(".project-card")];
+        const indexItems = [...document.querySelectorAll(".project-index-list [data-project-type]")];
+        const allowedViews = new Set(["single", "grid"]);
+        const allowedFilters = new Set(["game", "embedded"]);
+        let selectedFilters = [];
 
-      const applyView = (view) => {
-        if (!allowedViews.has(view)) view = "single";
-        showcase.dataset.view = view;
-        viewButtons.forEach((button) => {
-          const active = button.dataset.viewTarget === view;
-          button.classList.toggle("is-active", active);
-          button.setAttribute("aria-pressed", active ? "true" : "false");
-        });
+        const applyView = (view) => {
+          if (!allowedViews.has(view)) view = "single";
+          showcase.dataset.view = view;
+          viewButtons.forEach((button) => {
+            const active = button.dataset.viewTarget === view;
+            button.classList.toggle("is-active", active);
+            button.setAttribute("aria-pressed", active ? "true" : "false");
+          });
+        };
+
+        const applyFilters = (filters) => {
+          selectedFilters = filters.filter((item, index, list) => allowedFilters.has(item) && list.indexOf(item) === index);
+          filterButtons.forEach((button) => {
+            const active = selectedFilters.includes(button.dataset.filterTarget);
+            button.classList.toggle("is-active", active);
+            button.setAttribute("aria-pressed", active ? "true" : "false");
+          });
+          cards.forEach((card) => {
+            const type = card.dataset.projectType;
+            card.hidden = selectedFilters.length > 0 && !selectedFilters.includes(type);
+          });
+          indexItems.forEach((item) => {
+            const type = item.dataset.projectType;
+            item.hidden = selectedFilters.length > 0 && !selectedFilters.includes(type);
+          });
+        };
+
+        let savedFilters = [];
+        try {
+          savedFilters = JSON.parse(localStorage.getItem(filterStorageKey) || "[]");
+        } catch {
+          savedFilters = [];
+        }
+        applyView(localStorage.getItem(viewStorageKey) || "single");
+        applyFilters(Array.isArray(savedFilters) ? savedFilters : []);
+
+        viewButtons.forEach((button) => button.addEventListener("click", () => {
+          applyView(button.dataset.viewTarget);
+          localStorage.setItem(viewStorageKey, button.dataset.viewTarget);
+        }));
+        filterButtons.forEach((button) => button.addEventListener("click", () => {
+          const current = new Set(selectedFilters);
+          const key = button.dataset.filterTarget;
+          if (current.has(key)) current.delete(key);
+          else current.add(key);
+          const next = [...current];
+          applyFilters(next);
+          localStorage.setItem(filterStorageKey, JSON.stringify(next));
+        }));
       };
 
-      const applyFilters = (filters) => {
-        const normalized = filters.filter((item) => allowedFilters.has(item));
-        filterButtons.forEach((button) => {
-          const active = normalized.includes(button.dataset.filterTarget);
-          button.classList.toggle("is-active", active);
-          button.setAttribute("aria-pressed", active ? "true" : "false");
-        });
-        cards.forEach((card) => {
-          const type = card.dataset.projectType;
-          card.hidden = normalized.length > 0 && !normalized.includes(type);
-        });
-      };
-
-      let savedFilters = [];
-      try {
-        savedFilters = JSON.parse(localStorage.getItem(filterStorageKey) || "[]");
-      } catch {
-        savedFilters = [];
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initProjectControls, { once: true });
+      } else {
+        initProjectControls();
       }
-      applyView(localStorage.getItem(viewStorageKey) || "single");
-      applyFilters(Array.isArray(savedFilters) ? savedFilters : []);
-
-      viewButtons.forEach((button) => button.addEventListener("click", () => {
-        applyView(button.dataset.viewTarget);
-        localStorage.setItem(viewStorageKey, button.dataset.viewTarget);
-      }));
-      filterButtons.forEach((button) => button.addEventListener("click", () => {
-        const current = new Set([...filterButtons].filter((item) => item.classList.contains("is-active")).map((item) => item.dataset.filterTarget));
-        const key = button.dataset.filterTarget;
-        if (current.has(key)) current.delete(key);
-        else current.add(key);
-        const next = [...current];
-        applyFilters(next);
-        localStorage.setItem(filterStorageKey, JSON.stringify(next));
-      }));
     })();
   </script>
 </BaseLayout>

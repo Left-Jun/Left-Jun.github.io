@@ -29,7 +29,7 @@ const workflows = await Promise.all(workflowItems.map(async (item) => ({
   linked: (await Promise.all(item.slugs.map((slug) => getEntryBySlug("projects", slug, lang)))).filter(Boolean)
 })));
 ---
-<BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home">
+<BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home" bodyClass="home-page">
   <section class="home-hero">
     <p class="home-hero__eyebrow">四川大学 · 电子信息类 · 2029届</p>
     <h1 class="home-hero__title">游戏原型、交互系统与软硬件项目</h1>
