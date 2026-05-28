@@ -1,7 +1,9 @@
-﻿/public/
+node_modules/
+.astro/
+dist/
+/public/
 /resources/_gen/
-/.hugo_build.lock
-/hugo.exe
-/hugo-server.log
-/hugo-server.err.log
-/.portfolio-build/
+.hugo_build.lock
+hugo-server.log
+hugo-server.err.log
+.portfolio-build/

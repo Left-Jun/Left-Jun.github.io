@@ -1,0 +1,12 @@
+---
+const { entry } = Astro.props;
+const tags: string[] = entry.data.tags || [];
+---
+<a class="post-card" href={entry.url}>
+  <h3>{entry.data.title}</h3>
+  {entry.data.description && <p>{entry.data.description}</p>}
+  <div class="article-meta">
+    {entry.formattedDate && <span>{entry.formattedDate}</span>}
+    {tags.slice(0, 3).map((tag) => <span>{tag}</span>)}
+  </div>
+</a>

@@ -1,0 +1,77 @@
+{
+  "plans": {
+    "zh-cn": {
+      "title": "开发计划",
+      "description": "这里整理我正在推进的项目改动、试玩反馈和下一阶段目标。",
+      "slug": "plans",
+      "categories": [],
+      "tags": [],
+      "roleTags": [],
+      "relatedPages": []
+    }
+  },
+  "posts": {
+    "en": {
+      "title": "Posts",
+      "description": "Articles, notes, and stage-by-stage thoughts.",
+      "slug": "posts",
+      "categories": [],
+      "tags": [],
+      "roleTags": [],
+      "relatedPages": []
+    },
+    "zh-cn": {
+      "title": "文章与记录",
+      "description": "这里收集我的文章、笔记和阶段性思考。",
+      "slug": "posts",
+      "categories": [],
+      "tags": [],
+      "roleTags": [],
+      "relatedPages": []
+    }
+  },
+  "projects": {
+    "en": {
+      "title": "Project Portfolio",
+      "description": "A project-based portfolio for Left Jun, covering Unity gameplay prototypes, technical-art experiments, Game Jam works, and hardware-software practice such as Emotion Mask and Elegy of Asherah.",
+      "slug": "projects",
+      "image": "section-cover.svg",
+      "countSuffix": "projects",
+      "typeTitle": "Project Types",
+      "indexTitle": "Project Index",
+      "singleViewLabel": "Single",
+      "gridViewLabel": "Grid",
+      "gameFilterLabel": "Game Development",
+      "embeddedFilterLabel": "Embedded Development",
+      "viewAriaLabel": "Switch project display mode",
+      "filterAriaLabel": "Filter project categories",
+      "categories": [],
+      "tags": [],
+      "roleTags": [],
+      "relatedPages": []
+    },
+    "zh-cn": {
+      "title": "项目作品集",
+      "description": "按项目维度整理 Left Jun 的游戏开发、Unity Gameplay 原型、技术美术实验与软硬件实践，集中展示 Emotion Mask、亚舍拉挽歌、时瞳回响等阶段性成果。",
+      "slug": "projects",
+      "image": "section-cover.svg",
+      "typeTitle": "项目类型",
+      "indexTitle": "项目索引",
+      "categories": [],
+      "tags": [],
+      "roleTags": [],
+      "relatedPages": []
+    }
+  },
+  "retrospectives": {
+    "zh-cn": {
+      "title": "项目复盘",
+      "description": "这里记录项目从想法、开发、参赛到展示的完整经历，以及每次完成之后的反思。",
+      "slug": "retrospectives",
+      "categories": [],
+      "tags": [],
+      "roleTags": [],
+      "relatedPages": []
+    }
+  }
+}

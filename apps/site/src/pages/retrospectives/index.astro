@@ -1,0 +1,18 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import PostCard from "../../components/PostCard.astro";
+import { getEntries, getSectionPage } from "../../lib/content.js";
+
+const section = await getSectionPage("retrospectives", "zh-cn");
+const entries = await getEntries("retrospectives");
+---
+<BaseLayout title={section.data.title} description={section.data.description} active="retrospectives">
+  <section class="section-hero glass">
+    <p class="eyebrow">{entries.length} 篇复盘</p>
+    <h1>{section.data.title}</h1>
+    <p>{section.data.description}</p>
+  </section>
+  <section class="post-list">
+    {entries.map((entry) => <PostCard entry={entry} />)}
+  </section>
+</BaseLayout>

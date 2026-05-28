@@ -1,0 +1,16 @@
+{
+  "name": "@left-jun/editor",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Local Node editor for the Astro-based Left Jun portfolio.",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@left-jun/content-model": "0.1.0"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}

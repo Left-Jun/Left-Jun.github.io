@@ -9,7 +9,8 @@ const require = createRequire(import.meta.url);
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "..");
 const buildDir = path.join(root, ".portfolio-build");
-const outputPdf = path.join(root, "static", "files", "left-jun-portfolio.pdf");
+const projectAssetRoot = path.join(root, "apps", "site", "public", "content-assets", "projects");
+const outputPdf = path.join(root, "apps", "site", "public", "files", "left-jun-portfolio.pdf");
 const outputHtml = path.join(buildDir, "left-jun-portfolio.html");
 const previewPng = path.join(buildDir, "left-jun-portfolio-preview.png");
 const pdfAssetDir = path.join(buildDir, "pdf-assets");
@@ -75,7 +76,7 @@ for src in src_root.rglob("*"):
   for (const python of pythonCandidates) {
     try {
       await fs.mkdir(pdfAssetDir, { recursive: true });
-      await runWithInput(python, ["-", path.join(root, "content", "projects"), path.join(pdfAssetDir, "projects")], script);
+      await runWithInput(python, ["-", projectAssetRoot, path.join(pdfAssetDir, "projects")], script);
       return true;
     } catch {
       // Try the next Python runtime, then fall back to original images.
@@ -87,7 +88,7 @@ for src in src_root.rglob("*"):
 
 await prepareOptimizedPdfImages();
 
-const originalProjectPath = (slug, file) => path.join(root, "content", "projects", slug, file);
+const originalProjectPath = (slug, file) => path.join(projectAssetRoot, slug, file);
 const projectPath = (slug, file) => {
   const optimized = path.join(pdfAssetDir, "projects", slug, file.replace(/\.[^.]+$/, ".jpg"));
   return fsSync.existsSync(optimized) ? optimized : originalProjectPath(slug, file);
@@ -227,7 +228,7 @@ const skills = [
   ["Godot 原型", "做过叙事解谜项目的场景组织、交互道具拆解、时间线切换需求设计和流程调试。"],
   ["STM32 / HAL", "ADC、SPI、PWM、USART、GPIO、nRF24L01，无线遥控链路与船端执行机构控制。"],
   ["硬件实践", "嘉立创 EDA 原理图/PCB、稳压滤波、晶振、接口、焊接、供电与通信问题排查。"],
-  ["发布与协作", "Git、Visual Studio、VS Code、Keil、STM32CubeIDE、TapTap/GGJ 发布、Hugo 作品集维护。"],
+  ["发布与协作", "Git、Visual Studio、VS Code、Keil、STM32CubeIDE、TapTap/GGJ 发布、静态作品集维护。"],
 ];
 
 const techStack = [
@@ -255,7 +256,7 @@ const techStack = [
       "能把 Game Jam 创意拆成核心闭环、可验收模块和后续表现增强。",
       "多次担任队长，负责功能拆解、版本整合、每日推进和交付范围控制。",
       "将策划文本转译为程序任务、美术素材清单、交互节点和测试路径。",
-      "维护 Hugo 双语作品集，并能将项目内容整理成网页与 PDF 展示材料。",
+      "维护双语静态作品集，并能将项目内容整理成网页与 PDF 展示材料。",
     ],
   },
 ];
@@ -352,7 +353,7 @@ page(`
       <div class="quick-facts">
         <div><strong>方向</strong><span>游戏系统 / 玩法原型 / 嵌入式实践</span></div>
         <div><strong>毕业</strong><span>2029 年 7 月</span></div>
-        <div><strong>主力工具</strong><span>Unity、C#、STM32、Hugo</span></div>
+        <div><strong>主力工具</strong><span>Unity、C#、STM32、Astro</span></div>
       </div>
     </div>
     <div class="profile-side">

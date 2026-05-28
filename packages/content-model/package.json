@@ -1,0 +1,19 @@
+{
+  "name": "@left-jun/content-model",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "src/index.js",
+  "exports": {
+    ".": "./src/index.js"
+  },
+  "scripts": {
+    "validate": "node scripts/validate.mjs"
+  },
+  "dependencies": {
+    "gray-matter": "^4.0.3",
+    "markdown-it": "^14.1.0",
+    "yaml": "^2.8.1",
+    "zod": "^4.1.12"
+  }
+}

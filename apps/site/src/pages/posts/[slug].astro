@@ -1,0 +1,14 @@
+---
+import ArticleLayout from "../../components/ArticleLayout.astro";
+import { getEntries } from "../../lib/content.js";
+
+export async function getStaticPaths() {
+  return (await getEntries("posts", { lang: "zh-cn" })).map((entry) => ({
+    params: { slug: entry.slug },
+    props: { entry }
+  }));
+}
+
+const { entry } = Astro.props;
+---
+<ArticleLayout entry={entry} active="posts" />

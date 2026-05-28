@@ -1,0 +1,18 @@
+{
+  "name": "left-jun-portfolio-workspace",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:site": "npm --workspace @left-jun/site run dev",
+    "build:site": "npm --workspace @left-jun/site run build",
+    "check:site": "npm --workspace @left-jun/site run check",
+    "preview:site": "npm --workspace @left-jun/site run preview",
+    "editor": "npm --workspace @left-jun/editor run start",
+    "validate:content": "npm --workspace @left-jun/content-model run validate"
+  }
+}

@@ -1,0 +1,83 @@
+---
+import Icon from "./Icon.astro";
+import { config, siteText } from "../lib/content.js";
+
+const { lang = "zh-cn", active = "home" } = Astro.props;
+const text = siteText(lang);
+const sidebar = text.sidebar;
+const avatar = sidebar.avatar?.startsWith("/") ? sidebar.avatar : `/${sidebar.avatar || "img/avatar.jpg"}`;
+const menu = [...(text.menus.main || [])].sort((a, b) => (a.weight || 0) - (b.weight || 0));
+const social = [...(text.menus.social || [])].sort((a, b) => (a.weight || 0) - (b.weight || 0));
+---
+<aside class="sidebar glass" id="site-sidebar">
+  <button class="hamburger" type="button" aria-label="Toggle menu" data-menu-toggle><span></span></button>
+  <section class="profile">
+    <div class="profile__avatar-wrap">
+      <img class="profile__avatar" src={avatar} alt="Left Jun" loading="eager" />
+      <span class="profile__status-dot" title={sidebar.status?.description}>{sidebar.status?.emoji || "💻"}</span>
+    </div>
+    <h1>{config.title}</h1>
+    <span class="identity-pill">{sidebar.identity}</span>
+    <p class="profile__subtitle">{sidebar.subtitle}</p>
+  </section>
+
+  <div class="social-row" aria-label="social links">
+    {social.map((item) => (
+      <a class="icon-button" href={item.url} target={item.params?.newTab ? "_blank" : undefined} rel={item.params?.newTab ? "noopener noreferrer" : undefined} title={item.name}>
+        <Icon name={item.params?.icon || "link"} label={item.name} />
+      </a>
+    ))}
+  </div>
+
+  <nav class="nav-scroll" aria-label="main navigation">
+    <div class="nav-list">
+      {menu.map((item) => (
+        <a class:list={["nav-link", active === item.identifier && "active"]} href={item.url}>
+          <Icon name={item.params?.icon || "link"} label="" />
+          <span>{item.name}</span>
+        </a>
+      ))}
+    </div>
+  </nav>
+
+  <div class="sidebar-footer">
+    <a class="nav-link" href={text.switchUrl}>
+      <Icon name="language" label="" />
+      <span>{text.switchLabel}</span>
+    </a>
+    <button class="theme-toggle" type="button" data-theme-toggle data-dark-label={text.darkMode} data-light-label={text.lightMode}>
+      <Icon name="toggle-left" label="" />
+      <span data-theme-label>{text.darkMode}</span>
+    </button>
+  </div>
+</aside>
+
+<script is:inline>
+  (() => {
+    const sidebar = document.querySelector("#site-sidebar");
+    const toggle = document.querySelector("[data-menu-toggle]");
+    const themeButton = document.querySelector("[data-theme-toggle]");
+    const themeLabel = document.querySelector("[data-theme-label]");
+    const key = "LeftJunAstroColorScheme";
+    const applyTheme = (scheme) => {
+      document.documentElement.dataset.scheme = scheme;
+      if (themeLabel) {
+        const isDark = scheme === "dark";
+        themeLabel.textContent = isDark ? themeButton?.dataset.lightLabel || "Light Mode" : themeButton?.dataset.darkLabel || "Dark Mode";
+      }
+    };
+    const saved = localStorage.getItem(key);
+    const initial = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
+    applyTheme(initial);
+    themeButton?.addEventListener("click", () => {
+      const next = document.documentElement.dataset.scheme === "dark" ? "light" : "dark";
+      localStorage.setItem(key, next);
+      applyTheme(next);
+    });
+    toggle?.addEventListener("click", () => sidebar?.classList.toggle("is-open"));
+    if (location.pathname === "/" || location.pathname === "/en/") {
+      sidebar?.classList.add("is-open");
+      setTimeout(() => sidebar?.classList.remove("is-open"), 650);
+    }
+  })();
+</script>

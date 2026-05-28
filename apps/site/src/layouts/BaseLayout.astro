@@ -1,0 +1,49 @@
+---
+import "../styles/global.css";
+import Sidebar from "../components/Sidebar.astro";
+import { config, siteText } from "../lib/content.js";
+
+const {
+  lang = "zh-cn",
+  title = config.title,
+  description = config.description,
+  image = `/${config.opengraph?.image || "img/avatar.jpg"}`,
+  active = "home"
+} = Astro.props;
+const text = siteText(lang);
+const pageTitle = title === config.title ? title : `${title} - ${config.title}`;
+const canonical = new URL(Astro.url.pathname, config.siteUrl).toString();
+---
+<!doctype html>
+<html lang={lang === "en" ? "en" : "zh-CN"}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={description || config.description} />
+    <meta name="keywords" content={(config.keywords || []).join(", ")} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={config.favicon || "/favicon.ico"} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={description || config.description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content={config.title} />
+    <meta property="og:image" content={new URL(image, config.siteUrl).toString()} />
+    <meta name="twitter:card" content={config.opengraph?.twitter?.card || "summary_large_image"} />
+    <meta name="twitter:title" content={pageTitle} />
+    <meta name="twitter:description" content={description || config.description} />
+    <meta name="theme-color" content="#e8f4fc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#111820" media="(prefers-color-scheme: dark)" />
+  </head>
+  <body>
+    <div class="site-shell">
+      <Sidebar lang={lang} active={active} />
+      <main class="main-column">
+        <slot />
+        <footer class="footer glass">
+          <span>© {new Date().getFullYear()} {config.title} · {text.isEn ? "Built as a custom static portfolio" : "自定义静态作品集"}</span>
+        </footer>
+      </main>
+    </div>
+  </body>
+</html>

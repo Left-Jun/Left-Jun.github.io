@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Left Jun Astro Editor</title>
+  <link rel="stylesheet" href="/styles.css">
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-mark">LJ</span>
+      <div>
+        <strong>Astro Editor</strong>
+        <small>Local content model</small>
+      </div>
+    </div>
+
+    <div class="filters">
+      <label><span>分区</span><select id="sectionFilter"></select></label>
+      <label><span>语言</span><select id="languageFilter"><option value="all">全部</option><option value="zh-cn">中文</option><option value="en">English</option></select></label>
+      <label><span>搜索</span><input id="searchInput" type="search" placeholder="标题、slug、标签"></label>
+    </div>
+
+    <div class="actions">
+      <button id="newButton" type="button">新建</button>
+      <button id="refreshButton" type="button">刷新</button>
+      <button id="validateButton" type="button">校验</button>
+    </div>
+
+    <ol id="contentList" class="content-list"></ol>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <p>本地工具</p>
+        <h1>Astro 内容编辑器</h1>
+      </div>
+      <div class="actions">
+        <a id="previewLink" class="button" href="#" target="_blank" rel="noopener noreferrer">预览路径</a>
+        <button id="buildButton" type="button">构建 Astro</button>
+        <button id="saveAsButton" type="button">另存</button>
+        <button id="saveButton" type="button" class="primary">保存</button>
+      </div>
+    </header>
+
+    <section class="panel pair-panel">
+      <div>
+        <h2>双语配对</h2>
+        <p id="pairSummary">选择内容后显示中文 / 英文配对状态。</p>
+      </div>
+      <div id="pairActions" class="actions"></div>
+    </section>
+
+    <section class="panel editor-panel">
+      <div class="form-grid">
+        <label><span>当前文件</span><input id="pathField" readonly></label>
+        <label><span>section</span><select id="sectionField"></select></label>
+        <label><span>language</span><select id="langField"><option value="zh-cn">zh-cn</option><option value="en">en</option></select></label>
+        <label><span>title</span><input id="titleField"></label>
+        <label><span>slug</span><input id="slugField"></label>
+        <label><span>date</span><input id="dateField" placeholder="2026-05-28T10:00:00+08:00"></label>
+        <label class="checkbox"><input id="draftField" type="checkbox"><span>draft</span></label>
+        <label><span>description</span><textarea id="descriptionField" rows="3"></textarea></label>
+        <label><span>image</span><input id="imageField" placeholder="cover.png 或 /content-assets/..."></label>
+        <label><span>coverVideo</span><input id="coverVideoField" placeholder="cover.mp4"></label>
+        <label><span>portfolioType</span><input id="portfolioTypeField" placeholder="game / embedded"></label>
+        <label><span>categories</span><textarea id="categoriesField" rows="3"></textarea></label>
+        <label><span>tags</span><textarea id="tagsField" rows="3"></textarea></label>
+        <label><span>roleTags</span><textarea id="roleTagsField" rows="3"></textarea></label>
+      </div>
+
+      <div class="split">
+        <section>
+          <div class="section-title-row">
+            <h2>relatedPages</h2>
+            <select id="relatedSectionFilter"><option value="all">全部分区</option></select>
+          </div>
+          <div id="relatedPicker" class="related-picker"></div>
+        </section>
+        <section>
+          <h2>资源与项目字段</h2>
+          <div id="assetPicker" class="asset-picker"></div>
+          <label><span>projectFacts JSON</span><textarea id="projectFactsField" rows="8" spellcheck="false"></textarea></label>
+          <label><span>projectLinks JSON</span><textarea id="projectLinksField" rows="8" spellcheck="false"></textarea></label>
+        </section>
+      </div>
+
+      <label class="body-editor">
+        <span>Markdown 正文</span>
+        <textarea id="bodyField" spellcheck="false"></textarea>
+      </label>
+    </section>
+
+    <section class="panel config-panel">
+      <div>
+        <h2>站点配置 JSON</h2>
+        <p>用于头像状态、菜单、SEO 默认值。保存前会校验 JSON。</p>
+      </div>
+      <textarea id="siteConfigField" rows="12" spellcheck="false"></textarea>
+      <button id="saveConfigButton" type="button">保存站点配置</button>
+    </section>
+
+    <pre id="log" class="log" aria-live="polite"></pre>
+  </main>
+
+  <script src="/app.js" defer></script>
+</body>
+</html>

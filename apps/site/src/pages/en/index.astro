@@ -1,0 +1,99 @@
+---
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import ProjectCard from "../../components/ProjectCard.astro";
+import PostCard from "../../components/PostCard.astro";
+import Icon from "../../components/Icon.astro";
+import {
+  getEntries,
+  getEntryBySlug,
+  siteText,
+  workflowItems
+} from "../../lib/content.js";
+
+const lang = "en";
+const text = siteText(lang);
+const projects = await getEntries("projects", { lang });
+const featured = projects.filter((item) => item.data.featured).sort((a, b) => a.data.featuredWeight - b.data.featuredWeight).slice(0, 3);
+const posts = (await getEntries("posts", { lang })).slice(0, 3);
+const plans = (await getEntries("plans")).slice(0, 2);
+const workflows = await Promise.all(workflowItems.map(async (item) => ({
+  ...item,
+  linked: (await Promise.all(item.slugs.map((slug) => getEntryBySlug("projects", slug, lang)))).filter(Boolean)
+})));
+---
+<BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home">
+  <section class="home-hero glass">
+    <p class="eyebrow">Sichuan University · Electronic Information · Class of 2029</p>
+    <h1>Game Prototypes, Interaction Systems, and Software-Hardware Projects</h1>
+    <p>I publish work as Left Jun and lead Limenauts as my long-term project team name. This site collects jam projects, Unity and Godot prototypes, embedded experiments, process notes, and public builds.</p>
+    <div class="action-row">
+      <a class="action-button primary" href="/en/projects/"><Icon name="link" />{text.viewProject}</a>
+      <a class="action-button" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer"><Icon name="archives" />{text.portfolioPdf}</a>
+      <a class="action-button" href="/en/about/"><Icon name="user" />{text.aboutMe}</a>
+      <a class="action-button" href="/en/contact/"><Icon name="messages" />{text.contact}</a>
+    </div>
+  </section>
+
+  <section class="home-section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">{text.selectedWork}</p>
+        <h2>{text.representativeProjects}</h2>
+      </div>
+      <a class="section-link" href="/en/projects/">{text.allProjects}</a>
+    </div>
+    <div class="project-grid">
+      {featured.map((entry) => <ProjectCard entry={entry} />)}
+    </div>
+  </section>
+
+  <section class="home-section">
+    <div class="section-heading">
+      <div>
+        <p class="eyebrow">{text.howIWork}</p>
+        <h2>{text.fromIdea}</h2>
+      </div>
+    </div>
+    <div class="workflow-grid">
+      {workflows.map((item) => (
+        <article class="workflow-card">
+          <h3>{item.title.en}</h3>
+          <p>{item.body.en}</p>
+          <div class="workflow-card__projects">
+            {item.linked.map((project) => <a class="chip-link" href={project.url}>{project.data.title}</a>)}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  {plans.length > 0 && (
+    <section class="home-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">{text.inProgress}</p>
+          <h2>{text.developmentPlans}</h2>
+        </div>
+        <a class="section-link" href="/plans/">{text.allPlans}</a>
+      </div>
+      <div class="plan-grid">
+        {plans.map((entry) => <PostCard entry={entry} />)}
+      </div>
+    </section>
+  )}
+
+  {posts.length > 0 && (
+    <section class="home-section">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">{text.latestNotes}</p>
+          <h2>{text.postsAndRecords}</h2>
+        </div>
+        <a class="section-link" href="/en/posts/">{text.allPosts}</a>
+      </div>
+      <div class="post-list">
+        {posts.map((entry) => <PostCard entry={entry} />)}
+      </div>
+    </section>
+  )}
+</BaseLayout>

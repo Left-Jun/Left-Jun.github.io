@@ -1,6 +1,0 @@
-{{- $pinned := where .Pages "Params.pinned" true -}}
-{{- $unpinned := where .Pages "Params.pinned" "!=" true -}}
-{{- $sortedPinned := sort $pinned "Params.pinWeight" "asc" -}}
-{{- $sortedUnpinned := sort $unpinned "Date" "desc" -}}
-{{- $pages := $sortedPinned | append $sortedUnpinned -}}
-{{- return $pages -}}

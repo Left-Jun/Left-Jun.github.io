@@ -1,0 +1,32 @@
+---
+import Icon from "./Icon.astro";
+const { entry, compact = false } = Astro.props;
+const media = entry.data.coverVideo || entry.data.image;
+const roleTags: string[] = entry.data.roleTags || [];
+const tags: string[] = entry.data.tags || [];
+---
+<a class:list={["project-card", compact && "project-card--compact"]} href={entry.url}>
+  {media && (
+    <div class="project-card__media">
+      {entry.data.coverVideo ? (
+        <video src={entry.asset(entry.data.coverVideo)} poster={entry.data.image ? entry.asset(entry.data.image) : undefined} muted loop playsinline preload="metadata"></video>
+      ) : (
+        <img src={entry.asset(entry.data.image)} alt={entry.data.title} loading="lazy" />
+      )}
+    </div>
+  )}
+  <div class="project-card__body">
+    <h3>{entry.data.title}</h3>
+    {entry.data.description && <p>{entry.data.description}</p>}
+    {roleTags.length > 0 && (
+      <div class="tag-row">
+        {roleTags.slice(0, 3).map((tag) => <span class="tag">{tag}</span>)}
+      </div>
+    )}
+    {tags.length > 0 && (
+      <div class="tag-row">
+        {tags.slice(0, 3).map((tag) => <span class="tag"><Icon name="tag" label="" /> {tag}</span>)}
+      </div>
+    )}
+  </div>
+</a>
