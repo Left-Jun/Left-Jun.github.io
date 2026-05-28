@@ -8,11 +8,14 @@ const {
   title = config.title,
   description = config.description,
   image = `/${config.opengraph?.image || "img/avatar.jpg"}`,
-  active = "home"
+  active = "home",
+  bodyClass = ""
 } = Astro.props;
+
 const text = siteText(lang);
 const pageTitle = title === config.title ? title : `${title} - ${config.title}`;
 const canonical = new URL(Astro.url.pathname, config.siteUrl).toString();
+const footerText = text.isEn ? "Built with Astro" : "自定义静态作品集";
 ---
 <!doctype html>
 <html lang={lang === "en" ? "en" : "zh-CN"}>
@@ -32,16 +35,18 @@ const canonical = new URL(Astro.url.pathname, config.siteUrl).toString();
     <meta name="twitter:card" content={config.opengraph?.twitter?.card || "summary_large_image"} />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description || config.description} />
-    <meta name="theme-color" content="#e8f4fc" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#111820" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#ebf5fc" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#171b1a" media="(prefers-color-scheme: dark)" />
   </head>
-  <body>
-    <div class="site-shell">
+  <body class={bodyClass}>
+    <div class="container main-container flex on-phone--column extended site-shell">
       <Sidebar lang={lang} active={active} />
-      <main class="main-column">
+      <main class="main full-width main-column">
         <slot />
-        <footer class="footer glass">
-          <span>© {new Date().getFullYear()} {config.title} · {text.isEn ? "Built as a custom static portfolio" : "自定义静态作品集"}</span>
+        <footer class="site-footer">
+          <section class="copyright footer-single-line">
+            &copy; {new Date().getFullYear()} {config.title} · {footerText}
+          </section>
         </footer>
       </main>
     </div>

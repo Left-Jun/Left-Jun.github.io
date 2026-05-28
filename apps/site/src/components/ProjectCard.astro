@@ -1,32 +1,55 @@
 ---
-import Icon from "./Icon.astro";
 const { entry, compact = false } = Astro.props;
-const media = entry.data.coverVideo || entry.data.image;
+const image = entry.data.image;
+const video = entry.data.coverVideo;
 const roleTags: string[] = entry.data.roleTags || [];
 const tags: string[] = entry.data.tags || [];
+const projectType = entry.data.portfolioType || "other";
+const imagePosition = entry.data.imagePosition || "center";
 ---
-<a class:list={["project-card", compact && "project-card--compact"]} href={entry.url}>
-  {media && (
-    <div class="project-card__media">
-      {entry.data.coverVideo ? (
-        <video src={entry.asset(entry.data.coverVideo)} poster={entry.data.image ? entry.asset(entry.data.image) : undefined} muted loop playsinline preload="metadata"></video>
-      ) : (
-        <img src={entry.asset(entry.data.image)} alt={entry.data.title} loading="lazy" />
+<article
+  id={`project-${entry.slug}`}
+  class:list={["project-card", (image || video) && "has-image", compact && "project-card--compact"]}
+  data-project-type={projectType}
+>
+  <a href={entry.url}>
+    {(image || video) && (
+      <div class="project-card__image">
+        {video ? (
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            controlslist="nodownload noplaybackrate noremoteplayback"
+            disablepictureinpicture
+            disableRemotePlayback
+            translate="no"
+            poster={image ? entry.asset(image) : undefined}
+            style={`object-position: ${imagePosition};`}
+            aria-label={`Video preview of project ${entry.data.title}`}
+          >
+            <source src={entry.asset(video)} type="video/mp4" />
+          </video>
+        ) : (
+          <img src={entry.asset(image)} alt={`Featured image of project ${entry.data.title}`} loading="lazy" style={`object-position: ${imagePosition};`} />
+        )}
+      </div>
+    )}
+    <div class="project-card__content">
+      <h2 class="project-card__title">{entry.data.title}</h2>
+      {entry.data.description && <p class="project-card__description">{entry.data.description}</p>}
+      {roleTags.length > 0 && (
+        <div class="project-card__roles">
+          {roleTags.map((tag) => <span class="project-card__role">{tag}</span>)}
+        </div>
+      )}
+      {tags.length > 0 && (
+        <div class="project-card__tags">
+          {tags.map((tag) => <span class="project-card__tag">{tag}</span>)}
+        </div>
       )}
     </div>
-  )}
-  <div class="project-card__body">
-    <h3>{entry.data.title}</h3>
-    {entry.data.description && <p>{entry.data.description}</p>}
-    {roleTags.length > 0 && (
-      <div class="tag-row">
-        {roleTags.slice(0, 3).map((tag) => <span class="tag">{tag}</span>)}
-      </div>
-    )}
-    {tags.length > 0 && (
-      <div class="tag-row">
-        {tags.slice(0, 3).map((tag) => <span class="tag"><Icon name="tag" label="" /> {tag}</span>)}
-      </div>
-    )}
-  </div>
-</a>
+  </a>
+</article>

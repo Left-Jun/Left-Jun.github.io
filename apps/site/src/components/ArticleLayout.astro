@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "./Icon.astro";
 import PostCard from "./PostCard.astro";
 import {
   relatedEntries,
@@ -9,6 +10,8 @@ import {
 const { entry, active = entry.section, lang = entry.lang } = Astro.props;
 const text = siteText(lang);
 const related = await relatedEntries(entry);
+const projectRecords = related.filter((item) => item.section === "retrospectives" || item.section === "plans");
+const relatedReading = related.filter((item) => item.section !== "retrospectives" && item.section !== "plans");
 const facts = entry.data.projectFacts || {};
 const projectLinks: Array<Record<string, string>> = entry.data.projectLinks || [];
 const tocItems: Array<{ depth: number; text: string; id: string }> = entry.toc || [];
@@ -16,71 +19,132 @@ const factLabels = text.isEn
   ? { developmentTime: "Time", duration: "Duration", role: "Role", tools: "Tools", platform: "Platform", result: "Outcome" }
   : { developmentTime: "开发时间", duration: "开发周期", role: "职能", tools: "工具 / 技术", platform: "平台", result: "成果" };
 const cover = entry.data.coverVideo || entry.data.image;
+const imagePosition = entry.data.imagePosition || "center";
+const englishUrl = entry.section === "pages" ? `/en/${entry.slug}/` : `/en/${entry.section}/${entry.slug}/`;
 ---
-<BaseLayout lang={lang} title={entry.data.title} description={entry.data.description} image={entry.data.image ? entry.asset(entry.data.image) : undefined} active={active}>
-  <div class="detail-grid">
-    <article class="article-shell glass">
-      {cover && (
-        <div class="article-cover">
-          {entry.data.coverVideo ? (
-            <video src={entry.asset(entry.data.coverVideo)} poster={entry.data.image ? entry.asset(entry.data.image) : undefined} autoplay muted loop playsinline></video>
-          ) : (
-            <img src={entry.asset(entry.data.image)} alt={entry.data.title} loading="eager" />
-          )}
+<BaseLayout lang={lang} title={entry.data.title} description={entry.data.description} image={entry.data.image ? entry.asset(entry.data.image) : undefined} active={active} bodyClass="article-page">
+  <div class="article-layout">
+    <article class:list={["main-article", cover && "has-image"]}>
+      <header class="article-header">
+        {cover && (
+          <div class="article-image">
+            {entry.data.coverVideo ? (
+              <video
+                autoplay
+                muted
+                loop
+                playsinline
+                preload="metadata"
+                controlslist="nodownload noplaybackrate noremoteplayback"
+                disablepictureinpicture
+                disableRemotePlayback
+                poster={entry.data.image ? entry.asset(entry.data.image) : undefined}
+                style={`object-position: ${imagePosition};`}
+              >
+                <source src={entry.asset(entry.data.coverVideo)} type="video/mp4" />
+              </video>
+            ) : (
+              <img src={entry.asset(entry.data.image)} alt={entry.data.title} loading="eager" style={`object-position: ${imagePosition};`} />
+            )}
+          </div>
+        )}
+        <div class="article-details">
+          <h1 class="article-title">{entry.data.title}</h1>
+          {entry.data.description && <h2 class="article-subtitle">{entry.data.description}</h2>}
+          <footer class="article-time">
+            {entry.formattedDate && <span>{entry.formattedDate}</span>}
+            <span>{text.isEn ? `${entry.readingMinutes} ${text.readMinutes}` : `阅读时长：${entry.readingMinutes} ${text.readMinutes}`}</span>
+            {entry.lang === "zh-cn" && entry.section !== "retrospectives" && entry.section !== "plans" && <a href={englishUrl}>English</a>}
+          </footer>
         </div>
-      )}
-      <div class="article-inner">
-        <h1 class="article-title">{entry.data.title}</h1>
-        {entry.data.description && <p class="article-description">{entry.data.description}</p>}
-        <div class="article-meta">
-          {entry.formattedDate && <span>{entry.formattedDate}</span>}
-          <span>{text.isEn ? `${entry.readingMinutes} ${text.readMinutes}` : `阅读时长: ${entry.readingMinutes} ${text.readMinutes}`}</span>
-          {entry.lang === "zh-cn" && entry.section !== "retrospectives" && entry.section !== "plans" && (
-            <a href={entry.section === "pages" ? `/en/${entry.slug}/` : `/en/${entry.section}/${entry.slug}/`}>English</a>
-          )}
-        </div>
+      </header>
 
-        {entry.section === "projects" && Object.keys(facts).length > 0 && (
-          <dl class="project-facts">
+      {entry.section === "projects" && Object.keys(facts).length > 0 && (
+        <section class="project-facts" aria-label={text.projectProfile}>
+          <h2 class="project-facts__title">{text.projectProfile}</h2>
+          <dl class="project-facts__grid">
             {Object.entries(factLabels).map(([key, label]) => facts[key] && (
-              <div>
+              <div class:list={["project-facts__item", key === "result" && "project-facts__item--wide"]}>
                 <dt>{label}</dt>
                 <dd>{facts[key]}</dd>
               </div>
             ))}
           </dl>
-        )}
+        </section>
+      )}
 
-        {entry.section === "projects" && projectLinks.length > 0 && (
-          <section class="content-section" style="margin-top: 24px;">
-            <div class="section-heading"><h2>{text.projectLinks}</h2></div>
-            <div class="action-row">
-              {projectLinks.map((link) => (
-                <a class="action-button" href={link.url || link.website} target="_blank" rel="noopener noreferrer">{link.label || link.title || link.url || link.website}</a>
+      {entry.section === "projects" && projectLinks.length > 0 && (
+        <section class="project-links" aria-label={text.projectLinks}>
+          <h2 class="project-links__title">{text.projectLinks}</h2>
+          <div class="project-links__list">
+            {projectLinks.map((link) => (
+              <a class="project-links__button" href={link.url || link.website} target="_blank" rel="noopener noreferrer">
+                <Icon name={link.icon || "link"} />
+                <span>{link.label || link.title || link.url || link.website}</span>
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {entry.section === "projects" && projectRecords.length > 0 && (
+        <section class="project-records" aria-label={text.relatedRecords}>
+          <h2 class="project-records__title">{text.relatedRecords}</h2>
+          <div class="project-records__list">
+            {projectRecords.map((item) => {
+              const isRetrospective = item.section === "retrospectives";
+              return (
+                <a class:list={["project-records__button", isRetrospective && "project-records__button--retrospectives"]} href={item.url}>
+                  <Icon name={isRetrospective ? "infinity" : "clock"} />
+                  <span class="project-records__label">{isRetrospective ? (text.isEn ? "Project Retrospective" : "项目复盘") : (text.isEn ? "Development Plan" : "开发计划")}</span>
+                  <strong>{item.data.title}</strong>
+                </a>
+              );
+            })}
+          </div>
+        </section>
+      )}
+
+      {tocItems.length > 0 && (
+        <aside class="article-toc">
+          <details>
+            <summary>
+              <div class="article-toc-title">
+                <Icon name="chevron-right" />
+                <span>{text.toc}</span>
+              </div>
+            </summary>
+            <nav class="toc-nav">
+              {tocItems.map((item) => (
+                <a href={`#${item.id}`} style={`padding-left:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
               ))}
-            </div>
-          </section>
-        )}
+            </nav>
+          </details>
+        </aside>
+      )}
 
-        <div class="article-content" set:html={entry.html}></div>
+      <section class="article-content" set:html={entry.html}></section>
 
-        {related.length > 0 && (
-          <section class="content-section" style="margin-top: 34px;">
-            <div class="section-heading"><h2>{entry.section === "projects" ? text.relatedRecords : text.relatedReading}</h2></div>
-            <div class="related-grid">
-              {related.map((item) => <PostCard entry={item} />)}
-            </div>
-          </section>
-        )}
-      </div>
+      {relatedReading.length > 0 && (
+        <section class="related-content">
+          <h2>{text.relatedReading}</h2>
+          <div class="article-list--compact">
+            {relatedReading.map((item) => <PostCard entry={item} />)}
+          </div>
+        </section>
+      )}
     </article>
 
     {tocItems.length > 0 && (
-      <aside class="toc-card glass">
-        <h2>{text.toc}</h2>
-        {tocItems.map((item) => (
-          <a href={`#${item.id}`} style={`padding-left:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
-        ))}
+      <aside class="right-sidebar sticky">
+        <section class="widget widget--toc">
+          <h2 class="widget-title">{text.toc}</h2>
+          <nav class="toc-nav">
+            {tocItems.map((item) => (
+              <a href={`#${item.id}`} style={`padding-left:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
+            ))}
+          </nav>
+        </section>
       </aside>
     )}
   </div>

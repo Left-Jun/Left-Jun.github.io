@@ -8,16 +8,20 @@ const section = await getSectionPage("projects", lang);
 const projects = await getEntries("projects", { lang });
 ---
 <BaseLayout lang={lang} title={section.data.title} description={section.data.description} active="projects">
-  <section class="section-hero glass">
-    <p class="eyebrow">{projects.length} projects</p>
-    <h1>{section.data.title}</h1>
-    <p>{section.data.description}</p>
-    <div class="tag-row">
-      <span class="tag">Game Development</span>
-      <span class="tag">Embedded Development</span>
+  <header>
+    <h3 class="section-title">Projects</h3>
+    <section class="section-card project-section-card">
+      <div class="section-details">
+        <h3 class="section-count">{projects.length} projects</h3>
+        <h1 class="section-term">{section.data.title}</h1>
+        <h2 class="section-description">{section.data.description}</h2>
+      </div>
+    </section>
+  </header>
+
+  <section class="project-showcase" data-view="grid">
+    <div class="project-list">
+      {projects.map((entry) => <ProjectCard entry={entry} />)}
     </div>
-  </section>
-  <section class="project-list">
-    {projects.map((entry) => <ProjectCard entry={entry} />)}
   </section>
 </BaseLayout>

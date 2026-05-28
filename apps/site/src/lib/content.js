@@ -102,8 +102,8 @@ export async function getSectionPage(section, lang = "zh-cn") {
 
 export async function resolveRelated(ref) {
   const [section, ...rest] = String(ref || "").split("/");
-  if (!sectionsWithLists.includes(section)) return null;
   const wanted = rest.join("/");
+  if (!sectionsWithLists.includes(section)) return null;
   const entries = await getEntries(section);
   return entries.find((entry) => baseEntryId(entry.id) === wanted || entry.slug === wanted) || null;
 }

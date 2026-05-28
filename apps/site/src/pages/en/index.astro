@@ -6,6 +6,7 @@ import Icon from "../../components/Icon.astro";
 import {
   getEntries,
   getEntryBySlug,
+  relatedEntries,
   siteText,
   workflowItems
 } from "../../lib/content.js";
@@ -13,87 +14,146 @@ import {
 const lang = "en";
 const text = siteText(lang);
 const projects = await getEntries("projects", { lang });
-const featured = projects.filter((item) => item.data.featured).sort((a, b) => a.data.featuredWeight - b.data.featuredWeight).slice(0, 3);
+const featured = projects
+  .filter((item) => item.data.featured)
+  .sort((a, b) => (a.data.featuredWeight || 0) - (b.data.featuredWeight || 0))
+  .slice(0, 3);
 const posts = (await getEntries("posts", { lang })).slice(0, 3);
 const plans = (await getEntries("plans")).slice(0, 2);
+const planCards = await Promise.all(plans.map(async (entry) => ({
+  entry,
+  retrospective: (await relatedEntries(entry)).find((item) => item.section === "retrospectives")
+})));
 const workflows = await Promise.all(workflowItems.map(async (item) => ({
   ...item,
   linked: (await Promise.all(item.slugs.map((slug) => getEntryBySlug("projects", slug, lang)))).filter(Boolean)
 })));
 ---
 <BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home">
-  <section class="home-hero glass">
-    <p class="eyebrow">Sichuan University · Electronic Information · Class of 2029</p>
-    <h1>Game Prototypes, Interaction Systems, and Software-Hardware Projects</h1>
-    <p>I publish work as Left Jun and lead Limenauts as my long-term project team name. This site collects jam projects, Unity and Godot prototypes, embedded experiments, process notes, and public builds.</p>
-    <div class="action-row">
-      <a class="action-button primary" href="/en/projects/"><Icon name="link" />{text.viewProject}</a>
-      <a class="action-button" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer"><Icon name="archives" />{text.portfolioPdf}</a>
-      <a class="action-button" href="/en/about/"><Icon name="user" />{text.aboutMe}</a>
-      <a class="action-button" href="/en/contact/"><Icon name="messages" />{text.contact}</a>
+  <section class="home-hero">
+    <p class="home-hero__eyebrow">Sichuan University · Electronic Information · Class of 2029</p>
+    <h1 class="home-hero__title">Game Prototypes, Interaction Systems, and Software-Hardware Projects</h1>
+    <p class="home-hero__summary">
+      I publish work as Left Jun and lead Limenauts as my long-term project team name. This site collects jam projects, Unity and Godot prototypes, embedded experiments, process notes, and public builds.
+    </p>
+    <div class="home-hero__actions">
+      <a class="home-action home-action--primary" href="/en/projects/"><Icon name="link" /><span>{text.viewProject}</span></a>
+      <a class="home-action" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer"><Icon name="archives" /><span>{text.portfolioPdf}</span></a>
+      <a class="home-action" href="/en/about/"><Icon name="user" /><span>{text.aboutMe}</span></a>
+      <a class="home-action" href="/en/contact/"><Icon name="messages" /><span>{text.contact}</span></a>
     </div>
   </section>
 
-  <section class="home-section">
-    <div class="section-heading">
+  <section class="home-section home-featured-projects">
+    <div class="home-section__header">
       <div>
-        <p class="eyebrow">{text.selectedWork}</p>
+        <p class="home-section__eyebrow">{text.selectedWork}</p>
         <h2>{text.representativeProjects}</h2>
       </div>
-      <a class="section-link" href="/en/projects/">{text.allProjects}</a>
+      <a class="home-section__link" href="/en/projects/">{text.allProjects}</a>
     </div>
-    <div class="project-grid">
+    <div class="home-project-grid">
       {featured.map((entry) => <ProjectCard entry={entry} />)}
     </div>
   </section>
 
-  <section class="home-section">
-    <div class="section-heading">
+  <section class="home-section home-workflow">
+    <div class="home-section__header">
       <div>
-        <p class="eyebrow">{text.howIWork}</p>
+        <p class="home-section__eyebrow">{text.howIWork}</p>
         <h2>{text.fromIdea}</h2>
       </div>
     </div>
-    <div class="workflow-grid">
+    <div class="home-workflow__grid">
       {workflows.map((item) => (
-        <article class="workflow-card">
-          <h3>{item.title.en}</h3>
-          <p>{item.body.en}</p>
-          <div class="workflow-card__projects">
-            {item.linked.map((project) => <a class="chip-link" href={project.url}>{project.data.title}</a>)}
+        <article class="home-workflow__item">
+          <div class="home-workflow__body">
+            <div class="home-workflow__icon"><Icon name={item.icon} /></div>
+            <h3>{item.title.en}</h3>
+            <p>{item.body.en}</p>
+          </div>
+          <div class="home-workflow__projects" aria-label="Representative projects">
+            {item.linked.map((project) => (
+              <a class="home-workflow__project" href={project.url}>
+                <span class="home-workflow__project-label">{project.data.title}</span>
+                {project.data.image && (
+                  <span class="home-workflow__preview" aria-hidden="true">
+                    <span class="home-workflow__preview-media">
+                      <img src={project.asset(project.data.image)} loading="lazy" alt="" />
+                    </span>
+                    {project.data.description && <span class="home-workflow__preview-caption">{project.data.description}</span>}
+                  </span>
+                )}
+              </a>
+            ))}
           </div>
         </article>
       ))}
     </div>
   </section>
 
-  {plans.length > 0 && (
-    <section class="home-section">
-      <div class="section-heading">
+  {planCards.length > 0 && (
+    <section class="home-section home-development-plans">
+      <div class="home-section__header">
         <div>
-          <p class="eyebrow">{text.inProgress}</p>
+          <p class="home-section__eyebrow">{text.inProgress}</p>
           <h2>{text.developmentPlans}</h2>
         </div>
-        <a class="section-link" href="/plans/">{text.allPlans}</a>
+        <a class="home-section__link" href="/plans/">{text.allPlans}</a>
       </div>
-      <div class="plan-grid">
-        {plans.map((entry) => <PostCard entry={entry} />)}
+      <div class="home-plan-grid">
+        {planCards.map(({ entry, retrospective }) => (
+          <article class="home-plan-card">
+            <a class="home-plan-card__main" href={entry.url}>
+              {entry.formattedDate && <span class="home-plan-card__meta">{entry.formattedDate}</span>}
+              <span class="home-plan-card__title">{entry.data.title}</span>
+              {entry.data.description && <span class="home-plan-card__description">{entry.data.description}</span>}
+              {entry.data.tags?.length > 0 && (
+                <span class="home-plan-card__tags" aria-label="Plan tags">
+                  {entry.data.tags.slice(0, 3).map((tag) => <span class="home-plan-card__tag">{tag}</span>)}
+                </span>
+              )}
+            </a>
+            <span class="home-plan-card__actions">
+              {retrospective && <a class="home-plan-card__pill home-plan-card__pill--retrospective" href={retrospective.url}>{text.viewRetrospective}</a>}
+              <a class="home-plan-card__pill home-plan-card__pill--plan" href={entry.url}>{text.viewPlan}</a>
+            </span>
+          </article>
+        ))}
       </div>
     </section>
   )}
 
   {posts.length > 0 && (
-    <section class="home-section">
-      <div class="section-heading">
+    <section class="home-section home-latest-posts">
+      <div class="home-section__header">
         <div>
-          <p class="eyebrow">{text.latestNotes}</p>
+          <p class="home-section__eyebrow">{text.latestNotes}</p>
           <h2>{text.postsAndRecords}</h2>
         </div>
-        <a class="section-link" href="/en/posts/">{text.allPosts}</a>
+        <a class="home-section__link" href="/en/posts/">{text.allPosts}</a>
       </div>
-      <div class="post-list">
+      <section class="article-list--compact home-post-list">
         {posts.map((entry) => <PostCard entry={entry} />)}
-      </div>
+      </section>
     </section>
   )}
+  <script is:inline>
+    (() => {
+      if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
+      document.querySelectorAll(".home-workflow__item").forEach((card) => {
+        card.addEventListener("pointermove", (event) => {
+          const rect = card.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) * 100;
+          const y = ((event.clientY - rect.top) / rect.height) * 100;
+          card.style.setProperty("--cursor-x", `${x}%`);
+          card.style.setProperty("--cursor-y", `${y}%`);
+        });
+        card.addEventListener("pointerleave", () => {
+          card.style.removeProperty("--cursor-x");
+          card.style.removeProperty("--cursor-y");
+        });
+      });
+    })();
+  </script>
 </BaseLayout>

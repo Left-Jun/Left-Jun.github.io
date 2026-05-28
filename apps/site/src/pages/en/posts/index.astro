@@ -8,12 +8,18 @@ const section = await getSectionPage("posts", lang);
 const posts = await getEntries("posts", { lang });
 ---
 <BaseLayout lang={lang} title={section.data.title} description={section.data.description} active="posts">
-  <section class="section-hero glass">
-    <p class="eyebrow">{posts.length} posts</p>
-    <h1>{section.data.title}</h1>
-    <p>{section.data.description}</p>
-  </section>
-  <section class="post-list">
+  <header>
+    <h3 class="section-title">Posts</h3>
+    <section class="section-card">
+      <div class="section-details">
+        <h3 class="section-count">{posts.length} posts</h3>
+        <h1 class="section-term">{section.data.title}</h1>
+        <h2 class="section-description">{section.data.description}</h2>
+      </div>
+    </section>
+  </header>
+
+  <section class="article-list--compact">
     {posts.map((entry) => <PostCard entry={entry} />)}
   </section>
 </BaseLayout>

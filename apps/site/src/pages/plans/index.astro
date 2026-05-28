@@ -7,12 +7,18 @@ const section = await getSectionPage("plans", "zh-cn");
 const entries = await getEntries("plans");
 ---
 <BaseLayout title={section.data.title} description={section.data.description} active="plans">
-  <section class="section-hero glass">
-    <p class="eyebrow">{entries.length} 份计划</p>
-    <h1>{section.data.title}</h1>
-    <p>{section.data.description}</p>
-  </section>
-  <section class="post-list">
+  <header>
+    <h3 class="section-title">开发计划</h3>
+    <section class="section-card">
+      <div class="section-details">
+        <h3 class="section-count">{entries.length} 份计划</h3>
+        <h1 class="section-term">{section.data.title}</h1>
+        <h2 class="section-description">{section.data.description}</h2>
+      </div>
+    </section>
+  </header>
+
+  <section class="article-list--compact">
     {entries.map((entry) => <PostCard entry={entry} />)}
   </section>
 </BaseLayout>
