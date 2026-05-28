@@ -1,7 +1,16 @@
 node_modules/
 .astro/
+.next/
+*.tsbuildinfo
 dist/
+out/
 /public/
+apps/site-next/public/content-assets/
+apps/site-next/public/files/
+apps/site-next/public/icons/
+apps/site-next/public/img/
+apps/site-next/public/favicon.ico
+apps/site-next/public/CNAME
 /resources/_gen/
 .hugo_build.lock
 hugo-server.log

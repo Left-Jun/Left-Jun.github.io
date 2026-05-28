@@ -12,6 +12,9 @@
     "build:site": "npm --workspace @left-jun/site run build",
     "check:site": "npm --workspace @left-jun/site run check",
     "preview:site": "npm --workspace @left-jun/site run preview",
+    "dev:next-site": "npm --workspace @left-jun/site-next run dev",
+    "build:next-site": "npm --workspace @left-jun/site-next run build",
+    "check:next-site": "npm --workspace @left-jun/site-next run check",
     "editor": "npm --workspace @left-jun/editor run start",
     "validate:content": "npm --workspace @left-jun/content-model run validate"
   }
