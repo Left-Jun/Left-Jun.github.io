@@ -23,121 +23,124 @@ const imagePosition = entry.data.imagePosition || "center";
 const englishUrl = entry.section === "pages" ? `/en/${entry.slug}/` : `/en/${entry.section}/${entry.slug}/`;
 ---
 <BaseLayout lang={lang} title={entry.data.title} description={entry.data.description} image={entry.data.image ? entry.asset(entry.data.image) : undefined} active={active} bodyClass="article-page">
-  <div class="article-layout">
-    <article class:list={["main-article", cover && "has-image"]}>
-      <header class="article-header">
-        {cover && (
-          <div class="article-image">
-            {entry.data.coverVideo ? (
-              <video
-                autoplay
-                muted
-                loop
-                playsinline
-                preload="metadata"
-                controlslist="nodownload noplaybackrate noremoteplayback"
-                disablepictureinpicture
-                disableRemotePlayback
-                poster={entry.data.image ? entry.asset(entry.data.image) : undefined}
-                style={`object-position: ${imagePosition};`}
-              >
-                <source src={entry.asset(entry.data.coverVideo)} type="video/mp4" />
-              </video>
-            ) : (
-              <img src={entry.asset(entry.data.image)} alt={entry.data.title} loading="eager" style={`object-position: ${imagePosition};`} />
-            )}
-          </div>
-        )}
-        <div class="article-details">
-          <h1 class="article-title">{entry.data.title}</h1>
-          {entry.data.description && <h2 class="article-subtitle">{entry.data.description}</h2>}
-          <footer class="article-time">
-            {entry.formattedDate && <span>{entry.formattedDate}</span>}
-            <span>{text.isEn ? `${entry.readingMinutes} ${text.readMinutes}` : `阅读时长：${entry.readingMinutes} ${text.readMinutes}`}</span>
-            {entry.lang === "zh-cn" && entry.section !== "retrospectives" && entry.section !== "plans" && <a href={englishUrl}>English</a>}
-          </footer>
+  <article class:list={["main-article", cover && "has-image"]}>
+    <header class="article-header">
+      {cover && (
+        <div class="article-image">
+          {entry.data.coverVideo ? (
+            <video
+              autoplay
+              muted
+              loop
+              playsinline
+              preload="metadata"
+              controlslist="nodownload noplaybackrate noremoteplayback"
+              disablepictureinpicture
+              disableRemotePlayback
+              poster={entry.data.image ? entry.asset(entry.data.image) : undefined}
+              style={`object-position: ${imagePosition};`}
+            >
+              <source src={entry.asset(entry.data.coverVideo)} type="video/mp4" />
+            </video>
+          ) : (
+            <img src={entry.asset(entry.data.image)} alt={entry.data.title} loading="eager" style={`object-position: ${imagePosition};`} />
+          )}
         </div>
-      </header>
-
-      {entry.section === "projects" && Object.keys(facts).length > 0 && (
-        <section class="project-facts" aria-label={text.projectProfile}>
-          <h2 class="project-facts__title">{text.projectProfile}</h2>
-          <dl class="project-facts__grid">
-            {Object.entries(factLabels).map(([key, label]) => facts[key] && (
-              <div class:list={["project-facts__item", key === "result" && "project-facts__item--wide"]}>
-                <dt>{label}</dt>
-                <dd>{facts[key]}</dd>
-              </div>
-            ))}
-          </dl>
-        </section>
       )}
+      <div class="article-details">
+        <h1 class="article-title">{entry.data.title}</h1>
+        {entry.data.description && <h2 class="article-subtitle">{entry.data.description}</h2>}
+        <footer class="article-time">
+          {entry.formattedDate && <span>{entry.formattedDate}</span>}
+          <span>{text.isEn ? `${entry.readingMinutes} ${text.readMinutes}` : `阅读时长：${entry.readingMinutes} ${text.readMinutes}`}</span>
+          {entry.lang === "zh-cn" && entry.section !== "retrospectives" && entry.section !== "plans" && <a href={englishUrl}>English</a>}
+        </footer>
+      </div>
+    </header>
 
-      {entry.section === "projects" && projectLinks.length > 0 && (
-        <section class="project-links" aria-label={text.projectLinks}>
-          <h2 class="project-links__title">{text.projectLinks}</h2>
-          <div class="project-links__list">
-            {projectLinks.map((link) => (
-              <a class="project-links__button" href={link.url || link.website} target="_blank" rel="noopener noreferrer">
-                <Icon name={link.icon || "link"} />
-                <span>{link.label || link.title || link.url || link.website}</span>
+    {entry.section === "projects" && Object.keys(facts).length > 0 && (
+      <section class="project-facts" aria-label={text.projectProfile}>
+        <h2 class="project-facts__title">{text.projectProfile}</h2>
+        <dl class="project-facts__grid">
+          {Object.entries(factLabels).map(([key, label]) => facts[key] && (
+            <div class:list={["project-facts__item", key === "result" && "project-facts__item--wide"]}>
+              <dt>{label}</dt>
+              <dd>{facts[key]}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
+
+    {entry.section === "projects" && projectLinks.length > 0 && (
+      <section class="project-links" aria-label={text.projectLinks}>
+        <h2 class="project-links__title">{text.projectLinks}</h2>
+        <div class="project-links__list">
+          {projectLinks.map((link) => (
+            <a class="project-links__button" href={link.url || link.website} target="_blank" rel="noopener noreferrer">
+              <Icon name={link.icon || "link"} />
+              <span>{link.label || link.title || link.url || link.website}</span>
+            </a>
+          ))}
+        </div>
+      </section>
+    )}
+
+    {entry.section === "projects" && projectRecords.length > 0 && (
+      <section class="project-records" aria-label={text.relatedRecords}>
+        <h2 class="project-records__title">{text.relatedRecords}</h2>
+        <div class="project-records__list">
+          {projectRecords.map((item) => {
+            const isRetrospective = item.section === "retrospectives";
+            return (
+              <a class:list={["project-records__button", isRetrospective && "project-records__button--retrospectives"]} href={item.url}>
+                <Icon name={isRetrospective ? "infinity" : "clock"} />
+                <span class="project-records__label">{isRetrospective ? (text.isEn ? "Project Retrospective" : "项目复盘") : (text.isEn ? "Development Plan" : "开发计划")}</span>
+                <strong>{item.data.title}</strong>
               </a>
-            ))}
-          </div>
-        </section>
-      )}
-
-      {entry.section === "projects" && projectRecords.length > 0 && (
-        <section class="project-records" aria-label={text.relatedRecords}>
-          <h2 class="project-records__title">{text.relatedRecords}</h2>
-          <div class="project-records__list">
-            {projectRecords.map((item) => {
-              const isRetrospective = item.section === "retrospectives";
-              return (
-                <a class:list={["project-records__button", isRetrospective && "project-records__button--retrospectives"]} href={item.url}>
-                  <Icon name={isRetrospective ? "infinity" : "clock"} />
-                  <span class="project-records__label">{isRetrospective ? (text.isEn ? "Project Retrospective" : "项目复盘") : (text.isEn ? "Development Plan" : "开发计划")}</span>
-                  <strong>{item.data.title}</strong>
-                </a>
-              );
-            })}
-          </div>
-        </section>
-      )}
-
-      {tocItems.length > 0 && (
-        <aside class="article-toc">
-          <details>
-            <summary>
-              <div class="article-toc-title">
-                <Icon name="chevron-right" />
-                <span>{text.toc}</span>
-              </div>
-            </summary>
-            <nav class="toc-nav">
-              {tocItems.map((item) => (
-                <a href={`#${item.id}`} style={`padding-left:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
-              ))}
-            </nav>
-          </details>
-        </aside>
-      )}
-
-      <section class="article-content" set:html={entry.html}></section>
-
-      {relatedReading.length > 0 && (
-        <section class="related-content">
-          <h2>{text.relatedReading}</h2>
-          <div class="article-list--compact">
-            {relatedReading.map((item) => <PostCard entry={item} />)}
-          </div>
-        </section>
-      )}
-    </article>
+            );
+          })}
+        </div>
+      </section>
+    )}
 
     {tocItems.length > 0 && (
-      <aside class="right-sidebar sticky">
+      <aside class="article-toc">
+        <details>
+          <summary>
+            <div class="article-toc-title">
+              <Icon name="chevron-right" />
+              <span>{text.toc}</span>
+            </div>
+          </summary>
+          <nav class="toc-nav">
+            {tocItems.map((item) => (
+              <a href={`#${item.id}`} style={`padding-left:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
+            ))}
+          </nav>
+        </details>
+      </aside>
+    )}
+
+    <section class="article-content" set:html={entry.html}></section>
+
+    {relatedReading.length > 0 && (
+      <section class="related-content">
+        <h2>{text.relatedReading}</h2>
+        <div class="article-list--compact">
+          {relatedReading.map((item) => <PostCard entry={item} />)}
+        </div>
+      </section>
+    )}
+  </article>
+
+  {tocItems.length > 0 && (
+    <Fragment slot="right-sidebar">
+      <aside class="sidebar right-sidebar sticky">
         <section class="widget widget--toc">
+          <div class="widget-icon" aria-hidden="true">
+            <Icon name="hash" />
+          </div>
           <h2 class="widget-title">{text.toc}</h2>
           <nav class="toc-nav">
             {tocItems.map((item) => (
@@ -146,6 +149,6 @@ const englishUrl = entry.section === "pages" ? `/en/${entry.slug}/` : `/en/${ent
           </nav>
         </section>
       </aside>
-    )}
-  </div>
+    </Fragment>
+  )}
 </BaseLayout>

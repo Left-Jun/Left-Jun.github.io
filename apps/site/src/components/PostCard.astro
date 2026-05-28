@@ -1,25 +1,26 @@
 ---
 const { entry, compact = true } = Astro.props;
-const tags: string[] = entry.data.tags || [];
+const terms: string[] = [...(entry.data.categories || []), ...(entry.data.tags || [])];
 const image = entry.data.image;
+const imagePosition = entry.data.imagePosition || "center";
 ---
 <article class:list={["post-card", compact && "post-card--compact", image && "has-image"]}>
   <a href={entry.url}>
     <div class="article-details">
       <div class="compact-title-row">
         <h2 class="article-title">{entry.data.title}</h2>
-        {entry.formattedDate && <time class="article-time">{entry.formattedDate}</time>}
+        {terms.length > 0 && (
+          <div class="compact-pill-list">
+            {terms.slice(0, 3).map((term) => <span class="compact-pill">{term}</span>)}
+          </div>
+        )}
       </div>
       {entry.data.description && <p class="compact-subtitle">{entry.data.description}</p>}
-      {tags.length > 0 && (
-        <div class="compact-pill-list">
-          {tags.slice(0, 3).map((tag) => <span class="compact-pill">{tag}</span>)}
-        </div>
-      )}
+      {entry.formattedDate && <time class="article-time" datetime={entry.data.date?.toISOString?.()}>{entry.formattedDate}</time>}
     </div>
     {image && (
       <div class="article-image">
-        <img src={entry.asset(image)} alt="" loading="lazy" />
+        <img src={entry.asset(image)} alt={entry.data.title} loading="lazy" style={`object-position: ${imagePosition};`} />
       </div>
     )}
   </a>

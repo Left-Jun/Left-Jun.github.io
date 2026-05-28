@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import PostCard from "../../components/PostCard.astro";
+import RightSidebar from "../../components/RightSidebar.astro";
 import { getEntries, getSectionPage } from "../../lib/content.js";
 
 const section = await getSectionPage("retrospectives", "zh-cn");
@@ -18,7 +19,10 @@ const entries = await getEntries("retrospectives");
     </section>
   </header>
 
-  <section class="article-list--compact">
+  <section class="article-list--compact" id="retrospectives-list">
     {entries.map((entry) => <PostCard entry={entry} />)}
   </section>
+  <Fragment slot="right-sidebar">
+    <RightSidebar entries={entries} />
+  </Fragment>
 </BaseLayout>

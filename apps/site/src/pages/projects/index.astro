@@ -1,27 +1,105 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
+import RightSidebar from "../../components/RightSidebar.astro";
 import { getEntries, getSectionPage } from "../../lib/content.js";
 
 const lang = "zh-cn";
 const section = await getSectionPage("projects", lang);
 const projects = await getEntries("projects", { lang });
+const gameLabel = section.data.gameFilterLabel || "游戏开发";
+const embeddedLabel = section.data.embeddedFilterLabel || "嵌入式开发";
+const singleLabel = section.data.singleViewLabel || "单列";
+const gridLabel = section.data.gridViewLabel || "网格";
 ---
 <BaseLayout lang={lang} title={section.data.title} description={section.data.description} active="projects">
-  <header>
-    <h3 class="section-title">项目</h3>
+  <header class="project-hero">
     <section class="section-card project-section-card">
       <div class="section-details">
         <h3 class="section-count">{projects.length} 个项目</h3>
-        <h1 class="section-term">{section.data.title}</h1>
-        <h2 class="section-description">{section.data.description}</h2>
+        <div class="project-section-heading">
+          <h1 class="section-term">{section.data.title}</h1>
+          <h2 class="section-description">{section.data.description}</h2>
+        </div>
+        <div class="project-section-actions">
+          <div class="project-filter-toggle" role="group" aria-label={section.data.filterAriaLabel || "筛选项目分类"}>
+            <button class="project-filter-toggle__button" type="button" data-filter-target="game">{gameLabel}</button>
+            <button class="project-filter-toggle__button" type="button" data-filter-target="embedded">{embeddedLabel}</button>
+          </div>
+          <div class="project-view-toggle" role="group" aria-label={section.data.viewAriaLabel || "切换项目展示方式"}>
+            <button class="project-view-toggle__button is-active" type="button" data-view-target="single">{singleLabel}</button>
+            <button class="project-view-toggle__button" type="button" data-view-target="grid">{gridLabel}</button>
+          </div>
+        </div>
       </div>
     </section>
   </header>
 
-  <section class="project-showcase" data-view="grid">
+  <section class="project-showcase" data-view="single">
     <div class="project-list">
       {projects.map((entry) => <ProjectCard entry={entry} />)}
     </div>
   </section>
+  <Fragment slot="right-sidebar">
+    <RightSidebar type="projects" lang={lang} entries={projects} sectionPage={section} />
+  </Fragment>
+  <script is:inline>
+    (() => {
+      const showcase = document.querySelector(".project-showcase");
+      if (!showcase) return;
+      const viewStorageKey = "left-jun-project-view";
+      const filterStorageKey = "left-jun-project-filter";
+      const viewButtons = document.querySelectorAll("[data-view-target]");
+      const filterButtons = document.querySelectorAll("[data-filter-target]");
+      const cards = showcase.querySelectorAll(".project-card");
+      const allowedViews = new Set(["single", "grid"]);
+      const allowedFilters = new Set(["game", "embedded"]);
+
+      const applyView = (view) => {
+        if (!allowedViews.has(view)) view = "single";
+        showcase.dataset.view = view;
+        viewButtons.forEach((button) => {
+          const active = button.dataset.viewTarget === view;
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+      };
+
+      const applyFilters = (filters) => {
+        const normalized = filters.filter((item) => allowedFilters.has(item));
+        filterButtons.forEach((button) => {
+          const active = normalized.includes(button.dataset.filterTarget);
+          button.classList.toggle("is-active", active);
+          button.setAttribute("aria-pressed", active ? "true" : "false");
+        });
+        cards.forEach((card) => {
+          const type = card.dataset.projectType;
+          card.hidden = normalized.length > 0 && !normalized.includes(type);
+        });
+      };
+
+      let savedFilters = [];
+      try {
+        savedFilters = JSON.parse(localStorage.getItem(filterStorageKey) || "[]");
+      } catch {
+        savedFilters = [];
+      }
+      applyView(localStorage.getItem(viewStorageKey) || "single");
+      applyFilters(Array.isArray(savedFilters) ? savedFilters : []);
+
+      viewButtons.forEach((button) => button.addEventListener("click", () => {
+        applyView(button.dataset.viewTarget);
+        localStorage.setItem(viewStorageKey, button.dataset.viewTarget);
+      }));
+      filterButtons.forEach((button) => button.addEventListener("click", () => {
+        const current = new Set([...filterButtons].filter((item) => item.classList.contains("is-active")).map((item) => item.dataset.filterTarget));
+        const key = button.dataset.filterTarget;
+        if (current.has(key)) current.delete(key);
+        else current.add(key);
+        const next = [...current];
+        applyFilters(next);
+        localStorage.setItem(filterStorageKey, JSON.stringify(next));
+      }));
+    })();
+  </script>
 </BaseLayout>

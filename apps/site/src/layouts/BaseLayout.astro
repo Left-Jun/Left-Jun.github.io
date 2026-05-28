@@ -16,6 +16,7 @@ const text = siteText(lang);
 const pageTitle = title === config.title ? title : `${title} - ${config.title}`;
 const canonical = new URL(Astro.url.pathname, config.siteUrl).toString();
 const footerText = text.isEn ? "Built with Astro" : "自定义静态作品集";
+const hasRightSidebar = Astro.slots.has("right-sidebar");
 ---
 <!doctype html>
 <html lang={lang === "en" ? "en" : "zh-CN"}>
@@ -41,14 +42,17 @@ const footerText = text.isEn ? "Built with Astro" : "自定义静态作品集";
   <body class={bodyClass}>
     <div class="container main-container flex on-phone--column extended site-shell">
       <Sidebar lang={lang} active={active} />
-      <main class="main full-width main-column">
-        <slot />
-        <footer class="site-footer">
-          <section class="copyright footer-single-line">
-            &copy; {new Date().getFullYear()} {config.title} · {footerText}
-          </section>
-        </footer>
-      </main>
+      <div class:list={["site-content-layout", hasRightSidebar && "has-right-sidebar"]}>
+        <main class="main full-width main-column">
+          <slot />
+          <footer class="site-footer">
+            <section class="copyright footer-single-line">
+              &copy; {new Date().getFullYear()} {config.title} · {footerText}
+            </section>
+          </footer>
+        </main>
+        {hasRightSidebar && <slot name="right-sidebar" />}
+      </div>
     </div>
   </body>
 </html>

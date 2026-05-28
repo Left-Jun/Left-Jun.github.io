@@ -1,0 +1,113 @@
+---
+import Icon from "./Icon.astro";
+import { siteText } from "../lib/content.js";
+
+type SidebarEntry = {
+  slug: string;
+  data: {
+    title: string;
+    categories?: string[];
+    tags?: string[];
+  };
+};
+
+type SidebarProps = {
+  type?: "terms" | "projects";
+  lang?: "zh-cn" | "en";
+  entries?: SidebarEntry[];
+  sectionPage?: {
+    data?: Record<string, string>;
+  } | null;
+};
+
+const {
+  type = "terms",
+  lang = "zh-cn",
+  entries = [],
+  sectionPage = null
+} = Astro.props as SidebarProps;
+
+const text = siteText(lang);
+const data = sectionPage?.data || {};
+const isEn = text.isEn;
+
+function collectTerms(items: SidebarEntry[], field: "categories" | "tags", limit = 10) {
+  const counts = new Map<string, number>();
+  for (const entry of items) {
+    for (const term of entry.data?.[field] || []) {
+      const key = String(term || "").trim();
+      if (!key) continue;
+      counts.set(key, (counts.get(key) || 0) + 1);
+    }
+  }
+  return [...counts.entries()]
+    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
+    .slice(0, limit)
+    .map(([name, count]) => ({ name, count }));
+}
+
+const categories = collectTerms(entries, "categories", 8);
+const tags = collectTerms(entries, "tags", 12);
+const gameLabel = data.gameFilterLabel || (isEn ? "Game Development" : "游戏开发");
+const embeddedLabel = data.embeddedFilterLabel || (isEn ? "Embedded Development" : "嵌入式开发");
+const typeTitle = data.typeTitle || (isEn ? "Project Types" : "项目类型");
+const indexTitle = data.indexTitle || (isEn ? "Project Index" : "项目索引");
+const categoryTitle = isEn ? "Categories" : "分类";
+const tagTitle = isEn ? "Tag Cloud" : "标签云";
+---
+
+<aside class:list={["sidebar right-sidebar sticky", type === "projects" && "project-index-sidebar"]}>
+  {type === "projects" ? (
+    <>
+      <section class="widget project-type-widget">
+        <div class="widget-icon" aria-hidden="true">
+          <Icon name="categories" />
+        </div>
+        <h2 class="widget-title section-title">{typeTitle}</h2>
+        <div class="project-index-type-list" role="group" aria-label={data.filterAriaLabel || (isEn ? "Filter project categories" : "筛选项目分类")}>
+          <button class="project-index-type-button" type="button" data-filter-target="game">{gameLabel}</button>
+          <button class="project-index-type-button" type="button" data-filter-target="embedded">{embeddedLabel}</button>
+        </div>
+      </section>
+
+      <section class="widget project-index-widget">
+        <div class="widget-icon" aria-hidden="true">
+          <Icon name="link" />
+        </div>
+        <h2 class="widget-title section-title">{indexTitle}</h2>
+        <ol class="project-index-list">
+          {entries.map((entry) => (
+            <li>
+              <a href={`#project-${entry.slug}`}>{entry.data.title}</a>
+            </li>
+          ))}
+        </ol>
+      </section>
+    </>
+  ) : (
+    <>
+      {categories.length > 0 && (
+        <section class="widget tagCloud">
+          <div class="widget-icon" aria-hidden="true">
+            <Icon name="categories" />
+          </div>
+          <h2 class="widget-title section-title">{categoryTitle}</h2>
+          <div class="tagCloud-tags">
+            {categories.map((term) => <span>{term.name}</span>)}
+          </div>
+        </section>
+      )}
+      {tags.length > 0 && (
+        <section class="widget tagCloud">
+          <div class="widget-icon" aria-hidden="true">
+            <Icon name="tag" />
+          </div>
+          <h2 class="widget-title section-title">{tagTitle}</h2>
+          <div class="tagCloud-tags">
+            {tags.map((term) => <span>{term.name}</span>)}
+          </div>
+        </section>
+      )}
+    </>
+  )}
+</aside>
