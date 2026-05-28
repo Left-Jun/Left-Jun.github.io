@@ -213,7 +213,7 @@ export const workflowItems = [
 export async function staticUrls() {
   const entries = await getAllEntries();
   const pages = await getEntries("pages");
-  return ["/", "/en/", "/projects/", "/en/projects/", "/posts/", "/en/posts/", "/retrospectives/", "/plans/", ...entries.map((entry) => entry.url), ...pages.map((entry) => entry.url)];
+  return ["/", "/en/", "/hub/", "/en/hub/", "/projects/", "/en/projects/", "/posts/", "/en/posts/", "/retrospectives/", "/plans/", ...entries.map((entry) => entry.url), ...pages.map((entry) => entry.url)];
 }
 
 export async function fileExists(relative: string) {

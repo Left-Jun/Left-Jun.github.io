@@ -50,6 +50,21 @@ export function Sidebar({ text }: SidebarProps) {
     if (open) window.sessionStorage.setItem("LeftJunMenuNavigation", "1");
   }
 
+  function translatedPath(lang: "zh-cn" | "en") {
+    if (lang === "en") {
+      if (pathname === "/") return "/en/";
+      if (pathname.startsWith("/en/")) return pathname;
+      return `/en${pathname}`.replace(/\/+/g, "/");
+    }
+    if (pathname === "/en") return "/";
+    if (pathname.startsWith("/en/")) return pathname.replace(/^\/en/, "") || "/";
+    return pathname;
+  }
+
+  function changeLanguage(value: string) {
+    window.location.href = value;
+  }
+
   return (
     <>
       <button
@@ -63,7 +78,7 @@ export function Sidebar({ text }: SidebarProps) {
           <span className="hamburger-inner" />
         </span>
       </button>
-      <aside className="left-sidebar sticky">
+      <aside className="sidebar left-sidebar sticky">
         <header>
           <div className="site-avatar">
             <Link href={text.homeUrl} aria-label="Left Jun">
@@ -86,17 +101,17 @@ export function Sidebar({ text }: SidebarProps) {
           </div>
         </header>
 
-        <ul className="menu-social" aria-label="Social links">
+        <ol className="menu-social" aria-label="Social links">
           {text.menus.social.map((item: any) => (
             <li key={item.identifier}>
-              <a href={item.url} target={item.params?.newTab ? "_blank" : undefined} rel={item.params?.newTab ? "noopener noreferrer" : undefined} aria-label={item.name}>
+              <a href={item.url} target={item.params?.newTab ? "_blank" : undefined} rel="me noopener noreferrer" aria-label={item.name} title={item.name}>
                 <Icon name={item.params?.icon} size={19} />
               </a>
             </li>
           ))}
-        </ul>
+        </ol>
 
-        <nav id="main-menu" aria-label="Main menu">
+        <ol className="menu" id="main-menu" aria-label="Main menu">
           {text.menus.main.map((item: any) => {
             const active = pathname === item.url || (item.url !== "/" && pathname.startsWith(item.url));
             return (
@@ -108,13 +123,22 @@ export function Sidebar({ text }: SidebarProps) {
               </li>
             );
           })}
-        </nav>
+        </ol>
 
         <div className="sidebar-bottom-actions">
-          <Link id="i18n-switch" href={text.switchUrl}>
+          <div id="i18n-switch">
             <Icon name="messages" size={18} />
-            <span>{text.switchLabel}</span>
-          </Link>
+            <select
+              name="language"
+              title="language"
+              value={translatedPath(text.lang)}
+              onChange={(event) => changeLanguage(event.currentTarget.value)}
+              aria-label="Language"
+            >
+              <option value={translatedPath("zh-cn")}>中文</option>
+              <option value={translatedPath("en")}>English</option>
+            </select>
+          </div>
           <button id="dark-mode-toggle" data-scheme-state={scheme} onClick={toggleScheme}>
             <span className="theme-toggle__icon">
               <Icon name="sun" size={18} />

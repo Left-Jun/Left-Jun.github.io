@@ -9,7 +9,7 @@ export function ProjectCard({ entry, compact = false }: { entry: SiteEntry; comp
   const roles = entry.data.roleTags || [];
 
   return (
-    <article className="project-card" data-project-type={type}>
+    <article id={`project-${entry.slug}`} className="project-card" data-project-type={type}>
       <Link href={entry.url}>
         {(image || video) && (
           <div className="project-card__image">

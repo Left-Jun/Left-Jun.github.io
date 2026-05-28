@@ -42,5 +42,9 @@ const icons = {
 
 export function Icon({ name, size = 20 }: { name?: string; size?: number }) {
   const Component = icons[(name || "link") as keyof typeof icons] || Link2;
-  return <Component aria-hidden="true" size={size} strokeWidth={1.9} />;
+  return (
+    <span className="inline-icon" aria-hidden="true">
+      <Component size={size} strokeWidth={1.9} />
+    </span>
+  );
 }
