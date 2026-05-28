@@ -54,5 +54,51 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
         {hasRightSidebar && <slot name="right-sidebar" />}
       </div>
     </div>
+    <script is:inline>
+      (() => {
+        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const anchorSelector = [
+          ".right-sidebar a[href^='#']",
+          ".article-toc a[href^='#']",
+          ".project-index-list a[href^='#']"
+        ].join(",");
+
+        const findTarget = (hash) => {
+          if (!hash || hash === "#") return null;
+          const rawId = hash.slice(1);
+          let decodedId = rawId;
+          try {
+            decodedId = decodeURIComponent(rawId);
+          } catch {
+            decodedId = rawId;
+          }
+          return document.getElementById(decodedId) || document.getElementById(rawId);
+        };
+
+        document.addEventListener("click", (event) => {
+          const link = event.target.closest(anchorSelector);
+          if (!link) return;
+          const url = new URL(link.href, window.location.href);
+          if (url.pathname !== window.location.pathname || !url.hash) return;
+          const target = findTarget(url.hash);
+          if (!target) return;
+          event.preventDefault();
+          const scrollToTarget = () => {
+            target.scrollIntoView({
+              behavior: reduceMotion ? "auto" : "smooth",
+              block: "start"
+            });
+          };
+          const settleTarget = () => {
+            const top = Math.abs(target.getBoundingClientRect().top);
+            if (top > 96) scrollToTarget();
+          };
+          scrollToTarget();
+          window.setTimeout(settleTarget, 520);
+          window.setTimeout(settleTarget, 1350);
+          history.pushState(null, "", url.hash);
+        });
+      })();
+    </script>
   </body>
 </html>

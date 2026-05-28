@@ -229,6 +229,15 @@ export function markdownToHtml(markdown, { section = "posts", id = "" } = {}) {
     linkify: true,
     typographer: false
   });
+  const defaultHeadingOpen = md.renderer.rules.heading_open;
+  md.renderer.rules.heading_open = (tokens, idx, options, env, self) => {
+    const token = tokens[idx];
+    const title = tokens[idx + 1]?.content || "";
+    if (!token.attrGet("id") && title) {
+      token.attrSet("id", slugify(title));
+    }
+    return defaultHeadingOpen ? defaultHeadingOpen(tokens, idx, options, env, self) : self.renderToken(tokens, idx, options);
+  };
   const defaultImage = md.renderer.rules.image;
   md.renderer.rules.image = (tokens, idx, options, env, self) => {
     const token = tokens[idx];
