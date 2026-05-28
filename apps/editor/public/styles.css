@@ -1,35 +1,38 @@
 :root {
   color-scheme: light;
   --body-background: #ebf5fc;
-  --accent-color: #1f7ed4;
-  --accent-color-darker: #1768b5;
-  --body-text-color: #667285;
+  --accent-color: #2f72b8;
+  --accent-color-darker: #17365f;
+  --body-text-color: #748195;
   --card-background: #ffffff;
   --card-text-color-main: #142033;
-  --card-text-color-secondary: #667285;
-  --card-text-color-tertiary: #7f8da0;
+  --card-text-color-secondary: #6c788b;
+  --card-text-color-tertiary: #8b98aa;
   --card-separator-color: rgba(54, 87, 124, 0.16);
   --card-border-radius: 22px;
   --leftjun-hover-duration: 0.16s;
   --leftjun-hover-lift: -2px;
-  --leftjun-hover-accent: #1f7ed4;
-  --leftjun-hover-border: rgba(31, 126, 212, 0.4);
-  --leftjun-hover-surface: rgba(31, 126, 212, 0.09);
-  --leftjun-hover-shadow: 0 16px 34px rgba(31, 126, 212, 0.17), 0 7px 18px rgba(42, 76, 108, 0.07);
+  --leftjun-hover-accent: #2f72b8;
+  --leftjun-hover-border: rgba(47, 114, 184, 0.42);
+  --leftjun-hover-surface: rgba(47, 114, 184, 0.08);
+  --leftjun-hover-shadow: 0 16px 34px rgba(47, 114, 184, 0.16), 0 7px 18px rgba(42, 76, 108, 0.07);
   --leftjun-surface-shadow: 0 18px 48px rgba(35, 86, 136, 0.1);
   --leftjun-surface-shadow-soft: 0 10px 26px rgba(35, 86, 136, 0.06);
   --leftjun-page-wash:
-    radial-gradient(circle at 7% 5%, rgba(31, 126, 212, 0.29), transparent 34rem),
-    radial-gradient(circle at 88% 12%, rgba(0, 168, 196, 0.22), transparent 31rem),
-    radial-gradient(circle at 52% 90%, rgba(80, 147, 222, 0.15), transparent 38rem),
-    linear-gradient(180deg, #edf7ff 0%, #e3f1fb 48%, #f1f8ff 100%);
-  --leftjun-surface: rgba(240, 249, 255, 0.96);
-  --leftjun-surface-strong: rgba(249, 253, 255, 0.985);
-  --leftjun-sidebar-background: rgba(238, 248, 255, 0.96);
+    radial-gradient(circle at 7% 5%, rgba(47, 114, 184, 0.24), transparent 34rem),
+    radial-gradient(circle at 88% 12%, rgba(0, 168, 196, 0.2), transparent 31rem),
+    radial-gradient(circle at 52% 92%, rgba(80, 147, 222, 0.13), transparent 38rem),
+    linear-gradient(180deg, #edf7ff 0%, #e3f1fb 48%, #f4f9ff 100%);
+  --leftjun-reading-surface: rgba(255, 255, 255, 0.988);
+  --leftjun-surface: rgba(239, 248, 255, 0.94);
+  --leftjun-surface-strong: rgba(250, 253, 255, 0.985);
+  --leftjun-sidebar-background: rgba(238, 248, 255, 0.94);
   font-family: "Microsoft YaHei", "Segoe UI", system-ui, sans-serif;
 }
 
-* {
+*,
+*::before,
+*::after {
   box-sizing: border-box;
 }
 
@@ -44,6 +47,7 @@ body {
   gap: 24px;
   margin: 0;
   padding: 24px;
+  overflow-x: hidden;
   background: var(--leftjun-page-wash);
   background-attachment: fixed;
   color: var(--body-text-color);
@@ -67,10 +71,10 @@ button,
   padding: 0 14px;
   border: 1px solid var(--card-separator-color);
   border-radius: 999px;
-  background: rgba(255, 255, 255, 0.56);
+  background: rgba(255, 255, 255, 0.6);
   color: var(--card-text-color-main);
   cursor: pointer;
-  font-weight: 800;
+  font-weight: 850;
   text-decoration: none;
   transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, background var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
 }
@@ -83,12 +87,17 @@ button:focus-visible,
   border-color: var(--leftjun-hover-border);
   background: var(--leftjun-hover-surface);
   box-shadow: var(--leftjun-hover-shadow);
-  color: var(--accent-color);
+  color: var(--leftjun-hover-accent);
 }
 
 button.primary {
   border-color: color-mix(in srgb, var(--accent-color) 42%, transparent);
-  background: linear-gradient(135deg, var(--accent-color), #0f8f88);
+  background: linear-gradient(135deg, #17365f, #2f72b8);
+  color: #fff;
+}
+
+button.primary:hover,
+button.primary:focus-visible {
   color: #fff;
 }
 
@@ -100,7 +109,7 @@ button.primary {
   border-radius: var(--card-border-radius);
   background: var(--leftjun-sidebar-background);
   box-shadow: var(--leftjun-surface-shadow);
-  backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px) saturate(1.12);
 }
 
 .sidebar {
@@ -110,7 +119,7 @@ button.primary {
   display: flex;
   flex-direction: column;
   gap: 18px;
-  padding: 18px;
+  padding: 1.35rem;
   overflow: hidden;
 }
 
@@ -121,13 +130,13 @@ button.primary {
 }
 
 .brand-mark {
-  width: 54px;
-  height: 54px;
+  width: 58px;
+  height: 58px;
   display: grid;
   place-items: center;
   border: 1px solid color-mix(in srgb, var(--leftjun-hover-accent) 26%, var(--card-separator-color));
-  border-radius: 18px;
-  background: linear-gradient(145deg, rgba(249, 253, 255, 0.9), rgba(218, 240, 255, 0.82));
+  border-radius: 19px;
+  background: linear-gradient(145deg, rgba(249, 253, 255, 0.92), rgba(218, 240, 255, 0.84));
   box-shadow: var(--leftjun-surface-shadow-soft);
   color: var(--accent-color);
   font-weight: 900;
@@ -140,7 +149,8 @@ button.primary {
 
 .brand strong {
   color: var(--card-text-color-main);
-  font-size: 1.2rem;
+  font-size: 1.25rem;
+  line-height: 1.2;
 }
 
 .brand small,
@@ -166,7 +176,7 @@ textarea {
   width: 100%;
   border: 1px solid var(--card-separator-color);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.72);
+  background: rgba(255, 255, 255, 0.74);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.54);
   color: var(--card-text-color-main);
   padding: 10px 12px;
@@ -183,7 +193,7 @@ select:focus,
 textarea:focus {
   border-color: var(--leftjun-hover-border);
   background: var(--leftjun-surface-strong);
-  box-shadow: 0 0 0 3px rgba(31, 126, 212, 0.08);
+  box-shadow: 0 0 0 3px rgba(47, 114, 184, 0.08);
 }
 
 .actions {
@@ -198,8 +208,8 @@ textarea:focus {
   gap: 8px;
   margin: 0;
   padding: 0 4px 0 0;
-  list-style: none;
   overflow: auto;
+  list-style: none;
 }
 
 .content-list::-webkit-scrollbar,
@@ -243,9 +253,9 @@ textarea:focus {
 }
 
 .main {
+  min-width: 0;
   display: grid;
   gap: 18px;
-  min-width: 0;
 }
 
 .topbar {
@@ -253,7 +263,7 @@ textarea:focus {
   align-items: center;
   justify-content: space-between;
   gap: 16px;
-  padding: 24px;
+  padding: 28px;
 }
 
 .topbar p,
@@ -280,6 +290,12 @@ textarea:focus {
   display: grid;
   gap: 14px;
   padding: 20px;
+  background: var(--leftjun-reading-surface);
+}
+
+.pair-panel,
+.config-panel {
+  background: var(--leftjun-surface);
 }
 
 .panel h2 {
@@ -346,7 +362,7 @@ textarea:focus {
   padding: 9px 10px;
   border: 1px solid var(--card-separator-color);
   border-radius: 12px;
-  background: rgba(255, 255, 255, 0.52);
+  background: rgba(255, 255, 255, 0.55);
   transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, background var(--leftjun-hover-duration) ease;
 }
 
@@ -391,7 +407,8 @@ textarea:focus {
   margin: 0;
   padding: 16px;
   overflow: auto;
-  color: var(--card-text-color-secondary);
+  background: rgba(20, 32, 51, 0.92);
+  color: #dbeafe;
   white-space: pre-wrap;
 }
 
