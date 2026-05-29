@@ -100,6 +100,13 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
           window.setTimeout(settleTarget, 520);
           window.setTimeout(settleTarget, 1350);
           history.pushState(null, "", url.hash);
+          const mobileToc = link.closest(".article-toc");
+          if (mobileToc && matchMedia("(max-width: 767px)").matches) {
+            const details = mobileToc.querySelector("details");
+            window.setTimeout(() => {
+              if (details) details.open = false;
+            }, reduceMotion ? 0 : 260);
+          }
         });
       })();
     </script>

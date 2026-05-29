@@ -1,7 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "./Icon.astro";
-import PostCard from "./PostCard.astro";
+import RelatedCard from "./RelatedCard.astro";
 import {
   relatedEntries,
   siteText
@@ -115,7 +115,7 @@ const englishUrl = entry.section === "pages" ? `/en/${entry.slug}/` : `/en/${ent
           </summary>
           <nav class="toc-nav">
             {tocItems.map((item) => (
-              <a href={`#${item.id}`} style={`padding-left:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
+              <a href={`#${item.id}`} style={`--toc-indent:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
             ))}
           </nav>
         </details>
@@ -127,8 +127,8 @@ const englishUrl = entry.section === "pages" ? `/en/${entry.slug}/` : `/en/${ent
     {relatedReading.length > 0 && (
       <section class="related-content">
         <h2>{text.relatedReading}</h2>
-        <div class="article-list--compact">
-          {relatedReading.map((item) => <PostCard entry={item} />)}
+        <div class="related-grid">
+          {relatedReading.map((item) => <RelatedCard entry={item} />)}
         </div>
       </section>
     )}
@@ -144,7 +144,7 @@ const englishUrl = entry.section === "pages" ? `/en/${entry.slug}/` : `/en/${ent
           <h2 class="widget-title">{text.toc}</h2>
           <nav class="toc-nav">
             {tocItems.map((item) => (
-              <a href={`#${item.id}`} style={`padding-left:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
+              <a href={`#${item.id}`} style={`--toc-indent:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
             ))}
           </nav>
         </section>

@@ -1381,6 +1381,10 @@ main.main {
   color: #a8eee0;
 }
 
+:root[data-scheme="dark"] .project-card__description {
+  color: #c8beb0;
+}
+
 .project-showcase[data-view="single"] .project-list {
   grid-template-columns: 1fr;
 }
@@ -1630,25 +1634,73 @@ main.main {
 .article-toc {
   display: none;
   margin: 0 var(--card-padding) 1rem;
-  border: 1px solid var(--card-separator-color);
-  border-radius: 14px;
-  background: var(--leftjun-surface);
+  overflow: hidden;
+  border: 1px solid color-mix(in srgb, var(--leftjun-hover-accent) 20%, var(--card-separator-color));
+  border-radius: 18px;
+  background: color-mix(in srgb, var(--leftjun-hover-accent) 4%, var(--leftjun-surface));
+  box-shadow: var(--leftjun-surface-shadow-soft);
+  backdrop-filter: blur(10px);
 }
 
 .article-toc details {
-  padding: 0.8rem 1rem;
+  padding: 0;
 }
 
 .article-toc summary {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 3.4rem;
+  padding: 0.82rem 1rem;
   cursor: pointer;
   color: var(--card-text-color-main);
-  font-weight: 850;
+  font-weight: 800;
+  list-style: none;
+}
+
+.article-toc summary::-webkit-details-marker {
+  display: none;
 }
 
 .article-toc-title {
-  display: inline-flex;
+  display: flex;
   align-items: center;
-  gap: 0.5rem;
+  min-width: 0;
+  gap: 0.62rem;
+}
+
+.article-toc-title .inline-icon {
+  width: 2.05rem;
+  height: 2.05rem;
+  flex: 0 0 2.05rem;
+  padding: 0.48rem;
+  border: 1px solid var(--card-separator-color);
+  border-radius: 999px;
+  background: var(--leftjun-surface-strong);
+  box-shadow: var(--leftjun-surface-shadow-soft);
+  color: var(--leftjun-hover-accent);
+  transition: transform var(--leftjun-hover-duration) ease;
+}
+
+.article-toc details[open] .article-toc-title .inline-icon {
+  transform: rotate(90deg);
+}
+
+.article-toc .toc-nav {
+  max-height: 0;
+  overflow: hidden;
+  padding: 0 1rem;
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: max-height 0.22s ease, opacity 0.18s ease, transform 0.18s ease, padding 0.18s ease;
+}
+
+.article-toc details[open] .toc-nav {
+  max-height: min(52vh, 420px);
+  overflow-y: auto;
+  padding: 0.15rem 1rem 1rem;
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .article-content {
@@ -1820,6 +1872,155 @@ main.main {
   font-size: 1.1rem;
 }
 
+.related-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 230px), 1fr));
+  gap: 0.9rem;
+}
+
+.related-card {
+  --related-mask: rgba(31, 126, 212, 0.58);
+  --related-mask-strong: rgba(15, 35, 58, 0.82);
+  position: relative;
+  overflow: hidden;
+  aspect-ratio: 16 / 9;
+  border: 1px solid color-mix(in srgb, var(--related-mask) 42%, rgba(255, 255, 255, 0.32));
+  border-radius: 18px;
+  background:
+    radial-gradient(circle at 18% 12%, color-mix(in srgb, var(--related-mask) 28%, transparent), transparent 48%),
+    var(--leftjun-surface-muted);
+  box-shadow: var(--leftjun-surface-shadow-soft);
+  transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
+}
+
+.related-card--embedded,
+.related-card--retrospectives {
+  --related-mask: rgba(15, 118, 110, 0.6);
+  --related-mask-strong: rgba(8, 47, 73, 0.84);
+}
+
+.related-card--plans {
+  --related-mask: rgba(31, 126, 212, 0.62);
+  --related-mask-strong: rgba(23, 54, 95, 0.84);
+}
+
+.related-card a,
+.related-card__media,
+.related-card__media img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.related-card__media {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  background: var(--leftjun-surface-muted);
+}
+
+.related-card__media img {
+  object-fit: cover;
+  transition: transform 0.22s ease, filter 0.22s ease;
+}
+
+.related-card__media::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(5, 18, 30, 0.04) 0%, color-mix(in srgb, var(--related-mask) 34%, transparent) 44%, var(--related-mask-strong) 100%),
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--related-mask) 42%, transparent), transparent 48%);
+}
+
+.related-card__overlay {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  display: grid;
+  gap: 0.45rem;
+  padding: 1rem;
+  color: #fff;
+}
+
+.related-card__overlay h3 {
+  margin: 0;
+  color: #fff;
+  font-size: clamp(1rem, 1.35vw, 1.22rem);
+  font-weight: 800;
+  line-height: 1.25;
+  text-shadow: 0 1px 8px rgba(0, 0, 0, 0.25);
+}
+
+.related-card__overlay time {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 0.78rem;
+  font-weight: 700;
+}
+
+.related-card__pills {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.32rem;
+}
+
+.related-card__pills span {
+  display: inline-flex;
+  align-items: center;
+  min-height: 1.35rem;
+  padding: 0.25rem 0.52rem;
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.16);
+  color: rgba(255, 255, 255, 0.88);
+  font-size: 0.72rem;
+  font-weight: 700;
+  line-height: 1;
+  backdrop-filter: blur(8px);
+}
+
+.related-card:hover,
+.related-card:focus-within {
+  transform: translateY(var(--leftjun-hover-lift));
+  border-color: color-mix(in srgb, var(--related-mask) 65%, rgba(255, 255, 255, 0.4));
+  box-shadow: var(--leftjun-hover-shadow);
+}
+
+.related-card:hover .related-card__media img,
+.related-card:focus-within .related-card__media img {
+  transform: scale(1.015);
+  filter: saturate(1.04);
+}
+
+:root[data-scheme="dark"] .article-toc {
+  border-color: rgba(138, 184, 239, 0.24);
+  background: rgba(35, 42, 39, 0.9);
+  box-shadow: var(--leftjun-surface-shadow-soft);
+}
+
+:root[data-scheme="dark"] .article-toc-title .inline-icon {
+  border-color: rgba(138, 184, 239, 0.24);
+  background: rgba(39, 48, 46, 0.92);
+  color: #a9cdf8;
+}
+
+:root[data-scheme="dark"] .related-card {
+  border-color: color-mix(in srgb, var(--related-mask) 38%, rgba(240, 236, 227, 0.18));
+  background: rgba(34, 44, 42, 0.88);
+}
+
+:root[data-scheme="dark"] .related-card__media::after {
+  background:
+    linear-gradient(180deg, rgba(4, 10, 14, 0.06) 0%, color-mix(in srgb, var(--related-mask) 30%, transparent) 42%, rgba(9, 17, 24, 0.88) 100%),
+    radial-gradient(circle at 18% 18%, color-mix(in srgb, var(--related-mask) 36%, transparent), transparent 50%);
+}
+
+:root[data-scheme="dark"] .related-card__pills span {
+  border-color: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.12);
+  color: rgba(255, 255, 255, 0.86);
+}
+
 .right-sidebar {
   position: sticky;
   top: var(--main-top-padding);
@@ -1884,8 +2085,28 @@ main.main {
   line-height: 1.45;
 }
 
+.article-toc .toc-nav a {
+  min-height: 2.55rem;
+  padding-top: 0.58rem;
+  padding-left: calc(0.72rem + var(--toc-indent, 0px));
+  padding-right: 0.72rem;
+  padding-bottom: 0.58rem;
+  border-left: 3px solid transparent;
+  border-radius: 10px;
+  overflow-wrap: anywhere;
+  transition: transform var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease;
+}
+
+.article-toc .toc-nav a:hover,
+.article-toc .toc-nav a:focus-visible {
+  transform: translateX(2px);
+  border-left-color: var(--leftjun-hover-accent);
+  background: var(--leftjun-hover-surface);
+  color: var(--leftjun-hover-accent);
+}
+
 .right-sidebar .toc-nav a {
-  padding: 0.62rem 0.75rem;
+  padding: 0.62rem 0.75rem 0.62rem calc(0.75rem + var(--toc-indent, 0px));
   border-left: 3px solid transparent;
   border-radius: 10px;
   overflow-wrap: anywhere;
@@ -2264,11 +2485,18 @@ main.main {
     border: 0;
     border-radius: 999px;
     background: transparent;
-    background: color-mix(in srgb, var(--accent-color) 5%, transparent);
-    box-shadow: 0 0 0 1.8px color-mix(in srgb, var(--accent-color) 18%, transparent);
-    color: color-mix(in srgb, var(--accent-color) 42%, #eefaff);
+    box-shadow: none;
+    color: color-mix(in srgb, var(--accent-color) 54%, #eefaff);
     outline: none;
     cursor: pointer;
+    transition: background-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease;
+  }
+
+  #toggle-menu:hover,
+  #toggle-menu.is-active,
+  html.mobile-menu-preopen #toggle-menu {
+    background: color-mix(in srgb, var(--accent-color) 6%, transparent);
+    box-shadow: 0 0 0 1px color-mix(in srgb, var(--accent-color) 15%, transparent);
   }
 
   #toggle-menu:focus {
@@ -2373,12 +2601,107 @@ main.main {
     display: none;
   }
 
+  .project-showcase[data-view="single"] .project-card {
+    padding: 0;
+    overflow: visible;
+    border: 0;
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .project-showcase[data-view="single"] .project-card:hover,
+  .project-showcase[data-view="single"] .project-card:focus-within {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .project-showcase[data-view="single"] .project-card a {
+    display: grid;
+    gap: 0.58rem;
+  }
+
+  .project-showcase[data-view="single"] .project-card__image {
+    border-radius: 18px;
+    box-shadow: var(--leftjun-surface-shadow-soft);
+  }
+
+  .project-showcase[data-view="single"] .project-card__content {
+    padding: 1rem 1.05rem 1.05rem;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 18px;
+    background: var(--leftjun-neutral-card-background);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+  }
+
+  .project-showcase[data-view="single"] .project-card[data-project-type="game"] .project-card__content {
+    border-color: var(--leftjun-game-card-border);
+    background: var(--leftjun-game-card-background);
+  }
+
+  .project-showcase[data-view="single"] .project-card[data-project-type="embedded"] .project-card__content {
+    border-color: var(--leftjun-embedded-card-border);
+    background: var(--leftjun-embedded-card-background);
+  }
+
+  :root[data-scheme="dark"] .project-showcase[data-view="single"] .project-card__content {
+    border-color: rgba(138, 184, 239, 0.18);
+    background: rgba(39, 48, 46, 0.92);
+  }
+
+  :root[data-scheme="dark"] .project-showcase[data-view="single"] .project-card[data-project-type="game"] .project-card__content {
+    border-color: rgba(138, 184, 239, 0.26);
+    background: rgba(39, 46, 48, 0.94);
+  }
+
+  :root[data-scheme="dark"] .project-showcase[data-view="single"] .project-card[data-project-type="embedded"] .project-card__content {
+    border-color: rgba(106, 197, 181, 0.28);
+    background: rgba(38, 49, 44, 0.94);
+  }
+
   .project-showcase[data-view="single"] .project-card__title {
-    font-size: 30px;
+    font-size: 26px;
+    line-height: 1.18;
   }
 
   .project-showcase[data-view="single"] .project-card__description {
-    font-size: 15.7px;
+    font-size: 14.8px;
+    line-height: 1.58;
+  }
+
+  .project-showcase[data-view="single"] .project-card__roles,
+  .project-showcase[data-view="single"] .project-card__tags {
+    gap: 0.38rem;
+    margin-top: 0.72rem;
+  }
+
+  .project-showcase[data-view="single"] .project-card__role,
+  .project-showcase[data-view="single"] .project-card__tag {
+    min-height: 1.55rem;
+    padding: 0.3rem 0.58rem;
+    font-size: 0.76rem;
+  }
+
+  .related-grid {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+  }
+
+  .related-card {
+    border-radius: 16px;
+  }
+
+  .related-card__overlay {
+    padding: 0.85rem;
+  }
+
+  .related-card__overlay h3 {
+    font-size: 1rem;
+  }
+
+  .related-card__pills span {
+    min-height: 1.24rem;
+    padding: 0.22rem 0.46rem;
+    font-size: 0.68rem;
   }
 
   .home-action,
