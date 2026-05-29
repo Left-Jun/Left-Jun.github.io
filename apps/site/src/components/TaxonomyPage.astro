@@ -1,0 +1,38 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostCard from "./PostCard.astro";
+import RightSidebar from "./RightSidebar.astro";
+
+const { kind, term, lang = "zh-cn" } = Astro.props as {
+  kind: "tags" | "categories";
+  term: { name: string; entries: Array<any> };
+  lang?: "zh-cn" | "en";
+};
+const isEn = lang === "en";
+const isTag = kind === "tags";
+const label = isEn ? (isTag ? "Tag" : "Category") : (isTag ? "标签" : "分类");
+const countLabel = isEn ? `${term.entries.length} entries` : `${term.entries.length} 个页面`;
+const description = isEn
+  ? `Entries filed under ${label.toLowerCase()} "${term.name}".`
+  : `收录「${term.name}」下的项目、文章与记录。`;
+---
+<BaseLayout lang={lang} title={`${label}: ${term.name}`} description={description} active="posts" bodyClass="list-page taxonomy-page">
+  <header>
+    <h3 class="section-title">{label}</h3>
+    <section class="section-card">
+      <div class="section-details">
+        <h3 class="section-count">{countLabel}</h3>
+        <h1 class="section-term">{term.name}</h1>
+        <h2 class="section-description">{description}</h2>
+      </div>
+    </section>
+  </header>
+
+  <section class="article-list--compact">
+    {term.entries.map((entry: any) => <PostCard entry={entry} />)}
+  </section>
+
+  <Fragment slot="right-sidebar">
+    <RightSidebar lang={lang} entries={term.entries} />
+  </Fragment>
+</BaseLayout>

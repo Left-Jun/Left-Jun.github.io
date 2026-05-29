@@ -14,7 +14,8 @@ import {
   listUrl,
   markdownToHtml,
   readTimeMinutes,
-  sortByDateDesc
+  sortByDateDesc,
+  slugify
 } from "@left-jun/content-model";
 
 export const config = siteConfig;
@@ -89,6 +90,39 @@ function sortProjects(entries) {
 export async function getAllEntries(options = {}) {
   const groups = await Promise.all(sectionsWithLists.map((section) => getEntries(section, options)));
   return groups.flat();
+}
+
+export function taxonomySlug(value) {
+  return slugify(value);
+}
+
+export function taxonomyTermUrl(kind, term, lang = "zh-cn") {
+  const section = kind === "categories" ? "categories" : "tags";
+  const slug = taxonomySlug(term);
+  return languageKey(lang) === "en" ? `/en/${section}/${slug}/` : `/${section}/${slug}/`;
+}
+
+export async function getTaxonomyTerms(kind, lang = "zh-cn") {
+  const field = kind === "categories" ? "categories" : "tags";
+  const entries = await getAllEntries({ lang });
+  const terms = new Map();
+  for (const entry of entries) {
+    for (const name of entry.data?.[field] || []) {
+      const clean = String(name || "").trim();
+      if (!clean) continue;
+      const slug = taxonomySlug(clean);
+      if (!terms.has(slug)) {
+        terms.set(slug, { slug, name: clean, entries: [] });
+      }
+      terms.get(slug).entries.push(entry);
+    }
+  }
+  return [...terms.values()].sort((a, b) => a.name.localeCompare(b.name, lang));
+}
+
+export async function getTaxonomyTerm(kind, slug, lang = "zh-cn") {
+  const terms = await getTaxonomyTerms(kind, lang);
+  return terms.find((term) => term.slug === slug) || null;
 }
 
 export async function getEntryBySlug(section, slug, lang = "zh-cn") {

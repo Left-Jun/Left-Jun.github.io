@@ -1,0 +1,12 @@
+---
+import TaxonomyPage from "../../components/TaxonomyPage.astro";
+import { getTaxonomyTerm, getTaxonomyTerms } from "../../lib/content.js";
+
+export async function getStaticPaths() {
+  const terms = await getTaxonomyTerms("categories", "zh-cn");
+  return terms.map((term) => ({ params: { slug: term.slug } }));
+}
+
+const term = await getTaxonomyTerm("categories", Astro.params.slug, "zh-cn");
+---
+<TaxonomyPage kind="categories" term={term} lang="zh-cn" />

@@ -4,7 +4,8 @@ import Icon from "./Icon.astro";
 import RelatedCard from "./RelatedCard.astro";
 import {
   relatedEntries,
-  siteText
+  siteText,
+  taxonomyTermUrl
 } from "../lib/content.js";
 
 const { entry, active = entry.section, lang = entry.lang } = Astro.props;
@@ -15,6 +16,10 @@ const relatedReading = related.filter((item) => item.section !== "retrospectives
 const facts = entry.data.projectFacts || {};
 const projectLinks: Array<Record<string, string>> = entry.data.projectLinks || [];
 const tocItems: Array<{ depth: number; text: string; id: string }> = entry.toc || [];
+const tagLinks: Array<{ name: string; url: string }> = (entry.data.tags || []).filter(Boolean).map((tag: string) => ({
+  name: tag,
+  url: taxonomyTermUrl("tags", tag, lang)
+}));
 const factLabels = text.isEn
   ? { developmentTime: "Time", duration: "Duration", role: "Role", tools: "Tools", platform: "Platform", result: "Outcome" }
   : { developmentTime: "开发时间", duration: "开发周期", role: "职能", tools: "工具 / 技术", platform: "平台", result: "成果" };
@@ -124,15 +129,25 @@ const englishUrl = entry.section === "pages" ? `/en/${entry.slug}/` : `/en/${ent
 
     <section class="article-content" set:html={entry.html}></section>
 
-    {relatedReading.length > 0 && (
-      <section class="related-content">
-        <h2>{text.relatedReading}</h2>
+    {tagLinks.length > 0 && (
+      <footer class="article-footer">
+        <section class="article-tags" aria-label={text.isEn ? "Keywords" : "关键词"}>
+          {tagLinks.map((tag) => <a href={tag.url}>{tag.name}</a>)}
+        </section>
+      </footer>
+    )}
+  </article>
+
+  {relatedReading.length > 0 && (
+    <aside class="related-content--wrapper" aria-label={text.relatedReading}>
+      <h2 class="section-title">{text.relatedReading}</h2>
+      <div class="related-content">
         <div class="related-grid">
           {relatedReading.map((item) => <RelatedCard entry={item} />)}
         </div>
-      </section>
-    )}
-  </article>
+      </div>
+    </aside>
+  )}
 
   {tocItems.length > 0 && (
     <Fragment slot="right-sidebar">

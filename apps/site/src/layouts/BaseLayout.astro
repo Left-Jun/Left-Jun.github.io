@@ -65,6 +65,7 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
           ".article-toc a[href^='#']",
           ".project-index-list a[href^='#']"
         ].join(",");
+        const tocLinks = Array.from(document.querySelectorAll(".right-sidebar .toc-nav a[href^='#'], .article-toc .toc-nav a[href^='#']"));
 
         const findTarget = (hash) => {
           if (!hash || hash === "#") return null;
@@ -77,6 +78,26 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
           }
           return document.getElementById(decodedId) || document.getElementById(rawId);
         };
+
+        const normalizeHash = (hash) => {
+          if (!hash) return "";
+          try {
+            return `#${decodeURIComponent(hash.slice(1))}`;
+          } catch {
+            return hash;
+          }
+        };
+
+        const setActiveToc = (hash) => {
+          const normalized = normalizeHash(hash);
+          tocLinks.forEach((link) => {
+            link.classList.toggle("is-active", normalizeHash(link.hash) === normalized);
+          });
+        };
+
+        const tocTargets = tocLinks
+          .map((link) => ({ link, hash: link.hash, target: findTarget(link.hash) }))
+          .filter((item, index, list) => item.target && list.findIndex((other) => other.target === item.target) === index);
 
         document.addEventListener("click", (event) => {
           const link = event.target.closest(anchorSelector);
@@ -100,6 +121,7 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
           window.setTimeout(settleTarget, 520);
           window.setTimeout(settleTarget, 1350);
           history.pushState(null, "", url.hash);
+          setActiveToc(url.hash);
           const mobileToc = link.closest(".article-toc");
           if (mobileToc && matchMedia("(max-width: 767px)").matches) {
             const details = mobileToc.querySelector("details");
@@ -108,6 +130,27 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
             }, reduceMotion ? 0 : 260);
           }
         });
+
+        if (tocTargets.length > 0) {
+          let ticking = false;
+          const updateActiveToc = () => {
+            ticking = false;
+            const offset = parseFloat(getComputedStyle(document.documentElement).getPropertyValue("--main-top-padding")) || 0;
+            let active = tocTargets[0].hash;
+            for (const item of tocTargets) {
+              if (item.target.getBoundingClientRect().top <= offset + 120) active = item.hash;
+            }
+            setActiveToc(active);
+          };
+          setActiveToc(location.hash || tocTargets[0].hash);
+          updateActiveToc();
+          window.addEventListener("scroll", () => {
+            if (ticking) return;
+            ticking = true;
+            requestAnimationFrame(updateActiveToc);
+          }, { passive: true });
+          window.addEventListener("resize", updateActiveToc, { passive: true });
+        }
       })();
     </script>
   </body>
