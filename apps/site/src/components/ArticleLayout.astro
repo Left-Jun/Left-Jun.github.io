@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "./Icon.astro";
 import RelatedCard from "./RelatedCard.astro";
 import {
+  getEntryBySlug,
   relatedEntries,
   siteText,
   taxonomyTermUrl
@@ -23,7 +24,10 @@ const tagLinks: Array<{ name: string; url: string }> = (entry.data.tags || []).f
 }));
 const cover = entry.data.coverVideo || entry.data.image;
 const imagePosition = entry.data.imagePosition || "center";
-const englishUrl = entry.section === "pages" ? `/en/${entry.slug}/` : `/en/${entry.section}/${entry.slug}/`;
+const alternateLang = text.isEn ? "zh-cn" : "en";
+const alternateEntry = await getEntryBySlug(entry.section, entry.slug, alternateLang);
+const alternateUrl = alternateEntry?.url;
+const alternateLabel = text.isEn ? "中文" : "English";
 const roleText = String(facts.role || "");
 const developmentTimeText = String(facts.developmentTime || "").replace(/\s*[\(（].*?[)）]\s*$/, "");
 const inferredTeam = text.isEn
@@ -81,12 +85,12 @@ const projectPills = isProject
           <footer class="article-time">
             {entry.formattedDate && <span>{entry.formattedDate}</span>}
             <span>{text.isEn ? `${entry.readingMinutes} ${text.readMinutes}` : `阅读时长：${entry.readingMinutes} ${text.readMinutes}`}</span>
-            {entry.lang === "zh-cn" && entry.section !== "retrospectives" && entry.section !== "plans" && <a href={englishUrl}>English</a>}
+            {alternateUrl && <a href={alternateUrl}>{alternateLabel}</a>}
           </footer>
         )}
-        {isProject && entry.lang === "zh-cn" && (
+        {isProject && alternateUrl && (
           <footer class="project-detail-actions">
-            <a href={englishUrl}>English</a>
+            <a href={alternateUrl}>{alternateLabel}</a>
           </footer>
         )}
       </div>

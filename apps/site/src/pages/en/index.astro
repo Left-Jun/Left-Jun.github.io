@@ -293,6 +293,59 @@ const homeStats = [
           isFocusInside = hero.matches(":focus-within");
           start();
         });
+
+        const stage = hero.querySelector(".home-hero__stage");
+        if (stage) {
+          const swipeThreshold = 46;
+          let startX = 0;
+          let startY = 0;
+          let isDragging = false;
+          let suppressClick = false;
+
+          const endDrag = (event) => {
+            if (!isDragging) return;
+            const deltaX = event.clientX - startX;
+            const deltaY = event.clientY - startY;
+            isDragging = false;
+            stage.classList.remove("is-swiping");
+            if (Math.abs(deltaX) > swipeThreshold && Math.abs(deltaX) > Math.abs(deltaY) * 1.2) {
+              suppressClick = true;
+              setSlide(active + (deltaX < 0 ? 1 : -1));
+              window.setTimeout(() => {
+                suppressClick = false;
+              }, 0);
+            }
+            start();
+          };
+
+          stage.addEventListener("pointerdown", (event) => {
+            if (event.pointerType === "mouse" && event.button !== 0) return;
+            if (event.isPrimary === false) return;
+            startX = event.clientX;
+            startY = event.clientY;
+            isDragging = true;
+            stop();
+            stage.setPointerCapture?.(event.pointerId);
+          });
+          stage.addEventListener("pointermove", (event) => {
+            if (!isDragging) return;
+            const deltaX = event.clientX - startX;
+            const deltaY = event.clientY - startY;
+            stage.classList.toggle("is-swiping", Math.abs(deltaX) > 12 && Math.abs(deltaX) > Math.abs(deltaY));
+          });
+          stage.addEventListener("pointerup", endDrag);
+          stage.addEventListener("pointercancel", () => {
+            isDragging = false;
+            stage.classList.remove("is-swiping");
+            start();
+          });
+          stage.addEventListener("click", (event) => {
+            if (!suppressClick) return;
+            event.preventDefault();
+            event.stopPropagation();
+          }, true);
+        }
+
         setSlide(0);
         start();
       }
