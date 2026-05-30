@@ -10,6 +10,7 @@ portfolioType: "game"
 projectFacts:
   developmentTime: "2025.11（川大 & 成电 & 川美三教杯 Game Jam）"
   duration: "7天"
+  team: "团队项目"
   role: "队长 / 策划 / 文案 / 玩法设计 / 程序指导"
   tools: "Godot / AI 辅助场景生成"
   platform: "Windows 可执行版本"

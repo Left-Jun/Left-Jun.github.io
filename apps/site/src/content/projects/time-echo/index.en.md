@@ -10,6 +10,7 @@ portfolioType: "game"
 projectFacts:
   developmentTime: "2025.11, SCU & UESTC & Sichuan Fine Arts Institute Sanjiao Cup Game Jam"
   duration: "7 days"
+  team: "Team project"
   role: "Team lead / designer / writer / gameplay designer / programming coordination"
   tools: "Godot / AI-assisted scene generation"
   platform: "Windows playable build"

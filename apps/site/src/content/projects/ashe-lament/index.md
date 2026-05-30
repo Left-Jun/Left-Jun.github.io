@@ -15,6 +15,7 @@ portfolioType: "game"
 projectFacts:
   developmentTime: "2026.3（腾讯高校游戏极限开发大赛）"
   duration: "72h"
+  team: "5 人"
   role: "队长 / 主程 / 玩法策划 / 音乐制作（AI 辅助）"
   tools: "Unity / C#"
   platform: "Windows 可执行版本"

@@ -15,6 +15,7 @@ portfolioType: "game"
 projectFacts:
   developmentTime: "2026.3, Tencent University Game Extreme Development Competition"
   duration: "72 hours"
+  team: "5 people"
   role: "Team lead / main programmer / gameplay designer / music producer with AI assistance"
   tools: "Unity / C#"
   platform: "Windows playable build"

@@ -12,6 +12,7 @@ portfolioType: "game"
 projectFacts:
   developmentTime: "2026.1（Global Game Jam 2026 长沙线下站）"
   duration: "48h"
+  team: "独立开发"
   role: "独立全栈开发 / 策划 / 程序 / 像素美术 / 音乐"
   tools: "Unity / C#"
   platform: "Windows / TapTap"

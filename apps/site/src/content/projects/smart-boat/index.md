@@ -12,6 +12,7 @@ portfolioType: "embedded"
 projectFacts:
   developmentTime: "2026.3"
   duration: "课程 / 竞赛周期"
+  team: "团队项目"
   role: "队长 / 主程 / 硬件设计"
   tools: "STM32F103C8T6 / HAL / 嘉立创 EDA"
   platform: "无线遥控器 + 船载接收器"

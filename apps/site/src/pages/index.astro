@@ -14,10 +14,17 @@ import {
 const lang = "zh-cn";
 const text = siteText(lang);
 const projects = await getEntries("projects", { lang });
-const featured = projects
-  .filter((item) => item.data.featured)
-  .sort((a, b) => (a.data.featuredWeight || 0) - (b.data.featuredWeight || 0))
-  .slice(0, 3);
+const preferredSlugs = ["ashe-lament", "emotion-mask", "smart-boat"];
+const preferredFeatured = preferredSlugs
+  .map((slug) => projects.find((entry) => entry.slug === slug))
+  .filter(Boolean);
+const featured = [
+  ...preferredFeatured,
+  ...projects
+    .filter((item) => item.data.featured && !preferredSlugs.includes(item.slug))
+    .sort((a, b) => (a.data.featuredWeight || 0) - (b.data.featuredWeight || 0))
+].slice(0, 3);
+const heroProject = await getEntryBySlug("projects", "ashe-lament", lang) || featured[0];
 const posts = (await getEntries("posts", { lang })).slice(0, 3);
 const plans = (await getEntries("plans")).slice(0, 2);
 const planCards = await Promise.all(plans.map(async (entry) => ({
@@ -28,20 +35,66 @@ const workflows = await Promise.all(workflowItems.map(async (item) => ({
   ...item,
   linked: (await Promise.all(item.slugs.map((slug) => getEntryBySlug("projects", slug, lang)))).filter(Boolean)
 })));
+const heroSkills = ["Unity", "C#", "STM32", "Game Design"];
+const homeStats = [
+  { icon: "briefcase", value: "5+", label: "完整项目" },
+  { icon: "code", value: "20+", label: "技术 Demo" },
+  { icon: "trophy", value: "3", label: "Game Jam" },
+  { icon: "display", value: "2", label: "展会 / 参展" }
+];
 ---
 <BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home" bodyClass="home-page">
   <section class="home-hero">
-    <p class="home-hero__eyebrow">四川大学 · 电子信息类 · 2029届</p>
-    <h1 class="home-hero__title">游戏原型、交互系统与软硬件项目</h1>
-    <p class="home-hero__summary">
-      我以 Left Jun 发布作品，也以阈限开拓者作为长期项目队名和个人参赛队名。这里整理我的 Game Jam 项目、Unity / Godot 原型、嵌入式实践、制作过程和可体验版本。
-    </p>
-    <div class="home-hero__actions">
-      <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>{text.viewProject}</span></a>
-      <a class="home-action" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer"><Icon name="archives" /><span>{text.portfolioPdf}</span></a>
-      <a class="home-action" href="/about/"><Icon name="user" /><span>{text.aboutMe}</span></a>
-      <a class="home-action" href="/contact/"><Icon name="messages" /><span>{text.contact}</span></a>
+    {heroProject && (
+      <div class="home-hero__media" aria-hidden="true">
+        {heroProject.data.coverVideo ? (
+          <video
+            autoplay
+            muted
+            loop
+            playsinline
+            preload="metadata"
+            controlslist="nodownload noplaybackrate noremoteplayback"
+            disablepictureinpicture
+            disableRemotePlayback
+            poster={heroProject.data.image ? heroProject.asset(heroProject.data.image) : undefined}
+            style={`object-position: ${heroProject.data.imagePosition || "center"};`}
+          >
+            <source src={heroProject.asset(heroProject.data.coverVideo)} type="video/mp4" />
+          </video>
+        ) : heroProject.data.image && (
+          <img src={heroProject.asset(heroProject.data.image)} alt="" loading="eager" style={`object-position: ${heroProject.data.imagePosition || "center"};`} />
+        )}
+      </div>
+    )}
+    <div class="home-hero__content">
+      <p class="home-hero__eyebrow">Gameplay Programmer</p>
+      <h1 class="home-hero__title">Left Jun</h1>
+      <p class="home-hero__subtitle">Building Interactive Worlds Through Code and Design.</p>
+      <div class="home-hero__skills" aria-label="技术方向">
+        {heroSkills.map((skill) => <span>{skill}</span>)}
+      </div>
+      <div class="home-hero__actions">
+        <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>查看我的作品</span></a>
+        <a class="home-action" href="/about/"><Icon name="user" /><span>了解更多</span></a>
+      </div>
     </div>
+    <div class="home-hero__project">
+      <span>Featured Project</span>
+      <strong>{heroProject?.data.title || "亚舍拉挽歌"}</strong>
+      <small>2D 平台冒险 / 世界冒险 / 叙事驱动</small>
+      <div class="home-hero__dots" aria-hidden="true"><span></span><span></span><span></span></div>
+    </div>
+  </section>
+
+  <section class="home-stats" aria-label="作品集数据">
+    {homeStats.map((stat) => (
+      <div class="home-stat">
+        <Icon name={stat.icon} />
+        <strong>{stat.value}</strong>
+        <span>{stat.label}</span>
+      </div>
+    ))}
   </section>
 
   <section class="home-section home-featured-projects">
@@ -53,42 +106,7 @@ const workflows = await Promise.all(workflowItems.map(async (item) => ({
       <a class="home-section__link" href="/projects/">{text.allProjects}</a>
     </div>
     <div class="home-project-grid">
-      {featured.map((entry) => <ProjectCard entry={entry} />)}
-    </div>
-  </section>
-
-  <section class="home-section home-workflow">
-    <div class="home-section__header">
-      <div>
-        <p class="home-section__eyebrow">{text.howIWork}</p>
-        <h2>{text.fromIdea}</h2>
-      </div>
-    </div>
-    <div class="home-workflow__grid">
-      {workflows.map((item) => (
-        <article class="home-workflow__item">
-          <div class="home-workflow__body">
-            <div class="home-workflow__icon"><Icon name={item.icon} /></div>
-            <h3>{item.title.zh}</h3>
-            <p>{item.body.zh}</p>
-          </div>
-          <div class="home-workflow__projects" aria-label="代表项目">
-            {item.linked.map((project) => (
-              <a class="home-workflow__project" href={project.url}>
-                <span class="home-workflow__project-label">{project.data.title}</span>
-                {project.data.image && (
-                  <span class="home-workflow__preview" aria-hidden="true">
-                    <span class="home-workflow__preview-media">
-                      <img src={project.asset(project.data.image)} loading="lazy" alt="" />
-                    </span>
-                    {project.data.description && <span class="home-workflow__preview-caption">{project.data.description}</span>}
-                  </span>
-                )}
-              </a>
-            ))}
-          </div>
-        </article>
-      ))}
+      {featured.map((entry) => <ProjectCard entry={entry} compact />)}
     </div>
   </section>
 
@@ -138,6 +156,41 @@ const workflows = await Promise.all(workflowItems.map(async (item) => ({
       </section>
     </section>
   )}
+
+  <section class="home-section home-workflow">
+    <div class="home-section__header">
+      <div>
+        <p class="home-section__eyebrow">{text.howIWork}</p>
+        <h2>{text.fromIdea}</h2>
+      </div>
+    </div>
+    <div class="home-workflow__grid">
+      {workflows.map((item) => (
+        <article class="home-workflow__item">
+          <div class="home-workflow__body">
+            <div class="home-workflow__icon"><Icon name={item.icon} /></div>
+            <h3>{item.title.zh}</h3>
+            <p>{item.body.zh}</p>
+          </div>
+          <div class="home-workflow__projects" aria-label="代表项目">
+            {item.linked.map((project) => (
+              <a class="home-workflow__project" href={project.url}>
+                <span class="home-workflow__project-label">{project.data.title}</span>
+                {project.data.image && (
+                  <span class="home-workflow__preview" aria-hidden="true">
+                    <span class="home-workflow__preview-media">
+                      <img src={project.asset(project.data.image)} loading="lazy" alt="" />
+                    </span>
+                    {project.data.description && <span class="home-workflow__preview-caption">{project.data.description}</span>}
+                  </span>
+                )}
+              </a>
+            ))}
+          </div>
+        </article>
+      ))}
+    </div>
+  </section>
   <script is:inline>
     (() => {
       if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;

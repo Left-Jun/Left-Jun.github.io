@@ -11,6 +11,7 @@ portfolioType: "game"
 projectFacts:
   developmentTime: "2026.2, Mengya Cup 2026 creative prototype"
   duration: "6 hours"
+  team: "Solo"
   role: "Solo developer / creative demo"
   tools: "Unity / C# / Cinemachine"
   platform: "Windows playable build"

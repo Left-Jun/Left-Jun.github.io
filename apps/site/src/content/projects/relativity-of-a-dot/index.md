@@ -11,6 +11,7 @@ portfolioType: "game"
 projectFacts:
   developmentTime: "2026.2（萌芽杯 2026 创意原型）"
   duration: "6h"
+  team: "独立开发"
   role: "单人开发 / 创意 Demo"
   tools: "Unity / C# / Cinemachine"
   platform: "Windows 可执行版本"

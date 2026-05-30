@@ -12,6 +12,7 @@ portfolioType: "game"
 projectFacts:
   developmentTime: "2026.1, Global Game Jam 2026 Changsha site"
   duration: "48 hours"
+  team: "Solo"
   role: "Solo full-stack developer / designer / programmer / pixel artist / music"
   tools: "Unity / C#"
   platform: "Windows / TapTap"

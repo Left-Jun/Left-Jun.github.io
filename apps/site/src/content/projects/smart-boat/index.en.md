@@ -12,6 +12,7 @@ portfolioType: "embedded"
 projectFacts:
   developmentTime: "2026.3"
   duration: "Course / competition cycle"
+  team: "Team project"
   role: "Team lead / main programmer / hardware designer"
   tools: "STM32F103C8T6 / HAL / JLC EDA"
   platform: "Wireless remote controller + onboard receiver"
