@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
+import HomeTopChrome from "../../components/HomeTopChrome.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import PostCard from "../../components/PostCard.astro";
 import Icon from "../../components/Icon.astro";
@@ -31,16 +32,16 @@ const workflows = await Promise.all(workflowItems.map(async (item) => ({
 })));
 const heroSkills = ["Unity", "C#", "STM32", "Game Design"];
 const homeStats = [
-  { icon: "briefcase", value: "5+", label: "Complete Projects" },
-  { icon: "code", value: "20+", label: "Tech Demos" },
-  { icon: "trophy", value: "3", label: "Game Jams" },
-  { icon: "display", value: "2", label: "Exhibitions" }
+  { icon: "briefcase", value: "5+", label: "Projects", detail: "Solo + Team" },
+  { icon: "code", value: "20+", label: "Demos", detail: "Systems + Tools" },
+  { icon: "trophy", value: "3", label: "Game Jams", detail: "48h · 72h builds" },
+  { icon: "display", value: "2", label: "Exhibitions", detail: "Public showcases" }
 ];
 ---
 <BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home" bodyClass="home-page">
+  <HomeTopChrome lang={lang} />
   <section class="home-hero" data-hero-carousel aria-label="Featured project carousel">
     <div class="home-hero__content">
-      <p class="home-hero__eyebrow">Hello, I'm</p>
       <h1 class="home-hero__title">Left Jun</h1>
       <p class="home-hero__role">Gameplay Programmer</p>
       <p class="home-hero__subtitle">Building Interactive Worlds Through Code and Design.</p>
@@ -51,6 +52,10 @@ const homeStats = [
         <a class="home-action home-action--primary" href="/en/projects/"><Icon name="link" /><span>View My Work</span></a>
         <a class="home-action" href="/en/about/"><Icon name="user" /><span>Learn More</span></a>
       </div>
+      <a class="home-hero__scroll" href="#home-featured-work">
+        <span>Scroll down</span>
+        <Icon name="chevron-right" />
+      </a>
 
       <div class="home-hero__summary-list" aria-live="polite">
         {heroProjects.map((entry, index) => (
@@ -120,11 +125,12 @@ const homeStats = [
         <Icon name={stat.icon} />
         <strong>{stat.value}</strong>
         <span>{stat.label}</span>
+        <small>{stat.detail}</small>
       </div>
     ))}
   </section>
 
-  <section class="home-dashboard">
+  <section class="home-dashboard" id="home-featured-work">
     <section class="home-section home-featured-projects">
       <div class="home-section__header">
         <div>

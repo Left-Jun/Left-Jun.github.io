@@ -136,6 +136,11 @@ const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
       const next = root.dataset.scheme === "dark" ? "light" : "dark";
       localStorage.setItem(themeKey, next);
       applyTheme(next);
+      window.dispatchEvent(new CustomEvent("leftjun:theme-change", { detail: { scheme: next } }));
+    });
+
+    window.addEventListener("leftjun:theme-change", (event) => {
+      if (event.detail?.scheme) applyTheme(event.detail.scheme);
     });
 
     toggle?.addEventListener("click", () => setMenuOpen(!body.classList.contains("show-menu")));
