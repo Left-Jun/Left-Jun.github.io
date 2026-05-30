@@ -15,16 +15,10 @@ const lang = "en";
 const text = siteText(lang);
 const projects = await getEntries("projects", { lang });
 const preferredSlugs = ["ashe-lament", "emotion-mask", "smart-boat"];
-const preferredFeatured = preferredSlugs
+const heroProjects = preferredSlugs
   .map((slug) => projects.find((entry) => entry.slug === slug))
   .filter(Boolean);
-const featured = [
-  ...preferredFeatured,
-  ...projects
-    .filter((item) => item.data.featured && !preferredSlugs.includes(item.slug))
-    .sort((a, b) => (a.data.featuredWeight || 0) - (b.data.featuredWeight || 0))
-].slice(0, 3);
-const heroProject = await getEntryBySlug("projects", "ashe-lament", lang) || featured[0];
+const featured = heroProjects;
 const posts = (await getEntries("posts", { lang })).slice(0, 3);
 const plans = (await getEntries("plans")).slice(0, 2);
 const planCards = await Promise.all(plans.map(async (entry) => ({
@@ -44,32 +38,11 @@ const homeStats = [
 ];
 ---
 <BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home" bodyClass="home-page">
-  <section class="home-hero">
-    {heroProject && (
-      <div class="home-hero__media" aria-hidden="true">
-        {heroProject.data.coverVideo ? (
-          <video
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="metadata"
-            controlslist="nodownload noplaybackrate noremoteplayback"
-            disablepictureinpicture
-            disableRemotePlayback
-            poster={heroProject.data.image ? heroProject.asset(heroProject.data.image) : undefined}
-            style={`object-position: ${heroProject.data.imagePosition || "center"};`}
-          >
-            <source src={heroProject.asset(heroProject.data.coverVideo)} type="video/mp4" />
-          </video>
-        ) : heroProject.data.image && (
-          <img src={heroProject.asset(heroProject.data.image)} alt="" loading="eager" style={`object-position: ${heroProject.data.imagePosition || "center"};`} />
-        )}
-      </div>
-    )}
+  <section class="home-hero" data-hero-carousel aria-label="Featured project carousel">
     <div class="home-hero__content">
-      <p class="home-hero__eyebrow">Gameplay Programmer</p>
+      <p class="home-hero__eyebrow">Hello, I'm</p>
       <h1 class="home-hero__title">Left Jun</h1>
+      <p class="home-hero__role">Gameplay Programmer</p>
       <p class="home-hero__subtitle">Building Interactive Worlds Through Code and Design.</p>
       <div class="home-hero__skills" aria-label="Technical focus">
         {heroSkills.map((skill) => <span>{skill}</span>)}
@@ -78,12 +51,66 @@ const homeStats = [
         <a class="home-action home-action--primary" href="/en/projects/"><Icon name="link" /><span>View My Work</span></a>
         <a class="home-action" href="/en/about/"><Icon name="user" /><span>Learn More</span></a>
       </div>
+
+      <div class="home-hero__summary-list" aria-live="polite">
+        {heroProjects.map((entry, index) => (
+          <article class:list={["home-hero__summary", index === 0 && "is-active"]} data-hero-summary aria-hidden={index === 0 ? "false" : "true"}>
+            <span>{index === 0 ? "Current Project" : "Featured Project"}</span>
+            <strong>{entry.data.title}</strong>
+            {entry.data.description && <small>{entry.data.description}</small>}
+            <div class="home-hero__summary-tags" aria-label="Project tags">
+              {[...(entry.data.roleTags || []), ...(entry.data.tags || [])].slice(0, 4).map((tag) => <em>{tag}</em>)}
+            </div>
+          </article>
+        ))}
+      </div>
     </div>
-    <div class="home-hero__project">
-      <span>Featured Project</span>
-      <strong>{heroProject?.data.title || "Elegy of Asherah"}</strong>
-      <small>2D Platform Adventure / World Exploration / Narrative-Driven</small>
-      <div class="home-hero__dots" aria-hidden="true"><span></span><span></span><span></span></div>
+
+    <div class="home-hero__stage">
+      {heroProjects.map((entry, index) => {
+        const image = entry.data.image ? entry.asset(entry.data.image) : "";
+        const mediaPosition = entry.data.imagePosition || "center right";
+        return (
+          <article class:list={["home-hero__slide", index === 0 && "is-active"]} data-hero-slide aria-hidden={index === 0 ? "false" : "true"}>
+            <a class="home-hero__media-link" href={entry.url} tabindex={index === 0 ? "0" : "-1"} aria-label={`View ${entry.data.title}`}>
+              {image && (
+                <span class="home-hero__media-blur" aria-hidden="true">
+                  <img src={image} alt="" loading={index === 0 ? "eager" : "lazy"} style={`object-position: ${mediaPosition};`} />
+                </span>
+              )}
+              <span class="home-hero__media-frame">
+                {entry.data.coverVideo ? (
+                  <video
+                    autoplay={index === 0}
+                    muted
+                    loop
+                    playsinline
+                    preload={index === 0 ? "metadata" : "none"}
+                    controlslist="nodownload noplaybackrate noremoteplayback"
+                    disablepictureinpicture
+                    disableRemotePlayback
+                    poster={image || undefined}
+                    style={`object-position: ${mediaPosition};`}
+                    data-hero-video
+                  >
+                    <source src={entry.asset(entry.data.coverVideo)} type="video/mp4" />
+                  </video>
+                ) : image && (
+                  <img src={image} alt={entry.data.title} loading={index === 0 ? "eager" : "lazy"} style={`object-position: ${mediaPosition};`} />
+                )}
+              </span>
+            </a>
+          </article>
+        );
+      })}
+    </div>
+
+    <div class="home-hero__dots" role="tablist" aria-label="Switch featured project">
+      {heroProjects.map((entry, index) => (
+        <button type="button" data-hero-dot aria-label={`Switch to ${entry.data.title}`} aria-current={index === 0 ? "true" : undefined}>
+          <span>{entry.data.title}</span>
+        </button>
+      ))}
     </div>
   </section>
 
@@ -97,65 +124,52 @@ const homeStats = [
     ))}
   </section>
 
-  <section class="home-section home-featured-projects">
-    <div class="home-section__header">
-      <div>
-        <p class="home-section__eyebrow">{text.selectedWork}</p>
-        <h2>{text.representativeProjects}</h2>
-      </div>
-      <a class="home-section__link" href="/en/projects/">{text.allProjects}</a>
-    </div>
-    <div class="home-project-grid">
-      {featured.map((entry) => <ProjectCard entry={entry} compact />)}
-    </div>
-  </section>
-
-  {planCards.length > 0 && (
-    <section class="home-section home-development-plans">
+  <section class="home-dashboard">
+    <section class="home-section home-featured-projects">
       <div class="home-section__header">
         <div>
-          <p class="home-section__eyebrow">{text.inProgress}</p>
-          <h2>{text.developmentPlans}</h2>
+          <p class="home-section__eyebrow">{text.selectedWork}</p>
+          <h2>{text.representativeProjects}</h2>
         </div>
-        <a class="home-section__link" href="/plans/">{text.allPlans}</a>
+        <a class="home-section__link" href="/en/projects/">{text.allProjects}</a>
       </div>
-      <div class="home-plan-grid">
-        {planCards.map(({ entry, retrospective }) => (
-          <article class="home-plan-card">
-            <a class="home-plan-card__main" href={entry.url}>
-              {entry.formattedDate && <span class="home-plan-card__meta">{entry.formattedDate}</span>}
-              <span class="home-plan-card__title">{entry.data.title}</span>
-              {entry.data.description && <span class="home-plan-card__description">{entry.data.description}</span>}
-              {entry.data.tags?.length > 0 && (
-                <span class="home-plan-card__tags" aria-label="Plan tags">
-                  {entry.data.tags.slice(0, 3).map((tag) => <span class="home-plan-card__tag">{tag}</span>)}
-                </span>
-              )}
-            </a>
-            <span class="home-plan-card__actions">
-              {retrospective && <a class="home-plan-card__pill home-plan-card__pill--retrospective" href={retrospective.url}>{text.viewRetrospective}</a>}
-              <a class="home-plan-card__pill home-plan-card__pill--plan" href={entry.url}>{text.viewPlan}</a>
-            </span>
-          </article>
-        ))}
+      <div class="home-project-grid">
+        {featured.map((entry) => <ProjectCard entry={entry} compact />)}
       </div>
     </section>
-  )}
 
-  {posts.length > 0 && (
-    <section class="home-section home-latest-posts">
-      <div class="home-section__header">
-        <div>
-          <p class="home-section__eyebrow">{text.latestNotes}</p>
-          <h2>{text.postsAndRecords}</h2>
+    {planCards.length > 0 && (
+      <section class="home-section home-development-plans">
+        <div class="home-section__header">
+          <div>
+            <p class="home-section__eyebrow">{text.inProgress}</p>
+            <h2>{text.developmentPlans}</h2>
+          </div>
+          <a class="home-section__link" href="/plans/">{text.allPlans}</a>
         </div>
-        <a class="home-section__link" href="/en/posts/">{text.allPosts}</a>
-      </div>
-      <section class="article-list--compact home-post-list">
-        {posts.map((entry) => <PostCard entry={entry} />)}
+        <div class="home-plan-grid">
+          {planCards.map(({ entry, retrospective }) => (
+            <article class="home-plan-card">
+              <a class="home-plan-card__main" href={entry.url}>
+                {entry.formattedDate && <span class="home-plan-card__meta">{entry.formattedDate}</span>}
+                <span class="home-plan-card__title">{entry.data.title}</span>
+                {entry.data.description && <span class="home-plan-card__description">{entry.data.description}</span>}
+                {entry.data.tags?.length > 0 && (
+                  <span class="home-plan-card__tags" aria-label="Plan tags">
+                    {entry.data.tags.slice(0, 3).map((tag) => <span class="home-plan-card__tag">{tag}</span>)}
+                  </span>
+                )}
+              </a>
+              <span class="home-plan-card__actions">
+                {retrospective && <a class="home-plan-card__pill home-plan-card__pill--retrospective" href={retrospective.url}>{text.viewRetrospective}</a>}
+                <a class="home-plan-card__pill home-plan-card__pill--plan" href={entry.url}>{text.viewPlan}</a>
+              </span>
+            </article>
+          ))}
+        </div>
       </section>
-    </section>
-  )}
+    )}
+  </section>
 
   <section class="home-section home-workflow">
     <div class="home-section__header">
@@ -191,8 +205,98 @@ const homeStats = [
       ))}
     </div>
   </section>
+
+  {posts.length > 0 && (
+    <section class="home-section home-latest-posts">
+      <div class="home-section__header">
+        <div>
+          <p class="home-section__eyebrow">{text.latestNotes}</p>
+          <h2>{text.postsAndRecords}</h2>
+        </div>
+        <a class="home-section__link" href="/en/posts/">{text.allPosts}</a>
+      </div>
+      <section class="article-list--compact home-post-list">
+        {posts.map((entry) => <PostCard entry={entry} />)}
+      </section>
+    </section>
+  )}
+
   <script is:inline>
     (() => {
+      const hero = document.querySelector("[data-hero-carousel]");
+      if (hero) {
+        const slides = [...hero.querySelectorAll("[data-hero-slide]")];
+        const summaries = [...hero.querySelectorAll("[data-hero-summary]")];
+        const dots = [...hero.querySelectorAll("[data-hero-dot]")];
+        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        let active = 0;
+        let timer = null;
+        let isPointerInside = false;
+        let isFocusInside = false;
+        const isPaused = () => isPointerInside || isFocusInside || hero.matches(":hover, :focus-within");
+
+        const setSlide = (next) => {
+          if (slides.length === 0) return;
+          active = (next + slides.length) % slides.length;
+          slides.forEach((slide, index) => {
+            const isActive = index === active;
+            slide.classList.toggle("is-active", isActive);
+            slide.setAttribute("aria-hidden", isActive ? "false" : "true");
+            slide.querySelectorAll("a").forEach((link) => link.setAttribute("tabindex", isActive ? "0" : "-1"));
+            slide.querySelectorAll("video").forEach((video) => {
+              if (isActive) video.play?.().catch(() => {});
+              else video.pause?.();
+            });
+          });
+          summaries.forEach((summary, index) => {
+            const isActive = index === active;
+            summary.classList.toggle("is-active", isActive);
+            summary.setAttribute("aria-hidden", isActive ? "false" : "true");
+          });
+          dots.forEach((dot, index) => {
+            if (index === active) dot.setAttribute("aria-current", "true");
+            else dot.removeAttribute("aria-current");
+          });
+        };
+
+        const stop = () => {
+          if (timer) window.clearInterval(timer);
+          timer = null;
+        };
+
+        const start = () => {
+          stop();
+          if (!reduceMotion && slides.length > 1 && !isPaused()) {
+            timer = window.setInterval(() => {
+              if (!isPaused()) setSlide(active + 1);
+            }, 6000);
+          }
+        };
+
+        dots.forEach((dot, index) => dot.addEventListener("click", () => {
+          setSlide(index);
+          start();
+        }));
+        hero.addEventListener("mouseenter", () => {
+          isPointerInside = true;
+          stop();
+        });
+        hero.addEventListener("mouseleave", () => {
+          isPointerInside = false;
+          start();
+        });
+        hero.addEventListener("focusin", () => {
+          isFocusInside = true;
+          stop();
+        });
+        hero.addEventListener("focusout", () => {
+          isFocusInside = hero.matches(":focus-within");
+          start();
+        });
+        setSlide(0);
+        start();
+      }
+
       if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
       document.querySelectorAll(".home-workflow__item").forEach((card) => {
         card.addEventListener("pointermove", (event) => {
