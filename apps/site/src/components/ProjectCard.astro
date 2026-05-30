@@ -8,6 +8,10 @@ const visibleRoleTags = compact ? roleTags.slice(0, 2) : roleTags;
 const visibleTags = compact ? tags.slice(0, 3) : tags;
 const projectType = entry.data.portfolioType || "other";
 const imagePosition = entry.data.imagePosition || "center";
+const projectFacts = entry.data.projectFacts || {};
+const cardMeta = compact
+  ? [projectFacts.duration, projectFacts.team || projectFacts.developmentTime].filter(Boolean).slice(0, 2).map(String)
+  : [];
 ---
 <article
   id={`project-${entry.slug}`}
@@ -51,6 +55,16 @@ const imagePosition = entry.data.imagePosition || "center";
         <div class="project-card__tags">
           {visibleTags.map((tag) => <span class="project-card__tag">{tag}</span>)}
         </div>
+      )}
+      {cardMeta.length > 0 && (
+        <p class="project-card__meta">
+          {cardMeta.map((item, index) => (
+            <>
+              {index > 0 && <span aria-hidden="true">·</span>}
+              <span>{item}</span>
+            </>
+          ))}
+        </p>
       )}
     </div>
   </a>

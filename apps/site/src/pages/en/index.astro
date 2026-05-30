@@ -20,7 +20,7 @@ const heroProjects = preferredSlugs
   .map((slug) => projects.find((entry) => entry.slug === slug))
   .filter(Boolean);
 const featured = heroProjects;
-const posts = (await getEntries("posts", { lang })).slice(0, 3);
+const posts = (await getEntries("posts", { lang })).slice(0, 4);
 const plans = (await getEntries("plans")).slice(0, 2);
 const planCards = await Promise.all(plans.map(async (entry) => ({
   entry,
@@ -34,14 +34,14 @@ const heroSkills = ["Unity", "C#", "STM32", "Game Design"];
 const homeStats = [
   { icon: "briefcase", value: "5+", label: "Projects", detail: "Solo + Team" },
   { icon: "code", value: "20+", label: "Demos", detail: "Systems + Tools" },
-  { icon: "trophy", value: "3", label: "Game Jams", detail: "48h · 72h builds" },
-  { icon: "display", value: "2", label: "Exhibitions", detail: "Public showcases" }
+  { icon: "trophy", value: "3", label: "Game Jams", detail: "48h · 72h builds" }
 ];
 ---
 <BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home" bodyClass="home-page">
   <HomeTopChrome lang={lang} />
   <section class="home-hero" data-hero-carousel aria-label="Featured project carousel">
     <div class="home-hero__content">
+      <p class="home-hero__eyebrow">Hello, I'm</p>
       <h1 class="home-hero__title">Left Jun</h1>
       <p class="home-hero__role">Gameplay Programmer</p>
       <p class="home-hero__subtitle">Building Interactive Worlds Through Code and Design.</p>
@@ -52,10 +52,6 @@ const homeStats = [
         <a class="home-action home-action--primary" href="/en/projects/"><Icon name="link" /><span>View My Work</span></a>
         <a class="home-action" href="/en/about/"><Icon name="user" /><span>Learn More</span></a>
       </div>
-      <a class="home-hero__scroll" href="#home-featured-work">
-        <span>Scroll down</span>
-        <Icon name="chevron-right" />
-      </a>
 
       <div class="home-hero__summary-list" aria-live="polite">
         {heroProjects.map((entry, index) => (
@@ -109,6 +105,11 @@ const homeStats = [
         );
       })}
     </div>
+
+    <a class="home-hero__scroll" href="#home-featured-work">
+      <span>Scroll down</span>
+      <Icon name="chevron-right" />
+    </a>
 
     <div class="home-hero__dots" role="tablist" aria-label="Switch featured project">
       {heroProjects.map((entry, index) => (

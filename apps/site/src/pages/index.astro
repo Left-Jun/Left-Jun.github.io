@@ -20,7 +20,7 @@ const heroProjects = preferredSlugs
   .map((slug) => projects.find((entry) => entry.slug === slug))
   .filter(Boolean);
 const featured = heroProjects;
-const posts = (await getEntries("posts", { lang })).slice(0, 3);
+const posts = (await getEntries("posts", { lang })).slice(0, 4);
 const plans = (await getEntries("plans")).slice(0, 2);
 const planCards = await Promise.all(plans.map(async (entry) => ({
   entry,
@@ -32,16 +32,16 @@ const workflows = await Promise.all(workflowItems.map(async (item) => ({
 })));
 const heroSkills = ["Unity", "C#", "STM32", "Game Design"];
 const homeStats = [
-  { icon: "briefcase", value: "5+", label: "Projects", detail: "完整项目" },
-  { icon: "code", value: "20+", label: "Demos", detail: "技术 Demo" },
-  { icon: "trophy", value: "3", label: "Game Jams", detail: "48h · 72h 开发" },
-  { icon: "display", value: "2", label: "Exhibitions", detail: "作品展示" }
+  { icon: "briefcase", value: "5+", label: "完整项目", detail: "独立与团队" },
+  { icon: "code", value: "20+", label: "技术 Demo", detail: "系统与工具" },
+  { icon: "trophy", value: "3", label: "Game Jam", detail: "48h · 72h 开发" }
 ];
 ---
 <BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home" bodyClass="home-page">
   <HomeTopChrome lang={lang} />
   <section class="home-hero" data-hero-carousel aria-label="代表项目轮播">
     <div class="home-hero__content">
+      <p class="home-hero__eyebrow">你好，我是</p>
       <h1 class="home-hero__title">Left Jun</h1>
       <p class="home-hero__role">Gameplay Programmer</p>
       <p class="home-hero__subtitle">用代码与设计构建可玩的交互世界。</p>
@@ -52,10 +52,6 @@ const homeStats = [
         <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>查看我的作品</span></a>
         <a class="home-action" href="/about/"><Icon name="user" /><span>了解更多</span></a>
       </div>
-      <a class="home-hero__scroll" href="#home-featured-work">
-        <span>向下滚动</span>
-        <Icon name="chevron-right" />
-      </a>
 
       <div class="home-hero__summary-list" aria-live="polite">
         {heroProjects.map((entry, index) => (
@@ -109,6 +105,11 @@ const homeStats = [
         );
       })}
     </div>
+
+    <a class="home-hero__scroll" href="#home-featured-work">
+      <span>向下滚动</span>
+      <Icon name="chevron-right" />
+    </a>
 
     <div class="home-hero__dots" role="tablist" aria-label="切换代表项目">
       {heroProjects.map((entry, index) => (
