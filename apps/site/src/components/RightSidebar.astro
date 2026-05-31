@@ -1,6 +1,6 @@
 ---
 import Icon from "./Icon.astro";
-import { siteText } from "../lib/content.js";
+import { siteText, taxonomyTermUrl } from "../lib/content.js";
 
 type SidebarEntry = {
   slug: string;
@@ -94,7 +94,7 @@ const tagTitle = isEn ? "Tag Cloud" : "标签云";
           </div>
           <h2 class="widget-title section-title">{categoryTitle}</h2>
           <div class="tagCloud-tags">
-            {categories.map((term) => <span>{term.name}</span>)}
+            {categories.map((term) => <a href={taxonomyTermUrl("categories", term.name, lang)}>{term.name}</a>)}
           </div>
         </section>
       )}
@@ -105,7 +105,7 @@ const tagTitle = isEn ? "Tag Cloud" : "标签云";
           </div>
           <h2 class="widget-title section-title">{tagTitle}</h2>
           <div class="tagCloud-tags">
-            {tags.map((term) => <span>{term.name}</span>)}
+            {tags.map((term) => <a href={taxonomyTermUrl("tags", term.name, lang)}>{term.name}</a>)}
           </div>
         </section>
       )}

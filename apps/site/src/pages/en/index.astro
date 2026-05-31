@@ -355,10 +355,11 @@ const techStack = [
               event.stopPropagation();
               return;
             }
-            const target = event.target instanceof Element ? event.target : null;
-            if (target?.closest(".home-hero__media-link")) return;
             const activeLink = stage.querySelector(".home-hero__slide.is-active .home-hero__media-link");
-            if (activeLink?.href) window.location.href = activeLink.href;
+            if (activeLink?.href) {
+              event.preventDefault();
+              window.location.href = activeLink.href;
+            }
           }, true);
         }
 
