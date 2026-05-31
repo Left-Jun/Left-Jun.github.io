@@ -18,6 +18,7 @@ type SidebarProps = {
   entries?: SidebarEntry[];
   activeKind?: "categories" | "tags";
   activeSlug?: string;
+  resetUrl?: string;
   sectionPage?: {
     data?: Record<string, string>;
   } | null;
@@ -29,6 +30,7 @@ const {
   entries = [],
   activeKind = undefined,
   activeSlug = "",
+  resetUrl = "",
   sectionPage = null
 } = Astro.props as SidebarProps;
 
@@ -52,7 +54,12 @@ function collectTerms(items: SidebarEntry[], field: "categories" | "tags", limit
       }
     }
   }
-  const sorted = [...terms.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, lang));
+  const sorted = [...terms.values()].sort((a, b) => {
+    const aActive = activeKind === field && a.slug === normalizedActiveSlug;
+    const bActive = activeKind === field && b.slug === normalizedActiveSlug;
+    if (aActive !== bActive) return aActive ? -1 : 1;
+    return b.count - a.count || a.name.localeCompare(b.name, lang);
+  });
   const visible = sorted.slice(0, limit);
   const activeTerm = activeKind === field ? sorted.find((term) => term.slug === normalizedActiveSlug) : undefined;
   if (activeTerm && !visible.some((term) => term.slug === activeTerm.slug)) {
@@ -64,13 +71,18 @@ function collectTerms(items: SidebarEntry[], field: "categories" | "tags", limit
   }
   return visible.map((term) => ({
     ...term,
-    url: taxonomyTermUrl(field, term.name, lang),
-    active: activeKind === field && normalizedActiveSlug === term.slug
+    active: activeKind === field && normalizedActiveSlug === term.slug,
+    url: activeKind === field && normalizedActiveSlug === term.slug && resetUrl
+      ? resetUrl
+      : taxonomyTermUrl(field, term.name, lang),
+    title: activeKind === field && normalizedActiveSlug === term.slug && resetUrl
+      ? (isEn ? `Clear ${term.name}` : `清除 ${term.name}`)
+      : `${term.name} (${term.count})`
   }));
 }
 
-const categories = collectTerms(entries, "categories", 8);
-const tags = collectTerms(entries, "tags", 12);
+const categories = collectTerms(entries, "categories", 5);
+const tags = collectTerms(entries, "tags", 8);
 const gameLabel = data.gameFilterLabel || (isEn ? "Game Development" : "游戏开发");
 const embeddedLabel = data.embeddedFilterLabel || (isEn ? "Embedded Development" : "嵌入式开发");
 const typeTitle = data.typeTitle || (isEn ? "Project Types" : "项目类型");
@@ -117,7 +129,7 @@ const tagTitle = isEn ? "Tag Cloud" : "标签云";
           <h2 class="widget-title section-title">{categoryTitle}</h2>
           <div class="tagCloud-tags">
             {categories.map((term) => (
-              <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={`${term.name} (${term.count})`}>
+              <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={term.title}>
                 {term.name}
               </a>
             ))}
@@ -132,7 +144,7 @@ const tagTitle = isEn ? "Tag Cloud" : "标签云";
           <h2 class="widget-title section-title">{tagTitle}</h2>
           <div class="tagCloud-tags">
             {tags.map((term) => (
-              <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={`${term.name} (${term.count})`}>
+              <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={term.title}>
                 {term.name}
               </a>
             ))}
