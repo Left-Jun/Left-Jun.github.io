@@ -3,9 +3,10 @@ title: "亚舍拉挽歌"
 date: 2026-03-20T10:00:00+08:00
 draft: false
 slug: "ashe-lament"
-description: "阈限开拓者在腾讯高校游戏极限开发大赛中完成的 2D 平台跳跃 / 资源管理游戏，围绕灵能系统、地下安全时间、捷径建造和多结局结算展开。"
+description: "一款 72 小时内完成的 2D 平台跳跃与资源管理游戏，围绕灵能状态、地下安全时间、捷径建造和多结局推进展开。"
 image: "cover.png"
 coverVideo: "cover.mp4"
+imagePosition: "62% center"
 pinned: true
 pinWeight: 10
 featured: true
@@ -13,21 +14,29 @@ featuredWeight: 10
 weight: 20
 portfolioType: "game"
 projectFacts:
-  developmentTime: "2026.3（腾讯高校游戏极限开发大赛）"
+  developmentTime: "2026.03 - 2026.05"
   duration: "72h"
   team: "5 人"
-  role: "队长 / 主程 / 玩法策划 / 音乐制作（AI 辅助）"
+  event: "腾讯高校游戏极限开发大赛"
+  role: "队长 / 主程 / 玩法策划"
+  roleNote: "音乐制作（AI 辅助）"
   tools: "Unity / C#"
-  platform: "Windows 可执行版本"
+  techNote: "2D / Tilemap / Audio"
+  platform: "Windows"
+  platformNote: "可执行版本"
+  finishedAt: "2026.05"
+  trailerDuration: "01:32"
   result: "完成限时跑酷、资源收集、捷径建造、灵能结算与低 / 中 / 高三种结局。"
 projectLinks:
   - label: "可执行版本"
     url: "https://pan.quark.cn/s/efcee623b3f4?pwd=TQCA"
     icon: "link"
 tags:
-  - "Unity"
-  - "Platformer"
-  - "Team Project"
+  - "团队项目"
+  - "2D 平台跳跃"
+  - "资源管理"
+  - "灵能系统"
+  - "多结局"
 roleTags:
   - "队长"
   - "主程"
@@ -40,101 +49,144 @@ relatedPages:
 
 ## 项目简介
 
-我以阈限开拓者队名带队参加腾讯高校游戏极限开发大赛成都赛点，并在 72 小时内推进完成《亚舍拉挽歌》这款 2D 平台跳跃 / 资源管理游戏。我在团队中担任队长、主程、玩法策划和音乐制作，负责把资源管理、双形态切换、地上/地下循环和多结局结算落到可玩的版本里。玩家扮演最后的“根语者”，在生命之树“亚舍拉”即将枯竭的世界中往返于地下根脉与地上树干之间，收集残存灵能、规划攀登路线，并在自身灵能燃尽前把最后的力量送往世界之心。
+《亚舍拉挽歌》是一款把 2D 平台跳跃与资源管理结合起来的游戏。玩家扮演“阈限开拓者”，进入一片被遗忘的地下世界，在有限的地下安全时间内探索、收集灵能、建造捷径，并把资源带回地上，用一次次路线选择推动最终结局。
 
-这个项目的核心不是单纯“跑得快”或“跳得准”，而是在时间、资源和风险之间做管理决策。玩家需要判断什么时候深入地下收集，什么时候返回地上攀登，什么时候消耗资源建造捷径，什么时候为了效率切换更高风险的形态。
+项目最初完成于腾讯高校游戏极限开发大赛的 72 小时开发周期中。我们没有把目标放在堆叠大量系统上，而是验证一个更集中的玩法闭环：平台跳跃提供即时操作压力，资源管理提供路线决策压力，多结局则让玩家的资源选择在叙事收束处得到反馈。
 
 ## 世界观与叙事
 
-故事发生在“大枯萎纪”。曾经，生命之树亚舍拉的根须深入地心，枝冠触及群星，灵能从祂的经脉中流动，维系万物的生命循环。随着灵能泉眼逐一枯竭，森林褪色，文明离散，母树也走向弥留。
+故事发生在生命之树“亚舍拉”衰败之后。地下世界失去了光明与秩序，残存灵能散落在根脉和遗迹之间；地上的母树仍在等待最后一次复苏，但通往树冠的路线被破碎平台、枯萎枝干和资源消耗共同阻断。
 
-玩家是最后的根语者，也是这个衰亡世界最后的管理者。史诗英雄早已离场，剩下的是一次次具体而微的抉择：多收集一点灵能，还是尽快返回安全区域；把遗骨用于建造捷径，还是保留资源以应对后续路线；以更快速度推进，还是避免灵能流失过快。
-
-在这个设定里，“管理”不是抽象主题，而是世界即将沉寂时仍试图维持秩序的行动本身。
+玩家不是传统意义上的救世英雄，而是最后一个还愿意维护循环的人。每一次下潜都意味着风险：是继续深入换取更多灵能，还是在安全时间耗尽前返回；是把遗骨用于建造捷径，还是保留资源应对后续路线；是追求更快的推进，还是优先保证稳定的结局条件。
 
 ## 核心玩法
 
-游戏由两个互相衔接的循环组成。
+<div class="case-card-grid">
+  <article class="case-card">
+    <h3>灵能系统</h3>
+    <p>灵能同时承担生命压力、行动资源和结局评价的作用。玩家在探索中收集灵能，也会因为时间、区域和强化行为持续消耗灵能。</p>
+  </article>
+  <article class="case-card">
+    <h3>捷径建造</h3>
+    <p>玩家通过探索收集遗骨，并在地上路线中消耗资源建造捷径，把一次探索收益转化为后续尝试的路线优势。</p>
+  </article>
+  <article class="case-card">
+    <h3>多结局推进</h3>
+    <p>最终结局由剩余灵能和关键流程共同决定，让“跑得更远”和“留下多少资源”成为同一个决策问题。</p>
+  </article>
+</div>
 
-- 地下探索：玩家在严格时间限制内进行平台跳跃，收集灵能和遗骨。地下路线更紧张，强调操作效率、路径选择和风险判断。
-- 地上攀登：玩家利用收集到的资源向母树顶端推进。灵能可以用于行动与攀登，遗骨可以用于建造捷径，减少后续尝试的路线压力。
-
-灵能同时承担生命值、行动能量和结局评价资源的功能。它会随着时间自然流失，也会因为强化形态和关键行动而加速消耗。玩家最终交付的灵能数量会影响结局，从而把资源管理结果直接反馈到叙事收束上。
+这个玩法闭环的重点不是让玩家一直被资源惩罚，而是让每次操作都有方向感：地下负责制造紧张，地上负责提供规划空间，结局负责回收玩家一路做出的取舍。
 
 ## 截图与系统展示
 
-![玩法告示板](/content-assets/projects/ashe-lament/screenshot-notice-board.png)
+<div class="case-media-grid">
+  <figure class="case-figure">
+    <img src="/content-assets/projects/ashe-lament/screenshot-notice-board.png" alt="玩法告示板" loading="lazy">
+    <figcaption><strong>玩法告示板</strong><span>用一张图解释灵能、遗骨、加时器、强化状态和捷径建造，降低玩家进入主循环前的理解成本。</span></figcaption>
+  </figure>
+  <figure class="case-figure">
+    <img src="/content-assets/projects/ashe-lament/screenshot-underground.png" alt="地下探索与灵能收集" loading="lazy">
+    <figcaption><strong>地下探索</strong><span>地下区域强调时间压力和操作效率，玩家需要在收集收益与路线风险之间快速判断。</span></figcaption>
+  </figure>
+  <figure class="case-figure">
+    <img src="/content-assets/projects/ashe-lament/screenshot-shortcut.png" alt="地上攀登与捷径建造" loading="lazy">
+    <figcaption><strong>捷径建造</strong><span>地上部分把资源转化为长期路线优势，让地下收集不只是分数，而是能改变下一轮推进路径。</span></figcaption>
+  </figure>
+  <figure class="case-figure">
+    <img src="/content-assets/projects/ashe-lament/screenshot-ending.png" alt="结局画面" loading="lazy">
+    <figcaption><strong>结局反馈</strong><span>不同结局根据最终交付的灵能触发，把玩家的资源管理结果反馈到叙事收束中。</span></figcaption>
+  </figure>
+</div>
 
-告示板用一张图解释灵能、遗骨、加时器、强化状态和捷径建造，让玩家在进入主要循环前快速理解资源压力。
+## 我的职责与贡献
 
-![剧情对话框](/content-assets/projects/ashe-lament/screenshot-dialogue.png)
+在本项目中，我主要负责把创意拆成可完成、可调试、可交付的系统，并在 72 小时内维持团队开发节奏。
 
-对话系统承担叙事推进和世界观提示。栖枝作为母树意识的残响，在流程中给出规则说明和情绪引导。
-
-![强化状态与地下收集](/content-assets/projects/ashe-lament/screenshot-underground.png)
-
-地下区域强调时间压力和操作效率。玩家可以进入强化状态提升行动能力，但灵能流逝会更快，必须在收益和风险之间取舍。
-
-![地上攀登与捷径建造](/content-assets/projects/ashe-lament/screenshot-shortcut.png)
-
-地上部分更偏长期规划。玩家可以消耗资源建造捷径，缩短后续攀登路线，把地下收集成果转化为路线优势。
-
-![速度灵能提示](/content-assets/projects/ashe-lament/screenshot-speed-board.png)
-
-过程提示直接叠加在场景中，用较强的视觉反馈提醒玩家当前行为会消耗或改变核心资源。
-
-![结局画面](/content-assets/projects/ashe-lament/screenshot-ending.png)
-
-不同结局会根据最终交付的灵能数量触发，将玩家的资源管理结果反馈到叙事结局中。
-
-![尾声画面](/content-assets/projects/ashe-lament/screenshot-epilogue.png)
-
-尾声画面把“枯萎之后的新脉动”可视化，回应游戏中关于循环、牺牲与再生的主题。
-
-![Staff 表](/content-assets/projects/ashe-lament/screenshot-staff.png)
-
-Staff 表记录了团队分工，也让这次 72 小时协作的完成感有一个明确收束。
-
-## 我负责的部分
-
-- 担任队长、主程、玩法策划与音乐制作，负责把 72 小时内的创意、关卡、文案、美术和程序整合成可运行版本。
-- 主导核心循环设计：地下限时收集、地上攀登推进、遗骨建造捷径、最终灵能交付和多结局反馈。
-- 负责主要 gameplay 代码，包括角色移动、跳跃、冲刺、形态切换、灵能流失、安全时间、资源拾取、捷径建造和结局判定。
-- 将“灵能逐渐枯竭”的叙事概念落成可调参数：不同区域、不同形态、不同剩余时间都会改变资源压力。
-- 与文案、美术成员协作，把母树、根语者、大枯萎纪、栖枝、灵能等设定转译为 UI 提示、场景反馈和流程节点。
+<div class="case-card-grid case-card-grid--roles">
+  <article class="case-card">
+    <h3>程序实现</h3>
+    <ul>
+      <li>搭建角色移动、跳跃、冲刺、状态切换和资源系统。</li>
+      <li>实现地下安全时间、灵能流失、捷径建造与结局判定逻辑。</li>
+    </ul>
+  </article>
+  <article class="case-card">
+    <h3>玩法策划</h3>
+    <ul>
+      <li>设计灵能资源循环、关卡推进节奏和多结局条件。</li>
+      <li>把队伍的叙事设定拆解成可实现的机制目标与 UI 提示。</li>
+    </ul>
+  </article>
+  <article class="case-card">
+    <h3>团队推进</h3>
+    <ul>
+      <li>组织版本计划、拆分任务，协调程序、美术、音乐与文案。</li>
+      <li>控制 72 小时内的功能范围，优先保证可玩的闭环版本。</li>
+    </ul>
+  </article>
+</div>
 
 ## 技术实现
 
-项目使用 Unity 与 C# 开发。我的实现重点不是堆叠功能，而是把“资源管理”做成一个能被多个系统共享的状态中心。
-整理系统结构时，我把链路压成三类输入：玩家按键、角色所在区域、资源触发器。按键进入移动 / 跳跃 / 冲刺与形态切换；区域状态决定地下安全时间和灵能流失；触发器负责拾取、捷径、对话和结局。这样写的好处是，即使 72 小时内不断改关卡，也能把问题定位到“输入层、状态层、输出层”中的某一段，而不是在全部脚本里乱找。
+### 状态驱动角色参数
 
-- `EnergyManager` 维护灵能值和遗骨碎片，并通过事件把数值变化同步给 UI、形态显示和结算逻辑。
-- `EnergyDrainController` 根据玩家 Y 坐标、当前形态和 `SafetyTimer` 剩余时间计算灵能流失速率：地上、地下安全期、地下危险期和强化状态都有不同消耗。
-- `SafetyTimer` 用 Y 轴阈值判断玩家是否在地下，只在地下倒计时；加时器道具可以把地下探索风险转化为可争取的时间。
-- `MaskControl` 把普通 / 强化状态接入移动速度、跳跃、二段跳、贴墙跳、冲刺和角色/背景视觉，让状态切换影响操作手感与场景表现。
-- `ShortcutBuilder` 用遗骨和灵能作为建造成本，玩家进入触发区并按键后才会打开捷径，同时处理资源不足提示。
-- `EndingManager` 读取最终灵能值，用可调阈值触发高 / 中 / 低结局；灵能耗尽时会进入死亡结局，并在结局流程中禁用玩家控制、切换音乐和加载返回场景。
-- 菜单、重开、结局返回使用 `SceneManager.LoadScene` 管理场景流转；主玩法内部的地上 / 地下差异主要通过 Y 轴阈值和触发器完成，不额外增加复杂场景切换成本。
+**问题：** 不同灵能状态会影响移动、跳跃、资源消耗和结局判断。如果把这些逻辑直接写进角色控制脚本，后续调参和修 Bug 会很快变乱。
 
-## 系统结构
+**方案：** 我把角色能力拆成状态数据：角色控制器只读取当前状态参数，状态管理器负责切换、广播变化，并驱动 UI 与表现层更新。
 
-为了在 72 小时内保证可玩闭环，我把脚本按功能拆成五个核心模块：
+**结果：** 后续增加或调整状态时，可以先扩展状态数据和表现逻辑，不必反复修改角色移动主流程。
 
-- 玩家控制系统：`PlayerMove`、`PlayerJump`、`PlayerDash`、`GroundCheck`、`WallCheck`、`Respawn`，负责平台跳跃的基础手感。
-- 形态与灵能系统：`MaskControl`、`EnergyManager`、`EnergyDrainController`、`SafetyTimer`，负责形态参数、资源流失、地下安全时间和灵能阶段视觉。
-- 关卡交互系统：`CheckPoint`、`PlatformMove`、`TrapCheck`、`EnergyPickup`、`TimeExtendPickup`、`ShortcutBuilder`，负责检查点、移动平台、陷阱、资源拾取和捷径构建。
-- 对话与 UI 系统：`SimpleDialogue`、`AdvancedText`、`UIManager`、`ChoicePanel`、`EnergyValueDisplay`、`EnergyShardDisplay`、`TimerDisplay`，负责文本、选择、资源数值和倒计时反馈。
-- 场景表现与结局系统：`BackgroundSwitcher`、`CharacterLightController`、`MusicManager`、`EndingManager`、`TreeTopInteraction`，负责背景、灯光、音乐、结局触发和结局流程。
+### 灵能作为中心资源
 
-整理成流程后，核心链路是从玩家输入进入动作判定，再由形态、资源和区域状态共同决定反馈：
+**问题：** 灵能既是玩家收集目标，又是消耗压力，还会影响结局。它如果分散在多个脚本里，数值来源会难以追踪。
 
-![亚舍拉挽歌系统流程图](/content-assets/projects/ashe-lament/flow-system.svg)
+**方案：** 使用 `EnergyManager` 维护灵能和遗骨数值，再通过事件同步给 UI、状态显示和结算逻辑。`EnergyDrainController` 根据区域、形态和地下安全时间计算流失速度。
 
-这条链路的重点是让灵能成为所有系统都能读懂的中心状态：玩家输入驱动移动 / 跳跃 / 冲刺，区域与触发器改变资源和流程状态，`EnergyManager` 把灵能与遗骨变化分发出去，`MaskControl` 和 UI 根据状态更新表现，最终由 `TreeTopInteraction` 与 `EndingManager` 根据剩余灵能完成结算。这样做的好处是，玩法、资源、对话和表现都围绕同一个核心资源工作，短开发周期里也能保持可调和可读。
-落到团队整合上，我把“会频繁变化的关卡内容”和“需要稳定复用的系统脚本”尽量分开：数值通过 Inspector 暴露，捷径和拾取物依赖触发区，结局阈值在 `EndingManager` 里集中配置。这样文案、美术和关卡调整时不用改核心代码，我也能在最后阶段主要处理连线、阈值和流程 bug。
+**结果：** 玩法、UI、结局和区域反馈都围绕同一个资源状态工作，短开发周期里也能保持可调和可读。
 
-## 设计亮点
+### 地下安全时间
 
-《亚舍拉挽歌》最有价值的地方，是把主题、机制和叙事压在同一个核心上。灵能的流失对应世界的衰亡，地下限时探索制造压力，地上规划提供喘息与选择，多结局则回应玩家一路以来的管理成果。
+**问题：** 地下区域需要制造压力，但不能让玩家感觉每一步都被惩罚，否则平台跳跃节奏会被资源焦虑打断。
 
-这让游戏的每一次跳跃和每一次资源消耗都不只是操作行为，也带着“是否还来得及挽回什么”的叙事重量。
+**方案：** 使用 `SafetyTimer` 判断玩家是否处于地下，并把倒计时与加时道具绑定。安全时间内鼓励玩家深入探索，危险期则推动玩家快速做返回或继续冒险的选择。
+
+**结果：** 地下探索形成了明确节奏：进入、收集、判断、撤离或冒险。资源管理不再只是静态数值，而是和路线推进绑定在一起。
+
+### 捷径建造与结局判定
+
+**问题：** 资源系统需要一个能被玩家看见的长期收益，否则收集行为会变成单纯捡数值。
+
+**方案：** `ShortcutBuilder` 用遗骨和灵能作为建造成本，玩家进入触发区并满足资源条件后打开捷径；`EndingManager` 读取最终灵能并触发低 / 中 / 高结局。
+
+**结果：** 玩家能直观看到资源选择改变路线，同时在结局处获得明确反馈，形成“探索收益 → 路线优化 → 结局回收”的完整链路。
+
+## 挑战与解决方案
+
+<div class="case-card-grid">
+  <article class="case-card">
+    <h3>机制过多，时间太短</h3>
+    <p>先保证一轮完整循环，再把复杂系统拆成可选扩展；功能优先级始终围绕“能否形成可玩闭环”判断。</p>
+  </article>
+  <article class="case-card">
+    <h3>资源管理与跳跃节奏冲突</h3>
+    <p>把资源消耗绑定到关键决策和区域状态，而不是频繁打断移动，让玩家主要在路线选择时感受到压力。</p>
+  </article>
+  <article class="case-card">
+    <h3>素材整合时间紧张</h3>
+    <p>提前约定命名、尺寸和导入流程，把最后阶段的精力放在连线、阈值、UI 提示和流程 Bug 上。</p>
+  </article>
+</div>
+
+## 学习与收获
+
+这个项目让我更明确地意识到，机制复杂的游戏最重要的不是“再加一个系统”，而是让玩家第一次接触时能顺利进入循环。一个资源系统如果不能被路线、反馈和结局共同解释，就很容易变成额外负担。
+
+后续继续开发时，我会优先打磨前 5 分钟体验：让玩家更快理解地下探索、灵能消耗、捷径收益和结局目标之间的关系，再逐步展开更复杂的路线策略与叙事内容。
+
+## 相关链接
+
+- [可执行版本](https://pan.quark.cn/s/efcee623b3f4?pwd=TQCA)
+- [项目复盘](/retrospectives/ashe-lament-retrospective/)
+- [后续开发计划](/plans/ashe-lament-roadmap/)
+- [成都第一届《曙光游集》线下路演记录与思考](/posts/shuguang-youji-roadshow/)

@@ -34,18 +34,21 @@ const inferredTeam = text.isEn
   ? (roleText.toLowerCase().includes("solo") ? "Solo" : "Team project")
   : (roleText.includes("独立") || roleText.includes("单人") ? "独立开发" : "团队项目");
 const projectInfoItems = isProject ? [
-  { icon: "user", label: text.isEn ? "My Role" : "我的角色", value: facts.role },
-  { icon: "clock", label: text.isEn ? "Duration" : "开发周期", value: facts.duration },
-  { icon: "users", label: text.isEn ? "Team" : "团队规模 / 方式", value: facts.team || inferredTeam },
-  { icon: "date", label: text.isEn ? "Time" : "开发时间", value: developmentTimeText || facts.developmentTime }
+  { icon: "clock", label: text.isEn ? "Time" : "开发时间", value: developmentTimeText || facts.developmentTime, note: facts.duration },
+  { icon: "users", label: text.isEn ? "Team" : "团队规模", value: facts.team || inferredTeam, note: facts.event || facts.competition },
+  { icon: "user", label: text.isEn ? "My Role" : "我的角色", value: facts.role, note: facts.roleNote },
+  { icon: "display", label: text.isEn ? "Platform" : "开发平台", value: facts.platform, note: facts.platformNote },
+  { icon: "code", label: text.isEn ? "Tools" : "使用技术", value: facts.tools, note: facts.techNote }
 ].filter((item) => item.value) : [];
-const projectTechItems = String(facts.tools || "")
-  .split("/")
-  .map((item) => item.trim())
-  .filter(Boolean);
 const projectPills = isProject
   ? [...new Set([...(entry.data.roleTags || []), ...(entry.data.tags || [])].filter(Boolean))]
   : [];
+const projectSummaryItems = isProject ? [
+  { label: text.isEn ? "Duration" : "开发周期", value: facts.duration },
+  { label: text.isEn ? "Team" : "团队人数", value: facts.team || inferredTeam },
+  { label: text.isEn ? "Event" : "比赛", value: facts.event || facts.competition || String(facts.developmentTime || "").match(/（(.+?)）/)?.[1] },
+  { label: text.isEn ? "Finished" : "完成时间", value: facts.finishedAt || entry.formattedDate }
+].filter((item) => item.value) : [];
 ---
 <BaseLayout lang={lang} title={entry.data.title} description={entry.data.description} image={entry.data.image ? entry.asset(entry.data.image) : undefined} active={active} bodyClass={isProject ? "article-page project-detail-page" : "article-page"}>
   <article class:list={["main-article", cover && "has-image"]}>
@@ -69,6 +72,15 @@ const projectPills = isProject
             </video>
           ) : (
             <img src={entry.asset(entry.data.image)} alt={entry.data.title} loading="eager" style={`object-position: ${imagePosition};`} />
+          )}
+          {isProject && (entry.data.coverVideo || facts.trailerDuration) && (
+            <div class="project-hero-play-badge" aria-label={text.isEn ? "Project trailer" : "项目预告片"}>
+              <span class="project-hero-play-badge__button" aria-hidden="true">▶</span>
+              <span>
+                <strong>{text.isEn ? "Project Trailer" : "项目预告片"}</strong>
+                <small>{facts.trailerDuration || "01:32"}</small>
+              </span>
+            </div>
           )}
         </div>
       )}
@@ -103,24 +115,17 @@ const projectPills = isProject
             <div class="project-info-strip__item">
               <dt><Icon name={item.icon} /><span>{item.label}</span></dt>
               <dd>{item.value}</dd>
+              {item.note && <small>{item.note}</small>}
             </div>
           ))}
         </dl>
-        {projectTechItems.length > 0 && (
-          <div class="project-info-strip__tech" aria-label={text.isEn ? "Tools" : "使用技术"}>
-            <span>{text.isEn ? "Tools" : "使用技术"}</span>
-            <div>
-              {projectTechItems.map((item) => <strong>{item}</strong>)}
-            </div>
-          </div>
-        )}
         {facts.result && <p class="project-info-strip__outcome">{facts.result}</p>}
       </section>
     )}
 
-    {entry.section === "projects" && projectLinks.length > 0 && (
-      <section class="project-links" aria-label={text.projectLinks}>
-        <h2 class="project-links__title">{text.projectLinks}</h2>
+    {entry.section === "projects" && (projectLinks.length > 0 || projectRecords.length > 0) && (
+      <section class="project-links" aria-label={text.isEn ? "Project actions" : "项目入口"}>
+        <h2 class="project-links__title sr-only">{text.projectLinks}</h2>
         <div class="project-links__list">
           {projectLinks.map((link) => (
             <a class="project-links__button" href={link.url || link.website} target="_blank" rel="noopener noreferrer">
@@ -128,21 +133,12 @@ const projectPills = isProject
               <span>{link.label || link.title || link.url || link.website}</span>
             </a>
           ))}
-        </div>
-      </section>
-    )}
-
-    {entry.section === "projects" && projectRecords.length > 0 && (
-      <section class="project-records" aria-label={text.relatedRecords}>
-        <h2 class="project-records__title">{text.relatedRecords}</h2>
-        <div class="project-records__list">
           {projectRecords.map((item) => {
             const isRetrospective = item.section === "retrospectives";
             return (
-              <a class:list={["project-records__button", isRetrospective && "project-records__button--retrospectives"]} href={item.url}>
+              <a class:list={["project-links__button", isRetrospective && "project-links__button--retrospective"]} href={item.url}>
                 <Icon name={isRetrospective ? "infinity" : "clock"} />
-                <span class="project-records__label">{isRetrospective ? (text.isEn ? "Project Retrospective" : "项目复盘") : (text.isEn ? "Development Plan" : "开发计划")}</span>
-                <strong>{item.data.title}</strong>
+                <span>{isRetrospective ? (text.isEn ? "Project Retrospective" : "项目复盘") : (text.isEn ? "Development Plan" : "开发计划")}</span>
               </a>
             );
           })}
@@ -194,9 +190,6 @@ const projectPills = isProject
     <Fragment slot="right-sidebar">
       <aside class="sidebar right-sidebar sticky">
         <section class="widget widget--toc">
-          <div class="widget-icon" aria-hidden="true">
-            <Icon name="hash" />
-          </div>
           <h2 class="widget-title">{text.toc}</h2>
           <nav class="toc-nav">
             {tocItems.map((item) => (
@@ -204,6 +197,33 @@ const projectPills = isProject
             ))}
           </nav>
         </section>
+        {projectLinks.length > 0 && (
+          <section class="widget project-download-widget">
+            <h2 class="widget-title">{text.isEn ? "Downloads" : "项目资料下载"}</h2>
+            <div class="project-download-list">
+              {projectLinks.map((link) => (
+                <a href={link.url || link.website} target="_blank" rel="noopener noreferrer">
+                  <Icon name={link.icon || "link"} />
+                  <span>{link.label || link.title || link.url || link.website}</span>
+                  <Icon name="chevron-right" />
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+        {isProject && projectSummaryItems.length > 0 && (
+          <section class="widget project-summary-widget">
+            <h2 class="widget-title">{text.isEn ? "Project Info" : "项目信息"}</h2>
+            <dl>
+              {projectSummaryItems.map((item) => (
+                <div>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
       </aside>
     </Fragment>
   )}

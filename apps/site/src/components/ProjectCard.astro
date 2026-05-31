@@ -4,13 +4,14 @@ const image = entry.data.image;
 const video = entry.data.coverVideo;
 const roleTags: string[] = entry.data.roleTags || [];
 const tags: string[] = entry.data.tags || [];
-const visibleRoleTags = compact ? roleTags.slice(0, 2) : roleTags;
-const visibleTags = compact ? tags.slice(0, 3) : tags;
+const allDisplayTags = [...roleTags, ...tags].filter(Boolean);
+const visibleRoleTags = compact ? [] : roleTags;
+const visibleTags = compact ? allDisplayTags.slice(0, 3) : tags;
 const projectType = entry.data.portfolioType || "other";
 const imagePosition = entry.data.imagePosition || "center";
 const projectFacts = entry.data.projectFacts || {};
 const cardMeta = compact
-  ? [projectFacts.duration, projectFacts.team || projectFacts.developmentTime].filter(Boolean).slice(0, 2).map(String)
+  ? [projectFacts.duration, projectFacts.team || projectFacts.tools || projectFacts.developmentTime].filter(Boolean).slice(0, 2).map(String)
   : [];
 ---
 <article
