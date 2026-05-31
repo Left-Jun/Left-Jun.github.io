@@ -31,23 +31,31 @@ const workflows = await Promise.all(workflowItems.map(async (item) => ({
   linked: (await Promise.all(item.slugs.map((slug) => getEntryBySlug("projects", slug, lang)))).filter(Boolean)
 })));
 const homeStats = [
-  { value: "5+", label: "Projects" },
-  { value: "20+", label: "Demos" },
-  { value: "3", label: "Game Jams" },
-  { value: "2", label: "Exhibitions" }
+  { value: "5+", label: "项目 / Demo" },
+  { value: "4", label: "Game Jam" },
+  { value: "3", label: "路演 / 展示" }
 ];
 ---
 <BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home" bodyClass="home-page">
   <HomeTopChrome lang={lang} />
-  <section class="home-hero" data-hero-carousel aria-label="代表项目轮播">
+  <section class="home-hero" data-hero-carousel aria-label="首页代表项目">
     <div class="home-hero__content">
-      <p class="home-hero__eyebrow">你好，我是</p>
+      <p class="home-hero__eyebrow">四川大学 · 电子信息类 · 2029届</p>
       <h1 class="home-hero__title">Left Jun</h1>
-      <p class="home-hero__role">玩法程序 / Gameplay Programmer</p>
-      <p class="home-hero__subtitle">用代码与设计构建可玩的交互世界。</p>
+      <p class="home-hero__role">游戏客户端 / Gameplay 开发</p>
+      <p class="home-hero__subtitle">持续制作游戏原型、交互系统与软硬件结合项目。关注 Unity / C#、Gameplay Systems、Game Jam 原型与嵌入式实践。</p>
       <div class="home-hero__actions">
-        <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>查看我的项目</span></a>
-        <a class="home-action" href="/about/"><Icon name="user" /><span>了解更多</span></a>
+        <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>查看项目</span></a>
+        <a class="home-action" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer"><Icon name="briefcase" /><span>作品集 PDF</span></a>
+        <a class="home-action" href="/about/"><Icon name="user" /><span>关于我</span></a>
+      </div>
+      <div class="home-hero__stats" aria-label="作品集数据">
+        {homeStats.map((stat) => (
+          <span>
+            <strong>{stat.value}</strong>
+            <small>{stat.label}</small>
+          </span>
+        ))}
       </div>
     </div>
 
@@ -84,6 +92,11 @@ const homeStats = [
                   <img src={image} alt={entry.data.title} loading={index === 0 ? "eager" : "lazy"} style={`object-position: ${mediaPosition};`} />
                 )}
               </span>
+              <span class="home-hero__project-link">
+                <small>代表项目</small>
+                <strong>{entry.data.title}</strong>
+                <Icon name="chevron-right" />
+              </span>
             </a>
           </article>
         );
@@ -112,9 +125,6 @@ const homeStats = [
           <h2>{text.representativeProjects}</h2>
         </div>
         <div class="home-section__side">
-          <div class="home-mini-stats" aria-label="作品集数据">
-            {homeStats.map((stat) => <span><strong>{stat.value}</strong>{stat.label}</span>)}
-          </div>
           <a class="home-section__link" href="/projects/">{text.allProjects}</a>
         </div>
       </div>
