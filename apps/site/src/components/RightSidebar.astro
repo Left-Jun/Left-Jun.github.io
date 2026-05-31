@@ -16,6 +16,7 @@ type SidebarProps = {
   type?: "terms" | "projects";
   lang?: "zh-cn" | "en";
   entries?: SidebarEntry[];
+  categoryEntries?: SidebarEntry[];
   activeKind?: "categories" | "tags";
   activeSlug?: string;
   resetUrl?: string;
@@ -28,6 +29,7 @@ const {
   type = "terms",
   lang = "zh-cn",
   entries = [],
+  categoryEntries = undefined,
   activeKind = undefined,
   activeSlug = "",
   resetUrl = "",
@@ -81,7 +83,7 @@ function collectTerms(items: SidebarEntry[], field: "categories" | "tags", limit
   }));
 }
 
-const categories = collectTerms(entries, "categories", 5);
+const categories = collectTerms(categoryEntries ?? entries, "categories", 5);
 const tags = collectTerms(entries, "tags", 8);
 const gameLabel = data.gameFilterLabel || (isEn ? "Game Development" : "游戏开发");
 const embeddedLabel = data.embeddedFilterLabel || (isEn ? "Embedded Development" : "嵌入式开发");
