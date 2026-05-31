@@ -5409,44 +5409,60 @@ body {
 .home-hero {
   overflow: hidden;
   background:
-    radial-gradient(circle at 78% 46%, rgba(75, 149, 98, 0.18), transparent 34rem),
-    linear-gradient(110deg, rgba(255, 255, 255, 0.95), rgba(247, 252, 255, 0.9));
+    radial-gradient(circle at 18% 45%, rgba(205, 230, 190, 0.36), transparent 34rem),
+    radial-gradient(circle at 48% 48%, rgba(115, 205, 188, 0.16), transparent 28rem),
+    linear-gradient(110deg, rgba(250, 253, 248, 0.96), rgba(238, 248, 243, 0.9));
 }
 
 .home-hero::before {
-  opacity: 0.82;
+  z-index: 2;
+  opacity: 1;
   background:
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.96) 0%,
-      rgba(246, 252, 246, 0.82) 32%,
-      rgba(95, 144, 83, 0.22) 58%,
-      rgba(39, 120, 78, 0.08) 100%
-    ),
-    radial-gradient(circle at 75% 38%, rgba(48, 126, 82, 0.24), transparent 30rem);
+    radial-gradient(ellipse 72% 86% at 20% 50%, rgba(255, 255, 255, 0.9) 0%, rgba(255, 255, 255, 0.76) 43%, rgba(255, 255, 255, 0.3) 66%, rgba(255, 255, 255, 0) 100%);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 37%, rgba(0, 0, 0, 0.32) 47%, transparent 56%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 37%, rgba(0, 0, 0, 0.32) 47%, transparent 56%);
+}
+
+.home-hero::after {
+  z-index: 4;
+  top: -8%;
+  bottom: -8%;
+  left: 38%;
+  right: auto;
+  width: min(14vw, 190px);
+  opacity: 0.72;
+  background:
+    radial-gradient(ellipse 120% 88% at 0% 50%, rgba(255, 255, 255, 0.62) 0%, rgba(255, 255, 255, 0.4) 38%, rgba(255, 255, 255, 0.16) 62%, rgba(255, 255, 255, 0) 84%);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+  -webkit-mask-image: radial-gradient(ellipse 95% 82% at 0% 50%, #000 0%, #000 52%, rgba(0, 0, 0, 0.55) 68%, transparent 84%);
+  mask-image: radial-gradient(ellipse 95% 82% at 0% 50%, #000 0%, #000 52%, rgba(0, 0, 0, 0.55) 68%, transparent 84%);
 }
 
 .home-hero__media-link::before {
-  opacity: 0.82;
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 0.96) 0%,
-    rgba(247, 252, 245, 0.78) 33%,
-    rgba(82, 137, 78, 0.2) 60%,
-    rgba(33, 112, 74, 0.08) 100%
-  );
+  width: 44%;
+  opacity: 1;
+  background:
+    radial-gradient(ellipse 86% 90% at 16% 50%, rgba(250, 255, 244, 0.9), rgba(239, 249, 232, 0.58) 46%, rgba(197, 224, 185, 0.18) 67%, transparent 84%);
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 36%, rgba(0, 0, 0, 0.45) 48%, transparent 58%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 36%, rgba(0, 0, 0, 0.45) 48%, transparent 58%);
 }
 
 .home-hero__media-blur {
-  opacity: 0.58;
+  z-index: 0;
+  opacity: 0.52;
+  -webkit-mask-image: linear-gradient(90deg, #000 0%, #000 48%, rgba(0, 0, 0, 0.72) 58%, rgba(0, 0, 0, 0.14) 70%, transparent 82%);
+  mask-image: linear-gradient(90deg, #000 0%, #000 48%, rgba(0, 0, 0, 0.72) 58%, rgba(0, 0, 0, 0.14) 70%, transparent 82%);
 }
 
 .home-hero__media-blur img {
-  filter: blur(26px) saturate(1.22);
+  filter: blur(42px) saturate(1.25);
+  transform: scale(1.08);
 }
 
 .home-hero__media-frame {
-  padding-left: min(42%, 520px);
+  z-index: 1;
+  padding-left: 42%;
 }
 
 .home-hero__media-frame img,
@@ -5455,6 +5471,7 @@ body {
   height: 100%;
   object-fit: contain;
   object-position: center right;
+  filter: saturate(1.04) contrast(1.03);
 }
 
 .home-action[href$=".pdf"] {
@@ -5463,6 +5480,9 @@ body {
 
 .home-dashboard {
   align-items: start;
+  grid-template-columns: minmax(0, 1fr) minmax(340px, 360px);
+  gap: clamp(28px, 3vw, 42px);
+  padding-right: clamp(10px, 1.1vw, 22px);
 }
 
 .home-dashboard .home-section__header {
@@ -5470,13 +5490,16 @@ body {
 }
 
 .home-hero__content {
-  max-width: min(44%, 560px);
+  z-index: 5;
+  max-width: min(46%, 600px);
+  padding-right: 18px;
 }
 
 .home-hero__role {
-  max-width: 560px;
-  font-size: clamp(24px, 2vw, 32px);
-  letter-spacing: -0.035em;
+  max-width: 590px;
+  font-size: clamp(24px, 2.15vw, 34px);
+  font-weight: 760;
+  letter-spacing: -0.028em;
 }
 
 .home-featured-projects {
@@ -5527,19 +5550,40 @@ body {
   align-self: start;
   min-height: 100%;
   margin-top: 0;
-  padding-top: 0;
+  padding: clamp(28px, 2.8vw, 40px);
+  border-radius: 32px;
+  background: rgba(255, 255, 255, 0.76);
+  box-shadow: 0 28px 70px rgba(35, 86, 136, 0.09);
 }
 
 .home-dashboard .home-development-plans .home-section__header {
-  min-height: 58px;
+  min-height: 74px;
   align-items: flex-start;
   padding-top: 0;
 }
 
+.home-dashboard .home-development-plans .home-section__eyebrow {
+  margin-bottom: 2px;
+  color: #6e7d91;
+  font-size: 16px;
+  font-weight: 700;
+}
+
+.home-dashboard .home-development-plans .home-section__header h2 {
+  font-size: clamp(40px, 3.8vw, 58px);
+  font-weight: 820;
+  line-height: 0.98;
+  letter-spacing: -0.055em;
+}
+
+.home-dashboard .home-development-plans .home-section__link {
+  margin-top: 4px;
+}
+
 .home-dashboard .home-plan-card__actions {
   display: flex;
-  gap: 7px;
-  margin-top: 10px;
+  gap: 8px;
+  margin-top: 16px;
 }
 
 .home-dashboard .home-plan-card__main {
@@ -5548,6 +5592,68 @@ body {
 
 .home-dashboard .home-plan-card__meta {
   position: static;
+}
+
+.home-dashboard .home-plan-grid {
+  gap: 0;
+  padding-left: 18px;
+  border-left: 1px solid rgba(0, 122, 255, 0.22);
+}
+
+.home-dashboard .home-plan-card {
+  padding: 0 0 28px 22px;
+}
+
+.home-dashboard .home-plan-card:last-child {
+  padding-bottom: 0;
+}
+
+.home-dashboard .home-plan-card::before {
+  top: 2px;
+  left: -23px;
+  width: 14px;
+  height: 14px;
+  border-width: 4px;
+  background: #007aff;
+  box-shadow: 0 0 0 6px rgba(0, 122, 255, 0.1);
+}
+
+.home-dashboard .home-plan-card__meta {
+  color: #718096;
+  font-size: 13px;
+  font-weight: 700;
+}
+
+.home-dashboard .home-plan-card__title {
+  font-size: 22px;
+  font-weight: 760;
+  line-height: 1.2;
+  letter-spacing: -0.025em;
+}
+
+.home-dashboard .home-plan-card__description {
+  margin-top: 2px;
+  color: #66748a;
+  font-size: 17px;
+  line-height: 1.62;
+}
+
+.home-dashboard .home-plan-card__tag {
+  min-height: 24px;
+  padding: 5px 10px;
+  font-size: 12px;
+  font-weight: 650;
+}
+
+.home-dashboard .home-plan-card__pill {
+  min-height: 32px;
+  padding: 7px 12px;
+  font-size: 13px;
+}
+
+:root[data-scheme="dark"] .home-dashboard .home-development-plans {
+  background: rgba(20, 34, 42, 0.78);
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.26);
 }
 
 .home-dashboard .home-project-grid {
@@ -5786,6 +5892,37 @@ body {
 
   .home-hero__content {
     max-width: none;
+  }
+
+  .home-hero::after {
+    display: none;
+  }
+
+  .home-hero__media-link::before,
+  .home-hero__media-blur {
+    -webkit-mask-image: none;
+    mask-image: none;
+  }
+
+  .home-dashboard {
+    padding-right: 0;
+  }
+
+  .home-dashboard .home-development-plans {
+    padding: 24px;
+    border-radius: 26px;
+  }
+
+  .home-dashboard .home-development-plans .home-section__header h2 {
+    font-size: clamp(30px, 8vw, 42px);
+  }
+
+  .home-dashboard .home-plan-card__title {
+    font-size: 19px;
+  }
+
+  .home-dashboard .home-plan-card__description {
+    font-size: 15px;
   }
 
   .home-section__header,
