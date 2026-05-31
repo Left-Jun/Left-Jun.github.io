@@ -7193,26 +7193,29 @@ html {
 
 @media (min-width: 1536px) {
   body.sidebar-collapsed.project-detail-page .container.extended {
-    --project-collapsed-article-width: minmax(0, 980px);
-    --project-collapsed-sidebar-width: 260px;
-    --project-collapsed-gap: clamp(44px, 4.2vw, 76px);
-    padding-right: var(--leftjun-layout-gutter);
+    --project-collapsed-gap: 32px;
+    --project-collapsed-right-sidebar-left: calc(50% + 492px);
+    --project-collapsed-right-sidebar-x: calc(50vw + 492px);
+    --project-collapsed-article-left: calc(var(--leftjun-sidebar-width) + var(--project-collapsed-gap));
+    --project-collapsed-article-right: calc(var(--project-collapsed-right-sidebar-x) - var(--project-collapsed-gap));
+    --project-collapsed-article-width: calc(var(--project-collapsed-article-right) - var(--project-collapsed-article-left));
+    padding-left: var(--project-collapsed-article-left);
   }
 
   body.sidebar-collapsed.project-detail-page .site-content-layout.has-right-sidebar {
-    grid-template-columns: var(--project-collapsed-article-width);
-    justify-content: center;
+    grid-template-columns: minmax(0, var(--project-collapsed-article-width));
+    justify-content: start;
   }
 
   body.sidebar-collapsed.project-detail-page main.main,
   body.sidebar-collapsed.project-detail-page .main-article {
     width: 100%;
-    max-width: 980px;
-    margin-right: auto;
-    margin-left: auto;
+    max-width: none;
+    margin-right: 0;
+    margin-left: 0;
   }
 
   body.sidebar-collapsed.project-detail-page .site-content-layout > .right-sidebar {
-    left: calc(50% + 490px + var(--project-collapsed-gap));
+    left: var(--project-collapsed-right-sidebar-left);
   }
 }
