@@ -19,7 +19,7 @@ const heroProjects = preferredSlugs
   .map((slug) => projects.find((entry) => entry.slug === slug))
   .filter(Boolean);
 const featured = heroProjects;
-const posts = (await getEntries("posts", { lang })).slice(0, 3);
+const posts = (await getEntries("posts", { lang })).slice(0, 2);
 const plans = (await getEntries("plans")).slice(0, 2);
 const planCards = await Promise.all(plans.map(async (entry) => {
   const related = await relatedEntries(entry);
@@ -169,6 +169,21 @@ const homeStats = [
     )}
   </section>
 
+  {posts.length > 0 && (
+    <section class="home-section home-latest-posts">
+      <div class="home-section__header">
+        <div>
+          <p class="home-section__eyebrow">{text.latestNotes}</p>
+          <h2>{text.postsAndRecords}</h2>
+        </div>
+        <a class="home-section__link" href="/posts/">{text.allPosts}</a>
+      </div>
+      <section class="article-list--compact home-post-list">
+        {posts.map((entry) => <PostCard entry={entry} />)}
+      </section>
+    </section>
+  )}
+
   <section class="home-section home-workflow">
     <div class="home-section__header">
       <div>
@@ -204,20 +219,23 @@ const homeStats = [
     </div>
   </section>
 
-  {posts.length > 0 && (
-    <section class="home-section home-latest-posts">
-      <div class="home-section__header">
-        <div>
-          <p class="home-section__eyebrow">{text.latestNotes}</p>
-          <h2>{text.postsAndRecords}</h2>
-        </div>
-        <a class="home-section__link" href="/posts/">{text.allPosts}</a>
+  <section class="home-section home-tech-stack" aria-labelledby="home-tech-stack-title">
+    <div class="home-section__header">
+      <div>
+        <p class="home-section__eyebrow">Tools I use</p>
+        <h2 id="home-tech-stack-title">技术栈</h2>
       </div>
-      <section class="article-list--compact home-post-list">
-        {posts.map((entry) => <PostCard entry={entry} />)}
-      </section>
-    </section>
-  )}
+    </div>
+    <div class="home-tech-stack__pills" aria-label="技术栈">
+      <span>C# / .NET</span>
+      <span>Unity</span>
+      <span>STM32</span>
+      <span>C / C++</span>
+      <span>Git</span>
+      <span>Blender</span>
+      <span>Photoshop</span>
+    </div>
+  </section>
 
   <script is:inline>
     (() => {

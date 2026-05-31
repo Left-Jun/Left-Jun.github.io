@@ -11,7 +11,11 @@ const projectType = entry.data.portfolioType || "other";
 const imagePosition = entry.data.imagePosition || "center";
 const projectFacts = entry.data.projectFacts || {};
 const cardMeta = compact
-  ? [projectFacts.duration, projectFacts.team || projectFacts.tools || projectFacts.developmentTime].filter(Boolean).slice(0, 2).map(String)
+  ? [
+      projectFacts.duration,
+      projectFacts.team || projectFacts.type || entry.data.portfolioType,
+      projectFacts.tools || projectFacts.engine || projectFacts.developmentTime
+    ].filter(Boolean).slice(0, 3).map(String)
   : [];
 ---
 <article
