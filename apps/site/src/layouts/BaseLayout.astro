@@ -1,6 +1,7 @@
 ---
 import "../styles/global.css";
 import Sidebar from "../components/Sidebar.astro";
+import SiteTopChrome from "../components/SiteTopChrome.astro";
 import { config, siteText } from "../lib/content.js";
 
 const {
@@ -47,6 +48,7 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
       <Sidebar lang={lang} active={active} />
       <div class:list={["site-content-layout", hasRightSidebar && "has-right-sidebar"]}>
         <main class="main full-width main-column">
+          <SiteTopChrome lang={lang} active={active} />
           <slot />
           <footer class="site-footer">
             <section class="copyright footer-single-line">
