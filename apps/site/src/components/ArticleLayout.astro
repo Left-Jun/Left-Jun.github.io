@@ -50,7 +50,15 @@ const projectSummaryItems = isProject ? [
   { label: text.isEn ? "Finished" : "完成时间", value: facts.finishedAt || entry.formattedDate }
 ].filter((item) => item.value) : [];
 ---
-<BaseLayout lang={lang} title={entry.data.title} description={entry.data.description} image={entry.data.image ? entry.asset(entry.data.image) : undefined} active={active} bodyClass={isProject ? "article-page project-detail-page" : "article-page"}>
+<BaseLayout
+  lang={lang}
+  title={entry.data.title}
+  description={entry.data.description}
+  image={entry.data.image ? entry.asset(entry.data.image) : undefined}
+  priorityImage={entry.data.image ? entry.asset(entry.data.image) : undefined}
+  active={active}
+  bodyClass={isProject ? "article-page project-detail-page" : "article-page"}
+>
   <article class:list={["main-article", cover && "has-image"]}>
     <header class:list={["article-header", isProject && "project-detail-hero"]}>
       {cover && (
@@ -71,7 +79,14 @@ const projectSummaryItems = isProject ? [
               <source src={entry.asset(entry.data.coverVideo)} type="video/mp4" />
             </video>
           ) : (
-            <img src={entry.asset(entry.data.image)} alt={entry.data.title} loading="eager" style={`object-position: ${imagePosition};`} />
+            <img
+              src={entry.asset(entry.data.image)}
+              alt={entry.data.title}
+              loading="eager"
+              decoding="async"
+              fetchpriority="high"
+              style={`object-position: ${imagePosition};`}
+            />
           )}
         </div>
       )}

@@ -1,6 +1,6 @@
 ---
 import Icon from "./Icon.astro";
-import { siteText, taxonomyTermUrl } from "../lib/content.js";
+import { siteText, taxonomySlug, taxonomyTermUrl } from "../lib/content.js";
 
 type SidebarEntry = {
   slug: string;
@@ -16,6 +16,8 @@ type SidebarProps = {
   type?: "terms" | "projects";
   lang?: "zh-cn" | "en";
   entries?: SidebarEntry[];
+  activeKind?: "categories" | "tags";
+  activeSlug?: string;
   sectionPage?: {
     data?: Record<string, string>;
   } | null;
@@ -25,26 +27,46 @@ const {
   type = "terms",
   lang = "zh-cn",
   entries = [],
+  activeKind = undefined,
+  activeSlug = "",
   sectionPage = null
 } = Astro.props as SidebarProps;
 
 const text = siteText(lang);
 const data = sectionPage?.data || {};
 const isEn = text.isEn;
+const normalizedActiveSlug = activeSlug ? taxonomySlug(activeSlug) : "";
 
 function collectTerms(items: SidebarEntry[], field: "categories" | "tags", limit = 10) {
-  const counts = new Map<string, number>();
+  const terms = new Map<string, { slug: string; name: string; count: number }>();
   for (const entry of items) {
     for (const term of entry.data?.[field] || []) {
-      const key = String(term || "").trim();
-      if (!key) continue;
-      counts.set(key, (counts.get(key) || 0) + 1);
+      const name = String(term || "").trim();
+      if (!name) continue;
+      const slug = taxonomySlug(name);
+      const record = terms.get(slug);
+      if (record) {
+        record.count += 1;
+      } else {
+        terms.set(slug, { slug, name, count: 1 });
+      }
     }
   }
-  return [...counts.entries()]
-    .sort((a, b) => b[1] - a[1] || a[0].localeCompare(b[0]))
-    .slice(0, limit)
-    .map(([name, count]) => ({ name, count }));
+  const sorted = [...terms.values()].sort((a, b) => b.count - a.count || a.name.localeCompare(b.name, lang));
+  const visible = sorted.slice(0, limit);
+  const activeTerm = activeKind === field ? sorted.find((term) => term.slug === normalizedActiveSlug) : undefined;
+  if (activeTerm && !visible.some((term) => term.slug === activeTerm.slug)) {
+    if (visible.length >= limit) {
+      visible[visible.length - 1] = activeTerm;
+    } else {
+      visible.push(activeTerm);
+    }
+  }
+  return visible.map((term) => ({
+    ...term,
+    url: taxonomyTermUrl(field, term.name, lang),
+    active: activeKind === field && normalizedActiveSlug === term.slug
+  }));
 }
 
 const categories = collectTerms(entries, "categories", 8);
@@ -94,7 +116,11 @@ const tagTitle = isEn ? "Tag Cloud" : "标签云";
           </div>
           <h2 class="widget-title section-title">{categoryTitle}</h2>
           <div class="tagCloud-tags">
-            {categories.map((term) => <a href={taxonomyTermUrl("categories", term.name, lang)}>{term.name}</a>)}
+            {categories.map((term) => (
+              <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={`${term.name} (${term.count})`}>
+                {term.name}
+              </a>
+            ))}
           </div>
         </section>
       )}
@@ -105,7 +131,11 @@ const tagTitle = isEn ? "Tag Cloud" : "标签云";
           </div>
           <h2 class="widget-title section-title">{tagTitle}</h2>
           <div class="tagCloud-tags">
-            {tags.map((term) => <a href={taxonomyTermUrl("tags", term.name, lang)}>{term.name}</a>)}
+            {tags.map((term) => (
+              <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={`${term.name} (${term.count})`}>
+                {term.name}
+              </a>
+            ))}
           </div>
         </section>
       )}

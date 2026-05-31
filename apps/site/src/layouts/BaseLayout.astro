@@ -9,6 +9,7 @@ const {
   title = config.title,
   description = config.description,
   image = `/${config.opengraph?.image || "img/avatar.jpg"}`,
+  priorityImage = "",
   active = "home",
   bodyClass = ""
 } = Astro.props;
@@ -16,6 +17,7 @@ const {
 const text = siteText(lang);
 const pageTitle = title === config.title ? title : `${title} - ${config.title}`;
 const canonical = new URL(Astro.url.pathname, config.siteUrl).toString();
+const priorityImageUrl = priorityImage ? new URL(priorityImage, config.siteUrl).toString() : "";
 const footerText = text.isEn ? "Built with Astro" : "";
 const hasRightSidebar = Astro.slots.has("right-sidebar");
 ---
@@ -39,9 +41,7 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
     <meta name="twitter:description" content={description || config.description} />
     <meta name="theme-color" content="#ebf5fc" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#171b1a" media="(prefers-color-scheme: dark)" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap" />
+    {priorityImageUrl && <link rel="preload" as="image" href={priorityImageUrl} fetchpriority="high" />}
   </head>
   <body class={bodyClass}>
     <div class="container main-container flex on-phone--column extended site-shell">

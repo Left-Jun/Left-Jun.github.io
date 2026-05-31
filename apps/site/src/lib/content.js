@@ -93,7 +93,15 @@ export async function getAllEntries(options = {}) {
 }
 
 export function taxonomySlug(value) {
-  return slugify(value);
+  const normalized = String(value || "").trim().toLowerCase();
+  const aliases = new Map([
+    ["c#", "csharp"],
+    ["c sharp", "csharp"],
+    ["c++", "cpp"],
+    ["cplusplus", "cpp"],
+    [".net", "dotnet"]
+  ]);
+  return aliases.get(normalized) || slugify(value);
 }
 
 export function taxonomyTermUrl(kind, term, lang = "zh-cn") {
@@ -147,17 +155,22 @@ export async function getSectionPage(section, lang = "zh-cn") {
   };
 }
 
-export async function resolveRelated(ref) {
+export async function resolveRelated(ref, lang = "zh-cn") {
   const [section, ...rest] = String(ref || "").split("/");
   const wanted = rest.join("/");
   if (!sectionsWithLists.includes(section)) return null;
   const entries = await getEntries(section);
-  return entries.find((entry) => baseEntryId(entry.id) === wanted || entry.slug === wanted) || null;
+  const matches = entries.filter((entry) => baseEntryId(entry.id) === wanted || entry.slug === wanted);
+  const key = languageKey(lang);
+  const exact = matches.find((entry) => entry.lang === key);
+  if (exact) return exact;
+  if (key === "en") return matches.find((entry) => entry.lang === "zh-cn") || null;
+  return null;
 }
 
 export async function relatedEntries(entry) {
   const refs = entry.data.relatedPages || [];
-  const resolved = await Promise.all(refs.map(resolveRelated));
+  const resolved = await Promise.all(refs.map((ref) => resolveRelated(ref, entry.lang)));
   return resolved.filter(Boolean);
 }
 

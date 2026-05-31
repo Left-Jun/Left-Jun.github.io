@@ -3,10 +3,11 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "./ProjectCard.astro";
 import PostCard from "./PostCard.astro";
 import RightSidebar from "./RightSidebar.astro";
+import { getAllEntries } from "../lib/content.js";
 
 const { kind, term, lang = "zh-cn" } = Astro.props as {
   kind: "tags" | "categories";
-  term: { name: string; entries: Array<any> };
+  term: { slug: string; name: string; entries: Array<any> };
   lang?: "zh-cn" | "en";
 };
 const isEn = lang === "en";
@@ -18,8 +19,10 @@ const description = isEn
   : `\u6536\u5f55\u300c${term.name}\u300d\u4e0b\u7684\u9879\u76ee\u3001\u6587\u7ae0\u4e0e\u8bb0\u5f55\u3002`;
 const projectEntries = term.entries.filter((entry: any) => entry.section === "projects");
 const recordEntries = term.entries.filter((entry: any) => entry.section !== "projects");
+const sidebarEntries = await getAllEntries({ lang });
+const activeSection = projectEntries.length > 0 && recordEntries.length === 0 ? "projects" : "posts";
 ---
-<BaseLayout lang={lang} title={`${label}: ${term.name}`} description={description} active="posts" bodyClass="list-page taxonomy-page">
+<BaseLayout lang={lang} title={`${label}: ${term.name}`} description={description} active={activeSection} bodyClass="list-page taxonomy-page">
   <header>
     <h3 class="section-title">{label}</h3>
     <section class="section-card">
@@ -58,6 +61,6 @@ const recordEntries = term.entries.filter((entry: any) => entry.section !== "pro
   )}
 
   <Fragment slot="right-sidebar">
-    <RightSidebar lang={lang} entries={term.entries} />
+    <RightSidebar lang={lang} entries={sidebarEntries} activeKind={kind} activeSlug={term.slug} />
   </Fragment>
 </BaseLayout>

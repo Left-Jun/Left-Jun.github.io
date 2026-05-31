@@ -32,7 +32,9 @@ const cardMeta = compact
             muted
             loop
             playsinline
-            preload="metadata"
+            preload="none"
+            data-lazy-video={entry.asset(video)}
+            data-lazy-video-type="video/mp4"
             controlslist="nodownload noplaybackrate noremoteplayback"
             disablepictureinpicture
             disableRemotePlayback
@@ -40,11 +42,9 @@ const cardMeta = compact
             poster={image ? entry.asset(image) : undefined}
             style={`object-position: ${imagePosition};`}
             aria-label={`Video preview of project ${entry.data.title}`}
-          >
-            <source src={entry.asset(video)} type="video/mp4" />
-          </video>
+          ></video>
         ) : (
-          <img src={entry.asset(image)} alt={`Featured image of project ${entry.data.title}`} loading="lazy" style={`object-position: ${imagePosition};`} />
+          <img src={entry.asset(image)} alt={`Featured image of project ${entry.data.title}`} loading="lazy" decoding="async" style={`object-position: ${imagePosition};`} />
         )}
       </div>
     )}
@@ -74,3 +74,47 @@ const cardMeta = compact
     </div>
   </a>
 </article>
+
+<script is:inline>
+  (() => {
+    if (window.__leftJunLazyProjectVideoInit) return;
+    window.__leftJunLazyProjectVideoInit = true;
+
+    const videos = () => Array.from(document.querySelectorAll("video[data-lazy-video]"));
+    const loadVideo = (video) => {
+      if (video.dataset.lazyVideoLoaded || !video.dataset.lazyVideo) return;
+      const source = document.createElement("source");
+      source.src = video.dataset.lazyVideo;
+      source.type = video.dataset.lazyVideoType || "video/mp4";
+      video.append(source);
+      video.dataset.lazyVideoLoaded = "1";
+      video.load();
+    };
+    const playVideo = (video) => {
+      loadVideo(video);
+      const playback = video.play();
+      if (playback?.catch) playback.catch(() => {});
+    };
+
+    if (!("IntersectionObserver" in window)) {
+      videos().forEach(playVideo);
+      return;
+    }
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        const video = entry.target;
+        if (entry.isIntersecting) {
+          playVideo(video);
+        } else {
+          video.pause();
+        }
+      });
+    }, { rootMargin: "240px 0px", threshold: 0.01 });
+
+    videos().forEach((video) => observer.observe(video));
+    document.addEventListener("astro:after-swap", () => {
+      videos().forEach((video) => observer.observe(video));
+    });
+  })();
+</script>
