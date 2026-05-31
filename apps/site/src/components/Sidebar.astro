@@ -98,6 +98,17 @@ const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
       </span>
       <span class="theme-toggle__label">{text.darkMode}</span>
     </button>
+    <button
+      id="sidebar-collapse-toggle"
+      type="button"
+      data-expanded-label="收起侧栏"
+      data-collapsed-label="展开侧栏"
+      aria-label="收起侧栏"
+      aria-expanded="true"
+    >
+      <Icon name="chevron-left" label="" />
+      <span class="sidebar-collapse-toggle__label">收起</span>
+    </button>
   </div>
 </aside>
 
@@ -109,8 +120,12 @@ const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
     const toggle = document.querySelector("#toggle-menu");
     const themeButton = document.querySelector("#dark-mode-toggle");
     const themeLabel = themeButton?.querySelector(".theme-toggle__label");
+    const collapseButton = document.querySelector("#sidebar-collapse-toggle");
+    const collapseLabel = collapseButton?.querySelector(".sidebar-collapse-toggle__label");
     const menuLinks = document.querySelectorAll("#main-menu a");
     const themeKey = "LeftJunColorScheme";
+    const sidebarKey = "LeftJunSidebarCollapsed";
+    const desktopQuery = matchMedia("(min-width: 768px)");
 
     const applyTheme = (scheme) => {
       root.dataset.scheme = scheme;
@@ -129,9 +144,29 @@ const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
       toggle?.setAttribute("aria-expanded", open ? "true" : "false");
     };
 
+    const updateCollapseButton = (collapsed) => {
+      if (!collapseButton) return;
+      const label = collapsed
+        ? collapseButton.dataset.collapsedLabel || "展开侧栏"
+        : collapseButton.dataset.expandedLabel || "收起侧栏";
+      collapseButton.setAttribute("aria-label", label);
+      collapseButton.setAttribute("aria-expanded", collapsed ? "false" : "true");
+      if (collapseLabel) collapseLabel.textContent = collapsed ? "展开" : "收起";
+    };
+
+    const setSidebarCollapsed = (collapsed, persist = true) => {
+      const canCollapse = desktopQuery.matches;
+      const next = Boolean(collapsed && canCollapse);
+      body.classList.toggle("sidebar-collapsed", next);
+      sidebar?.classList.toggle("is-collapsed", next);
+      updateCollapseButton(next);
+      if (persist) localStorage.setItem(sidebarKey, collapsed ? "1" : "0");
+    };
+
     const saved = localStorage.getItem(themeKey) || localStorage.getItem("LeftJunAstroColorScheme");
     const initial = saved || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light");
     applyTheme(initial);
+    setSidebarCollapsed(localStorage.getItem(sidebarKey) === "1", false);
 
     themeButton?.addEventListener("click", () => {
       const next = root.dataset.scheme === "dark" ? "light" : "dark";
@@ -143,6 +178,10 @@ const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
     window.addEventListener("leftjun:theme-change", (event) => {
       if (event.detail?.scheme) applyTheme(event.detail.scheme);
     });
+
+    collapseButton?.addEventListener("click", () => setSidebarCollapsed(!body.classList.contains("sidebar-collapsed")));
+
+    desktopQuery.addEventListener?.("change", () => setSidebarCollapsed(localStorage.getItem(sidebarKey) === "1", false));
 
     toggle?.addEventListener("click", () => setMenuOpen(!body.classList.contains("show-menu")));
     menuLinks.forEach((link) => link.addEventListener("click", () => sessionStorage.setItem("LeftJunMenuNavigation", "1")));

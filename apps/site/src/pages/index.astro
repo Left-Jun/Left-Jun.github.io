@@ -22,10 +22,14 @@ const heroProjects = preferredSlugs
 const featured = heroProjects;
 const posts = (await getEntries("posts", { lang })).slice(0, 3);
 const plans = (await getEntries("plans")).slice(0, 2);
-const planCards = await Promise.all(plans.map(async (entry) => ({
-  entry,
-  retrospective: (await relatedEntries(entry)).find((item) => item.section === "retrospectives")
-})));
+const planCards = await Promise.all(plans.map(async (entry) => {
+  const related = await relatedEntries(entry);
+  return {
+    entry,
+    project: related.find((item) => item.section === "projects"),
+    retrospective: related.find((item) => item.section === "retrospectives")
+  };
+}));
 const workflows = await Promise.all(workflowItems.map(async (item) => ({
   ...item,
   linked: (await Promise.all(item.slugs.map((slug) => getEntryBySlug("projects", slug, lang)))).filter(Boolean)
@@ -143,7 +147,7 @@ const homeStats = [
           <a class="home-section__link" href="/plans/">{text.allPlans}</a>
         </div>
         <div class="home-plan-grid">
-          {planCards.map(({ entry, retrospective }) => (
+          {planCards.map(({ entry, project, retrospective }) => (
             <article class="home-plan-card">
               <a class="home-plan-card__main" href={entry.url}>
                 {entry.formattedDate && <span class="home-plan-card__meta">{entry.formattedDate}</span>}
@@ -156,6 +160,7 @@ const homeStats = [
                 )}
               </a>
               <span class="home-plan-card__actions">
+                {project && <a class="home-plan-card__pill home-plan-card__pill--project" href={project.url}>项目</a>}
                 {retrospective && <a class="home-plan-card__pill home-plan-card__pill--retrospective" href={retrospective.url}>项目复盘</a>}
                 <a class="home-plan-card__pill home-plan-card__pill--plan" href={entry.url}>开发计划</a>
               </span>
