@@ -7193,11 +7193,14 @@ html {
 
 @media (min-width: 1536px) {
   body.sidebar-collapsed.project-detail-page .container.extended {
-    padding-right: calc(var(--leftjun-sidebar-width) + 32px);
+    --project-collapsed-article-width: minmax(0, 980px);
+    --project-collapsed-sidebar-width: 260px;
+    --project-collapsed-gap: clamp(44px, 4.2vw, 76px);
+    padding-right: var(--leftjun-layout-gutter);
   }
 
   body.sidebar-collapsed.project-detail-page .site-content-layout.has-right-sidebar {
-    grid-template-columns: minmax(0, 980px);
+    grid-template-columns: var(--project-collapsed-article-width);
     justify-content: center;
   }
 
@@ -7210,6 +7213,6 @@ html {
   }
 
   body.sidebar-collapsed.project-detail-page .site-content-layout > .right-sidebar {
-    left: calc(50% + 500px);
+    left: calc(50% + 490px + var(--project-collapsed-gap));
   }
 }
