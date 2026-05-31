@@ -7176,6 +7176,11 @@ html {
 }
 
 @media (min-width: 768px) {
+  .article-page:not(.project-detail-page) .container.extended,
+  .article-page:not(.project-detail-page) .site-content-layout.has-right-sidebar,
+  .article-page:not(.project-detail-page) main.main,
+  .article-page:not(.project-detail-page) .main-article,
+  .article-page:not(.project-detail-page) .site-content-layout > .right-sidebar,
   .project-detail-page .container.extended,
   .project-detail-page .site-content-layout.has-right-sidebar,
   .project-detail-page main.main,
@@ -7192,18 +7197,40 @@ html {
 }
 
 @media (min-width: 1536px) {
+  body.sidebar-collapsed.article-page:not(.project-detail-page) .container.extended {
+    --article-collapsed-main-width: 980px;
+    --article-collapsed-right-sidebar-left: calc(50% + 492px);
+    --article-collapsed-main-left: calc(var(--article-collapsed-right-sidebar-left) - var(--layout-column-gap) - var(--article-collapsed-main-width));
+    padding-left: max(calc(var(--leftjun-sidebar-width) + 32px), var(--article-collapsed-main-left));
+    padding-right: 32px;
+  }
+
+  body.sidebar-collapsed.article-page:not(.project-detail-page) .site-content-layout.has-right-sidebar {
+    grid-template-columns: minmax(0, var(--article-collapsed-main-width)) var(--right-sidebar-max-width);
+    justify-content: start;
+    gap: var(--layout-column-gap);
+  }
+
+  body.sidebar-collapsed.article-page:not(.project-detail-page) main.main,
+  body.sidebar-collapsed.article-page:not(.project-detail-page) .main-article {
+    width: 100%;
+    max-width: none;
+    margin-right: 0;
+    margin-left: 0;
+  }
+
   body.sidebar-collapsed.project-detail-page .container.extended {
     --project-collapsed-gap: 32px;
-    --project-collapsed-right-sidebar-left: calc(50% + 492px);
-    --project-collapsed-right-sidebar-x: calc(50vw + 492px);
+    --project-collapsed-main-width: 1080px;
+    --project-collapsed-right-sidebar-left: calc(50% + 560px);
+    --project-collapsed-right-sidebar-x: calc(50vw + 560px);
     --project-collapsed-article-left: calc(var(--leftjun-sidebar-width) + var(--project-collapsed-gap));
-    --project-collapsed-article-right: calc(var(--project-collapsed-right-sidebar-x) - var(--project-collapsed-gap));
-    --project-collapsed-article-width: calc(var(--project-collapsed-article-right) - var(--project-collapsed-article-left));
-    padding-left: var(--project-collapsed-article-left);
+    --project-collapsed-centered-left: calc(var(--project-collapsed-right-sidebar-x) - var(--project-collapsed-gap) - var(--project-collapsed-main-width));
+    padding-left: max(var(--project-collapsed-article-left), var(--project-collapsed-centered-left));
   }
 
   body.sidebar-collapsed.project-detail-page .site-content-layout.has-right-sidebar {
-    grid-template-columns: minmax(0, var(--project-collapsed-article-width));
+    grid-template-columns: minmax(0, var(--project-collapsed-main-width));
     justify-content: start;
   }
 
