@@ -5299,7 +5299,7 @@ body {
   color: var(--card-text-color-main);
 }
 
-@media (max-width: 1360px) and (min-width: 768px) {
+@media (max-width: 1439px) and (min-width: 768px) {
   .project-detail-page .site-content-layout.has-right-sidebar {
     grid-template-columns: 1fr;
   }
@@ -5386,21 +5386,33 @@ body {
 }
 
 /* Portfolio refresh follow-up fixes */
-@media (min-width: 768px) {
+@media (min-width: 1440px) {
   .project-detail-page .container.extended {
-    padding-right: 24px;
+    padding-right: calc(var(--leftjun-sidebar-width) + 32px);
   }
 
   .project-detail-page .site-content-layout.has-right-sidebar {
-    grid-template-columns: minmax(0, 900px) 260px;
+    position: relative;
+    grid-template-columns: minmax(0, 920px);
+    justify-content: center;
     align-items: start;
   }
 
   .project-detail-page .site-content-layout > .right-sidebar {
+    position: absolute;
+    top: 0;
+    left: calc(50% + 492px);
+    width: 260px;
     display: flex;
     margin-top: 0;
   }
 
+  .project-detail-page main.main {
+    gap: 18px;
+  }
+}
+
+@media (min-width: 768px) {
   .project-detail-page main.main {
     gap: 18px;
   }
@@ -5479,10 +5491,10 @@ body {
 }
 
 .home-dashboard {
-  align-items: start;
-  grid-template-columns: minmax(0, 1fr) minmax(340px, 360px);
-  gap: clamp(28px, 3vw, 42px);
-  padding-right: clamp(10px, 1.1vw, 22px);
+  align-items: stretch;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 328px);
+  gap: clamp(24px, 2.45vw, 34px);
+  padding-right: clamp(18px, 2.2vw, 34px);
 }
 
 .home-dashboard .home-section__header {
@@ -5505,6 +5517,7 @@ body {
 .home-featured-projects {
   display: grid;
   grid-template-rows: auto 1fr;
+  height: 100%;
 }
 
 .home-section__side {
@@ -5547,43 +5560,47 @@ body {
 }
 
 .home-dashboard .home-development-plans {
-  align-self: start;
-  min-height: 100%;
+  align-self: stretch;
+  height: 100%;
+  min-height: 0;
   margin-top: 0;
-  padding: clamp(28px, 2.8vw, 40px);
-  border-radius: 32px;
-  background: rgba(255, 255, 255, 0.76);
-  box-shadow: 0 28px 70px rgba(35, 86, 136, 0.09);
+  padding: clamp(22px, 2vw, 28px);
+  border-radius: 26px;
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow: 0 20px 46px rgba(35, 86, 136, 0.075);
 }
 
 .home-dashboard .home-development-plans .home-section__header {
-  min-height: 74px;
-  align-items: flex-start;
+  min-height: 58px;
+  align-items: center;
   padding-top: 0;
 }
 
 .home-dashboard .home-development-plans .home-section__eyebrow {
-  margin-bottom: 2px;
+  margin-bottom: 4px;
   color: #6e7d91;
-  font-size: 16px;
+  font-size: 12px;
   font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .home-dashboard .home-development-plans .home-section__header h2 {
-  font-size: clamp(40px, 3.8vw, 58px);
-  font-weight: 820;
-  line-height: 0.98;
-  letter-spacing: -0.055em;
+  font-size: clamp(24px, 2.1vw, 31px);
+  font-weight: 780;
+  line-height: 1.08;
+  letter-spacing: -0.035em;
 }
 
 .home-dashboard .home-development-plans .home-section__link {
-  margin-top: 4px;
+  margin-top: 2px;
+  font-size: 13px;
 }
 
 .home-dashboard .home-plan-card__actions {
   display: flex;
   gap: 8px;
-  margin-top: 16px;
+  margin-top: 12px;
 }
 
 .home-dashboard .home-plan-card__main {
@@ -5596,12 +5613,12 @@ body {
 
 .home-dashboard .home-plan-grid {
   gap: 0;
-  padding-left: 18px;
+  padding-left: 14px;
   border-left: 1px solid rgba(0, 122, 255, 0.22);
 }
 
 .home-dashboard .home-plan-card {
-  padding: 0 0 28px 22px;
+  padding: 0 0 22px 18px;
 }
 
 .home-dashboard .home-plan-card:last-child {
@@ -5610,50 +5627,51 @@ body {
 
 .home-dashboard .home-plan-card::before {
   top: 2px;
-  left: -23px;
-  width: 14px;
-  height: 14px;
-  border-width: 4px;
+  left: -19px;
+  width: 12px;
+  height: 12px;
+  border-width: 3px;
   background: #007aff;
-  box-shadow: 0 0 0 6px rgba(0, 122, 255, 0.1);
+  box-shadow: 0 0 0 5px rgba(0, 122, 255, 0.09);
 }
 
 .home-dashboard .home-plan-card__meta {
   color: #718096;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
 }
 
 .home-dashboard .home-plan-card__title {
-  font-size: 22px;
+  margin-top: 4px;
+  font-size: 17px;
   font-weight: 760;
-  line-height: 1.2;
+  line-height: 1.26;
   letter-spacing: -0.025em;
 }
 
 .home-dashboard .home-plan-card__description {
-  margin-top: 2px;
+  margin-top: 6px;
   color: #66748a;
-  font-size: 17px;
+  font-size: 14px;
   line-height: 1.62;
 }
 
 .home-dashboard .home-plan-card__tag {
-  min-height: 24px;
-  padding: 5px 10px;
-  font-size: 12px;
+  min-height: 22px;
+  padding: 4px 8px;
+  font-size: 11px;
   font-weight: 650;
 }
 
 .home-dashboard .home-plan-card__pill {
-  min-height: 32px;
-  padding: 7px 12px;
-  font-size: 13px;
+  min-height: 28px;
+  padding: 6px 10px;
+  font-size: 12px;
 }
 
 :root[data-scheme="dark"] .home-dashboard .home-development-plans {
   background: rgba(20, 34, 42, 0.78);
-  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 22px 50px rgba(0, 0, 0, 0.24);
 }
 
 .home-dashboard .home-project-grid {
