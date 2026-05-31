@@ -74,7 +74,7 @@ const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
       <li class:list={[active === item.identifier && "current"]}>
         <a href={item.url} target={item.newTab ? "_blank" : undefined} rel={item.newTab ? "noopener noreferrer" : undefined}>
           <Icon name={item.icon} label="" />
-          <span>{item.name}</span>
+          <span class="menu-label">{item.name}</span>
         </a>
       </li>
     ))}
@@ -83,7 +83,7 @@ const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
   <div class="sidebar-bottom-actions">
     <a id="i18n-switch" href={text.switchUrl}>
       <Icon name="language" label="" />
-      <span>{text.switchLabel}</span>
+      <span class="menu-label">{text.switchLabel}</span>
     </a>
     <button
       id="dark-mode-toggle"

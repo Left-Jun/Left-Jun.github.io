@@ -3753,10 +3753,83 @@ main.main {
     background: rgba(255, 255, 255, 0.64);
     box-shadow: 0 9px 20px rgba(35, 86, 136, 0.055);
     font-size: 1.3rem;
+    overflow: hidden;
+    transition:
+      width var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      min-height var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      padding var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      gap var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      border-radius var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      transform var(--leftjun-hover-duration) ease,
+      background-color var(--leftjun-hover-duration) ease,
+      background var(--leftjun-hover-duration) ease,
+      color var(--leftjun-hover-duration) ease,
+      box-shadow var(--leftjun-hover-duration) ease;
   }
 
   #sidebar-collapse-toggle .inline-icon {
     transition: transform 0.22s ease;
+  }
+
+  .container.extended {
+    transition: padding-left 0.26s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .left-sidebar {
+    --sidebar-collapse-duration: 0.26s;
+    --sidebar-collapse-ease: cubic-bezier(0.22, 1, 0.36, 1);
+    transition:
+      width var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      max-width var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      padding var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      gap var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      background var(--sidebar-collapse-duration) ease,
+      border-color var(--sidebar-collapse-duration) ease;
+  }
+
+  .left-sidebar header,
+  #main-menu {
+    transition:
+      gap var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      width var(--sidebar-collapse-duration) var(--sidebar-collapse-ease);
+  }
+
+  .site-avatar {
+    transition:
+      width var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      height var(--sidebar-collapse-duration) var(--sidebar-collapse-ease);
+  }
+
+  #main-menu li > a,
+  #i18n-switch,
+  #dark-mode-toggle,
+  #sidebar-collapse-toggle {
+    overflow: hidden;
+    transition:
+      width var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      min-height var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      padding var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      gap var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      border-radius var(--sidebar-collapse-duration) var(--sidebar-collapse-ease),
+      transform var(--leftjun-hover-duration) ease,
+      background-color var(--leftjun-hover-duration) ease,
+      background var(--leftjun-hover-duration) ease,
+      color var(--leftjun-hover-duration) ease,
+      box-shadow var(--leftjun-hover-duration) ease;
+  }
+
+  .menu-label,
+  .theme-toggle__label,
+  .sidebar-collapse-toggle__label {
+    max-width: 10rem;
+    overflow: hidden;
+    opacity: 1;
+    white-space: nowrap;
+    transform: translateX(0);
+    transition:
+      max-width 0.2s var(--sidebar-collapse-ease),
+      opacity 0.16s ease,
+      transform 0.2s var(--sidebar-collapse-ease);
   }
 
   body.sidebar-collapsed {
@@ -3780,11 +3853,13 @@ main.main {
 
   body.sidebar-collapsed .site-meta,
   body.sidebar-collapsed .menu-social,
-  body.sidebar-collapsed #main-menu span,
-  body.sidebar-collapsed #i18n-switch span,
+  body.sidebar-collapsed .menu-label,
   body.sidebar-collapsed .theme-toggle__label,
   body.sidebar-collapsed .sidebar-collapse-toggle__label {
-    display: none;
+    max-width: 0;
+    opacity: 0;
+    pointer-events: none;
+    transform: translateX(-6px);
   }
 
   body.sidebar-collapsed .site-avatar .site-logo {
@@ -3819,6 +3894,20 @@ main.main {
     gap: 0;
     padding: 0;
     border-radius: 18px;
+  }
+
+  body.sidebar-collapsed #main-menu .inline-icon,
+  body.sidebar-collapsed #i18n-switch .inline-icon,
+  body.sidebar-collapsed #sidebar-collapse-toggle > .inline-icon {
+    width: 18px;
+    height: 18px;
+    display: inline-grid;
+    place-items: center;
+  }
+
+  body.sidebar-collapsed #dark-mode-toggle .theme-toggle__icon {
+    width: 18px;
+    height: 18px;
   }
 
   body.sidebar-collapsed .sidebar-bottom-actions {
