@@ -5611,12 +5611,17 @@ body {
 /* Portfolio refresh follow-up fixes */
 @media (min-width: 1536px) {
   .project-detail-page .container.extended {
+    --project-detail-anchor-right-x: calc(50% + 460px);
+    --project-detail-expanded-main-width: 920px;
+    --project-detail-collapsed-main-width: 1080px;
+    --project-detail-expanded-sidebar-gap: 32px;
+    --project-detail-collapsed-sidebar-gap: 48px;
     padding-right: calc(var(--leftjun-sidebar-width) + 32px);
   }
 
   .project-detail-page .site-content-layout.has-right-sidebar {
     position: relative;
-    grid-template-columns: minmax(0, 920px);
+    grid-template-columns: minmax(0, var(--project-detail-expanded-main-width));
     justify-content: center;
     align-items: start;
   }
@@ -5624,7 +5629,7 @@ body {
   .project-detail-page .site-content-layout > .right-sidebar {
     position: fixed;
     top: var(--right-sidebar-sticky-top);
-    left: calc(50% + 492px);
+    left: calc(var(--project-detail-anchor-right-x) + var(--project-detail-expanded-sidebar-gap));
     width: 260px;
     display: flex;
     margin-top: 0;
@@ -7194,13 +7199,19 @@ html {
       left 260ms cubic-bezier(0.22, 1, 0.36, 1),
       grid-template-columns 260ms cubic-bezier(0.22, 1, 0.36, 1);
   }
+
+  .article-page main.main,
+  .article-page .main-article {
+    transform-origin: right top;
+  }
 }
 
 @media (min-width: 1536px) {
   body.sidebar-collapsed.article-page:not(.project-detail-page) .container.extended {
+    --article-detail-anchor-right-x: calc(50% + 460px);
     --article-collapsed-main-width: 980px;
-    --article-collapsed-right-sidebar-left: calc(50% + 492px);
-    --article-collapsed-main-left: calc(var(--article-collapsed-right-sidebar-left) - var(--layout-column-gap) - var(--article-collapsed-main-width));
+    --article-collapsed-sidebar-gap: 48px;
+    --article-collapsed-main-left: calc(var(--article-detail-anchor-right-x) - var(--article-collapsed-main-width));
     padding-left: max(calc(var(--leftjun-sidebar-width) + 32px), var(--article-collapsed-main-left));
     padding-right: 32px;
   }
@@ -7208,7 +7219,7 @@ html {
   body.sidebar-collapsed.article-page:not(.project-detail-page) .site-content-layout.has-right-sidebar {
     grid-template-columns: minmax(0, var(--article-collapsed-main-width)) var(--right-sidebar-max-width);
     justify-content: start;
-    gap: var(--layout-column-gap);
+    gap: var(--article-collapsed-sidebar-gap);
   }
 
   body.sidebar-collapsed.article-page:not(.project-detail-page) main.main,
@@ -7220,17 +7231,20 @@ html {
   }
 
   body.sidebar-collapsed.project-detail-page .container.extended {
-    --project-collapsed-gap: 32px;
-    --project-collapsed-main-width: 1080px;
-    --project-collapsed-right-sidebar-left: calc(50% + 560px);
-    --project-collapsed-right-sidebar-x: calc(50vw + 560px);
-    --project-collapsed-article-left: calc(var(--leftjun-sidebar-width) + var(--project-collapsed-gap));
-    --project-collapsed-centered-left: calc(var(--project-collapsed-right-sidebar-x) - var(--project-collapsed-gap) - var(--project-collapsed-main-width));
-    padding-left: max(var(--project-collapsed-article-left), var(--project-collapsed-centered-left));
+    --project-detail-anchor-right-x: calc(50% + 460px);
+    --project-detail-collapsed-main-width: 1080px;
+    --project-detail-collapsed-sidebar-gap: 48px;
+    --project-collapsed-article-left: calc(var(--leftjun-sidebar-width) + 32px);
+    --project-collapsed-anchored-left: calc(var(--project-detail-anchor-right-x) - var(--project-detail-collapsed-main-width));
+    --project-collapsed-right-sidebar-left: min(
+      calc(var(--project-detail-anchor-right-x) + var(--project-detail-collapsed-sidebar-gap)),
+      calc(100vw - 276px)
+    );
+    padding-left: max(var(--project-collapsed-article-left), var(--project-collapsed-anchored-left));
   }
 
   body.sidebar-collapsed.project-detail-page .site-content-layout.has-right-sidebar {
-    grid-template-columns: minmax(0, var(--project-collapsed-main-width));
+    grid-template-columns: minmax(0, var(--project-detail-collapsed-main-width));
     justify-content: start;
   }
 
