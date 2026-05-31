@@ -5622,7 +5622,7 @@ body {
     --project-detail-expanded-main-width: 920px;
     --project-detail-collapsed-main-width: min(1080px, calc(100vw - 560px));
     --project-detail-sidebar-gap: 32px;
-    --project-detail-main-shift: -40px;
+    --project-detail-main-shift: -56px;
     padding-right: calc(var(--leftjun-sidebar-width) + 32px);
   }
 
