@@ -5469,8 +5469,63 @@ body {
   min-height: 58px;
 }
 
+.home-hero__content {
+  max-width: min(44%, 560px);
+}
+
+.home-hero__role {
+  max-width: 560px;
+  font-size: clamp(24px, 2vw, 32px);
+  letter-spacing: -0.035em;
+}
+
+.home-featured-projects {
+  display: grid;
+  grid-template-rows: auto 1fr;
+}
+
+.home-section__side {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 18px;
+  flex-wrap: wrap;
+}
+
+.home-mini-stats {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  flex-wrap: wrap;
+  color: #6b778a;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.home-mini-stats span {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  white-space: nowrap;
+}
+
+.home-mini-stats span + span::before {
+  content: "·";
+  color: #9aa8ba;
+  margin-right: 2px;
+}
+
+.home-mini-stats strong {
+  color: #007aff;
+  font-size: 16px;
+  font-weight: 760;
+}
+
 .home-dashboard .home-development-plans {
   align-self: start;
+  min-height: 100%;
   margin-top: 0;
   padding-top: 0;
 }
@@ -5493,6 +5548,52 @@ body {
 
 .home-dashboard .home-plan-card__meta {
   position: static;
+}
+
+.home-dashboard .home-project-grid {
+  height: 100%;
+  align-items: stretch;
+}
+
+.home-dashboard .home-project-grid .project-card,
+.home-dashboard .home-project-grid .project-card a {
+  height: 100%;
+}
+
+.home-dashboard .home-project-grid .project-card a {
+  display: flex;
+  flex-direction: column;
+}
+
+.home-dashboard .home-project-grid .project-card__image {
+  height: 160px;
+  flex: 0 0 auto;
+  aspect-ratio: auto;
+}
+
+.home-dashboard .home-project-grid .project-card__content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 16px 18px 18px;
+}
+
+.home-dashboard .home-project-grid .project-card__description {
+  min-height: 0;
+  margin-top: 9px;
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+.home-dashboard .home-project-grid .project-card__tags {
+  margin-top: 10px;
+}
+
+.home-dashboard .home-project-grid .project-card__meta {
+  margin-top: auto;
+  padding-top: 14px;
 }
 
 .home-plan-card__pill::before,
@@ -5681,6 +5782,17 @@ body {
 @media (max-width: 900px) {
   .home-hero__media-frame {
     padding-left: 0;
+  }
+
+  .home-hero__content {
+    max-width: none;
+  }
+
+  .home-section__header,
+  .home-section__side,
+  .home-mini-stats {
+    align-items: flex-start;
+    justify-content: flex-start;
   }
 
   .project-detail-page .right-sidebar {
