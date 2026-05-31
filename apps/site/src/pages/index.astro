@@ -46,7 +46,8 @@ const homeStats = [
       <p class="home-hero__role">玩法程序 / Gameplay Programmer</p>
       <p class="home-hero__subtitle">用代码与设计构建可玩的交互世界。</p>
       <div class="home-hero__actions">
-        <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>查看我的作品</span></a>
+        <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>查看我的项目</span></a>
+        <a class="home-action" href="/files/left-jun-portfolio.pdf"><Icon name="archives" /><span>作品集 PDF</span></a>
         <a class="home-action" href="/about/"><Icon name="user" /><span>了解更多</span></a>
       </div>
     </div>
@@ -152,8 +153,8 @@ const homeStats = [
                 )}
               </a>
               <span class="home-plan-card__actions">
-                {retrospective && <a class="home-plan-card__pill home-plan-card__pill--retrospective" href={retrospective.url}>{text.viewRetrospective}</a>}
-                <a class="home-plan-card__pill home-plan-card__pill--plan" href={entry.url}>{text.viewPlan}</a>
+                {retrospective && <a class="home-plan-card__pill home-plan-card__pill--retrospective" href={retrospective.url}>项目复盘</a>}
+                <a class="home-plan-card__pill home-plan-card__pill--plan" href={entry.url}>开发计划</a>
               </span>
             </article>
           ))}
@@ -161,21 +162,6 @@ const homeStats = [
       </section>
     )}
   </section>
-
-  {posts.length > 0 && (
-    <section class="home-section home-latest-posts">
-      <div class="home-section__header">
-        <div>
-          <p class="home-section__eyebrow">{text.latestNotes}</p>
-          <h2>{text.postsAndRecords}</h2>
-        </div>
-        <a class="home-section__link" href="/posts/">{text.allPosts}</a>
-      </div>
-      <section class="article-list--compact home-post-list">
-        {posts.map((entry) => <PostCard entry={entry} />)}
-      </section>
-    </section>
-  )}
 
   <section class="home-section home-workflow">
     <div class="home-section__header">
@@ -211,6 +197,21 @@ const homeStats = [
       ))}
     </div>
   </section>
+
+  {posts.length > 0 && (
+    <section class="home-section home-latest-posts">
+      <div class="home-section__header">
+        <div>
+          <p class="home-section__eyebrow">{text.latestNotes}</p>
+          <h2>{text.postsAndRecords}</h2>
+        </div>
+        <a class="home-section__link" href="/posts/">{text.allPosts}</a>
+      </div>
+      <section class="article-list--compact home-post-list">
+        {posts.map((entry) => <PostCard entry={entry} />)}
+      </section>
+    </section>
+  )}
 
   <script is:inline>
     (() => {

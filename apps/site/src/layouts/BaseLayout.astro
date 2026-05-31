@@ -88,11 +88,40 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
           }
         };
 
+        const keepSidebarTocLinkVisible = (link) => {
+          const nav = link.closest(".right-sidebar .toc-nav");
+          if (!nav) return;
+          const padding = 18;
+          const linkTop = link.offsetTop;
+          const linkBottom = linkTop + link.offsetHeight;
+          const viewTop = nav.scrollTop;
+          const viewBottom = viewTop + nav.clientHeight;
+          let nextTop = viewTop;
+
+          if (linkTop < viewTop + padding) {
+            nextTop = Math.max(0, linkTop - padding);
+          } else if (linkBottom > viewBottom - padding) {
+            nextTop = Math.min(nav.scrollHeight - nav.clientHeight, linkBottom - nav.clientHeight + padding);
+          }
+
+          if (Math.abs(nextTop - viewTop) < 1) return;
+          nav.scrollTo({
+            top: nextTop,
+            behavior: reduceMotion ? "auto" : "smooth"
+          });
+        };
+
+        let activeTocHash = "";
         const setActiveToc = (hash) => {
           const normalized = normalizeHash(hash);
+          let activeSidebarLink = null;
           tocLinks.forEach((link) => {
-            link.classList.toggle("is-active", normalizeHash(link.hash) === normalized);
+            const isActive = normalizeHash(link.hash) === normalized;
+            link.classList.toggle("is-active", isActive);
+            if (isActive && link.closest(".right-sidebar")) activeSidebarLink = link;
           });
+          if (activeSidebarLink && normalized !== activeTocHash) keepSidebarTocLinkVisible(activeSidebarLink);
+          activeTocHash = normalized;
         };
 
         const tocTargets = tocLinks

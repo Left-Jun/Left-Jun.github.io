@@ -129,11 +129,17 @@ relatedPages:
 
 ## 技术实现
 
+### 系统结构思维导图
+
+![亚舍拉挽歌系统思维导图](/content-assets/projects/ashe-lament/flow-system.svg)
+
+这张图重新梳理了项目里的主要脚本关系：玩家输入先进入 `PlayerMove`、`PlayerJump`、`PlayerDash` 等角色控制脚本，再由 `MaskControl` 管理状态切换；资源侧通过 `EnergyManager`、`EnergyDrainController` 和 `SafetyTimer` 维持灵能、遗骨与地下安全时间；关卡交互由 `EnergyPickup`、`TimeExtendPickup`、`ShortcutBuilder`、`CheckPoint` 等脚本承接，最后交给 `EndingManager` 与场景表现脚本完成结算和反馈。
+
 ### 状态驱动角色参数
 
 **问题：** 不同灵能状态会影响移动、跳跃、资源消耗和结局判断。如果把这些逻辑直接写进角色控制脚本，后续调参和修 Bug 会很快变乱。
 
-**方案：** 我把角色能力拆成状态数据：角色控制器只读取当前状态参数，状态管理器负责切换、广播变化，并驱动 UI 与表现层更新。
+**方案：** 我把角色能力拆成状态数据：`PlayerMove`、`PlayerJump` 和 `PlayerDash` 只读取当前状态参数，`MaskControl` 负责切换、广播变化，并驱动 UI 与表现层更新。
 
 **结果：** 后续增加或调整状态时，可以先扩展状态数据和表现逻辑，不必反复修改角色移动主流程。
 

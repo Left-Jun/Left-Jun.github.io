@@ -73,15 +73,6 @@ const projectSummaryItems = isProject ? [
           ) : (
             <img src={entry.asset(entry.data.image)} alt={entry.data.title} loading="eager" style={`object-position: ${imagePosition};`} />
           )}
-          {isProject && (entry.data.coverVideo || facts.trailerDuration) && (
-            <div class="project-hero-play-badge" aria-label={text.isEn ? "Project trailer" : "项目预告片"}>
-              <span class="project-hero-play-badge__button" aria-hidden="true">▶</span>
-              <span>
-                <strong>{text.isEn ? "Project Trailer" : "项目预告片"}</strong>
-                <small>{facts.trailerDuration || "01:32"}</small>
-              </span>
-            </div>
-          )}
         </div>
       )}
       <div class:list={["article-details", isProject && "project-detail-hero__details"]}>
@@ -123,8 +114,8 @@ const projectSummaryItems = isProject ? [
       </section>
     )}
 
-    {entry.section === "projects" && (projectLinks.length > 0 || projectRecords.length > 0) && (
-      <section class="project-links" aria-label={text.isEn ? "Project actions" : "项目入口"}>
+    {entry.section === "projects" && projectLinks.length > 0 && (
+      <section class="project-links project-links--primary" aria-label={text.projectLinks}>
         <h2 class="project-links__title sr-only">{text.projectLinks}</h2>
         <div class="project-links__list">
           {projectLinks.map((link) => (
@@ -133,10 +124,18 @@ const projectSummaryItems = isProject ? [
               <span>{link.label || link.title || link.url || link.website}</span>
             </a>
           ))}
+        </div>
+      </section>
+    )}
+
+    {entry.section === "projects" && projectRecords.length > 0 && (
+      <section class="project-links project-record-pills" aria-label={text.relatedRecords}>
+        <h2 class="project-links__title sr-only">{text.relatedRecords}</h2>
+        <div class="project-links__list">
           {projectRecords.map((item) => {
             const isRetrospective = item.section === "retrospectives";
             return (
-              <a class:list={["project-links__button", isRetrospective && "project-links__button--retrospective"]} href={item.url}>
+              <a class:list={["project-links__button", "project-record-pill", isRetrospective ? "project-record-pill--retrospective" : "project-record-pill--plan"]} href={item.url}>
                 <Icon name={isRetrospective ? "infinity" : "clock"} />
                 <span>{isRetrospective ? (text.isEn ? "Project Retrospective" : "项目复盘") : (text.isEn ? "Development Plan" : "开发计划")}</span>
               </a>
