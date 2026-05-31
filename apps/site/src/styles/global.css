@@ -5559,6 +5559,7 @@ body {
   margin-top: var(--main-top-padding);
   overflow: visible;
   padding-bottom: 2px;
+  --project-sidebar-static-height: 520px;
 }
 
 .project-detail-page .right-sidebar .widget {
@@ -5566,7 +5567,7 @@ body {
 }
 
 .project-detail-page .right-sidebar .widget--toc .toc-nav {
-  max-height: min(42vh, 390px);
+  max-height: clamp(150px, calc(100vh - var(--main-top-padding) - var(--project-sidebar-static-height)), min(42vh, 390px));
   overflow-y: auto;
   padding-right: 4px;
   overscroll-behavior: contain;
