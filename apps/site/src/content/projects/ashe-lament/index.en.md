@@ -28,6 +28,7 @@ tags:
   - "Unity"
   - "Platformer"
   - "Team Project"
+  - "Photoshop"
 roleTags:
   - "Team Lead"
   - "Main Programmer"

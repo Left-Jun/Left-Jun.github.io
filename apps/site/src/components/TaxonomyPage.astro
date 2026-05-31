@@ -1,5 +1,6 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectCard from "./ProjectCard.astro";
 import PostCard from "./PostCard.astro";
 import RightSidebar from "./RightSidebar.astro";
 
@@ -10,11 +11,13 @@ const { kind, term, lang = "zh-cn" } = Astro.props as {
 };
 const isEn = lang === "en";
 const isTag = kind === "tags";
-const label = isEn ? (isTag ? "Tag" : "Category") : (isTag ? "标签" : "分类");
-const countLabel = isEn ? `${term.entries.length} entries` : `${term.entries.length} 个页面`;
+const label = isEn ? (isTag ? "Tag" : "Category") : (isTag ? "\u6807\u7b7e" : "\u5206\u7c7b");
+const countLabel = isEn ? `${term.entries.length} entries` : `${term.entries.length} \u4e2a\u9875\u9762`;
 const description = isEn
   ? `Entries filed under ${label.toLowerCase()} "${term.name}".`
-  : `收录「${term.name}」下的项目、文章与记录。`;
+  : `\u6536\u5f55\u300c${term.name}\u300d\u4e0b\u7684\u9879\u76ee\u3001\u6587\u7ae0\u4e0e\u8bb0\u5f55\u3002`;
+const projectEntries = term.entries.filter((entry: any) => entry.section === "projects");
+const recordEntries = term.entries.filter((entry: any) => entry.section !== "projects");
 ---
 <BaseLayout lang={lang} title={`${label}: ${term.name}`} description={description} active="posts" bodyClass="list-page taxonomy-page">
   <header>
@@ -28,9 +31,31 @@ const description = isEn
     </section>
   </header>
 
-  <section class="article-list--compact">
-    {term.entries.map((entry: any) => <PostCard entry={entry} />)}
-  </section>
+  {projectEntries.length > 0 && (
+    <section class="taxonomy-result-section taxonomy-result-section--projects">
+      <div class="taxonomy-result-section__header">
+        <p>{isEn ? "Project Matches" : "\u76f8\u5173\u9879\u76ee"}</p>
+        <span>{projectEntries.length}</span>
+      </div>
+      <div class="project-showcase taxonomy-project-showcase" data-view="single">
+        <div class="project-list">
+          {projectEntries.map((entry: any) => <ProjectCard entry={entry} />)}
+        </div>
+      </div>
+    </section>
+  )}
+
+  {recordEntries.length > 0 && (
+    <section class="taxonomy-result-section taxonomy-result-section--records">
+      <div class="taxonomy-result-section__header">
+        <p>{isEn ? "Articles & Records" : "\u6587\u7ae0\u4e0e\u8bb0\u5f55"}</p>
+        <span>{recordEntries.length}</span>
+      </div>
+      <section class="article-list--compact taxonomy-record-list">
+        {recordEntries.map((entry: any) => <PostCard entry={entry} />)}
+      </section>
+    </section>
+  )}
 
   <Fragment slot="right-sidebar">
     <RightSidebar lang={lang} entries={term.entries} />

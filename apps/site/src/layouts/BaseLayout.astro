@@ -16,7 +16,7 @@ const {
 const text = siteText(lang);
 const pageTitle = title === config.title ? title : `${title} - ${config.title}`;
 const canonical = new URL(Astro.url.pathname, config.siteUrl).toString();
-const footerText = text.isEn ? "Built with Astro" : "自定义静态作品集";
+const footerText = text.isEn ? "Built with Astro" : "";
 const hasRightSidebar = Astro.slots.has("right-sidebar");
 ---
 <!doctype html>
@@ -52,7 +52,7 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
           <slot />
           <footer class="site-footer">
             <section class="copyright footer-single-line">
-              &copy; {new Date().getFullYear()} {config.title} · {footerText}
+              &copy; {new Date().getFullYear()} {config.title}{footerText && <span> · {footerText}</span>}
             </section>
           </footer>
         </main>
