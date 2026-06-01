@@ -38,12 +38,12 @@ const techStack = [
   { label: "Photoshop", href: taxonomyTermUrl("tags", "Photoshop", lang) }
 ];
 ---
-<BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home" bodyClass="home-page">
+<BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Embedded Developer" active="home" bodyClass="home-page">
   <section class="home-hero" data-hero-carousel aria-label="Featured project carousel">
     <div class="home-hero__content">
       <p class="home-hero__eyebrow">Sichuan University · Electronic Information · Class of 2029</p>
       <h1 class="home-hero__title">Left Jun</h1>
-      <p class="home-hero__role">Game Client / Gameplay Programmer</p>
+      <p class="home-hero__role">Game Client / Gameplay Programmer / Embedded Developer</p>
       <p class="home-hero__subtitle">I build Unity / C# gameplay systems, playable jam prototypes, and STM32 hardware-software projects. This portfolio tracks what I implemented, how each system landed, and what still needs iteration.</p>
       <div class="home-hero__actions">
         <a class="home-action home-action--primary" href="/en/projects/"><Icon name="link" /><span>View Projects</span></a>
@@ -54,7 +54,7 @@ const techStack = [
       <div class="home-hero__summary-list" aria-live="polite">
         {heroProjects.map((entry, index) => (
           <article class:list={["home-hero__summary", index === 0 && "is-active"]} data-hero-summary aria-hidden={index === 0 ? "false" : "true"}>
-            <span>{index === 0 ? "Representative Build" : "Featured Build"}</span>
+            <span>{index === 0 ? "Representative Project" : "Featured Project"}</span>
             <strong>{entry.data.title}</strong>
             {entry.data.description && <small>{entry.data.description}</small>}
             <div class="home-hero__summary-tags" aria-label="Project tags">
@@ -99,7 +99,7 @@ const techStack = [
                 )}
               </span>
               <span class="home-hero__project-link">
-                <small>Representative Build</small>
+                <small>Representative Project</small>
                 <strong>{entry.data.title}</strong>
                 <Icon name="chevron-right" />
               </span>
@@ -107,20 +107,19 @@ const techStack = [
           </article>
         );
       })}
+      <div class="home-hero__dots" role="tablist" aria-label="Switch featured project">
+        {heroProjects.map((entry, index) => (
+          <button type="button" data-hero-dot aria-label={`Switch to ${entry.data.title}`} aria-current={index === 0 ? "true" : undefined}>
+            <span>{entry.data.title}</span>
+          </button>
+        ))}
+      </div>
     </div>
 
     <a class="home-hero__scroll" href="#home-featured-work">
       <span>Scroll down</span>
       <Icon name="chevron-right" />
     </a>
-
-    <div class="home-hero__dots" role="tablist" aria-label="Switch featured project">
-      {heroProjects.map((entry, index) => (
-        <button type="button" data-hero-dot aria-label={`Switch to ${entry.data.title}`} aria-current={index === 0 ? "true" : undefined}>
-          <span>{entry.data.title}</span>
-        </button>
-      ))}
-    </div>
   </section>
 
   <section class="home-dashboard" id="home-featured-work">

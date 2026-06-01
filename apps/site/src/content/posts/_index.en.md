@@ -1,5 +1,5 @@
 ---
-title: "Articles & Records"
+title: "Articles and Records"
 description: "Project notes, event records, and technical writing around current projects."
 slug: "posts"
 ---

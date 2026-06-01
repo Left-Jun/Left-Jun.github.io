@@ -42,17 +42,17 @@ const techStack = [
   { label: "Photoshop", href: taxonomyTermUrl("tags", "Photoshop", lang) }
 ];
 const homeStats = [
-  { value: "5+", label: "项目&demo" },
+  { value: "5+", label: "代表项目" },
   { value: "4", label: "Game Jam" },
   { value: "3", label: "线下路演" }
 ];
 ---
-<BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Indie Game Developer" active="home" bodyClass="home-page">
+<BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Embedded Developer" active="home" bodyClass="home-page">
   <section class="home-hero" data-hero-carousel aria-label="首页代表项目">
     <div class="home-hero__content">
       <p class="home-hero__eyebrow">四川大学 · 电子信息类 · 2029届</p>
       <h1 class="home-hero__title">Left Jun</h1>
-      <p class="home-hero__role">游戏客户端 / Gameplay Programmer</p>
+      <p class="home-hero__role">游戏客户端 / Gameplay Programmer / 嵌入式开发</p>
       <p class="home-hero__subtitle">用 Unity / C# 把玩法机制落成可玩的客户端系统，也持续做 Game Jam 原型和 STM32 软硬件联调。这里按项目记录我负责的系统、实现取舍、试玩反馈和下一步验证。</p>
       <div class="home-hero__actions">
         <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>查看项目</span></a>
@@ -103,7 +103,7 @@ const homeStats = [
                 )}
               </span>
               <span class="home-hero__project-link">
-                <small>项目&Demo</small>
+                <small>代表项目</small>
                 <strong>{entry.data.title}</strong>
                 <Icon name="chevron-right" />
               </span>
@@ -111,20 +111,19 @@ const homeStats = [
           </article>
         );
       })}
+      <div class="home-hero__dots" role="tablist" aria-label="切换代表项目">
+        {heroProjects.map((entry, index) => (
+          <button type="button" data-hero-dot aria-label={`切换到${entry.data.title}`} aria-current={index === 0 ? "true" : undefined}>
+            <span>{entry.data.title}</span>
+          </button>
+        ))}
+      </div>
     </div>
 
     <a class="home-hero__scroll" href="#home-featured-work">
       <span>查看项目</span>
       <Icon name="chevron-right" />
     </a>
-
-    <div class="home-hero__dots" role="tablist" aria-label="切换项目&Demo">
-      {heroProjects.map((entry, index) => (
-        <button type="button" data-hero-dot aria-label={`切换到${entry.data.title}`} aria-current={index === 0 ? "true" : undefined}>
-          <span>{entry.data.title}</span>
-        </button>
-      ))}
-    </div>
   </section>
 
   <section class="home-dashboard" id="home-featured-work">

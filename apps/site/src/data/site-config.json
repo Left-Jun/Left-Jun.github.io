@@ -39,7 +39,7 @@
           "title": "开发中",
           "description": "在调玩法手感、关卡反馈和工程细节。"
         },
-        "identity": "Gameplay Programmer / 嵌入式开发",
+        "identity": "Gameplay Programmer\n嵌入式开发",
         "subtitle": "四川大学电子信息本科生，聚焦 Unity 游戏客户端、Gameplay 系统、交互原型与软硬件联调。",
         "avatar": "img/avatar.jpg"
       },
@@ -92,7 +92,7 @@
           },
           {
             "identifier": "posts",
-            "name": "文章&记录",
+            "name": "文章与记录",
             "url": "/posts/",
             "weight": 40,
             "params": {
@@ -164,7 +164,7 @@
           "title": "Building",
           "description": "Tuning game feel, level feedback, and implementation details."
         },
-        "identity": "Gameplay Programmer / Embedded Developer",
+        "identity": "Gameplay Programmer\nEmbedded Developer",
         "subtitle": "Electronic Information undergraduate at Sichuan University focused on Unity client work, gameplay systems, interactive prototypes, and hardware debugging.",
         "avatar": "img/avatar.jpg"
       },
@@ -217,7 +217,7 @@
           },
           {
             "identifier": "posts",
-            "name": "Articles & Records",
+            "name": "Articles and Records",
             "url": "/en/posts/",
             "weight": 40,
             "params": {
