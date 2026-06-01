@@ -91,7 +91,7 @@ const projectSummaryItems = isProject ? [
         </div>
       )}
       <div class:list={["article-details", isProject && "project-detail-hero__details"]}>
-        {isProject && <p class="project-detail-kicker">{text.isEn ? "Selected Project" : "代表项目"}</p>}
+        {isProject && <p class="project-detail-kicker">{text.isEn ? "Project Case" : "项目案例"}</p>}
         <h1 class="article-title">{entry.data.title}</h1>
         {entry.data.description && <h2 class="article-subtitle">{entry.data.description}</h2>}
         {isProject && projectPills.length > 0 && (

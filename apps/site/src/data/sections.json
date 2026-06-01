@@ -12,8 +12,8 @@
   },
   "posts": {
     "en": {
-      "title": "Records",
-      "description": "Build notes, event records, and technical writing around current projects.",
+      "title": "Articles & Records",
+      "description": "Project notes, event records, and technical writing around current projects.",
       "slug": "posts",
       "categories": [],
       "tags": [],

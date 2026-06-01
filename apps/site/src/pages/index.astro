@@ -103,7 +103,7 @@ const homeStats = [
                 )}
               </span>
               <span class="home-hero__project-link">
-                <small>代表构建</small>
+                <small>项目&Demo</small>
                 <strong>{entry.data.title}</strong>
                 <Icon name="chevron-right" />
               </span>
@@ -118,7 +118,7 @@ const homeStats = [
       <Icon name="chevron-right" />
     </a>
 
-    <div class="home-hero__dots" role="tablist" aria-label="切换代表构建">
+    <div class="home-hero__dots" role="tablist" aria-label="切换项目&Demo">
       {heroProjects.map((entry, index) => (
         <button type="button" data-hero-dot aria-label={`切换到${entry.data.title}`} aria-current={index === 0 ? "true" : undefined}>
           <span>{entry.data.title}</span>
@@ -230,7 +230,7 @@ const homeStats = [
   <section class="home-section home-tech-stack" aria-labelledby="home-tech-stack-title">
     <div class="home-section__header">
       <div>
-        <p class="home-section__eyebrow">Tools I use</p>
+        <p class="home-section__eyebrow">常用工具</p>
         <h2 id="home-tech-stack-title">技术栈</h2>
       </div>
     </div>

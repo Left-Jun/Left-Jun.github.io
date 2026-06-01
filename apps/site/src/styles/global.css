@@ -5704,10 +5704,13 @@ body {
   box-shadow: none;
 }
 
-.home-hero,
+.home-hero {
+  align-items: start;
+}
+
 .home-hero__content,
 .home-hero__stage {
-  align-items: stretch;
+  align-self: start;
 }
 
 .home-hero::before,
@@ -5838,7 +5841,7 @@ body {
   z-index: 1;
   width: 100%;
   height: auto;
-  min-height: clamp(360px, 29vw, 430px);
+  min-height: 0;
   aspect-ratio: 16 / 9;
   overflow: hidden;
   border-radius: 28px;

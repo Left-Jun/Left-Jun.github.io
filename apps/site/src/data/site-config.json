@@ -217,7 +217,7 @@
           },
           {
             "identifier": "posts",
-            "name": "Records",
+            "name": "Articles & Records",
             "url": "/en/posts/",
             "weight": 40,
             "params": {
