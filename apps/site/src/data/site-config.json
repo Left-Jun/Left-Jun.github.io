@@ -74,20 +74,11 @@
           },
           {
             "identifier": "retrospectives",
-            "name": "项目复盘",
+            "name": "项目复盘&开发计划",
             "url": "/retrospectives/",
             "weight": 33,
             "params": {
               "icon": "infinity"
-            }
-          },
-          {
-            "identifier": "plans",
-            "name": "开发计划",
-            "url": "/plans/",
-            "weight": 35,
-            "params": {
-              "icon": "clock"
             }
           },
           {
@@ -199,20 +190,11 @@
           },
           {
             "identifier": "retrospectives",
-            "name": "Retrospectives",
+            "name": "Retrospectives & Plans",
             "url": "/retrospectives/",
             "weight": 33,
             "params": {
               "icon": "infinity"
-            }
-          },
-          {
-            "identifier": "plans",
-            "name": "Development Plans",
-            "url": "/plans/",
-            "weight": 35,
-            "params": {
-              "icon": "clock"
             }
           },
           {

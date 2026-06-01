@@ -13,16 +13,7 @@ const menu = [...(text.menus.main || [])]
     icon: item.params?.icon || "link",
     newTab: Boolean(item.params && "newTab" in item.params && item.params.newTab)
   }));
-const projectRecordMenuIds = ["retrospectives", "plans"];
-type SidebarMenuItem = (typeof menu)[number];
-const projectRecordMenuItems: SidebarMenuItem[] = [];
-for (const identifier of projectRecordMenuIds) {
-  const recordItem = menu.find((item) => item.identifier === identifier);
-  if (recordItem) projectRecordMenuItems.push(recordItem);
-}
-const hasProjectRecordMenu = projectRecordMenuItems.length === projectRecordMenuIds.length;
-const projectRecordMenuLabel = text.isEn ? "Project records" : "项目记录";
-const isProjectRecordMenuActive = projectRecordMenuItems.some((item) => item.identifier === active);
+const activeMenu = active === "plans" ? "retrospectives" : active;
 const social = [...(text.menus.social || [])]
   .sort((a, b) => (a.weight || 0) - (b.weight || 0))
   .map((item) => ({
@@ -106,29 +97,12 @@ const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作�
 
   <ol class="menu" id="main-menu">
     {menu.map((item) => (
-      hasProjectRecordMenu && item.identifier === "plans" ? null : (
-        hasProjectRecordMenu && item.identifier === "retrospectives" ? (
-          <li class:list={["menu-record-group", isProjectRecordMenuActive && "current"]}>
-            <ol class="menu-record-group__list" aria-label={projectRecordMenuLabel}>
-              {projectRecordMenuItems.map((recordItem) => (
-                <li class:list={[active === recordItem.identifier && "current"]}>
-                  <a class="menu-record-link" href={recordItem.url} target={recordItem.newTab ? "_blank" : undefined} rel={recordItem.newTab ? "noopener noreferrer" : undefined}>
-                    <span class="menu-icon" aria-hidden="true"><Icon name={recordItem.icon} label="" /></span>
-                    <span class="menu-label">{recordItem.name}</span>
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </li>
-        ) : (
-          <li class:list={[active === item.identifier && "current"]}>
-            <a href={item.url} target={item.newTab ? "_blank" : undefined} rel={item.newTab ? "noopener noreferrer" : undefined}>
-              <span class="menu-icon" aria-hidden="true"><Icon name={item.icon} label="" /></span>
-              <span class="menu-label">{item.name}</span>
-            </a>
-          </li>
-        )
-      )
+      <li class:list={[activeMenu === item.identifier && "current"]}>
+        <a href={item.url} target={item.newTab ? "_blank" : undefined} rel={item.newTab ? "noopener noreferrer" : undefined}>
+          <span class="menu-icon" aria-hidden="true"><Icon name={item.icon} label="" /></span>
+          <span class="menu-label">{item.name}</span>
+        </a>
+      </li>
     ))}
   </ol>
 

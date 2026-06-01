@@ -4,24 +4,70 @@ import PostCard from "../../components/PostCard.astro";
 import RightSidebar from "../../components/RightSidebar.astro";
 import { getEntries, getSectionPage } from "../../lib/content.js";
 
-const section = await getSectionPage("retrospectives", "zh-cn");
-const entries = await getEntries("retrospectives");
+type ListingEntry = {
+  slug: string;
+  url: string;
+  data: {
+    title: string;
+    description?: string;
+    categories?: string[];
+    tags?: string[];
+    date?: Date;
+    image?: string;
+    imagePosition?: string;
+    [key: string]: unknown;
+  };
+  asset: (value: string) => string;
+  formattedDate?: string;
+  [key: string]: unknown;
+};
+
+const retrospectiveSection = await getSectionPage("retrospectives", "zh-cn");
+const planSection = await getSectionPage("plans", "zh-cn");
+const retrospectiveEntries = await getEntries("retrospectives") as ListingEntry[];
+const planEntries = await getEntries("plans") as ListingEntry[];
+const entries = [...retrospectiveEntries, ...planEntries];
+const title = "项目复盘&开发计划";
+const description = "把已经完成项目的过程复盘和后续开发计划放在同一条记录线里，先看复盘，再看下一步计划。";
 ---
-<BaseLayout title={section.data.title} description={section.data.description} active="retrospectives" bodyClass="list-page">
+<BaseLayout title={title} description={description} active="retrospectives" bodyClass="list-page records-page">
   <header>
-    <h3 class="section-title">项目复盘</h3>
+    <h3 class="section-title">项目记录</h3>
     <section class="section-card">
       <div class="section-details">
-        <h3 class="section-count">{entries.length} 篇复盘</h3>
-        <h1 class="section-term">{section.data.title}</h1>
-        <h2 class="section-description">{section.data.description}</h2>
+        <h3 class="section-count">{retrospectiveEntries.length} 篇复盘 · {planEntries.length} 份计划</h3>
+        <h1 class="section-term">{title}</h1>
+        <h2 class="section-description">{description}</h2>
       </div>
     </section>
   </header>
 
-  <section class="article-list--compact" id="retrospectives-list">
-    {entries.map((entry) => <PostCard entry={entry} />)}
+  <section class="records-section records-section--retrospectives" id="retrospectives-list" aria-labelledby="retrospectives-title">
+    <div class="records-section__header">
+      <div>
+        <p class="records-section__eyebrow">Retrospectives</p>
+        <h2 id="retrospectives-title">{retrospectiveSection.data.title}</h2>
+      </div>
+      <span>{retrospectiveEntries.length} 篇</span>
+    </div>
+    <div class="article-list--compact records-section__list">
+      {retrospectiveEntries.map((entry) => <PostCard entry={entry} />)}
+    </div>
   </section>
+
+  <section class="records-section records-section--plans" id="plans-list" aria-labelledby="plans-title">
+    <div class="records-section__header">
+      <div>
+        <p class="records-section__eyebrow">Plans</p>
+        <h2 id="plans-title">{planSection.data.title}</h2>
+      </div>
+      <span>{planEntries.length} 份</span>
+    </div>
+    <div class="article-list--compact records-section__list">
+      {planEntries.map((entry) => <PostCard entry={entry} />)}
+    </div>
+  </section>
+
   <Fragment slot="right-sidebar">
     <RightSidebar entries={entries} />
   </Fragment>

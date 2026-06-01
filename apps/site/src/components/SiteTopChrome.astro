@@ -4,12 +4,13 @@ import { getAllEntries } from "../lib/content.js";
 
 const { lang = "zh-cn", active = "home" } = Astro.props;
 const isEn = lang === "en";
+const activeKey = active === "plans" ? "retrospectives" : active;
 const copy = isEn
   ? {
       navLabel: "Site navigation",
       home: "Home",
       projects: "Projects",
-      plans: "Roadmap",
+      plans: "Retrospectives & Plans",
       posts: "Articles and Records",
       about: "About",
       search: "Search projects, systems, articles...",
@@ -23,7 +24,7 @@ const copy = isEn
       navLabel: "站点导航",
       home: "首页",
       projects: "项目",
-      plans: "开发计划",
+      plans: "复盘&计划",
       posts: "文章与记录",
       about: "关于我",
       search: "搜索项目、系统、文章...",
@@ -37,7 +38,7 @@ const copy = isEn
 const navItems = [
   { key: "home", label: copy.home, href: isEn ? "/en/" : "/", icon: "home" },
   { key: "projects", label: copy.projects, href: isEn ? "/en/projects/" : "/projects/", icon: "briefcase" },
-  { key: "plans", label: copy.plans, href: "/plans/", icon: "clock" },
+  { key: "retrospectives", label: copy.plans, href: "/retrospectives/", icon: "infinity" },
   { key: "posts", label: copy.posts, href: isEn ? "/en/posts/" : "/posts/", icon: "messages" },
   { key: "about", label: copy.about, href: isEn ? "/en/about/" : "/about/", icon: "user" }
 ];
@@ -84,7 +85,7 @@ const searchJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
 <nav class="home-topbar" data-home-topbar data-search-index-id={searchIndexId} data-empty={copy.empty} aria-label={copy.navLabel}>
   <div class="home-topbar__nav">
     {navItems.map((item) => (
-      <a class:list={[active === item.key && "is-active"]} href={item.href}>{item.label}</a>
+      <a class:list={[activeKey === item.key && "is-active"]} href={item.href}>{item.label}</a>
     ))}
   </div>
 
@@ -125,7 +126,7 @@ const searchJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
 
 <nav class="mobile-bottom-nav" aria-label={copy.navLabel}>
   {navItems.map((item) => (
-    <a class:list={[active === item.key && "is-active"]} href={item.href}>
+    <a class:list={[activeKey === item.key && "is-active"]} href={item.href}>
       <Icon name={item.icon} label="" />
       <span>{item.label}</span>
     </a>
