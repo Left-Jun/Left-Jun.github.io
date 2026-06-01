@@ -3,7 +3,7 @@ title: "Relativity of a Dot"
 date: 2026-02-10T10:00:00+08:00
 draft: false
 slug: "relativity-of-a-dot"
-description: "A 2D / 3D switching puzzle prototype using DimensionManager, Cinemachine, movement-axis switching, and collider switching to test spatial-rule changes."
+description: "A 6-hour 2D / 3D switching puzzle prototype using DimensionManager, Cinemachine, movement-axis switching, and collider switching to test spatial-rule changes."
 image: "cover.png"
 imagePosition: "45% center"
 weight: 30
@@ -35,7 +35,7 @@ This is a 2D / 3D switching puzzle prototype. I used it to test whether the same
 
 The idea came from the keyword "dot." A dot can be a point in one dimension, a mark on a 2D plane, or a projection inside 3D space. I turned that idea into a spatial prototype where the player switches between 2D projection and 3D space to understand the same level through different rules.
 
-The value of the prototype is not content volume. It is the mechanism chain: when the player presses `Tab`, camera perspective, movement axes, grounded checks, and colliders all change together, so structures that look like walls in 2D can be reread through depth in 3D.
+The value of the prototype is not content volume. It is the mechanism chain: when the player presses `Tab`, camera perspective, movement axes, grounded checks, and colliders all change together, so structures that look like walls in 2D can be reread through depth in 3D. In the portfolio, I treat it as a mechanic-validation sample rather than a full commercial level.
 
 ## Screenshots and Mechanics
 

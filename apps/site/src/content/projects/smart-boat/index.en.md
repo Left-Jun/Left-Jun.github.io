@@ -3,7 +3,7 @@ title: "Wireless Remote-Control System for a Wind-Powered Smart Boat Model"
 date: 2026-03-28T10:00:00+08:00
 draft: false
 slug: "smart-boat"
-description: "An STM32 software-hardware project covering ADC joystick sampling, NRF24L01 wireless communication, PWM servo/ESC control, PCB design, and integration debugging."
+description: "An STM32 software-hardware project based on BOAT02 / CONTROL02, covering ADC joystick sampling, NRF24L01 wireless communication, PWM servo/ESC control, PCB design, and integration debugging."
 image: "cover.png"
 featured: true
 featuredWeight: 20
@@ -29,7 +29,7 @@ roleTags:
 
 ## Overview
 
-This is a complete software-hardware project. The core goal was to build a wireless control system consisting of a handheld remote and an onboard boat receiver. The handheld side reads joystick input and sends a compact control packet, while the onboard side decodes that packet and drives steering and throttle, forming a full chain from human input to boat actuation.
+This is a complete software-hardware project. The formal project scope is `CONTROL02` for the remote controller and `BOAT02` for the onboard receiver. The core goal was to build a wireless control system: the handheld side reads joystick input and sends a compact control packet, while the onboard side decodes that packet and drives steering and ESC throttle, forming a full chain from human input to boat actuation.
 
 ## My role
 

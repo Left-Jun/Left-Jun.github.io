@@ -1,6 +1,6 @@
 ---
 title: "Project Portfolio"
-description: "A project-based portfolio for Left Jun, covering Unity gameplay prototypes, technical-art experiments, Game Jam works, and hardware-software practice such as Emotion Mask and Elegy of Asherah."
+description: "A project-based portfolio for Left Jun, focused on Unity client work, gameplay systems, technical-art experiments, Game Jam prototypes, and STM32 hardware-software practice."
 slug: "projects"
 image: "section-cover.svg"
 countSuffix: "projects"
@@ -14,4 +14,4 @@ viewAriaLabel: "Switch project display mode"
 filterAriaLabel: "Filter project categories"
 ---
 
-This page collects my most representative projects so far. Think of it as a continuously updated portfolio entrance: each project will gradually receive covers, summaries, process notes, screenshots, videos, and retrospectives.
+This page collects my most representative projects so far. Each project page focuses on four questions: what the work is, what I owned, how the system landed, and what public playtests or feedback suggest next. Retrospectives and development plans are kept separate so results, process, and future work stay clear.

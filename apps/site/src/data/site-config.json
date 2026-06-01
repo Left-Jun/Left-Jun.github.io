@@ -1,7 +1,7 @@
 {
   "siteUrl": "https://leftjun.com/",
   "title": "Left Jun",
-  "description": "Left Jun 的个人游戏开发作品集，也是阈限开拓者的项目档案，记录 Unity / C# 游戏原型、Gameplay 系统、Game Jam 项目与软硬件实践。",
+  "description": "Left Jun 的游戏客户端 / Gameplay Programmer / Technical Artist 方向作品集，记录 Unity / C# 玩法系统、Game Jam 原型、技术美术实验与 STM32 软硬件实践。",
   "keywords": [
     "Left Jun",
     "LeftJun",
@@ -36,11 +36,11 @@
         "emoji": "👋",
         "status": {
           "emoji": "💻",
-          "title": "专注中",
-          "description": "正在疯狂改 bug 调试。"
+          "title": "开发中",
+          "description": "在调玩法手感、关卡反馈和工程细节。"
         },
-        "identity": "Gameplay Programmer",
-        "subtitle": "四川大学电子信息本科生，持续做游戏原型、互动作品与软硬件项目。",
+        "identity": "Gameplay Programmer / Technical Artist",
+        "subtitle": "四川大学电子信息本科生，聚焦 Unity 游戏客户端、Gameplay 系统、交互原型、技术美术与软硬件联调。",
         "avatar": "img/avatar.jpg"
       },
       "menus": {
@@ -65,7 +65,7 @@
           },
           {
             "identifier": "projects",
-            "name": "项目&作品集",
+            "name": "项目作品集",
             "url": "/projects/",
             "weight": 30,
             "params": {
@@ -92,7 +92,7 @@
           },
           {
             "identifier": "posts",
-            "name": "文章",
+            "name": "记录",
             "url": "/posts/",
             "weight": 40,
             "params": {
@@ -161,11 +161,11 @@
         "emoji": "👋",
         "status": {
           "emoji": "💻",
-          "title": "Focused",
-          "description": "Deep in debugging mode."
+          "title": "Building",
+          "description": "Tuning game feel, level feedback, and implementation details."
         },
-        "identity": "Gameplay Programmer",
-        "subtitle": "Electronic Information undergraduate at Sichuan University, building game prototypes, interactive works, and software-hardware projects.",
+        "identity": "Gameplay Programmer / Technical Artist",
+        "subtitle": "Electronic Information undergraduate at Sichuan University focused on Unity client work, gameplay systems, interactive prototypes, technical art, and hardware debugging.",
         "avatar": "img/avatar.jpg"
       },
       "menus": {
@@ -190,7 +190,7 @@
           },
           {
             "identifier": "projects",
-            "name": "Projects & Portfolio",
+            "name": "Project Portfolio",
             "url": "/en/projects/",
             "weight": 30,
             "params": {
@@ -217,7 +217,7 @@
           },
           {
             "identifier": "posts",
-            "name": "Posts",
+            "name": "Records",
             "url": "/en/posts/",
             "weight": 40,
             "params": {

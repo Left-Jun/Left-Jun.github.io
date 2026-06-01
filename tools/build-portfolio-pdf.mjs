@@ -99,7 +99,7 @@ const profile = {
   name: "左涵俊",
   alias: "Left Jun / Limenaut",
   school: "四川大学 · 电子信息类本科 · 2029 年 7 月毕业",
-  direction: "Unity 游戏原型、玩法系统实现、叙事交互、STM32 软硬件结合项目",
+  direction: "游戏客户端、Unity Gameplay 系统、技术美术实验、STM32 软硬件联调",
   email: ["Zuo051607@163.com", "Limenaut0@gmail.com"],
   contact: ["QQ 1508017864", "微信 Zuo18481428798"],
   links: [
@@ -223,12 +223,12 @@ const secondary = [
 ];
 
 const skills = [
-  ["Unity / C#", "角色控制、跳跃/冲刺/贴墙、状态机、资源系统、检查点、结算、多结局、UI 与音频反馈。"],
+  ["Unity / C#", "游戏客户端、角色控制、跳跃/冲刺/贴墙、状态机、资源系统、检查点、结算、多结局、UI 与音频反馈。"],
   ["工程拆分", "按玩家控制、状态资源、关卡交互、UI 对话、场景表现、结局流程拆模块，保持短周期可维护。"],
   ["Godot 原型", "做过叙事解谜项目的场景组织、交互道具拆解、时间线切换需求设计和流程调试。"],
   ["STM32 / HAL", "ADC、SPI、PWM、USART、GPIO、nRF24L01，无线遥控链路与船端执行机构控制。"],
   ["硬件实践", "嘉立创 EDA 原理图/PCB、稳压滤波、晶振、接口、焊接、供电与通信问题排查。"],
-  ["发布与协作", "Git、Visual Studio、VS Code、Keil、STM32CubeIDE、TapTap/GGJ 发布、静态作品集维护。"],
+  ["发布与协作", "Git、Visual Studio、VS Code、Keil、STM32CubeIDE、TapTap/GGJ 发布、Astro 静态作品集维护。"],
 ];
 
 const techStack = [
@@ -256,7 +256,7 @@ const techStack = [
       "能把 Game Jam 创意拆成核心闭环、可验收模块和后续表现增强。",
       "多次担任队长，负责功能拆解、版本整合、每日推进和交付范围控制。",
       "将策划文本转译为程序任务、美术素材清单、交互节点和测试路径。",
-      "维护双语静态作品集，并能将项目内容整理成网页与 PDF 展示材料。",
+      "维护 Astro 双语静态作品集，并能将项目内容整理成网页与 PDF 展示材料。",
     ],
   },
 ];
@@ -324,7 +324,7 @@ page(`
     <div class="cover-copy">
       <p class="eyebrow">Portfolio 2026</p>
       <h1>左涵俊作品集</h1>
-      <p class="cover-sub">Game Systems · Interactive Prototypes · Embedded Practice</p>
+      <p class="cover-sub">Game Client · Gameplay Systems · Technical Art · Embedded Practice</p>
       <div class="cover-meta">
         <span>${esc(profile.school)}</span>
         <span>${esc(profile.direction)}</span>
@@ -348,10 +348,10 @@ page(`
   <div class="profile-layout">
     <div class="profile-main">
       <h3>${esc(profile.name)} <span>${esc(profile.alias)}</span></h3>
-      <p>我目前就读于四川大学电子信息类本科，主要做游戏原型、互动系统、玩法系统实现和软硬件结合项目。作品集重点展示我在短周期项目里把想法落成可运行版本的能力：从机制验证、系统实现、内容整合，到团队推进和公开发布。</p>
+      <p>我目前就读于四川大学电子信息类本科，主要方向是游戏客户端、Unity Gameplay 系统实现、技术美术实验和 STM32 软硬件联调。作品集重点展示我在短周期项目里把想法落成可运行版本的能力：从机制验证、系统实现、内容整合，到团队推进和公开发布。</p>
       <p>我更关注“机制是否真的能被玩出来”：角色控制是否顺手、状态切换是否带来决策、叙事是否能落到关卡和系统里，以及工程结构是否足够清晰，能在有限时间内继续迭代。</p>
       <div class="quick-facts">
-        <div><strong>方向</strong><span>游戏系统 / 玩法原型 / 嵌入式实践</span></div>
+        <div><strong>方向</strong><span>游戏客户端 / Gameplay / 技术美术 / 嵌入式实践</span></div>
         <div><strong>毕业</strong><span>2029 年 7 月</span></div>
         <div><strong>主力工具</strong><span>Unity、C#、STM32、Astro</span></div>
       </div>

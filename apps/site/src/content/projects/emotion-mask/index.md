@@ -3,7 +3,7 @@ title: "Emotion Mask"
 date: 2026-01-25T10:00:00+08:00
 draft: false
 slug: "emotion-mask"
-description: "一款围绕情绪状态机、平台显示、冲刺破坏和碎片收集展开的 2D 平台跳跃解谜游戏，48 小时内独立完成并上线 TapTap。"
+description: "一款围绕情绪状态机、平台显隐、冲刺破坏、碎片收集和计时结算展开的 2D 平台跳跃解谜游戏，48 小时内独立完成并上线 TapTap。"
 image: "cover.png"
 featured: true
 featuredWeight: 30
@@ -48,7 +48,7 @@ relatedPages:
 
 《Emotion Mask》是一款以“情绪切换”为核心机制的 2D 平台跳跃解谜游戏，也是我在 Global Game Jam 2026 中独立完成的作品。游戏围绕当年主题“Mask”展开：玩家操控一位戴着空白面具的少年，在破碎的内心世界中切换“平静”“快乐”“愤怒”三种情绪状态，用不同能力观察道路、跨越障碍、粉碎阻挡，并收集散落的情绪碎片。
 
-这个项目后来发布到了 TapTap。它对我来说不只是一次 Game Jam 练习，也是第一次把一个从概念、玩法、关卡到发布页面都完整走完的小型商业化展示流程。
+这个项目后来发布到了 TapTap。它对我来说不只是一次 Game Jam 练习，也是第一次把一个从概念、玩法、关卡到发布页面都完整走完的小型公开展示流程。当前公开成果以 Jam 版本、TapTap 页面、Global Game Jam 页面和演示视频为准；后续计划里的手感、教学和新面具内容仍然是下一阶段验证目标。
 
 ## 核心玩法
 
@@ -90,6 +90,7 @@ relatedPages:
 - 设计三种情绪面具的能力差异，并把状态切换接入移动速度、跳跃、二段跳、贴墙跳、冲刺次数、角色外观、背景和音乐。
 - 实现“状态改变关卡读法”的核心链路：平静显示隐藏平台，快乐强化机动性，愤怒允许冲刺破坏障碍。
 - 在 48 小时限制内完成开始菜单、关卡推进、检查点、死亡复活、碎片收集、计时结算和胜利画面。
+- 在后续本地工程整理中，将构建场景整理为 `StartMenu -> 001 -> 002 -> 003`，并补入按关卡记录用时的排行榜、关卡完成菜单、音量按钮和触发式自动打字提示。
 - 整理 TapTap、Global Game Jam、B 站演示和可执行包所需的介绍、标签、平台信息和展示素材。
 
 ## 技术实现
@@ -111,7 +112,7 @@ relatedPages:
 - 玩家控制系统：`PlayerMove`、`PlayerJump`、`PlayerDash`、`GroundCheck`、`WallCheck`，负责平台跳跃手感和冲刺行为。
 - 面具切换与表现系统：`MaskControl`、`MaskAnimator`、`EmotionalPlatform`、`MusicManager`，负责状态、外观、平台显隐和音乐切换。
 - 关卡交互系统：`CheckPoint`、`GetRespawn`、`Hurtcheck`、`TrapCheck`、`PlatformMove`、`BreakableTilemap`、`CollectibleRotation`，负责失败、复活、移动平台、障碍破坏和碎片反馈。
-- 流程与结算系统：`GameManager`、`GameTimer`、`LevelLeaderboard`、`PlayerCheckpoints`，负责目标碎片、最终用时、关卡排名和流程锁定。
+- 流程与结算系统：`GameManager`、`GameTimer`、`LevelLeaderboard`、`LevelCompleteMenu`、`PlayerCheckpoints`，负责目标碎片、最终用时、关卡排名、关卡跳转和流程锁定。
 - 菜单与界面系统：`StartMenu`、`GamingMenu`、`SceneLoadButton`、`MapSelector` 与基础 UI 动效，负责开始、暂停、选关、重开和返回。
 
 整理成流程后，这个项目的关键不是“状态越多越好”，而是每个状态都要接回关卡反馈：
@@ -125,4 +126,4 @@ relatedPages:
 
 《Emotion Mask》已发布到 TapTap，并同步提交到 Global Game Jam 2026。TapTap 页面展示了游戏简介、平台配置、开发者说明和玩家评分；GGJ 页面记录了项目的 Jam 年份、主题、站点、平台和开发工具。
 
-这次发布让我第一次完整经历了“原型完成之后如何被别人看到”的过程：不仅要做出能玩的版本，还要思考封面、简介、标签、配置说明和下载入口如何共同呈现作品。
+这次发布让我第一次完整经历了“原型完成之后如何被别人看到”的过程：不仅要做出能玩的版本，还要思考封面、简介、标签、配置说明和下载入口如何共同呈现作品。后续本地工程里出现的多关卡流、排行榜和 UI 辅助系统会继续作为迭代基础，但是否进入公开版本仍需要后续手动 Play Mode 与打包验证。

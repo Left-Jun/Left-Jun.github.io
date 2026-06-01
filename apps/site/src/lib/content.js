@@ -188,20 +188,20 @@ export function siteText(lang) {
     darkMode: key === "en" ? "Dark Mode" : "暗色模式",
     lightMode: key === "en" ? "Light Mode" : "浅色模式",
     allProjects: key === "en" ? "All projects" : "全部项目",
-    allPosts: key === "en" ? "All posts" : "全部文章",
+    allPosts: key === "en" ? "All records" : "全部记录",
     allPlans: key === "en" ? "All plans" : "全部计划",
     viewProject: key === "en" ? "View Projects" : "查看项目",
     portfolioPdf: key === "en" ? "Portfolio PDF" : "作品集 PDF",
     aboutMe: key === "en" ? "About Me" : "关于我",
     contact: key === "en" ? "Contact" : "联系我",
-    selectedWork: key === "en" ? "Selected Work" : "精选作品",
-    representativeProjects: key === "en" ? "Representative Projects" : "代表项目",
-    howIWork: key === "en" ? "How I Work" : "我的工作方式",
-    fromIdea: key === "en" ? "From Idea to Playable Build" : "从想法到可玩版本",
-    inProgress: key === "en" ? "In Progress" : "进行中",
+    selectedWork: key === "en" ? "Selected Work" : "精选项目",
+    representativeProjects: key === "en" ? "Representative Builds" : "代表构建",
+    howIWork: key === "en" ? "Implementation Focus" : "实现关注点",
+    fromIdea: key === "en" ? "From Mechanic to Playable Build" : "从机制到可玩版本",
+    inProgress: key === "en" ? "In Development" : "开发中",
     developmentPlans: key === "en" ? "Development Plans" : "开发计划",
-    latestNotes: key === "en" ? "Latest Notes" : "最近更新",
-    postsAndRecords: key === "en" ? "Posts and Records" : "文章与记录",
+    latestNotes: key === "en" ? "Latest Records" : "最近记录",
+    postsAndRecords: key === "en" ? "Build Notes and Records" : "项目记录与技术笔记",
     projectProfile: key === "en" ? "Project Profile" : "项目档案",
     projectLinks: key === "en" ? "Project Links" : "项目链接",
     relatedRecords: key === "en" ? "Related Records" : "延伸记录",
@@ -216,37 +216,37 @@ export function siteText(lang) {
 export const workflowItems = [
   {
     icon: "infinity",
-    title: { zh: "快速原型", en: "Rapid Prototyping" },
+    title: { zh: "玩法原型", en: "Gameplay Prototyping" },
     body: {
-      zh: "用 Game Jam 式限制把想法压缩成可体验闭环，在 48 到 72 小时内验证核心机制。",
-      en: "Use jam-style constraints to turn concepts into playable loops within 48 to 72 hours."
+      zh: "用 Game Jam 式限制把机制压缩成可体验闭环，在 48 到 72 小时内验证操作、反馈和失败重试。",
+      en: "Use jam constraints to turn mechanics into playable loops, validating controls, feedback, failure, and retry within 48 to 72 hours."
     },
     slugs: ["emotion-mask", "relativity-of-a-dot"]
   },
   {
     icon: "categories",
-    title: { zh: "游戏系统", en: "Gameplay Systems" },
+    title: { zh: "Gameplay 系统", en: "Gameplay Systems" },
     body: {
-      zh: "围绕同一个设计目标组织移动、状态切换、资源循环、检查点、UI 反馈和结局判定。",
-      en: "Build movement, state switching, resource loops, checkpoints, UI feedback, and endings around the same design goal."
+      zh: "围绕同一个设计目标组织角色控制、状态机、资源循环、检查点、UI 反馈和结算流程。",
+      en: "Connect character control, state machines, resource loops, checkpoints, UI feedback, and settlement flow around one design goal."
     },
     slugs: ["ashe-lament", "emotion-mask"]
   },
   {
     icon: "messages",
-    title: { zh: "叙事策划", en: "Narrative Design" },
+    title: { zh: "叙事与关卡", en: "Narrative and Level Flow" },
     body: {
-      zh: "把主题拆成世界观、关卡流程、对话文案、美术需求和最终演出节奏。",
-      en: "Translate themes into worlds, level flow, dialogue, art requirements, and final performance beats."
+      zh: "把主题拆成世界观、关卡路径、交互道具、对话文案、美术需求和最终演出节奏。",
+      en: "Translate themes into worlds, level routes, interactive props, dialogue, art requirements, and final beats."
     },
     slugs: ["time-echo", "ashe-lament"]
   },
   {
     icon: "link",
-    title: { zh: "软硬件实践", en: "Hardware Practice" },
+    title: { zh: "软硬件联调", en: "Hardware Integration" },
     body: {
-      zh: "实践 STM32、PCB 设计、无线通信、信号滤波和整机联调。",
-      en: "Work with STM32, PCB design, wireless communication, signal filtering, and integrated debugging."
+      zh: "实践 STM32、PCB、无线通信、输入采样、PWM 输出、供电稳定和整机调试。",
+      en: "Work with STM32, PCB design, wireless communication, input sampling, PWM output, power stability, and integration debugging."
     },
     slugs: ["smart-boat"]
   }

@@ -3,7 +3,7 @@ title: "Emotion Mask"
 date: 2026-01-25T10:00:00+08:00
 draft: false
 slug: "emotion-mask"
-description: "A 2D platformer-puzzle game built around an emotion state machine, platform visibility, dash-based breaking, and shard collection, completed solo within 48 hours and published on TapTap."
+description: "A 2D platformer-puzzle game built around an emotion state machine, platform visibility, dash-based breaking, shard collection, timer settlement, and public release flow, completed solo within 48 hours and published on TapTap."
 image: "cover.png"
 featured: true
 featuredWeight: 30
@@ -48,7 +48,7 @@ relatedPages:
 
 Emotion Mask is a 2D platformer-puzzle game centered on emotion switching. It was my solo entry for Global Game Jam 2026, responding to the theme "Mask." The player controls a boy wearing a blank mask and switches between three emotional states: Calm, Joy, and Anger. Each state changes how the character moves, reads the world, and interacts with obstacles.
 
-The project was later published on TapTap. For me, it was not only a game jam prototype, but also my first complete practice of turning a small game into a public-facing portfolio piece with a store page, screenshots, tags, platform information, and a playable build.
+The project was later published on TapTap. For me, it was not only a game jam prototype, but also my first complete practice of turning a small game into a public-facing portfolio piece with a store page, screenshots, tags, platform information, and a playable build. The public result here refers to the jam build, TapTap page, Global Game Jam page, and demo video; future plans around feel, tutorial flow, and additional masks are still iteration targets.
 
 ## Core Gameplay
 
@@ -90,6 +90,7 @@ In that sense, the mask is both a mechanic and a metaphor. It turns inner emotio
 - Designed three emotional mask states and connected state switching to movement speed, jumping, air jumps, wall jumps, dash count, character visuals, backgrounds, and music.
 - Built the core rule that each state changes how the level is read: Calm reveals hidden platforms, Joy improves mobility, and Anger enables dash-based obstacle breaking.
 - Completed the full 48-hour loop: start menu, level flow, checkpoints, death and respawn, shard collection, timer settlement, and victory screen.
+- In the later local Unity project, organized the build scene flow as `StartMenu -> 001 -> 002 -> 003` and added per-level leaderboard timing, a level-complete menu, volume control, and trigger-driven typewriter prompts.
 - Prepared the TapTap page, Global Game Jam page, Bilibili demo, playable package, descriptions, tags, platform information, and presentation material.
 
 ## Technical Implementation
@@ -111,7 +112,7 @@ The scripts are mainly organized into five modules:
 - Player control: `PlayerMove`, `PlayerJump`, `PlayerDash`, `GroundCheck`, and `WallCheck` for platforming feel and dash behavior.
 - Mask switching and presentation: `MaskControl`, `MaskAnimator`, `EmotionalPlatform`, and `MusicManager` for state, visuals, platform visibility, and music switching.
 - Level interaction: `CheckPoint`, `GetRespawn`, `Hurtcheck`, `TrapCheck`, `PlatformMove`, `BreakableTilemap`, and `CollectibleRotation` for failure, respawn, moving platforms, breakable obstacles, and shard feedback.
-- Flow and settlement: `GameManager`, `GameTimer`, `LevelLeaderboard`, and `PlayerCheckpoints` for shard goals, final time, level ranking, and input locking.
+- Flow and settlement: `GameManager`, `GameTimer`, `LevelLeaderboard`, `LevelCompleteMenu`, and `PlayerCheckpoints` for shard goals, final time, level ranking, level chaining, and input locking.
 - Menu and UI: `StartMenu`, `GamingMenu`, `SceneLoadButton`, `MapSelector`, and basic UI animation for start, pause, level select, restart, and return flow.
 
 As a flow, the key is not having many states, but making every state return to level feedback:
@@ -125,4 +126,4 @@ The main engineering tradeoff was reliability over spectacle. Before hidden plat
 
 Emotion Mask was published on TapTap and submitted to Global Game Jam 2026. The TapTap page presents the game description, platform requirements, developer note, and player rating, while the GGJ page records the jam year, theme, site, platform, tools, and project links.
 
-This project helped me understand that finishing a prototype is only one part of showing a game. Screenshots, cover art, tags, store copy, download links, and external pages all affect how the work is perceived.
+This project helped me understand that finishing a prototype is only one part of showing a game. Screenshots, cover art, tags, store copy, download links, and external pages all affect how the work is perceived. The later local multi-level flow, leaderboard, and UI support systems are iteration foundations, but they still need manual Play Mode and build verification before being described as part of a public release.

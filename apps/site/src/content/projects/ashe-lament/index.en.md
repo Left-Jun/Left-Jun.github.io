@@ -3,7 +3,7 @@ title: "Elegy of Asherah"
 date: 2026-03-20T10:00:00+08:00
 draft: false
 slug: "ashe-lament"
-description: "A Limenauts 72-hour team project: a 2D platformer and resource-management game built around spirit energy, underground safe time, shortcut construction, and multi-ending settlement."
+description: "A 72-hour Tencent University Game Extreme Development Competition team project: a 2D platformer and resource-management game built around spirit energy, underground safe time, shortcut construction, and multi-ending settlement."
 image: "cover.png"
 coverVideo: "cover.mp4"
 pinned: true
@@ -41,7 +41,7 @@ relatedPages:
 
 ## Overview
 
-Elegy of Asherah is a Limenauts 72-hour team project created for the Tencent University Game Extreme Development Competition, Chengdu site. I served as team lead, main programmer, gameplay designer, and music producer. The player becomes the last "root speaker" in a dying world sustained by Asherah, the Mother Tree. To delay the final silence, the player travels between underground roots and the surface trunk, gathers remaining spirit energy, builds shortcuts, climbs upward, and tries to return the last power to the heart of the world before their own energy runs out.
+Elegy of Asherah is a Limenauts team project created for the Tencent University Game Extreme Development Competition, Chengdu site. I served as team lead, main programmer, gameplay designer, and music producer. The playable core was built within the 72-hour competition window, with portfolio material and presentation notes organized afterward. The player becomes the last "root speaker" in a dying world sustained by Asherah, the Mother Tree. To delay the final silence, the player travels between underground roots and the surface trunk, gathers remaining spirit energy, builds shortcuts, climbs upward, and tries to return the last power to the heart of the world before their own energy runs out.
 
 The project is not only about moving quickly or jumping precisely. Its central challenge is management: time, resources, risk, and route planning all compete with each other.
 
@@ -137,5 +137,7 @@ For team integration, I kept frequently changing level content separate from reu
 ## Design Highlights
 
 The strongest part of Elegy of Asherah is the way theme, mechanics, and narrative share the same center. Spirit energy draining represents the world's decay. Underground exploration creates pressure. Surface planning gives the player room to think. Multiple endings reflect the long-term results of the player's management decisions.
+
+Future iteration is focused on the first five minutes of onboarding. That is a development-plan direction, not a claim that the public build already contains those revisions: the goal is to teach underground exploration, spirit-energy drain, shortcut value, and ending goals in smaller steps.
 
 As a result, each jump and each resource cost carries more than mechanical weight. It also asks whether anything can still be saved before the world goes silent.

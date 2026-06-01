@@ -3,14 +3,14 @@ title: "联系 Left Jun"
 date: 2026-04-30T01:10:00+08:00
 draft: false
 slug: "contact"
-description: "Left Jun 与阈限开拓者的项目交流、合作与实习联系入口。"
+description: "Left Jun 的项目交流、作品反馈、合作与游戏客户端 / Gameplay / Technical Artist 方向实习联系入口。"
 ---
 
 ## 简介
 
-这里是 Left Jun 与阈限开拓者的项目联系入口。目前主要关注游戏原型、互动体验、Unity 开发和软硬件结合项目。
+这里是 Left Jun 的项目联系入口。目前主要关注游戏客户端、Unity Gameplay、技术美术实验、Game Jam 原型和 STM32 软硬件结合项目。
 
-如果你想交流项目、合作、实习机会或作品反馈，可以通过下面的方式联系我。
+如果你想交流项目实现、试玩反馈、合作、实习机会或作品集材料，可以通过下面的方式联系我。
 
 ## 联系方式
 

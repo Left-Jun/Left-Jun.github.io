@@ -25,6 +25,7 @@ const statusEmoji = status.emoji || sidebar.emoji || "💻";
 const statusTitle = status.title || "";
 const statusDescription = status.description || "";
 const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
+const rolePill = lang === "en" ? "Limenauts Lead" : "阈限开拓者 / Limenauts";
 ---
 <aside class="sidebar left-sidebar sticky" id="site-sidebar">
   <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle menu">
@@ -51,7 +52,7 @@ const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
 
     <div class="site-meta">
       <div class="site-name"><a href={text.homeUrl}>{config.title}</a></div>
-      <div class="site-role-pill">阈限开拓者主创</div>
+      <div class="site-role-pill">{rolePill}</div>
       {sidebar.identity && <div class="site-identity">{sidebar.identity}</div>}
       {sidebar.subtitle && <h2 class="site-description">{sidebar.subtitle}</h2>}
     </div>

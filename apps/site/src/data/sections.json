@@ -2,7 +2,7 @@
   "plans": {
     "zh-cn": {
       "title": "开发计划",
-      "description": "这里整理我正在推进的项目改动、试玩反馈和下一阶段目标。",
+      "description": "这里整理仍在推进的版本计划、试玩反馈、风险点和下一轮验证目标。",
       "slug": "plans",
       "categories": [],
       "tags": [],
@@ -12,8 +12,8 @@
   },
   "posts": {
     "en": {
-      "title": "Posts",
-      "description": "Articles, notes, and stage-by-stage thoughts.",
+      "title": "Records",
+      "description": "Build notes, event records, and technical writing around current projects.",
       "slug": "posts",
       "categories": [],
       "tags": [],
@@ -21,8 +21,8 @@
       "relatedPages": []
     },
     "zh-cn": {
-      "title": "文章与记录",
-      "description": "这里收集我的文章、笔记和阶段性思考。",
+      "title": "项目记录",
+      "description": "这里收集项目过程记录、活动复盘、建站说明和阶段性技术笔记。",
       "slug": "posts",
       "categories": [],
       "tags": [],
@@ -33,7 +33,7 @@
   "projects": {
     "en": {
       "title": "Project Portfolio",
-      "description": "A project-based portfolio for Left Jun, covering Unity gameplay prototypes, technical-art experiments, Game Jam works, and hardware-software practice such as Emotion Mask and Elegy of Asherah.",
+      "description": "A project-based portfolio for Left Jun, focused on Unity client work, gameplay systems, technical-art experiments, Game Jam prototypes, and STM32 hardware-software practice.",
       "slug": "projects",
       "image": "section-cover.svg",
       "countSuffix": "projects",
@@ -52,7 +52,7 @@
     },
     "zh-cn": {
       "title": "项目作品集",
-      "description": "按项目维度整理 Left Jun 的游戏开发、Unity Gameplay 原型、技术美术实验与软硬件实践，集中展示 Emotion Mask、亚舍拉挽歌、时瞳回响等阶段性成果。",
+      "description": "按项目维度整理 Left Jun 的 Unity 客户端、Gameplay 系统、技术美术实验、Game Jam 原型与 STM32 软硬件实践，集中展示已完成到可体验状态的阶段性成果。",
       "slug": "projects",
       "image": "section-cover.svg",
       "typeTitle": "项目类型",
@@ -66,7 +66,7 @@
   "retrospectives": {
     "zh-cn": {
       "title": "项目复盘",
-      "description": "这里记录项目从想法、开发、参赛到展示的完整经历，以及每次完成之后的反思。",
+      "description": "这里记录项目从主题拆解、系统取舍、现场开发到试玩反馈的过程复盘。",
       "slug": "retrospectives",
       "categories": [],
       "tags": [],
