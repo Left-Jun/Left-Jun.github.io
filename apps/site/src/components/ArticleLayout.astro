@@ -28,6 +28,11 @@ const alternateLang = text.isEn ? "zh-cn" : "en";
 const alternateEntry = await getEntryBySlug(entry.section, entry.slug, alternateLang);
 const alternateUrl = alternateEntry?.url;
 const alternateLabel = text.isEn ? "中文" : "English";
+const portfolioPdfUrl = "/files/left-jun-portfolio.pdf";
+const portfolioPdfLabel = text.isEn ? "Portfolio PDF" : "作品集 PDF";
+const portfolioDownloadLabel = text.isEn ? "Download" : "下载";
+const portfolioOpenAria = text.isEn ? "Open portfolio PDF" : "打开作品集 PDF";
+const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作品集 PDF";
 const roleText = String(facts.role || "");
 const developmentTimeText = String(facts.developmentTime || "").replace(/\s*[\(（].*?[)）]\s*$/, "");
 const inferredTeam = text.isEn
@@ -106,9 +111,16 @@ const projectSummaryItems = isProject ? [
             {alternateUrl && <a href={alternateUrl}>{alternateLabel}</a>}
           </footer>
         )}
-        {isProject && alternateUrl && (
+        {isProject && (
           <footer class="project-detail-actions">
-            <a href={alternateUrl}>{alternateLabel}</a>
+            <a class="project-detail-action project-detail-action--pdf" href={portfolioPdfUrl} target="_blank" rel="noopener noreferrer" aria-label={portfolioOpenAria}>
+              <Icon name="briefcase" label="" />
+              <span>{portfolioPdfLabel}</span>
+            </a>
+            <a class="project-detail-action project-detail-action--download" href={portfolioPdfUrl} download aria-label={portfolioDownloadAria}>
+              {portfolioDownloadLabel}
+            </a>
+            {alternateUrl && <a class="project-detail-action" href={alternateUrl}>{alternateLabel}</a>}
           </footer>
         )}
       </div>
