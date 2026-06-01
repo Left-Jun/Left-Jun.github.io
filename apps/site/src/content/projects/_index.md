@@ -1,6 +1,6 @@
 ---
 title: "项目作品集"
-description: "按项目维度整理 Left Jun 的 Unity 客户端、Gameplay 系统、技术美术实验、Game Jam 原型与 STM32 软硬件实践，集中展示已完成到可体验状态的阶段性成果。"
+description: "按项目维度整理 Left Jun 的 Unity 客户端、Gameplay 系统、Game Jam 原型与 STM32 软硬件实践，集中展示已完成到可体验状态的阶段性成果。"
 slug: "projects"
 image: "section-cover.svg"
 typeTitle: "项目类型"

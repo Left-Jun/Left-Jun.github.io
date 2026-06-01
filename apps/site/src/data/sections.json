@@ -33,7 +33,7 @@
   "projects": {
     "en": {
       "title": "Project Portfolio",
-      "description": "A project-based portfolio for Left Jun, focused on Unity client work, gameplay systems, technical-art experiments, Game Jam prototypes, and STM32 hardware-software practice.",
+      "description": "A project-based portfolio for Left Jun, focused on Unity client work, gameplay systems, Game Jam prototypes, and STM32 hardware-software practice.",
       "slug": "projects",
       "image": "section-cover.svg",
       "countSuffix": "projects",
@@ -52,7 +52,7 @@
     },
     "zh-cn": {
       "title": "项目作品集",
-      "description": "按项目维度整理 Left Jun 的 Unity 客户端、Gameplay 系统、技术美术实验、Game Jam 原型与 STM32 软硬件实践，集中展示已完成到可体验状态的阶段性成果。",
+      "description": "按项目维度整理 Left Jun 的 Unity 客户端、Gameplay 系统、Game Jam 原型与 STM32 软硬件实践，集中展示已完成到可体验状态的阶段性成果。",
       "slug": "projects",
       "image": "section-cover.svg",
       "typeTitle": "项目类型",

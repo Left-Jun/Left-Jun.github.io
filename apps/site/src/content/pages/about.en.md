@@ -3,20 +3,20 @@ title: "About"
 date: 2026-04-22T10:30:00+08:00
 draft: false
 slug: "about"
-description: "A portfolio positioning note for Left Jun, focused on game client work, Unity gameplay, technical-art experiments, Game Jam prototypes, and STM32 hardware-software practice."
+description: "A portfolio positioning note for Left Jun, focused on game client work, Unity gameplay, Game Jam prototypes, and STM32 hardware-software practice."
 ---
 
 I publish work as Left Jun. In formal resumes, competition materials, and recruiting contexts, I use my legal name, Zuo Hanjun.
 
 Limenauts is the long-term project team name I use as team lead, and it also appears as my personal competition team name across Game Jam entries, competition works, and team projects I lead. It is less a separate organization and more a creative banner tied to my ongoing game prototypes, team development, and project records.
 
-I am currently an Electronic Information undergraduate at Sichuan University, expected to graduate in July 2029. My main focus is game client work, gameplay system implementation, interaction prototypes, technical-art experiments, and hardware-software integration. This site is not a general personal blog; it is a living project archive of the playable works I have built since November 2025, the systems I personally owned, the feedback those works received in public, and the methods I am forming through jam development and engineering practice.
+I am currently an Electronic Information undergraduate at Sichuan University, expected to graduate in July 2029. My main focus is game client work, gameplay system implementation, interaction prototypes, and hardware-software integration. This site is not a general personal blog; it is a living project archive of the playable works I have built since November 2025, the systems I personally owned, the feedback those works received in public, and the methods I am forming through jam development and engineering practice.
 
 ## Current Focus
 
 - Game client work: mainly Unity and C#, with a focus on platformer feel, state machines, level interaction, UI feedback, timers, settlement, and playable loops.
 - Gameplay design and implementation: turning themes into mechanics, level flow, narrative goals, tunable values, scripts, and Inspector-driven configuration.
-- Technical art: integrating pixel assets, state visuals, background/music switching, process prompts, and readable feedback in short production cycles.
+- Presentation and feedback: integrating pixel assets, state visuals, background/music switching, process prompts, and readable feedback in short production cycles.
 - Software-hardware projects: STM32, HAL, PCB design, ADC input, SPI wireless communication, PWM control, and system debugging.
 - Team execution: organizing projects under the Limenauts name, leading small teams, breaking down tasks, running syncs, integrating builds, and controlling deliverable scope.
 

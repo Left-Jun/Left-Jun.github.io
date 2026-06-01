@@ -1,6 +1,6 @@
 ---
 title: "Project Portfolio"
-description: "A project-based portfolio for Left Jun, focused on Unity client work, gameplay systems, technical-art experiments, Game Jam prototypes, and STM32 hardware-software practice."
+description: "A project-based portfolio for Left Jun, focused on Unity client work, gameplay systems, Game Jam prototypes, and STM32 hardware-software practice."
 slug: "projects"
 image: "section-cover.svg"
 countSuffix: "projects"
