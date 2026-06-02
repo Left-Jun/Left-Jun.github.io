@@ -3807,8 +3807,8 @@ main.main {
     --sidebar-avatar-size: 88px;
     --emoji-size: 24px;
     --emoji-font-size: 13px;
-    gap: clamp(1.55rem, 2.55vh, 3.5rem);
-    padding: clamp(2.35rem, 4vh, 4.45rem) clamp(1.65rem, 1.65vw, 2.3rem);
+    gap: clamp(1.05rem, 1.55vh, 1.7rem);
+    padding: clamp(1.45rem, 2.4vh, 2.45rem) clamp(1.35rem, 1.45vw, 2rem);
     border-width: 0 1px 0 0;
     border-radius: 0;
     background:
@@ -3834,7 +3834,7 @@ main.main {
   }
 
   .left-sidebar header {
-    gap: 1.18rem;
+    gap: 0.92rem;
   }
 
   .site-avatar .site-logo {
@@ -3849,12 +3849,18 @@ main.main {
   }
 
   .site-meta {
-    gap: 0.64rem;
+    gap: 0.52rem;
   }
 
   .site-name {
-    font-size: 29px;
+    font-size: 26px;
     line-height: 1.08;
+  }
+
+  .site-role-pill {
+    min-height: 2.48rem;
+    padding: 0.5rem 0.98rem;
+    font-size: 1.12rem;
   }
 
   .site-identity {
@@ -3863,18 +3869,19 @@ main.main {
     border-color: transparent;
     background: transparent;
     color: var(--leftjun-primary);
-    font-size: 1.12rem;
+    font-size: 1.24rem;
     box-shadow: none;
+    line-height: 1.15;
   }
 
   .site-description {
     max-width: 19rem;
-    font-size: 1.28rem;
-    line-height: 1.62;
+    font-size: 1.16rem;
+    line-height: 1.46;
   }
 
   .menu-social {
-    gap: 0.68rem;
+    gap: 0.56rem;
   }
 
   .menu-social li a {
@@ -3892,16 +3899,16 @@ main.main {
   }
 
   #main-menu {
-    gap: 0.58rem;
+    gap: 0.34rem;
     padding-right: 0;
   }
 
   #main-menu li > a,
   #i18n-switch {
-    min-height: 4.4rem;
-    gap: 1.05rem;
-    padding: 0.78rem 1.08rem;
-    border-radius: 14px;
+    min-height: 3.58rem;
+    gap: 0.62rem;
+    padding: 0.54rem 0.72rem;
+    border-radius: 12px;
     color: color-mix(in srgb, var(--card-text-color-secondary) 88%, var(--card-text-color-main));
     font-weight: 650;
   }
@@ -3918,9 +3925,9 @@ main.main {
   }
 
   #dark-mode-toggle {
-    min-height: 4.35rem;
+    min-height: 3.78rem;
     justify-content: space-between;
-    padding-inline: 1.05rem;
+    padding-inline: 0.82rem;
     border-color: color-mix(in srgb, var(--leftjun-primary) 12%, var(--card-separator-color));
     background: rgba(255, 255, 255, 0.64);
     box-shadow: 0 9px 20px rgba(35, 86, 136, 0.055);
@@ -3933,9 +3940,9 @@ main.main {
 
   #sidebar-collapse-toggle {
     display: flex;
-    min-height: 4.35rem;
+    min-height: 3.78rem;
     justify-content: space-between;
-    padding-inline: 1.05rem;
+    padding-inline: 0.82rem;
     border-color: color-mix(in srgb, var(--leftjun-primary) 12%, var(--card-separator-color));
     background: rgba(255, 255, 255, 0.64);
     box-shadow: 0 9px 20px rgba(35, 86, 136, 0.055);
@@ -4008,7 +4015,7 @@ main.main {
   .menu-label,
   .theme-toggle__label,
   .sidebar-collapse-toggle__label {
-    max-width: 10rem;
+    max-width: 15rem;
     overflow: hidden;
     opacity: 1;
     white-space: nowrap;
