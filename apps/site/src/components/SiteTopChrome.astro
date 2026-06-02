@@ -43,6 +43,9 @@ const navItems = [
   { key: "about", label: copy.about, href: isEn ? "/en/about/" : "/about/", icon: "user" }
 ];
 
+const portfolioPdfLabel = isEn ? "Portfolio PDF" : "作品集 PDF";
+const portfolioPdfAria = isEn ? "Open portfolio PDF" : "打开作品集 PDF";
+
 const sectionLabels = isEn
   ? {
       projects: "Project",
@@ -100,9 +103,15 @@ const searchJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
         spellcheck="false"
         data-home-search-input
       />
-      <span class="home-topbar__shortcut" aria-hidden="true">Ctrl K</span>
       <div class="home-topbar__results" data-home-search-results hidden></div>
     </label>
+
+    {activeKey === "projects" && (
+      <a class="home-topbar__portfolio-pdf" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer" aria-label={portfolioPdfAria}>
+        <Icon name="briefcase" label="" />
+        <span>{portfolioPdfLabel}</span>
+      </a>
+    )}
 
     <button
       class="home-topbar__theme"

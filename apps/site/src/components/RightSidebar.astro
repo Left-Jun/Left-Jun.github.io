@@ -13,7 +13,7 @@ type SidebarEntry = {
 };
 
 type SidebarProps = {
-  type?: "terms" | "projects";
+  type?: "terms" | "projects" | "records";
   lang?: "zh-cn" | "en";
   entries?: SidebarEntry[];
   categoryEntries?: SidebarEntry[];
@@ -85,6 +85,9 @@ function collectTerms(items: SidebarEntry[], field: "categories" | "tags", limit
 
 const categories = collectTerms(categoryEntries ?? entries, "categories", 5);
 const tags = collectTerms(entries, "tags", 8);
+const recordsFilterTitle = isEn ? "Categories" : "分类";
+const retrospectiveLabel = isEn ? "Retrospectives" : "项目复盘";
+const planLabel = isEn ? "Development Plans" : "开发计划";
 const gameLabel = data.gameFilterLabel || (isEn ? "Game Development" : "游戏开发");
 const embeddedLabel = data.embeddedFilterLabel || (isEn ? "Embedded Development" : "嵌入式开发");
 const typeTitle = data.typeTitle || (isEn ? "Project Types" : "项目类型");
@@ -93,7 +96,7 @@ const categoryTitle = isEn ? "Categories" : "分类";
 const tagTitle = isEn ? "Tag Cloud" : "标签云";
 ---
 
-<aside class:list={["sidebar right-sidebar sticky", type === "projects" && "project-index-sidebar"]}>
+<aside class:list={["sidebar right-sidebar sticky", type === "projects" && "project-index-sidebar", type === "records" && "records-filter-sidebar"]}>
   {type === "projects" ? (
     <>
       <section class="widget project-type-widget">
@@ -120,6 +123,35 @@ const tagTitle = isEn ? "Tag Cloud" : "标签云";
           ))}
         </ol>
       </section>
+    </>
+  ) : type === "records" ? (
+    <>
+      <section class="widget project-type-widget records-filter-widget">
+        <div class="widget-icon" aria-hidden="true">
+          <Icon name="categories" />
+        </div>
+        <h2 class="widget-title section-title">{recordsFilterTitle}</h2>
+        <div class="project-index-type-list records-filter-list" role="group" aria-label={isEn ? "Filter records" : "筛选项目记录"}>
+          <button class="project-index-type-button records-filter-button" type="button" data-record-filter="retrospectives">{retrospectiveLabel}</button>
+          <button class="project-index-type-button records-filter-button" type="button" data-record-filter="plans">{planLabel}</button>
+        </div>
+      </section>
+
+      {tags.length > 0 && (
+        <section class="widget tagCloud">
+          <div class="widget-icon" aria-hidden="true">
+            <Icon name="tag" />
+          </div>
+          <h2 class="widget-title section-title">{tagTitle}</h2>
+          <div class="tagCloud-tags">
+            {tags.map((term) => (
+              <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={term.title}>
+                {term.name}
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
     </>
   ) : (
     <>

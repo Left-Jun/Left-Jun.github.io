@@ -38,11 +38,17 @@ const description = "把已经完成项目的过程复盘和后续开发计划�
         <h3 class="section-count">{retrospectiveEntries.length} 篇复盘 · {planEntries.length} 份计划</h3>
         <h1 class="section-term">{title}</h1>
         <h2 class="section-description">{description}</h2>
+        <div class="project-section-actions records-section-actions">
+          <div class="project-filter-toggle records-filter-toggle" role="group" aria-label="筛选项目记录">
+            <button class="project-filter-toggle__button records-filter-button" type="button" data-record-filter="retrospectives">项目复盘</button>
+            <button class="project-filter-toggle__button records-filter-button" type="button" data-record-filter="plans">开发计划</button>
+          </div>
+        </div>
       </div>
     </section>
   </header>
 
-  <section class="records-section records-section--retrospectives" id="retrospectives-list" aria-labelledby="retrospectives-title">
+  <section class="records-section records-section--retrospectives" id="retrospectives-list" data-record-section="retrospectives" aria-labelledby="retrospectives-title">
     <div class="records-section__header">
       <div>
         <p class="records-section__eyebrow">Retrospectives</p>
@@ -55,7 +61,7 @@ const description = "把已经完成项目的过程复盘和后续开发计划�
     </div>
   </section>
 
-  <section class="records-section records-section--plans" id="plans-list" aria-labelledby="plans-title">
+  <section class="records-section records-section--plans" id="plans-list" data-record-section="plans" aria-labelledby="plans-title">
     <div class="records-section__header">
       <div>
         <p class="records-section__eyebrow">Plans</p>
@@ -69,6 +75,43 @@ const description = "把已经完成项目的过程复盘和后续开发计划�
   </section>
 
   <Fragment slot="right-sidebar">
-    <RightSidebar entries={entries} />
+    <RightSidebar type="records" entries={entries} />
   </Fragment>
+  <script is:inline>
+    (() => {
+      const initRecordFilters = () => {
+        const buttons = [...document.querySelectorAll("[data-record-filter]")];
+        const sections = [...document.querySelectorAll("[data-record-section]")];
+        const allowed = new Set(["retrospectives", "plans"]);
+        let active = "";
+
+        const applyFilter = (next) => {
+          active = allowed.has(next) ? next : "";
+          buttons.forEach((button) => {
+            const isActive = active && button.dataset.recordFilter === active;
+            button.classList.toggle("is-active", Boolean(isActive));
+            button.setAttribute("aria-pressed", isActive ? "true" : "false");
+          });
+          sections.forEach((section) => {
+            section.hidden = Boolean(active && section.dataset.recordSection !== active);
+          });
+        };
+
+        buttons.forEach((button) => {
+          button.addEventListener("click", () => {
+            const next = active === button.dataset.recordFilter ? "" : button.dataset.recordFilter;
+            applyFilter(next);
+          });
+        });
+
+        applyFilter("");
+      };
+
+      if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initRecordFilters, { once: true });
+      } else {
+        requestAnimationFrame(initRecordFilters);
+      }
+    })();
+  </script>
 </BaseLayout>
