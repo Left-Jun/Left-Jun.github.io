@@ -182,6 +182,88 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
           }, { passive: true });
           window.addEventListener("resize", updateActiveToc, { passive: true });
         }
+
+        const initLocalFilters = () => {
+          const localButtons = Array.from(document.querySelectorAll("[data-local-filter][data-local-filter-kind]"));
+          const recordButtons = Array.from(document.querySelectorAll("[data-record-filter]"));
+          const filterLists = Array.from(document.querySelectorAll("[data-local-filter-list]"));
+          const recordSections = Array.from(document.querySelectorAll("[data-record-section]"));
+          if (localButtons.length === 0 && recordButtons.length === 0) return;
+
+          const cards = filterLists.length > 0
+            ? Array.from(document.querySelectorAll("[data-local-filter-list] .post-card"))
+            : Array.from(document.querySelectorAll(".post-card[data-entry-tags], .post-card[data-entry-categories]"));
+          const allowedRecords = new Set(recordButtons.map((button) => button.dataset.recordFilter).filter(Boolean));
+          let activeRecord = "";
+          let activeLocalKind = "";
+          let activeLocalValue = "";
+
+          const termList = (card, kind) => String(card.dataset[`entry${kind === "categories" ? "Categories" : "Tags"}`] || "")
+            .split(/\s+/)
+            .filter(Boolean);
+
+          const cardMatches = (card) => {
+            const recordMatch = !activeRecord || card.closest("[data-record-section]")?.dataset.recordSection === activeRecord;
+            const localMatch = !activeLocalKind || termList(card, activeLocalKind).includes(activeLocalValue);
+            return recordMatch && localMatch;
+          };
+
+          const applyFilters = () => {
+            localButtons.forEach((button) => {
+              const active = button.dataset.localFilterKind === activeLocalKind && button.dataset.localFilter === activeLocalValue;
+              button.classList.toggle("is-active", active);
+              button.setAttribute("aria-pressed", active ? "true" : "false");
+            });
+
+            recordButtons.forEach((button) => {
+              const active = Boolean(activeRecord && button.dataset.recordFilter === activeRecord);
+              button.classList.toggle("is-active", active);
+              button.setAttribute("aria-pressed", active ? "true" : "false");
+            });
+
+            cards.forEach((card) => {
+              card.hidden = !cardMatches(card);
+            });
+
+            recordSections.forEach((section) => {
+              const sectionCards = Array.from(section.querySelectorAll(".post-card"));
+              const hasVisibleCard = sectionCards.some((card) => !card.hidden);
+              const recordMismatch = Boolean(activeRecord && section.dataset.recordSection !== activeRecord);
+              section.hidden = recordMismatch || !hasVisibleCard;
+            });
+          };
+
+          localButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+              const nextKind = button.dataset.localFilterKind || "";
+              const nextValue = button.dataset.localFilter || "";
+              if (activeLocalKind === nextKind && activeLocalValue === nextValue) {
+                activeLocalKind = "";
+                activeLocalValue = "";
+              } else {
+                activeLocalKind = nextKind;
+                activeLocalValue = nextValue;
+              }
+              applyFilters();
+            });
+          });
+
+          recordButtons.forEach((button) => {
+            button.addEventListener("click", () => {
+              const next = button.dataset.recordFilter || "";
+              activeRecord = activeRecord === next || !allowedRecords.has(next) ? "" : next;
+              applyFilters();
+            });
+          });
+
+          applyFilters();
+        };
+
+        if (document.readyState === "loading") {
+          document.addEventListener("DOMContentLoaded", initLocalFilters, { once: true });
+        } else {
+          requestAnimationFrame(initLocalFilters);
+        }
       })();
     </script>
   </body>

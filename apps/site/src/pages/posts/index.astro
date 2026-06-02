@@ -20,7 +20,7 @@ const posts = await getEntries("posts", { lang });
     </section>
   </header>
 
-  <section class="article-list--compact" id="posts-list">
+  <section class="article-list--compact" id="posts-list" data-local-filter-list>
     {posts.map((entry) => <PostCard entry={entry} />)}
   </section>
   <Fragment slot="right-sidebar">

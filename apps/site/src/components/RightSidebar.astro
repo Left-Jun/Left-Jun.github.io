@@ -20,6 +20,7 @@ type SidebarProps = {
   activeKind?: "categories" | "tags";
   activeSlug?: string;
   resetUrl?: string;
+  localFilters?: boolean;
   sectionPage?: {
     data?: Record<string, string>;
   } | null;
@@ -33,6 +34,7 @@ const {
   activeKind = undefined,
   activeSlug = "",
   resetUrl = "",
+  localFilters = type !== "projects",
   sectionPage = null
 } = Astro.props as SidebarProps;
 
@@ -92,8 +94,8 @@ const gameLabel = data.gameFilterLabel || (isEn ? "Game Development" : "游戏�
 const embeddedLabel = data.embeddedFilterLabel || (isEn ? "Embedded Development" : "嵌入式开发");
 const typeTitle = data.typeTitle || (isEn ? "Project Types" : "项目类型");
 const indexTitle = data.indexTitle || (isEn ? "Project Index" : "项目索引");
-const categoryTitle = isEn ? "Categories" : "分类";
-const tagTitle = isEn ? "Tag Cloud" : "标签云";
+const categoryTitle = localFilters ? (isEn ? "Categories" : "分类") : (isEn ? "Related Categories" : "相关分类");
+const tagTitle = localFilters ? (isEn ? "Topics" : "主题筛选") : (isEn ? "Related Topics" : "相关主题");
 ---
 
 <aside class:list={["sidebar right-sidebar sticky", type === "projects" && "project-index-sidebar", type === "records" && "records-filter-sidebar"]}>
@@ -138,16 +140,23 @@ const tagTitle = isEn ? "Tag Cloud" : "标签云";
       </section>
 
       {tags.length > 0 && (
-        <section class="widget tagCloud">
+        <section class="widget tagCloud local-filter-widget">
           <div class="widget-icon" aria-hidden="true">
             <Icon name="tag" />
           </div>
           <h2 class="widget-title section-title">{tagTitle}</h2>
-          <div class="tagCloud-tags">
+          <div class="tagCloud-tags local-filter-tags" role="group" aria-label={isEn ? "Filter by topic" : "按主题筛选"}>
             {tags.map((term) => (
-              <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={term.title}>
+              <button
+                class:list={[term.active && "is-active"]}
+                type="button"
+                data-local-filter={term.slug}
+                data-local-filter-kind="tags"
+                aria-pressed="false"
+                title={`${term.name} (${term.count})`}
+              >
                 {term.name}
-              </a>
+              </button>
             ))}
           </div>
         </section>
@@ -156,31 +165,57 @@ const tagTitle = isEn ? "Tag Cloud" : "标签云";
   ) : (
     <>
       {categories.length > 0 && (
-        <section class="widget tagCloud">
+        <section class="widget tagCloud local-filter-widget">
           <div class="widget-icon" aria-hidden="true">
             <Icon name="categories" />
           </div>
           <h2 class="widget-title section-title">{categoryTitle}</h2>
-          <div class="tagCloud-tags">
+          <div class="tagCloud-tags local-filter-tags" role={localFilters ? "group" : undefined} aria-label={localFilters ? (isEn ? "Filter by category" : "按分类筛选") : undefined}>
             {categories.map((term) => (
-              <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={term.title}>
-                {term.name}
-              </a>
+              localFilters ? (
+                <button
+                  class:list={[term.active && "is-active"]}
+                  type="button"
+                  data-local-filter={term.slug}
+                  data-local-filter-kind="categories"
+                  aria-pressed="false"
+                  title={`${term.name} (${term.count})`}
+                >
+                  {term.name}
+                </button>
+              ) : (
+                <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={term.title}>
+                  {term.name}
+                </a>
+              )
             ))}
           </div>
         </section>
       )}
       {tags.length > 0 && (
-        <section class="widget tagCloud">
+        <section class="widget tagCloud local-filter-widget">
           <div class="widget-icon" aria-hidden="true">
             <Icon name="tag" />
           </div>
           <h2 class="widget-title section-title">{tagTitle}</h2>
-          <div class="tagCloud-tags">
+          <div class="tagCloud-tags local-filter-tags" role={localFilters ? "group" : undefined} aria-label={localFilters ? (isEn ? "Filter by topic" : "按主题筛选") : undefined}>
             {tags.map((term) => (
-              <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={term.title}>
-                {term.name}
-              </a>
+              localFilters ? (
+                <button
+                  class:list={[term.active && "is-active"]}
+                  type="button"
+                  data-local-filter={term.slug}
+                  data-local-filter-kind="tags"
+                  aria-pressed="false"
+                  title={`${term.name} (${term.count})`}
+                >
+                  {term.name}
+                </button>
+              ) : (
+                <a class:list={[term.active && "is-active"]} href={term.url} aria-current={term.active ? "page" : undefined} title={term.title}>
+                  {term.name}
+                </a>
+              )
             ))}
           </div>
         </section>

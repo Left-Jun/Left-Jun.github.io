@@ -729,10 +729,18 @@ main.main {
   line-height: 1.15;
 }
 
+.records-page header {
+  margin-top: -0.65rem;
+}
+
 .records-section {
   display: grid;
   gap: 1rem;
   margin-top: 1.6rem;
+}
+
+.records-section[hidden] {
+  display: none !important;
 }
 
 .records-section__header {
@@ -2509,6 +2517,10 @@ main.main {
   display: none;
 }
 
+.post-card[hidden] {
+  display: none !important;
+}
+
 .project-card a {
   display: block;
   min-height: 100%;
@@ -3713,7 +3725,9 @@ main.main {
 }
 
 .right-sidebar .tagCloud-tags span,
-.right-sidebar .tagCloud-tags a {
+.right-sidebar .tagCloud-tags a,
+.right-sidebar .tagCloud-tags button {
+  appearance: none;
   display: inline-flex;
   align-items: center;
   min-height: 3.35rem;
@@ -3723,6 +3737,7 @@ main.main {
   background: var(--leftjun-surface-strong);
   box-shadow: var(--leftjun-surface-shadow-soft);
   color: var(--card-text-color-secondary);
+  cursor: pointer;
   font-size: 14px;
   font-weight: 400;
   line-height: 1.15;
@@ -3731,7 +3746,8 @@ main.main {
 }
 
 :root[data-scheme="dark"] .right-sidebar .tagCloud-tags span,
-:root[data-scheme="dark"] .right-sidebar .tagCloud-tags a {
+:root[data-scheme="dark"] .right-sidebar .tagCloud-tags a,
+:root[data-scheme="dark"] .right-sidebar .tagCloud-tags button {
   background: #424242;
   border-color: rgba(255, 255, 255, 0.12);
   color: rgba(255, 255, 255, 0.7);
@@ -3740,7 +3756,9 @@ main.main {
 
 .right-sidebar .tagCloud-tags span:hover,
 .right-sidebar .tagCloud-tags a:hover,
-.right-sidebar .tagCloud-tags a:focus-visible {
+.right-sidebar .tagCloud-tags a:focus-visible,
+.right-sidebar .tagCloud-tags button:hover,
+.right-sidebar .tagCloud-tags button:focus-visible {
   transform: translateY(var(--leftjun-hover-lift));
   border-color: var(--leftjun-hover-border);
   background: var(--leftjun-hover-surface);
@@ -3748,12 +3766,14 @@ main.main {
   color: var(--leftjun-hover-accent);
 }
 
-.right-sidebar .tagCloud-tags a:focus-visible {
+.right-sidebar .tagCloud-tags a:focus-visible,
+.right-sidebar .tagCloud-tags button:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--leftjun-hover-accent) 30%, transparent);
   outline-offset: 3px;
 }
 
-.right-sidebar .tagCloud-tags a.is-active {
+.right-sidebar .tagCloud-tags a.is-active,
+.right-sidebar .tagCloud-tags button.is-active {
   order: -1;
   border-color: color-mix(in srgb, var(--leftjun-primary) 48%, var(--card-separator-color));
   background: color-mix(in srgb, var(--leftjun-primary) 16%, var(--leftjun-surface-strong));
@@ -3762,7 +3782,8 @@ main.main {
   font-weight: 760;
 }
 
-:root[data-scheme="dark"] .right-sidebar .tagCloud-tags a.is-active {
+:root[data-scheme="dark"] .right-sidebar .tagCloud-tags a.is-active,
+:root[data-scheme="dark"] .right-sidebar .tagCloud-tags button.is-active {
   border-color: rgba(138, 184, 239, 0.46);
   background: rgba(95, 168, 255, 0.18);
   box-shadow: 0 12px 28px rgba(39, 96, 174, 0.24), inset 0 0 0 1px rgba(138, 184, 239, 0.16);
@@ -3780,9 +3801,9 @@ main.main {
 }
 
 .records-filter-list {
-  flex-direction: row;
-  flex-wrap: wrap;
-  gap: 0.72rem;
+  flex-direction: column;
+  flex-wrap: nowrap;
+  gap: 0.58rem;
 }
 
 .project-index-type-button,
@@ -3807,22 +3828,23 @@ main.main {
 }
 
 .right-sidebar .records-filter-button {
-  width: auto;
-  min-height: 3.15rem;
-  padding: 0.66rem 1.1rem;
-  border-color: var(--card-separator-color);
-  border-radius: 999px;
-  background: var(--leftjun-surface-strong);
-  box-shadow: 0 7px 18px rgba(35, 86, 136, 0.055);
-  font-size: 1.3rem;
-  font-weight: 650;
-  line-height: 1.15;
-  text-align: center;
+  width: 100%;
+  min-height: 4.2rem;
+  padding: 0.85rem 1rem;
+  border-color: transparent;
+  border-radius: 14px;
+  background: transparent;
+  box-shadow: none;
+  font-size: 1.6rem;
+  font-weight: 400;
+  line-height: 1.45;
+  text-align: left;
 }
 
 .right-sidebar .records-filter-button.is-active {
   border-color: color-mix(in srgb, var(--leftjun-primary) 48%, var(--card-separator-color));
   background: color-mix(in srgb, var(--leftjun-primary) 16%, var(--leftjun-surface-strong));
+  box-shadow: 0 12px 26px rgba(31, 126, 212, 0.16), inset 0 0 0 1px rgba(31, 126, 212, 0.12);
   color: var(--leftjun-primary);
   font-weight: 780;
 }
