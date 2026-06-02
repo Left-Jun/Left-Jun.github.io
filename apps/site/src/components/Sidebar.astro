@@ -6,6 +6,7 @@ const { lang = "zh-cn", active = "home" } = Astro.props;
 const text = siteText(lang);
 const sidebar = text.sidebar;
 const avatar = sidebar.avatar?.startsWith("/") ? sidebar.avatar : `/${sidebar.avatar || "img/avatar.jpg"}`;
+const avatarMark = "/icons/left-jun-mark-threshold.svg";
 const menu = [...(text.menus.main || [])]
   .sort((a, b) => (a.weight || 0) - (b.weight || 0))
   .map((item) => ({
@@ -46,6 +47,9 @@ const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作�
       <a href={text.homeUrl}>
         <img class="site-logo" src={avatar} alt="Avatar" width="120" height="120" loading="eager" />
       </a>
+      <span class="site-avatar-mark" aria-hidden="true">
+        <img src={avatarMark} alt="" width="96" height="96" loading="eager" decoding="async" />
+      </span>
       <span class="emoji status-emoji" tabindex="0" aria-label={statusLabel || undefined}>
         {statusEmoji}
         {(statusTitle || statusDescription) && (
