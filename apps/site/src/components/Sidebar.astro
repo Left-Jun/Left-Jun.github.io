@@ -6,7 +6,7 @@ const { lang = "zh-cn", active = "home" } = Astro.props;
 const text = siteText(lang);
 const sidebar = text.sidebar;
 const avatar = sidebar.avatar?.startsWith("/") ? sidebar.avatar : `/${sidebar.avatar || "img/avatar.jpg"}`;
-const avatarMark = "/icons/left-jun-mark-threshold.svg";
+const avatarMark = "/icons/left-jun-mark-combined.svg";
 const menu = [...(text.menus.main || [])]
   .sort((a, b) => (a.weight || 0) - (b.weight || 0))
   .map((item) => ({

@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="120" height="52" viewBox="0 0 120 52" role="img" aria-labelledby="title">
+  <title id="title">Left Jun · Limenauts combined mark</title>
+  <defs>
+    <linearGradient id="tile" x1="0" y1="2" x2="120" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#ffffff"/>
+      <stop offset="0.5" stop-color="#f3fbff"/>
+      <stop offset="1" stop-color="#e6f6ff"/>
+    </linearGradient>
+    <linearGradient id="cyan" x1="8" y1="8" x2="112" y2="44" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#58e3ff"/>
+      <stop offset="1" stop-color="#0877ff"/>
+    </linearGradient>
+    <filter id="glow" x="-35%" y="-35%" width="170%" height="170%">
+      <feGaussianBlur stdDeviation="2" result="blur"/>
+      <feColorMatrix in="blur" values="0 0 0 0 0.04 0 0 0 0 0.56 0 0 0 0 1 0 0 0 0.45 0"/>
+      <feBlend in="SourceGraphic"/>
+    </filter>
+  </defs>
+
+  <!-- Rounded pill background -->
+  <rect x="4" y="4" width="112" height="44" rx="18" fill="url(#tile)" stroke="#a6dcff" stroke-width="1.6"/>
+
+  <!-- Corner accents -->
+  <path d="M14 12h7M14 12v7M98 40h5M103 35v5" fill="none" stroke="#86d4ff" stroke-width="1.8" stroke-linecap="round"/>
+
+  <!-- LJ letterform (left block) -->
+  <rect x="12" y="12" width="28" height="28" rx="10" fill="#f8fdff" stroke="#a6dcff" stroke-width="1.2"/>
+  <path d="M19 19v15h9" fill="none" stroke="#10233d" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M34 19v12c0 6.5-4 10-9.5 10-3.2 0-6-1.2-8-3.5" fill="none" stroke="#10233d" stroke-width="5" stroke-linecap="round"/>
+  <circle cx="34" cy="19" r="2.8" fill="#f7fdff" stroke="url(#cyan)" stroke-width="2" filter="url(#glow)"/>
+
+  <!-- Connection beam between LJ and portal -->
+  <line x1="40" y1="26" x2="54" y2="26" stroke="url(#cyan)" stroke-width="1.5" stroke-linecap="round" opacity="0.7"/>
+
+  <!-- Liminal portal ring (right block - represents 阈限 / threshold) -->
+  <circle cx="68" cy="26" r="14" fill="none" stroke="url(#cyan)" stroke-width="2" stroke-dasharray="7 5" opacity="0.7"/>
+  <circle cx="68" cy="26" r="5" fill="#f8fdff" stroke="url(#cyan)" stroke-width="2" filter="url(#glow)"/>
+
+  <!-- Pioneer beacon inside portal (represents 开拓者 / pioneer) -->
+  <polygon points="68,18 70.5,23.5 76,24.5 71.5,26.5 70,32 68,28 66,32 64.5,26.5 60,24.5 65.5,23.5" fill="url(#cyan)" filter="url(#glow)"/>
+
+  <!-- Right-side exploration trail -->
+  <circle cx="86" cy="20" r="1.6" fill="#86d4ff" opacity="0.7"/>
+  <circle cx="92" cy="26" r="1.2" fill="#5fa8ff" opacity="0.5"/>
+  <circle cx="96" cy="32" r="0.8" fill="#86d4ff" opacity="0.4"/>
+</svg>
