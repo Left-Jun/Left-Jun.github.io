@@ -3992,9 +3992,11 @@ main.main {
   }
 
   .site-avatar-mark {
-    top: 6px;
-    right: -17px;
-    width: clamp(32px, calc(var(--sidebar-avatar-size) * 0.4), 38px);
+    top: 50%;
+    right: auto;
+    left: calc(100% + 11px);
+    width: clamp(34px, calc(var(--sidebar-avatar-size) * 0.48), 44px);
+    transform: translateY(-50%) rotate(-2deg);
   }
 
   .site-meta {
