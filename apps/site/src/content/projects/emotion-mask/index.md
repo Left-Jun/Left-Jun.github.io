@@ -34,6 +34,7 @@ tags:
   - "Unity"
   - "C#"
   - "Game Jam"
+  - "Photoshop"
 roleTags:
   - "独立开发"
   - "策划"

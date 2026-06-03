@@ -28,7 +28,7 @@ tags:
   - "Unity"
   - "Platformer"
   - "Team Project"
-  - "Photoshop"
+  - "C#"
 roleTags:
   - "Team Lead"
   - "Main Programmer"

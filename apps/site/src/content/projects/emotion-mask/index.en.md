@@ -34,6 +34,7 @@ tags:
   - "Unity"
   - "C#"
   - "Game Jam"
+  - "Photoshop"
 roleTags:
   - "Solo Developer"
   - "Designer"

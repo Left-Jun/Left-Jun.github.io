@@ -22,6 +22,7 @@ projectLinks:
     icon: "link"
 tags:
   - "Unity"
+  - "C#"
   - "Prototype"
   - "Puzzle"
 roleTags:

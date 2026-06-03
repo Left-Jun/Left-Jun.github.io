@@ -32,12 +32,13 @@ projectLinks:
     url: "https://pan.quark.cn/s/efcee623b3f4?pwd=TQCA"
     icon: "link"
 tags:
+  - "Unity"
   - "团队项目"
   - "2D 平台跳跃"
   - "资源管理"
   - "灵能系统"
   - "多结局"
-  - "Photoshop"
+  - "C#"
 roleTags:
   - "队长"
   - "主程"
