@@ -3,9 +3,9 @@ export const brand = {
   group: "Limenauts",
   slogan: "Explore · Create · Beyond",
   logos: {
-    mark: "/brand/lj-mark.svg",
-    markDark: "/brand/lj-mark-dark.svg",
-    lockup: "/brand/limenauts-lockup.svg",
-    lockupDark: "/brand/limenauts-lockup-dark.svg",
+    mark: "/brand/lj-mark.png",
+    markDark: "/brand/lj-mark.png",
+    lockup: "/brand/limenauts-lockup.png",
+    lockupDark: "/brand/limenauts-lockup.png",
   },
 } as const;

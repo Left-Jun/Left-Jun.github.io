@@ -2,45 +2,26 @@
 import { brand } from "../config/brand";
 
 const { href = "/" } = Astro.props;
+const brandLabel = `${brand.group} / ${brand.name}`;
 ---
 
-<a class="brand" href={href} aria-label={`${brand.group} / ${brand.name}`}>
+<a class="brand" href={href} aria-label={brandLabel}>
   <img
-    class="brand-logo brand-logo-mark brand-logo--light"
+    class="brand-logo brand-logo-mark"
     src={brand.logos.mark}
     alt=""
-    width="80"
-    height="72"
+    width="4096"
+    height="3855"
     aria-hidden="true"
     loading="eager"
     decoding="async"
   />
   <img
-    class="brand-logo brand-logo-mark brand-logo--dark"
-    src={brand.logos.markDark}
-    alt=""
-    width="80"
-    height="72"
-    aria-hidden="true"
-    loading="eager"
-    decoding="async"
-  />
-  <img
-    class="brand-logo brand-logo-lockup brand-logo--light"
+    class="brand-logo brand-logo-lockup"
     src={brand.logos.lockup}
     alt=""
-    width="286"
-    height="62"
-    aria-hidden="true"
-    loading="eager"
-    decoding="async"
-  />
-  <img
-    class="brand-logo brand-logo-lockup brand-logo--dark"
-    src={brand.logos.lockupDark}
-    alt=""
-    width="286"
-    height="62"
+    width="2048"
+    height="684"
     aria-hidden="true"
     loading="eager"
     decoding="async"
