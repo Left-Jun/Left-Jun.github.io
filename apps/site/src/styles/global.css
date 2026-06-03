@@ -270,7 +270,7 @@ main.main {
 
 .sidebar.is-expanded .brand-logo-lockup {
   display: block;
-  transform: scale(1.35) translateX(-12%) translateY(-2%);
+  transform: scale(1.545) translateX(-18%) translateY(-11%);
   transform-origin: left center;
 }
 
@@ -8258,7 +8258,7 @@ html {
 
 .left-sidebar.is-expanded .brand-logo-lockup {
   display: block;
-  transform: scale(1.35) translateX(-12%) translateY(-2%);
+  transform: scale(1.545) translateX(-18%) translateY(-11%);
   transform-origin: left center;
 }
 
@@ -8334,6 +8334,7 @@ html {
   .left-sidebar .brand-logo-lockup {
     width: 100%;
     max-height: 38px;
+    transform: translateX(-30%);
   }
 
   .left-sidebar .brand-logo-lockup {
