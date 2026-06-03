@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="80" height="72" viewBox="0 0 80 72" role="img" aria-labelledby="lj-mark-title">
+  <title id="lj-mark-title">Left Jun</title>
+  <defs>
+    <linearGradient id="lj-blue" x1="32" y1="19" x2="54" y2="58" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1e7bff"/>
+      <stop offset="1" stop-color="#5bd9ff"/>
+    </linearGradient>
+    <linearGradient id="lj-orbit" x1="7" y1="50" x2="73" y2="56" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a8dcff" stop-opacity=".24"/>
+      <stop offset=".34" stop-color="#1e7bff"/>
+      <stop offset=".68" stop-color="#80d5ff"/>
+      <stop offset="1" stop-color="#1e7bff" stop-opacity=".2"/>
+    </linearGradient>
+  </defs>
+  <path d="M10 53c13.5 8.5 44 8.3 60-2.8" fill="none" stroke="url(#lj-orbit)" stroke-width="5.2" stroke-linecap="round"/>
+  <path d="M17 56.5c13.5 5 33 4.7 45.5-1.8" fill="none" stroke="#cceaff" stroke-width="2.8" stroke-linecap="round" opacity=".86"/>
+  <path d="M21 8v39.5h23.2" fill="none" stroke="#0d182a" stroke-width="11.5" stroke-linecap="square" stroke-linejoin="miter"/>
+  <path d="M53.5 18.8v29c0 11.5-7.1 18.1-18.1 18.1-8.4 0-14.4-3.7-17.3-10.2" fill="none" stroke="#0d182a" stroke-width="11.5" stroke-linecap="square" stroke-linejoin="round"/>
+  <path d="M40.7 49.5V28.3l10.7-9.7v28.5c0 6.8-3 10.7-8.4 12.2-1.5.4-3 .5-4.5.4V42l2.2 7.5Z" fill="url(#lj-blue)"/>
+  <path d="M41.7 42.7h4.2M43.8 40.6v4.2" fill="none" stroke="#f7fbff" stroke-width="1.25" stroke-linecap="round"/>
+  <path d="M55.5 2.7l2.7 7.4 7.4 2.7-7.4 2.8-2.7 7.4-2.8-7.4-7.4-2.8 7.4-2.7 2.8-7.4Z" fill="#1e7bff"/>
+</svg>

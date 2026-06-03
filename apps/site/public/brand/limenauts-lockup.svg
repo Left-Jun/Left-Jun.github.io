@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="286" height="62" viewBox="0 0 286 62" role="img" aria-labelledby="limenauts-lockup-title">
+  <title id="limenauts-lockup-title">Limenauts</title>
+  <defs>
+    <linearGradient id="lockup-blue" x1="25" y1="15" x2="45" y2="50" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1e7bff"/>
+      <stop offset="1" stop-color="#5bd9ff"/>
+    </linearGradient>
+    <linearGradient id="lockup-orbit" x1="4" y1="43" x2="62" y2="49" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#a8dcff" stop-opacity=".24"/>
+      <stop offset=".35" stop-color="#1e7bff"/>
+      <stop offset=".7" stop-color="#80d5ff"/>
+      <stop offset="1" stop-color="#1e7bff" stop-opacity=".2"/>
+    </linearGradient>
+  </defs>
+  <g transform="translate(3 2) scale(.78)">
+    <path d="M10 53c13.5 8.5 44 8.3 60-2.8" fill="none" stroke="url(#lockup-orbit)" stroke-width="5.2" stroke-linecap="round"/>
+    <path d="M17 56.5c13.5 5 33 4.7 45.5-1.8" fill="none" stroke="#cceaff" stroke-width="2.8" stroke-linecap="round" opacity=".86"/>
+    <path d="M21 8v39.5h23.2" fill="none" stroke="#0d182a" stroke-width="11.5" stroke-linecap="square" stroke-linejoin="miter"/>
+    <path d="M53.5 18.8v29c0 11.5-7.1 18.1-18.1 18.1-8.4 0-14.4-3.7-17.3-10.2" fill="none" stroke="#0d182a" stroke-width="11.5" stroke-linecap="square" stroke-linejoin="round"/>
+    <path d="M40.7 49.5V28.3l10.7-9.7v28.5c0 6.8-3 10.7-8.4 12.2-1.5.4-3 .5-4.5.4V42l2.2 7.5Z" fill="url(#lockup-blue)"/>
+    <path d="M55.5 2.7l2.7 7.4 7.4 2.7-7.4 2.8-2.7 7.4-2.8-7.4-7.4-2.8 7.4-2.7 2.8-7.4Z" fill="#1e7bff"/>
+  </g>
+  <path d="M66 9v43" stroke="#cbdbea" stroke-width="1.5" stroke-linecap="round"/>
+  <text x="82" y="34" fill="#0d182a" font-family="Inter, Arial, sans-serif" font-size="31" font-weight="820" letter-spacing=".2">Limenauts</text>
+  <path d="M124 7.2l1.7 4.5 4.5 1.7-4.5 1.7-1.7 4.5-1.7-4.5-4.5-1.7 4.5-1.7 1.7-4.5Z" fill="#1e7bff"/>
+  <text x="84" y="51.2" fill="#1e7bff" font-family="Inter, Arial, sans-serif" font-size="7.2" font-weight="800" letter-spacing="4.2" textLength="174" lengthAdjust="spacingAndGlyphs">EXPLORE · CREATE · BEYOND</text>
+</svg>

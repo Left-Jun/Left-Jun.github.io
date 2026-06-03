@@ -1,0 +1,180 @@
+就这个了！程序上怎么实现配置或者生成
+已思考 18s
+
+可以，程序上建议这样落地：
+
+不要用 PNG 当 logo 主资源，直接做 SVG。
+
+你的资源结构可以这样：
+
+src/assets/brand/
+  lj-mark.svg
+  limenauts-lockup.svg
+  limenauts-lockup-compact.svg
+
+侧栏逻辑：
+
+收起：显示 lj-mark.svg
+展开：显示 limenauts-lockup.svg
+1. Astro / HTML 写法
+---
+const collapsed = false;
+---
+
+<a class="brand" href="/">
+  <img
+    class="brand-logo brand-logo-mark"
+    src="/brand/lj-mark.svg"
+    alt="Left Jun"
+  />
+
+  <img
+    class="brand-logo brand-logo-lockup"
+    src="/brand/limenauts-lockup.svg"
+    alt="Limenauts"
+  />
+</a>
+2. CSS 控制展开 / 收起
+
+给侧栏加状态类：
+
+<aside class="sidebar is-expanded">
+
+收起时：
+
+<aside class="sidebar is-collapsed">
+
+CSS：
+
+.brand {
+  display: flex;
+  align-items: center;
+  height: 44px;
+}
+
+.brand-logo {
+  display: block;
+  transition: opacity 180ms ease, transform 180ms ease;
+}
+
+.brand-logo-mark {
+  width: 38px;
+  height: 38px;
+}
+
+.brand-logo-lockup {
+  height: 36px;
+  width: auto;
+}
+
+/* 展开：显示组合 logo */
+.sidebar.is-expanded .brand-logo-mark {
+  display: none;
+}
+
+.sidebar.is-expanded .brand-logo-lockup {
+  display: block;
+}
+
+/* 收起：只显示 LJ */
+.sidebar.is-collapsed .brand-logo-mark {
+  display: block;
+}
+
+.sidebar.is-collapsed .brand-logo-lockup {
+  display: none;
+}
+3. 更推荐的写法：用一个状态变量
+---
+const isCollapsed = Astro.props.collapsed ?? false;
+---
+
+<a class="brand" href="/">
+  {isCollapsed ? (
+    <img src="/brand/lj-mark.svg" alt="Left Jun" class="brand-mark" />
+  ) : (
+    <img src="/brand/limenauts-lockup.svg" alt="Limenauts" class="brand-lockup" />
+  )}
+</a>
+4. SVG 生成方式
+
+最稳流程：
+
+先用 Figma / Illustrator / Inkscape 画矢量
+↓
+导出 SVG
+↓
+用 SVGOMG 压缩
+↓
+放进 public/brand/
+
+放在：
+
+public/brand/lj-mark.svg
+public/brand/limenauts-lockup.svg
+
+这样 Astro 里可以直接：
+
+<img src="/brand/lj-mark.svg" />
+5. 侧栏配置建议
+
+可以做一个品牌配置文件：
+
+// src/config/brand.ts
+export const brand = {
+  name: "Left Jun",
+  group: "Limenauts",
+  slogan: "Explore · Create · Beyond",
+  logos: {
+    mark: "/brand/lj-mark.svg",
+    lockup: "/brand/limenauts-lockup.svg",
+    lockupCompact: "/brand/limenauts-lockup-compact.svg",
+  },
+};
+
+组件里：
+
+---
+import { brand } from "@/config/brand";
+
+const isCollapsed = Astro.props.collapsed ?? false;
+---
+
+<a class="brand" href="/">
+  <img
+    src={isCollapsed ? brand.logos.mark : brand.logos.lockup}
+    alt={isCollapsed ? brand.name : brand.group}
+    class={isCollapsed ? "brand-mark" : "brand-lockup"}
+  />
+</a>
+6. 深色模式准备两套
+lj-mark.svg
+lj-mark-dark.svg
+limenauts-lockup.svg
+limenauts-lockup-dark.svg
+
+CSS 或 JS 根据主题切换。
+
+或者 SVG 里用 currentColor，这样可以通过 CSS 控制颜色。
+
+7. 尺寸建议
+收起 LJ 图标：36px / 40px
+展开组合 logo：宽 150–180px，高 32–38px
+侧栏顶部间距：20–24px
+
+侧栏里不要太大，不然会抢头像。
+
+8. 最终落地顺序
+1. 先用 Figma 画 lj-mark.svg
+2. 再组合出 limenauts-lockup.svg
+3. 放入 public/brand/
+4. 写 BrandLogo.astro 组件
+5. 根据 sidebar collapsed 状态切换
+
+你现在这套最适合做成：
+
+BrandLogo.astro
+Sidebar.astro
+brand.ts
+
+三个文件控制。

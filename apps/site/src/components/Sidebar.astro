@@ -1,4 +1,5 @@
 ---
+import BrandLogo from "./BrandLogo.astro";
 import Icon from "./Icon.astro";
 import { config, siteText } from "../lib/content.js";
 
@@ -6,7 +7,6 @@ const { lang = "zh-cn", active = "home" } = Astro.props;
 const text = siteText(lang);
 const sidebar = text.sidebar;
 const avatar = sidebar.avatar?.startsWith("/") ? sidebar.avatar : `/${sidebar.avatar || "img/avatar.jpg"}`;
-const avatarMark = "/icons/left-jun-mark-combined.svg";
 const menu = [...(text.menus.main || [])]
   .sort((a, b) => (a.weight || 0) - (b.weight || 0))
   .map((item) => ({
@@ -35,7 +35,8 @@ const portfolioDownloadLabel = text.isEn ? "Download" : "下载";
 const portfolioOpenAria = text.isEn ? "Open portfolio PDF" : "打开作品集 PDF";
 const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作品集 PDF";
 ---
-<aside class="sidebar left-sidebar sticky" id="site-sidebar">
+<aside class="sidebar left-sidebar sticky is-expanded" id="site-sidebar">
+  <BrandLogo href={text.homeUrl} />
   <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle menu">
     <span class="hamburger-box">
       <span class="hamburger-inner"></span>
@@ -47,9 +48,6 @@ const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作�
       <a href={text.homeUrl}>
         <img class="site-logo" src={avatar} alt="Avatar" width="120" height="120" loading="eager" />
       </a>
-      <span class="site-avatar-mark" aria-hidden="true">
-        <img src={avatarMark} alt="" width="96" height="96" loading="eager" decoding="async" />
-      </span>
       <span class="emoji status-emoji" tabindex="0" aria-label={statusLabel || undefined}>
         {statusEmoji}
         {(statusTitle || statusDescription) && (
@@ -189,6 +187,7 @@ const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作�
       const next = Boolean(collapsed && canCollapse);
       body.classList.toggle("sidebar-collapsed", next);
       sidebar?.classList.toggle("is-collapsed", next);
+      sidebar?.classList.toggle("is-expanded", !next);
       updateCollapseButton(next);
       if (persist) localStorage.setItem(sidebarKey, collapsed ? "1" : "0");
     };
