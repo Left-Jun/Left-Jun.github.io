@@ -5,7 +5,7 @@ export const brand = {
   logos: {
     mark: "/brand/lj-mark.png",
     markDark: "/brand/lj-mark.png",
-    lockup: "/brand/limenauts-lockup.png",
-    lockupDark: "/brand/limenauts-lockup.png",
+    lockup: "/brand/limenauts_horizontal_transparent.png",
+    lockupDark: "/brand/limenauts_horizontal_transparent.png",
   },
 } as const;
