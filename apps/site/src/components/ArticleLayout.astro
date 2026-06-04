@@ -18,6 +18,22 @@ const facts = entry.data.projectFacts || {};
 const projectLinks: Array<Record<string, string>> = entry.data.projectLinks || [];
 const tocItems: Array<{ depth: number; text: string; id: string }> = entry.toc || [];
 const isProject = entry.section === "projects";
+const projectQuickLinks = isProject
+  ? projectLinks
+    .map((link) => {
+      const label = String(link.label || link.title || "");
+      const href = String(link.url || link.website || "");
+      const icon = String(link.icon || "");
+      const target = `${label} ${href}`.toLowerCase();
+      const kind = target.includes("taptap")
+        ? "taptap"
+        : /可执行|playable|executable|build|pan\.quark/.test(target)
+          ? "build"
+          : "";
+      return { label, href, icon, kind };
+    })
+    .filter((link) => link.href && link.kind)
+  : [];
 const tagLinks: Array<{ name: string; url: string }> = (entry.data.tags || []).filter(Boolean).map((tag: string) => ({
   name: tag,
   url: taxonomyTermUrl("tags", tag, lang)
@@ -122,6 +138,21 @@ const projectSummaryItems = isProject ? [
             </a>
             {alternateUrl && <a class="project-detail-action" href={alternateUrl}>{alternateLabel}</a>}
           </footer>
+        )}
+        {isProject && projectQuickLinks.length > 0 && (
+          <div class="project-detail-mobile-actions" aria-label={text.isEn ? "Project quick links" : "项目快捷入口"}>
+            {projectQuickLinks.map((link) => (
+              <a
+                class:list={["project-detail-mobile-action", `project-detail-mobile-action--${link.kind}`]}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <Icon name={link.icon || (link.kind === "build" ? "display" : "link")} label="" />
+                <span>{link.label}</span>
+              </a>
+            ))}
+          </div>
         )}
       </div>
     </header>
