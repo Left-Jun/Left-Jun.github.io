@@ -3203,6 +3203,87 @@ main.main {
   background: #111827;
 }
 
+.about-contact-card {
+  display: grid;
+  gap: 1.1rem;
+  margin: 0 var(--card-padding) var(--card-padding);
+  padding: clamp(1.15rem, 2.4vw, 1.55rem);
+  border: 1px solid color-mix(in srgb, var(--leftjun-primary) 18%, var(--card-separator-color));
+  border-radius: 18px;
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--leftjun-primary) 7%, transparent), rgba(72, 187, 168, 0.06)),
+    color-mix(in srgb, var(--leftjun-surface-strong) 94%, transparent);
+  box-shadow: var(--leftjun-surface-shadow-soft);
+}
+
+.about-contact-card__eyebrow {
+  margin: 0 0 0.32rem;
+  color: var(--leftjun-primary);
+  font-size: 0.85rem;
+  font-weight: 900;
+}
+
+.about-contact-card h2 {
+  margin: 0;
+  color: var(--card-text-color-main);
+  font-size: 1.45rem;
+  line-height: 1.22;
+}
+
+.about-contact-card__heading p,
+.about-contact-card__body p,
+.about-contact-card__body ul,
+.about-contact-card__body ol {
+  margin: 0.55rem 0 0;
+  color: var(--card-text-color-secondary);
+  line-height: 1.72;
+}
+
+.about-contact-card__body h2 {
+  margin-top: 1.05rem;
+  font-size: 1.05rem;
+}
+
+.about-contact-card__body a {
+  color: var(--leftjun-hover-accent);
+  font-weight: 850;
+}
+
+.about-contact-card__link {
+  width: fit-content;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.42rem;
+  min-height: 2.35rem;
+  padding: 0 0.95rem;
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--leftjun-primary) 12%, var(--leftjun-surface-strong));
+  color: var(--leftjun-primary);
+  font-size: 0.92rem;
+  font-weight: 850;
+  box-shadow: 0 8px 18px rgba(15, 122, 255, 0.1);
+}
+
+.about-contact-card__link:hover,
+.about-contact-card__link:focus-visible {
+  transform: translateY(var(--leftjun-hover-lift));
+  background: var(--leftjun-hover-surface);
+  box-shadow: var(--leftjun-hover-shadow);
+  color: var(--leftjun-hover-accent);
+}
+
+:root[data-scheme="dark"] .about-contact-card {
+  border-color: rgba(138, 184, 239, 0.22);
+  background:
+    linear-gradient(135deg, rgba(95, 168, 255, 0.12), rgba(72, 187, 168, 0.06)),
+    rgba(255, 255, 255, 0.045);
+}
+
+:root[data-scheme="dark"] .about-contact-card__link {
+  background: rgba(138, 184, 239, 0.1);
+  color: #9fc9ff;
+}
+
 .project-info-strip {
   display: grid;
   gap: 1rem;

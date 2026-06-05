@@ -18,6 +18,9 @@ const facts = entry.data.projectFacts || {};
 const projectLinks: Array<Record<string, string>> = entry.data.projectLinks || [];
 const tocItems: Array<{ depth: number; text: string; id: string }> = entry.toc || [];
 const isProject = entry.section === "projects";
+const isAboutPage = entry.section === "pages" && entry.slug === "about";
+const contactEntry = isAboutPage ? await getEntryBySlug("pages", "contact", lang) : null;
+const contactCardCta = text.isEn ? "Open contact page" : "查看完整联系页";
 const projectQuickLinks = isProject
   ? projectLinks
     .map((link) => {
@@ -228,6 +231,21 @@ const projectSummaryItems = isProject ? [
     )}
 
     <section class="article-content" set:html={entry.html}></section>
+
+    {contactEntry && (
+      <section class="about-contact-card" aria-labelledby="about-contact-card-title">
+        <div class="about-contact-card__heading">
+          <p class="about-contact-card__eyebrow">{text.isEn ? "Contact" : "联系我"}</p>
+          <h2 id="about-contact-card-title">{contactEntry.data.title}</h2>
+          {contactEntry.data.description && <p>{contactEntry.data.description}</p>}
+        </div>
+        <div class="about-contact-card__body" set:html={contactEntry.html}></div>
+        <a class="about-contact-card__link" href={contactEntry.url}>
+          <Icon name="link" label="" />
+          <span>{contactCardCta}</span>
+        </a>
+      </section>
+    )}
 
     {tagLinks.length > 0 && (
       <footer class="article-footer">
