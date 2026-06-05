@@ -229,6 +229,10 @@ main.main {
   backdrop-filter: blur(12px) saturate(1.12);
 }
 
+.sidebar-profile-card {
+  display: contents;
+}
+
 .brand {
   --brand-mark-size: 40px;
   --brand-lockup-width: 188px;
@@ -4608,9 +4612,32 @@ main.main {
   .left-sidebar {
     width: 100%;
     max-width: 100%;
+    min-height: 0;
+    padding: 0;
+    gap: 12px;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+  }
+
+  .sidebar-profile-card {
+    position: relative;
+    width: 100%;
     min-height: 186px;
-    padding: 13.5px;
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
     gap: 12.5px;
+    padding: 13.5px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 22px;
+    background: var(--leftjun-sidebar-background);
+    box-shadow: var(--leftjun-surface-shadow);
+    backdrop-filter: blur(12px) saturate(1.12);
+    -webkit-backdrop-filter: blur(12px) saturate(1.12);
   }
 
   .brand {
@@ -4647,13 +4674,14 @@ main.main {
     position: relative;
     z-index: 18;
     width: 100%;
+    flex: 0 0 auto;
     display: grid;
     grid-template-columns: minmax(0, 1fr) 42px;
     align-items: center;
     gap: 8px;
     padding: 7px;
     border: 1px solid rgba(122, 174, 214, 0.26);
-    border-radius: 999px;
+    border-radius: 24px;
     background: rgba(244, 250, 255, 0.72);
     box-shadow: 0 14px 34px rgba(35, 86, 136, 0.12);
     backdrop-filter: blur(20px) saturate(1.16);

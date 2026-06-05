@@ -88,54 +88,74 @@ const mobileSearchIndexId = `mobile-sidebar-search-index-${isEn ? "en" : "zh"}`;
 const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u003c");
 ---
 <aside class="sidebar left-sidebar sticky is-expanded" id="site-sidebar">
-  <BrandLogo href={text.homeUrl} />
-  <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle menu">
-    <span class="hamburger-box">
-      <span class="hamburger-inner"></span>
-    </span>
-  </button>
-
-  <header>
-    <figure class="site-avatar">
-      <a href={text.homeUrl}>
-        <img class="site-logo" src={avatar} alt="Avatar" width="120" height="120" loading="eager" />
-      </a>
-      <span class="emoji status-emoji" tabindex="0" aria-label={statusLabel || undefined}>
-        {statusEmoji}
-        {(statusTitle || statusDescription) && (
-          <span class="status-tooltip" role="tooltip">
-            {statusTitle && <strong>{statusTitle}</strong>}
-            {statusDescription && <small>{statusDescription}</small>}
-          </span>
-        )}
+  <div class="sidebar-profile-card">
+    <BrandLogo href={text.homeUrl} />
+    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle menu">
+      <span class="hamburger-box">
+        <span class="hamburger-inner"></span>
       </span>
-    </figure>
+    </button>
 
-    <div class="site-meta">
-      <div class="site-name"><a href={text.homeUrl}>{config.title}</a></div>
-      <div class="site-role-pill">{rolePill}</div>
-      {identityLines.length > 0 && (
-        <div class="site-identity">
-          {identityLines.map((line, index) => (
-            <Fragment>
-              {index > 0 && <br />}
-              {line}
-            </Fragment>
-          ))}
+    <header>
+      <figure class="site-avatar">
+        <a href={text.homeUrl}>
+          <img class="site-logo" src={avatar} alt="Avatar" width="120" height="120" loading="eager" />
+        </a>
+        <span class="emoji status-emoji" tabindex="0" aria-label={statusLabel || undefined}>
+          {statusEmoji}
+          {(statusTitle || statusDescription) && (
+            <span class="status-tooltip" role="tooltip">
+              {statusTitle && <strong>{statusTitle}</strong>}
+              {statusDescription && <small>{statusDescription}</small>}
+            </span>
+          )}
+        </span>
+      </figure>
+
+      <div class="site-meta">
+        <div class="site-name"><a href={text.homeUrl}>{config.title}</a></div>
+        <div class="site-role-pill">{rolePill}</div>
+        {identityLines.length > 0 && (
+          <div class="site-identity">
+            {identityLines.map((line, index) => (
+              <Fragment>
+                {index > 0 && <br />}
+                {line}
+              </Fragment>
+            ))}
+          </div>
+        )}
+        {sidebar.subtitle && <h2 class="site-description">{sidebar.subtitle}</h2>}
+        <div class="sidebar-portfolio-pdf" aria-label={portfolioPdfLabel}>
+          <a class="sidebar-portfolio-pdf__main" href={portfolioPdfUrl} target="_blank" rel="noopener noreferrer" aria-label={portfolioOpenAria}>
+            <Icon name="briefcase" label="" />
+            <span>{portfolioPdfLabel}</span>
+          </a>
+          <a class="sidebar-portfolio-pdf__download" href={portfolioPdfUrl} download aria-label={portfolioDownloadAria}>
+            {portfolioDownloadLabel}
+          </a>
         </div>
-      )}
-      {sidebar.subtitle && <h2 class="site-description">{sidebar.subtitle}</h2>}
-      <div class="sidebar-portfolio-pdf" aria-label={portfolioPdfLabel}>
-        <a class="sidebar-portfolio-pdf__main" href={portfolioPdfUrl} target="_blank" rel="noopener noreferrer" aria-label={portfolioOpenAria}>
-          <Icon name="briefcase" label="" />
-          <span>{portfolioPdfLabel}</span>
-        </a>
-        <a class="sidebar-portfolio-pdf__download" href={portfolioPdfUrl} download aria-label={portfolioDownloadAria}>
-          {portfolioDownloadLabel}
-        </a>
       </div>
-    </div>
-  </header>
+    </header>
+
+    {social.length > 0 && (
+      <ol class="menu-social" aria-label="social links">
+        {social.map((item) => (
+          <li>
+            <a href={item.url} target={item.newTab ? "_blank" : undefined} rel={item.newTab ? "me noopener noreferrer" : "me"} title={item.name}>
+              <Icon name={item.icon} label={item.name} />
+            </a>
+          </li>
+        ))}
+        <li class="mobile-social-language">
+          <a href={text.switchUrl} title={text.switchLabel} aria-label={text.switchLabel}>
+            <Icon name="language" label="" />
+            <span>{text.switchLabel}</span>
+          </a>
+        </li>
+      </ol>
+    )}
+  </div>
 
   <div
     class="mobile-sidebar-search"
@@ -169,24 +189,6 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
     </button>
     <div class="mobile-sidebar-search__results" data-mobile-sidebar-search-results hidden></div>
   </div>
-
-  {social.length > 0 && (
-    <ol class="menu-social" aria-label="social links">
-      {social.map((item) => (
-        <li>
-          <a href={item.url} target={item.newTab ? "_blank" : undefined} rel={item.newTab ? "me noopener noreferrer" : "me"} title={item.name}>
-            <Icon name={item.icon} label={item.name} />
-          </a>
-        </li>
-      ))}
-      <li class="mobile-social-language">
-        <a href={text.switchUrl} title={text.switchLabel} aria-label={text.switchLabel}>
-          <Icon name="language" label="" />
-          <span>{text.switchLabel}</span>
-        </a>
-      </li>
-    </ol>
-  )}
 
   <ol class="menu" id="main-menu">
     {menu.map((item) => (
