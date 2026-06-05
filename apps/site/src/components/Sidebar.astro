@@ -1,9 +1,10 @@
 ---
 import BrandLogo from "./BrandLogo.astro";
 import Icon from "./Icon.astro";
-import { config, siteText } from "../lib/content.js";
+import { config, getAllEntries, siteText } from "../lib/content.js";
 
 const { lang = "zh-cn", active = "home" } = Astro.props;
+const isEn = lang === "en";
 const text = siteText(lang);
 const sidebar = text.sidebar;
 const avatar = sidebar.avatar?.startsWith("/") ? sidebar.avatar : `/${sidebar.avatar || "img/avatar.jpg"}`;
@@ -34,6 +35,57 @@ const portfolioPdfLabel = text.isEn ? "Portfolio PDF" : "作品集 PDF";
 const portfolioDownloadLabel = text.isEn ? "Download" : "下载";
 const portfolioOpenAria = text.isEn ? "Open portfolio PDF" : "打开作品集 PDF";
 const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作品集 PDF";
+const mobileSearchCopy = isEn
+  ? {
+      search: "Search projects, systems, articles...",
+      searchLabel: "Search site content",
+      empty: "No matching results",
+      dark: "Dark Mode",
+      light: "Light Mode"
+    }
+  : {
+      search: "搜索项目、系统、文章...",
+      searchLabel: "搜索站内内容",
+      empty: "没有匹配结果",
+      dark: "暗色模式",
+      light: "浅色模式"
+    };
+const sectionLabels = isEn
+  ? {
+      projects: "Project",
+      posts: "Article",
+      retrospectives: "Retrospective",
+      plans: "Roadmap"
+    }
+  : {
+      projects: "项目",
+      posts: "文章",
+      retrospectives: "复盘",
+      plans: "计划"
+    };
+const mobileSearchEntries = (await getAllEntries({ lang })).map((entry) => {
+  const tags = [
+    ...(entry.data.tags || []),
+    ...(entry.data.roleTags || []),
+    ...(entry.data.categories || [])
+  ]
+    .filter(Boolean)
+    .slice(0, 8);
+  const description = entry.data.description || entry.data.summary || "";
+  const search = [entry.data.title, description, ...tags, entry.section]
+    .join(" ")
+    .toLowerCase();
+  return {
+    title: entry.data.title,
+    description,
+    url: entry.url,
+    section: sectionLabels[entry.section] || entry.section,
+    tags,
+    search
+  };
+});
+const mobileSearchIndexId = `mobile-sidebar-search-index-${isEn ? "en" : "zh"}`;
+const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u003c");
 ---
 <aside class="sidebar left-sidebar sticky is-expanded" id="site-sidebar">
   <BrandLogo href={text.homeUrl} />
@@ -84,6 +136,39 @@ const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作�
       </div>
     </div>
   </header>
+
+  <div
+    class="mobile-sidebar-search"
+    data-mobile-sidebar-search
+    data-search-index-id={mobileSearchIndexId}
+    data-empty={mobileSearchCopy.empty}
+  >
+    <label class="mobile-sidebar-search__field">
+      <Icon name="search" label="" />
+      <span class="sr-only">{mobileSearchCopy.searchLabel}</span>
+      <input
+        type="search"
+        placeholder={mobileSearchCopy.search}
+        autocomplete="off"
+        spellcheck="false"
+        data-mobile-sidebar-search-input
+      />
+    </label>
+    <button
+      class="mobile-sidebar-search__theme"
+      type="button"
+      data-mobile-theme-toggle
+      data-dark-label={mobileSearchCopy.dark}
+      data-light-label={mobileSearchCopy.light}
+      aria-label={mobileSearchCopy.dark}
+    >
+      <span class="mobile-sidebar-search__theme-icon" aria-hidden="true">
+        <Icon name="toggle-left" label="" />
+        <Icon name="toggle-right" label="" />
+      </span>
+    </button>
+    <div class="mobile-sidebar-search__results" data-mobile-sidebar-search-results hidden></div>
+  </div>
 
   {social.length > 0 && (
     <ol class="menu-social" aria-label="social links">
@@ -146,6 +231,8 @@ const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作�
   </div>
 </aside>
 
+<script type="application/json" id={mobileSearchIndexId} set:html={mobileSearchJson} is:inline></script>
+
 <script is:inline>
   (() => {
     const root = document.documentElement;
@@ -154,6 +241,7 @@ const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作�
     const toggle = document.querySelector("#toggle-menu");
     const themeButton = document.querySelector("#dark-mode-toggle");
     const themeLabel = themeButton?.querySelector(".theme-toggle__label");
+    const mobileThemeButtons = document.querySelectorAll("[data-mobile-theme-toggle]");
     const collapseButton = document.querySelector("#sidebar-collapse-toggle");
     const collapseLabel = collapseButton?.querySelector(".sidebar-collapse-toggle__label");
     const menuLinks = document.querySelectorAll("#main-menu a");
@@ -162,13 +250,18 @@ const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作�
     const desktopQuery = matchMedia("(min-width: 768px)");
 
     const applyTheme = (scheme) => {
+      const isDark = scheme === "dark";
       root.dataset.scheme = scheme;
       themeButton?.setAttribute("data-scheme-state", scheme);
       if (themeLabel && themeButton) {
-        const isDark = scheme === "dark";
         themeLabel.textContent = isDark ? themeButton.dataset.lightLabel || "Light Mode" : themeButton.dataset.darkLabel || "Dark Mode";
         themeButton.setAttribute("aria-label", themeLabel.textContent);
       }
+      mobileThemeButtons.forEach((button) => {
+        const label = isDark ? button.dataset.lightLabel || "Light Mode" : button.dataset.darkLabel || "Dark Mode";
+        button.setAttribute("data-scheme-state", scheme);
+        button.setAttribute("aria-label", label);
+      });
     };
 
     const setMenuOpen = (open) => {
@@ -210,8 +303,92 @@ const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作�
       window.dispatchEvent(new CustomEvent("leftjun:theme-change", { detail: { scheme: next } }));
     });
 
+    mobileThemeButtons.forEach((button) => {
+      button.addEventListener("click", () => {
+        const next = root.dataset.scheme === "dark" ? "light" : "dark";
+        localStorage.setItem(themeKey, next);
+        applyTheme(next);
+        window.dispatchEvent(new CustomEvent("leftjun:theme-change", { detail: { scheme: next } }));
+      });
+    });
+
     window.addEventListener("leftjun:theme-change", (event) => {
       if (event.detail?.scheme) applyTheme(event.detail.scheme);
+    });
+
+    document.querySelectorAll("[data-mobile-sidebar-search]").forEach((shell) => {
+      const input = shell.querySelector("[data-mobile-sidebar-search-input]");
+      const results = shell.querySelector("[data-mobile-sidebar-search-results]");
+      const indexNode = document.getElementById(shell.dataset.searchIndexId || "");
+      if (!(input instanceof HTMLInputElement) || !results || !indexNode) return;
+
+      let entries = [];
+      try {
+        entries = JSON.parse(indexNode.textContent || "[]");
+      } catch {
+        entries = [];
+      }
+
+      const closeResults = () => {
+        results.hidden = true;
+        results.replaceChildren();
+        shell.classList.remove("is-search-open");
+      };
+
+      const makeNode = (tag, className, text) => {
+        const node = document.createElement(tag);
+        node.className = className;
+        node.textContent = text || "";
+        return node;
+      };
+
+      const renderResults = () => {
+        const query = input.value.trim();
+        results.replaceChildren();
+        if (!query) {
+          closeResults();
+          return;
+        }
+
+        const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
+        const matches = entries
+          .filter((entry) => tokens.every((token) => String(entry.search || "").includes(token)))
+          .slice(0, 8);
+
+        if (matches.length === 0) {
+          results.append(makeNode("p", "mobile-sidebar-search__empty", shell.dataset.empty || "No matching results"));
+        } else {
+          matches.forEach((entry) => {
+            const link = document.createElement("a");
+            link.className = "mobile-sidebar-search__result";
+            link.href = entry.url || "#";
+            link.append(makeNode("span", "mobile-sidebar-search__result-section", entry.section));
+            link.append(makeNode("strong", "mobile-sidebar-search__result-title", entry.title));
+            if (entry.description) link.append(makeNode("small", "mobile-sidebar-search__result-description", entry.description));
+            if (Array.isArray(entry.tags) && entry.tags.length > 0) {
+              link.append(makeNode("em", "mobile-sidebar-search__result-tags", entry.tags.slice(0, 4).join(" / ")));
+            }
+            results.append(link);
+          });
+        }
+
+        results.hidden = false;
+        shell.classList.add("is-search-open");
+      };
+
+      input.addEventListener("input", renderResults);
+      input.addEventListener("focus", () => {
+        if (input.value.trim()) renderResults();
+      });
+      input.addEventListener("keydown", (event) => {
+        if (event.key !== "Escape") return;
+        input.value = "";
+        closeResults();
+        input.blur();
+      });
+      document.addEventListener("click", (event) => {
+        if (event.target instanceof Node && !shell.contains(event.target)) closeResults();
+      });
     });
 
     collapseButton?.addEventListener("click", () => setSidebarCollapsed(!body.classList.contains("sidebar-collapsed")));
