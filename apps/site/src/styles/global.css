@@ -4563,10 +4563,10 @@ main.main {
 
   .menu-social {
     max-width: 100%;
-    flex-wrap: nowrap;
+    flex-wrap: wrap;
     align-items: center;
     gap: 8px;
-    padding-right: 44px;
+    padding-right: 0;
   }
 
   .menu-social li a {
@@ -4577,6 +4577,29 @@ main.main {
   .mobile-social-language {
     display: block;
     margin-left: auto;
+  }
+
+  .menu-social .mobile-social-language a {
+    width: auto;
+    min-width: 74px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 0 12px;
+    border-color: transparent;
+    background: color-mix(in srgb, var(--leftjun-primary) 12%, var(--leftjun-surface-strong));
+    color: color-mix(in srgb, var(--leftjun-primary-deep) 72%, var(--leftjun-primary));
+    font-size: 12px;
+    font-weight: 820;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .menu-social .mobile-social-language a .inline-icon {
+    width: 14px;
+    height: 14px;
   }
 
   #i18n-switch {
@@ -6852,7 +6875,8 @@ body {
 
 @media (max-width: 767px) {
   .project-detail-action--pdf,
-  .project-detail-action--download {
+  .project-detail-action--download,
+  .project-detail-action--language {
     display: none !important;
   }
 
@@ -6892,9 +6916,25 @@ body {
   }
 
   .project-detail-mobile-action--taptap {
-    border-color: color-mix(in srgb, var(--leftjun-primary) 42%, var(--card-separator-color));
+    border-color: transparent;
     background:
-      linear-gradient(135deg, color-mix(in srgb, var(--leftjun-primary) 18%, transparent), rgba(72, 187, 168, 0.1)),
+      linear-gradient(135deg, rgba(44, 190, 132, 0.18), rgba(91, 214, 165, 0.12)),
+      color-mix(in srgb, var(--leftjun-surface-strong) 92%, transparent);
+    color: #13845c;
+  }
+
+  .project-detail-mobile-action--build {
+    border-color: transparent;
+    background:
+      linear-gradient(135deg, rgba(95, 168, 255, 0.18), rgba(129, 205, 255, 0.13)),
+      color-mix(in srgb, var(--leftjun-surface-strong) 92%, transparent);
+    color: #2876b8;
+  }
+
+  .project-detail-mobile-action--language {
+    border-color: transparent;
+    background:
+      linear-gradient(135deg, color-mix(in srgb, var(--leftjun-primary) 20%, transparent), rgba(95, 168, 255, 0.1)),
       color-mix(in srgb, var(--leftjun-surface-strong) 92%, transparent);
     color: var(--leftjun-primary);
   }
@@ -6910,12 +6950,34 @@ body {
     color: #c8def8;
   }
 
+  :root[data-scheme="dark"] .menu-social .mobile-social-language a {
+    border-color: transparent;
+    background: rgba(138, 184, 239, 0.1);
+    color: #c8def8;
+  }
+
   :root[data-scheme="dark"] .project-detail-mobile-action--taptap {
-    border-color: rgba(138, 184, 239, 0.44);
+    border-color: transparent;
+    background:
+      linear-gradient(135deg, rgba(44, 190, 132, 0.2), rgba(91, 214, 165, 0.1)),
+      rgba(255, 255, 255, 0.05);
+    color: #8de8bf;
+  }
+
+  :root[data-scheme="dark"] .project-detail-mobile-action--build {
+    border-color: transparent;
     background:
       linear-gradient(135deg, rgba(95, 168, 255, 0.2), rgba(72, 187, 168, 0.1)),
       rgba(255, 255, 255, 0.05);
     color: #8ab8ef;
+  }
+
+  :root[data-scheme="dark"] .project-detail-mobile-action--language {
+    border-color: transparent;
+    background:
+      linear-gradient(135deg, rgba(95, 168, 255, 0.22), rgba(138, 184, 239, 0.1)),
+      rgba(255, 255, 255, 0.05);
+    color: #9fc9ff;
   }
 }
 

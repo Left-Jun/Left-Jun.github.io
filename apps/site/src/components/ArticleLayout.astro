@@ -136,10 +136,10 @@ const projectSummaryItems = isProject ? [
             <a class="project-detail-action project-detail-action--download" href={portfolioPdfUrl} download aria-label={portfolioDownloadAria}>
               {portfolioDownloadLabel}
             </a>
-            {alternateUrl && <a class="project-detail-action" href={alternateUrl}>{alternateLabel}</a>}
+            {alternateUrl && <a class="project-detail-action project-detail-action--language" href={alternateUrl}>{alternateLabel}</a>}
           </footer>
         )}
-        {isProject && projectQuickLinks.length > 0 && (
+        {isProject && (projectQuickLinks.length > 0 || alternateUrl) && (
           <div class="project-detail-mobile-actions" aria-label={text.isEn ? "Project quick links" : "项目快捷入口"}>
             {projectQuickLinks.map((link) => (
               <a
@@ -152,6 +152,12 @@ const projectSummaryItems = isProject ? [
                 <span>{link.label}</span>
               </a>
             ))}
+            {alternateUrl && (
+              <a class="project-detail-mobile-action project-detail-mobile-action--language" href={alternateUrl}>
+                <Icon name="language" label="" />
+                <span>{alternateLabel}</span>
+              </a>
+            )}
           </div>
         )}
       </div>
