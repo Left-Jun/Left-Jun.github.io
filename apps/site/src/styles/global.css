@@ -4083,6 +4083,8 @@ main.main {
     border-color: rgba(47, 114, 184, 0.08);
     box-shadow: none;
     backdrop-filter: blur(24px) saturate(1.1);
+    min-height: 0;
+    overflow: hidden;
   }
 
   :root[data-scheme="dark"] .left-sidebar {
@@ -4097,6 +4099,16 @@ main.main {
     width: var(--leftjun-sidebar-width);
     max-width: var(--leftjun-sidebar-width);
     height: 100vh;
+    height: 100dvh;
+    max-height: 100dvh;
+  }
+
+  .sidebar-profile-card {
+    display: flex;
+    flex: 0 0 auto;
+    flex-direction: column;
+    gap: clamp(0.85rem, 1.2vh, 1.15rem);
+    min-height: 0;
   }
 
   .brand {
@@ -4175,10 +4187,14 @@ main.main {
   }
 
   #main-menu {
-    flex: 1 0 auto;
+    flex: 1 1 auto;
+    min-height: 0;
     gap: 0.42rem;
     padding-right: 0;
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
   }
 
   #main-menu li > a,
@@ -4217,6 +4233,7 @@ main.main {
   }
 
   .sidebar-bottom-actions {
+    flex: 0 0 auto;
     margin-top: 0;
     margin-bottom: 1px;
   }
@@ -4352,10 +4369,14 @@ main.main {
 
   body.sidebar-collapsed #main-menu {
     flex: 1 1 auto;
+    min-height: 0;
     width: 100%;
     align-items: center;
     gap: 0.55rem;
-    overflow: visible;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
   }
 
   body.sidebar-collapsed #main-menu li {
@@ -4420,6 +4441,27 @@ main.main {
     --sidebar-avatar-size: 76px;
     gap: 1.4rem;
     padding: 2.2rem 1.55rem;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .sidebar-profile-card {
+    flex: 0 0 auto;
+  }
+
+  #main-menu,
+  body.sidebar-collapsed #main-menu {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
+  }
+
+  .sidebar-bottom-actions {
+    flex: 0 0 auto;
+    margin-top: 0;
   }
 
   .site-name {
@@ -8470,6 +8512,12 @@ html {
     align-items: stretch;
     gap: 1rem;
     padding: 24px 14px;
+    min-height: 0;
+    overflow: hidden;
+  }
+
+  .sidebar-profile-card {
+    flex: 0 0 auto;
   }
 
   .brand {
@@ -8497,6 +8545,8 @@ html {
     align-items: center;
     gap: 1.1rem;
     padding: 24px 10px;
+    min-height: 0;
+    overflow: hidden;
   }
 
   body.sidebar-collapsed .brand {
@@ -8549,6 +8599,12 @@ html {
   body.sidebar-collapsed #main-menu {
     width: 100%;
     gap: 0.55rem;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-gutter: stable;
   }
 
   #main-menu {
@@ -8567,6 +8623,8 @@ html {
   .sidebar-bottom-actions {
     width: 100%;
     display: grid;
+    flex: 0 0 auto;
+    margin-top: 0;
     place-items: stretch;
   }
 
