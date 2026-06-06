@@ -4072,6 +4072,8 @@ main.main {
     --sidebar-avatar-size: 88px;
     --emoji-size: 24px;
     --emoji-font-size: 13px;
+    --sidebar-menu-min-gap: 0.42rem;
+    --sidebar-bottom-reserve-gap: clamp(3.75rem, 6vh, 5.6rem);
     gap: clamp(1.05rem, 1.55vh, 1.7rem);
     padding: clamp(1.45rem, 2.4vh, 2.45rem) clamp(1.35rem, 1.45vw, 2rem);
     padding-bottom: clamp(0.85rem, 1.3vh, 1.35rem);
@@ -4189,12 +4191,17 @@ main.main {
   #main-menu {
     flex: 1 1 auto;
     min-height: 0;
-    gap: 0.42rem;
+    gap: var(--sidebar-menu-min-gap);
+    justify-content: space-between;
     padding-right: 0;
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
+  }
+
+  #main-menu li {
+    flex: 0 0 auto;
   }
 
   #main-menu li > a,
@@ -4234,7 +4241,7 @@ main.main {
 
   .sidebar-bottom-actions {
     flex: 0 0 auto;
-    margin-top: 0;
+    margin-top: var(--sidebar-bottom-reserve-gap);
     margin-bottom: 1px;
   }
 
@@ -4373,6 +4380,7 @@ main.main {
     width: 100%;
     align-items: center;
     gap: 0.55rem;
+    justify-content: flex-start;
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
@@ -4439,8 +4447,10 @@ main.main {
 
   .left-sidebar {
     --sidebar-avatar-size: 76px;
+    --sidebar-menu-min-gap: 0.34rem;
+    --sidebar-bottom-reserve-gap: clamp(2.75rem, 4.8vh, 3.9rem);
     gap: 1.4rem;
-    padding: 2.2rem 1.55rem;
+    padding: 2.2rem 1.55rem 1.1rem;
     min-height: 0;
     overflow: hidden;
   }
@@ -4453,15 +4463,20 @@ main.main {
   body.sidebar-collapsed #main-menu {
     flex: 1 1 auto;
     min-height: 0;
+    justify-content: space-between;
     overflow-x: hidden;
     overflow-y: auto;
     overscroll-behavior: contain;
     scrollbar-gutter: stable;
   }
 
+  body.sidebar-collapsed #main-menu {
+    justify-content: flex-start;
+  }
+
   .sidebar-bottom-actions {
     flex: 0 0 auto;
-    margin-top: 0;
+    margin-top: var(--sidebar-bottom-reserve-gap);
   }
 
   .site-name {
@@ -4639,7 +4654,7 @@ main.main {
 @media (max-width: 767px) {
   :root {
     --main-top-padding: 16px;
-    --section-separation: 18px;
+    --section-separation: 9px;
     --card-padding: 20px;
   }
 
@@ -4656,7 +4671,7 @@ main.main {
     max-width: 100%;
     min-height: 0;
     padding: 0;
-    gap: 12px;
+    gap: 6px;
     border: 0;
     border-radius: 0;
     background: transparent;
@@ -4673,6 +4688,7 @@ main.main {
     flex: 0 0 auto;
     flex-direction: column;
     gap: 12.5px;
+    margin-bottom: 6px;
     padding: 13.5px;
     border: 1px solid var(--card-separator-color);
     border-radius: 22px;
@@ -8507,11 +8523,13 @@ html {
     --sidebar-avatar-size: 64px;
     --emoji-size: 18px;
     --emoji-font-size: 11px;
+    --sidebar-menu-min-gap: 0.34rem;
+    --sidebar-bottom-reserve-gap: clamp(2.75rem, 4.8vh, 3.9rem);
     width: var(--leftjun-sidebar-width);
     max-width: var(--leftjun-sidebar-width);
     align-items: stretch;
     gap: 1rem;
-    padding: 24px 14px;
+    padding: 24px 14px 12px;
     min-height: 0;
     overflow: hidden;
   }
@@ -8544,7 +8562,7 @@ html {
     --emoji-font-size: 10px;
     align-items: center;
     gap: 1.1rem;
-    padding: 24px 10px;
+    padding: 24px 10px 10px;
     min-height: 0;
     overflow: hidden;
   }
@@ -8598,7 +8616,7 @@ html {
   #main-menu,
   body.sidebar-collapsed #main-menu {
     width: 100%;
-    gap: 0.55rem;
+    gap: var(--sidebar-menu-min-gap);
     flex: 1 1 auto;
     min-height: 0;
     overflow-x: hidden;
@@ -8609,22 +8627,26 @@ html {
 
   #main-menu {
     align-items: stretch;
+    justify-content: space-between;
   }
 
   body.sidebar-collapsed #main-menu {
     align-items: center;
+    gap: 0.55rem;
+    justify-content: flex-start;
   }
 
   #main-menu li {
     width: 100%;
     display: block;
+    flex: 0 0 auto;
   }
 
   .sidebar-bottom-actions {
     width: 100%;
     display: grid;
     flex: 0 0 auto;
-    margin-top: 0;
+    margin-top: var(--sidebar-bottom-reserve-gap);
     place-items: stretch;
   }
 
@@ -8633,6 +8655,10 @@ html {
     width: 100%;
     display: grid;
     place-items: center;
+  }
+
+  body.sidebar-collapsed .sidebar-bottom-actions {
+    margin-top: auto;
   }
 
   #main-menu li > a,
