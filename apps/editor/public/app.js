@@ -2,10 +2,40 @@ const state = {
   entries: [],
   pairs: [],
   current: null,
-  config: null
+  config: null,
+  page: "editor"
 };
 
-const sections = ["posts", "projects", "retrospectives", "plans", "pages"];
+const sections = ["projects", "posts", "retrospectives", "plans", "pages"];
+const sectionLabels = {
+  projects: "项目作品",
+  posts: "文章",
+  retrospectives: "项目复盘",
+  plans: "开发计划",
+  pages: "页面"
+};
+const languageLabels = {
+  "zh-cn": "中文",
+  en: "English"
+};
+const pageMeta = {
+  editor: {
+    kicker: "本地工具",
+    title: "内容编辑",
+    hint: "编辑项目、文章、复盘、计划和关于页面。保存后内容会写回仓库 Markdown 文件。"
+  },
+  language: {
+    kicker: "Language",
+    title: "中英文配对",
+    hint: "检查作品集内容的中文 / 英文版本，快速切换或创建英文草稿。"
+  },
+  config: {
+    kicker: "Site Config",
+    title: "站点配置",
+    hint: "调整站点配置 JSON。看不懂结构时，只改已有文字值。"
+  }
+};
+
 const $ = (selector) => document.querySelector(selector);
 
 function log(message) {
@@ -40,20 +70,72 @@ function slugify(text) {
     .replace(/^-|-$/g, "") || "untitled";
 }
 
+function normalizePath(value) {
+  return String(value || "").replace(/\\/g, "/").replace(/^\/+/, "");
+}
+
+function baseEntryId(idOrPath) {
+  let id = normalizePath(idOrPath)
+    .replace(/^content\//, "")
+    .replace(/^src\/content\//, "")
+    .replace(/\.md$/i, "")
+    .replace(/\.en$/i, "");
+  for (const section of sections) {
+    id = id.replace(new RegExp(`^${section}/`), "");
+  }
+  id = id.replace(/\/index$/i, "");
+  return id || "index";
+}
+
+function pairKeyForEntry(entry) {
+  return `${entry.section}/${baseEntryId(entry.path || "")}`;
+}
+
+function sectionLabel(section) {
+  return sectionLabels[section] || section;
+}
+
+function languageLabel(lang) {
+  return languageLabels[lang] || lang;
+}
+
+function entryById(id) {
+  return state.entries.find((entry) => entry.id === id);
+}
+
 function fillSectionOptions() {
   for (const id of ["sectionFilter", "sectionField", "relatedSectionFilter"]) {
     const select = $(`#${id}`);
     if (!select) continue;
     const current = select.value;
-    select.innerHTML = id === "relatedSectionFilter" ? `<option value="all">全部分区</option>` : "";
+    select.innerHTML = id === "relatedSectionFilter" ? `<option value="all">全部类型</option>` : "";
     for (const section of sections) {
       const option = document.createElement("option");
       option.value = section;
-      option.textContent = section;
+      option.textContent = sectionLabel(section);
       select.append(option);
     }
     if (current) select.value = current;
   }
+}
+
+function switchPage(page) {
+  state.page = pageMeta[page] ? page : "editor";
+  for (const view of document.querySelectorAll(".page-view")) {
+    view.classList.toggle("is-active", view.dataset.page === state.page);
+  }
+  for (const tab of document.querySelectorAll(".page-tab")) {
+    tab.classList.toggle("is-active", tab.dataset.pageTarget === state.page);
+  }
+  $("#pageKicker").textContent = pageMeta[state.page].kicker;
+  $("#pageTitle").textContent = pageMeta[state.page].title;
+  $("#pageHint").textContent = pageMeta[state.page].hint;
+
+  const editorOnly = state.page === "editor";
+  $("#previewLink").hidden = !editorOnly;
+  $("#saveAsButton").hidden = !editorOnly;
+  $("#saveButton").hidden = !editorOnly;
+  renderLanguageBoard();
 }
 
 function filteredEntries() {
@@ -64,7 +146,7 @@ function filteredEntries() {
     if (entry.section !== section) return false;
     if (lang !== "all" && entry.lang !== lang) return false;
     if (!query) return true;
-    return [entry.title, entry.slug, entry.path, ...(entry.tags || []), ...(entry.categories || [])]
+    return [entry.title, entry.slug, entry.path, sectionLabel(entry.section), languageLabel(entry.lang), ...(entry.tags || []), ...(entry.categories || [])]
       .join(" ")
       .toLowerCase()
       .includes(query);
@@ -78,9 +160,15 @@ function renderList() {
     const li = document.createElement("li");
     const button = document.createElement("button");
     if (state.current?.id === entry.id) button.classList.add("active");
-    button.innerHTML = `<strong>${entry.title}</strong><small>${entry.lang} · ${entry.path}</small>`;
+    button.innerHTML = `<strong>${entry.title}</strong><small>${sectionLabel(entry.section)} · ${languageLabel(entry.lang)} · ${entry.path}</small>`;
     button.addEventListener("click", () => openEntry(entry.id));
     li.append(button);
+    list.append(li);
+  }
+  if (!list.children.length) {
+    const li = document.createElement("li");
+    li.className = "empty-list";
+    li.textContent = "没有找到内容。试试换一个类型或搜索词。";
     list.append(li);
   }
 }
@@ -92,11 +180,11 @@ function renderPair() {
     $("#pairSummary").textContent = "选择内容后显示中文 / 英文配对状态。";
     return;
   }
-  const pairKey = `${state.current.section}/${state.current.path.replace(/^.*?\/(.+?)(\/index(\.en)?\.md|\.en\.md|\.md)$/i, "$1")}`;
-  const pair = state.pairs.find((item) => item.key === pairKey);
+  const pair = state.pairs.find((item) => item.key === pairKeyForEntry(state.current));
   $("#pairSummary").textContent = pair
-    ? `配对键：${pair.key} · 中文 ${pair.zh ? "已存在" : "缺少"} · English ${pair.en ? "已存在" : "缺少"}`
+    ? `内容键：${pair.key} · 中文 ${pair.zh ? "已存在" : "缺少"} · English ${pair.en ? "已存在" : "缺少"}`
     : "当前内容暂未形成配对。";
+
   for (const [label, id] of [["打开中文", pair?.zh], ["打开英文", pair?.en]]) {
     const button = document.createElement("button");
     button.type = "button";
@@ -104,6 +192,72 @@ function renderPair() {
     button.disabled = !id;
     if (id) button.addEventListener("click", () => openEntry(id));
     box.append(button);
+  }
+  if (pair?.zh && !pair.en) {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.textContent = "创建英文草稿";
+    button.addEventListener("click", () => createMissingLanguage(pair, "en").catch((error) => log(error.message)));
+    box.append(button);
+  }
+}
+
+function renderLanguageBoard() {
+  const board = $("#languageBoard");
+  if (!board) return;
+  const section = $("#sectionFilter").value;
+  const query = $("#searchInput").value.trim().toLowerCase();
+  const pairs = state.pairs.filter((pair) => {
+    if (pair.section !== section) return false;
+    if (!query) return true;
+    const zh = entryById(pair.zh);
+    const en = entryById(pair.en);
+    return [pair.title, pair.key, zh?.title, en?.title].join(" ").toLowerCase().includes(query);
+  });
+
+  board.innerHTML = "";
+  if (!pairs.length) {
+    board.innerHTML = `<p class="empty-board">当前筛选下没有中英文配对项。</p>`;
+    return;
+  }
+
+  for (const pair of pairs) {
+    const zh = entryById(pair.zh);
+    const en = entryById(pair.en);
+    const card = document.createElement("article");
+    card.className = "language-card";
+    card.innerHTML = `
+      <div class="language-card__head">
+        <div>
+          <strong>${pair.title || zh?.title || en?.title || pair.key}</strong>
+          <small>${sectionLabel(pair.section)} · ${pair.key}</small>
+        </div>
+        <span class="${pair.zh && pair.en ? "status-ok" : "status-missing"}">${pair.zh && pair.en ? "中英文齐全" : "缺少版本"}</span>
+      </div>
+      <div class="language-card__grid">
+        <div>
+          <span>中文</span>
+          <p>${zh ? zh.title : "缺少中文版本"}</p>
+          <button type="button" data-open-id="${pair.zh || ""}" ${pair.zh ? "" : "disabled"}>打开中文</button>
+        </div>
+        <div>
+          <span>English</span>
+          <p>${en ? en.title : "缺少英文版本"}</p>
+          ${pair.en
+            ? `<button type="button" data-open-id="${pair.en}">打开英文</button>`
+            : `<button type="button" data-create-lang="en">创建英文草稿</button>`}
+        </div>
+      </div>
+    `;
+    for (const button of card.querySelectorAll("[data-open-id]")) {
+      const id = button.dataset.openId;
+      if (id) button.addEventListener("click", () => openEntry(id));
+    }
+    const createButton = card.querySelector("[data-create-lang]");
+    if (createButton) {
+      createButton.addEventListener("click", () => createMissingLanguage(pair, createButton.dataset.createLang).catch((error) => log(error.message)));
+    }
+    board.append(card);
   }
 }
 
@@ -116,7 +270,7 @@ function renderRelatedPicker() {
     if (state.current?.id === entry.id) continue;
     if (filter !== "all" && entry.section !== filter) continue;
     const label = document.createElement("label");
-    label.innerHTML = `<input type="checkbox" value="${entry.ref}" ${selected.has(entry.ref) ? "checked" : ""}><span><strong>${entry.title}</strong><br><small>${entry.section} · ${entry.lang} · ${entry.ref}</small></span>`;
+    label.innerHTML = `<input type="checkbox" value="${entry.ref}" ${selected.has(entry.ref) ? "checked" : ""}><span><strong>${entry.title}</strong><br><small>${sectionLabel(entry.section)} · ${languageLabel(entry.lang)} · ${entry.ref}</small></span>`;
     box.append(label);
   }
 }
@@ -126,7 +280,7 @@ function renderAssets() {
   box.innerHTML = "";
   const assets = state.current?.assets || [];
   if (!assets.length) {
-    box.textContent = "当前内容暂无可选资源。";
+    box.textContent = "当前内容暂无可选资源。资源通常放在 apps/site/public/content-assets/ 对应内容目录里。";
     return;
   }
   for (const asset of assets) {
@@ -136,6 +290,7 @@ function renderAssets() {
     button.addEventListener("click", () => {
       if (/\.(mp4|webm)$/i.test(asset.name)) $("#coverVideoField").value = asset.url;
       else $("#imageField").value = asset.url;
+      log(`已填入资源：${asset.url}`);
     });
     box.append(button);
   }
@@ -170,7 +325,7 @@ function fillForm(entry) {
 
 function readForm() {
   const title = $("#titleField").value.trim();
-  if (!title) throw new Error("保存前需要 title。");
+  if (!title) throw new Error("保存前需要填写标题。");
   const facts = $("#projectFactsField").value.trim();
   const links = $("#projectLinksField").value.trim();
   const frontMatter = {
@@ -203,7 +358,8 @@ async function loadContent() {
   state.entries = data.entries;
   state.pairs = data.pairs;
   renderList();
-  log(`已加载 ${state.entries.length} 个 Astro 内容文件。`);
+  renderLanguageBoard();
+  log(`已加载 ${state.entries.length} 个作品集内容文件。`);
 }
 
 async function loadConfig() {
@@ -213,6 +369,7 @@ async function loadConfig() {
 
 async function openEntry(id) {
   fillForm(await api(`/api/content/${id}`));
+  switchPage("editor");
   log(`已打开：${state.current.path}`);
 }
 
@@ -221,7 +378,7 @@ function newEntry() {
     id: "new",
     path: "",
     section: $("#sectionFilter").value,
-    lang: "zh-cn",
+    lang: $("#languageFilter").value === "en" ? "en" : "zh-cn",
     frontMatter: {
       title: "",
       slug: "",
@@ -235,7 +392,30 @@ function newEntry() {
     body: "",
     assets: []
   });
+  switchPage("editor");
   log("已创建空白内容。");
+}
+
+async function createMissingLanguage(pair, lang) {
+  const sourceId = lang === "en" ? pair.zh : pair.en;
+  if (!sourceId) throw new Error("没有可复制的源语言版本。");
+  const source = await api(`/api/content/${sourceId}`);
+  const frontMatter = {
+    ...(source.frontMatter || {}),
+    draft: true
+  };
+  const draft = {
+    id: "new",
+    path: "",
+    section: source.section,
+    lang,
+    frontMatter,
+    body: source.body || "",
+    assets: source.assets || []
+  };
+  fillForm(draft);
+  switchPage("editor");
+  log(`已根据 ${languageLabel(source.lang)} 创建 ${languageLabel(lang)} 草稿。翻译完成后点击“保存当前内容”。`);
 }
 
 async function save(asNew = false) {
@@ -252,7 +432,7 @@ async function save(asNew = false) {
 
 async function validate() {
   const result = await api("/api/validate", { method: "POST", body: "{}" });
-  log(result);
+  log(result.ok ? `校验通过：共 ${result.total} 个内容文件。` : result);
 }
 
 async function build() {
@@ -273,10 +453,19 @@ async function saveConfig() {
 
 function bind() {
   fillSectionOptions();
-  $("#sectionFilter").value = "posts";
-  $("#sectionFilter").addEventListener("change", renderList);
+  $("#sectionFilter").value = "projects";
+  for (const tab of document.querySelectorAll(".page-tab")) {
+    tab.addEventListener("click", () => switchPage(tab.dataset.pageTarget));
+  }
+  $("#sectionFilter").addEventListener("change", () => {
+    renderList();
+    renderLanguageBoard();
+  });
   $("#languageFilter").addEventListener("change", renderList);
-  $("#searchInput").addEventListener("input", renderList);
+  $("#searchInput").addEventListener("input", () => {
+    renderList();
+    renderLanguageBoard();
+  });
   $("#refreshButton").addEventListener("click", () => loadContent().catch((error) => log(error.message)));
   $("#newButton").addEventListener("click", newEntry);
   $("#saveButton").addEventListener("click", () => save(false).catch((error) => log(error.message)));
@@ -285,6 +474,7 @@ function bind() {
   $("#buildButton").addEventListener("click", () => build().catch((error) => log(error.message)));
   $("#saveConfigButton").addEventListener("click", () => saveConfig().catch((error) => log(error.message)));
   $("#relatedSectionFilter").addEventListener("change", renderRelatedPicker);
+  switchPage("editor");
 }
 
 bind();

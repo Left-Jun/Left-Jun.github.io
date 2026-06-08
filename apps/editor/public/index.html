@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Left Jun Astro Editor</title>
+  <title>Left Jun Portfolio Editor</title>
   <link rel="stylesheet" href="/styles.css">
 </head>
 <body>
@@ -11,21 +11,27 @@
     <div class="brand">
       <span class="brand-mark">LJ</span>
       <div>
-        <strong>Astro Editor</strong>
-        <small>Local content model</small>
+        <strong>作品集编辑器</strong>
+        <small>Left_Jun 本地内容工作台</small>
       </div>
     </div>
 
+    <nav class="page-tabs" aria-label="编辑器页面">
+      <button class="page-tab is-active" type="button" data-page-target="editor">内容编辑</button>
+      <button class="page-tab" type="button" data-page-target="language">中英文配对</button>
+      <button class="page-tab" type="button" data-page-target="config">站点配置</button>
+    </nav>
+
     <div class="filters">
-      <label><span>分区</span><select id="sectionFilter"></select></label>
-      <label><span>语言</span><select id="languageFilter"><option value="all">全部</option><option value="zh-cn">中文</option><option value="en">English</option></select></label>
-      <label><span>搜索</span><input id="searchInput" type="search" placeholder="标题、slug、标签"></label>
+      <label><span>内容类型</span><select id="sectionFilter"></select></label>
+      <label><span>语言筛选</span><select id="languageFilter"><option value="all">全部语言</option><option value="zh-cn">中文</option><option value="en">English</option></select></label>
+      <label><span>搜索内容</span><input id="searchInput" type="search" placeholder="标题、链接名、标签"></label>
     </div>
 
-    <div class="actions">
-      <button id="newButton" type="button">新建</button>
-      <button id="refreshButton" type="button">刷新</button>
-      <button id="validateButton" type="button">校验</button>
+    <div class="actions sidebar-actions">
+      <button id="newButton" type="button">新建内容</button>
+      <button id="refreshButton" type="button">刷新列表</button>
+      <button id="validateButton" type="button">校验内容</button>
     </div>
 
     <ol id="contentList" class="content-list"></ol>
@@ -34,72 +40,124 @@
   <main class="main">
     <header class="topbar">
       <div>
-        <p>本地工具</p>
-        <h1>Astro 内容编辑器</h1>
+        <p id="pageKicker">本地工具</p>
+        <h1 id="pageTitle">内容编辑</h1>
+        <small id="pageHint">编辑项目、文章、复盘、计划和关于页面。保存后内容会写回仓库 Markdown 文件。</small>
       </div>
       <div class="actions">
-        <a id="previewLink" class="button" href="#" target="_blank" rel="noopener noreferrer">预览路径</a>
+        <a id="previewLink" class="button" href="#" target="_blank" rel="noopener noreferrer">打开预览路径</a>
         <button id="buildButton" type="button">构建 Astro</button>
-        <button id="saveAsButton" type="button">另存</button>
-        <button id="saveButton" type="button" class="primary">保存</button>
+        <button id="saveAsButton" type="button">另存为新内容</button>
+        <button id="saveButton" type="button" class="primary">保存当前内容</button>
       </div>
     </header>
 
-    <section class="panel pair-panel">
-      <div>
-        <h2>双语配对</h2>
-        <p id="pairSummary">选择内容后显示中文 / 英文配对状态。</p>
-      </div>
-      <div id="pairActions" class="actions"></div>
-    </section>
+    <section class="page-view is-active" data-page="editor">
+      <section class="panel pair-panel">
+        <div>
+          <h2>当前内容的中英文</h2>
+          <p id="pairSummary">选择内容后显示中文 / 英文配对状态。</p>
+        </div>
+        <div id="pairActions" class="actions"></div>
+      </section>
 
-    <section class="panel editor-panel">
-      <div class="form-grid">
-        <label><span>当前文件</span><input id="pathField" readonly></label>
-        <label><span>section</span><select id="sectionField"></select></label>
-        <label><span>language</span><select id="langField"><option value="zh-cn">zh-cn</option><option value="en">en</option></select></label>
-        <label><span>title</span><input id="titleField"></label>
-        <label><span>slug</span><input id="slugField"></label>
-        <label><span>date</span><input id="dateField" placeholder="2026-05-28T10:00:00+08:00"></label>
-        <label class="checkbox"><input id="draftField" type="checkbox"><span>draft</span></label>
-        <label><span>description</span><textarea id="descriptionField" rows="3"></textarea></label>
-        <label><span>image</span><input id="imageField" placeholder="cover.png 或 /content-assets/..."></label>
-        <label><span>coverVideo</span><input id="coverVideoField" placeholder="cover.mp4"></label>
-        <label><span>portfolioType</span><input id="portfolioTypeField" placeholder="game / embedded"></label>
-        <label><span>categories</span><textarea id="categoriesField" rows="3"></textarea></label>
-        <label><span>tags</span><textarea id="tagsField" rows="3"></textarea></label>
-        <label><span>roleTags</span><textarea id="roleTagsField" rows="3"></textarea></label>
-      </div>
+      <section class="panel editor-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>基础信息</h2>
+            <p>这些字段决定页面标题、地址、发布时间、列表摘要和是否发布。</p>
+          </div>
+        </div>
 
-      <div class="split">
-        <section>
+        <div class="form-grid">
+          <label><span>标题</span><input id="titleField" placeholder="页面上显示的标题"></label>
+          <label><span>内容类型</span><select id="sectionField"></select></label>
+          <label><span>语言版本</span><select id="langField"><option value="zh-cn">中文</option><option value="en">English</option></select></label>
+          <label><span>链接名</span><input id="slugField" placeholder="留空会根据标题生成"></label>
+          <label><span>发布时间</span><input id="dateField" placeholder="2026-05-28T10:00:00+08:00"></label>
+          <label class="checkbox"><input id="draftField" type="checkbox"><span>保存为草稿，不公开显示</span></label>
+          <label class="wide-field"><span>列表摘要</span><textarea id="descriptionField" rows="3" placeholder="首页、列表页和搜索里看到的一小段介绍"></textarea></label>
+        </div>
+
+        <details class="advanced-fields">
+          <summary>文件与高级地址</summary>
+          <div class="form-grid">
+            <label class="wide-field"><span>当前文件路径</span><input id="pathField" readonly></label>
+          </div>
+        </details>
+
+        <div class="split">
+          <section class="field-group">
+            <div class="panel-heading">
+              <div>
+                <h2>封面与分类</h2>
+                <p>图片和视频用于项目卡片/详情页；标签用于筛选和关联。</p>
+              </div>
+            </div>
+            <div class="form-grid form-grid--two">
+              <label><span>封面图片</span><input id="imageField" placeholder="cover.png 或 /content-assets/..."></label>
+              <label><span>封面视频</span><input id="coverVideoField" placeholder="cover.mp4"></label>
+              <label><span>项目类型</span><input id="portfolioTypeField" placeholder="game / embedded"></label>
+              <label><span>分类</span><textarea id="categoriesField" rows="3" placeholder="一行一个，或用逗号分隔"></textarea></label>
+              <label><span>标签</span><textarea id="tagsField" rows="3" placeholder="Unity&#10;C#&#10;STM32"></textarea></label>
+              <label><span>职责标签</span><textarea id="roleTagsField" rows="3" placeholder="Gameplay Programmer&#10;Technical Artist"></textarea></label>
+            </div>
+          </section>
+
+          <section class="field-group">
+            <div class="panel-heading">
+              <div>
+                <h2>资源与项目细节</h2>
+                <p>资源按钮会自动填入封面字段；JSON 字段主要给项目页补充团队、周期、链接等细节。</p>
+              </div>
+            </div>
+            <div id="assetPicker" class="asset-picker"></div>
+            <label><span>项目事实 JSON</span><textarea id="projectFactsField" rows="8" spellcheck="false" placeholder='例如：{"duration":"4 周","team":"Solo","tools":"Unity / C#"}'></textarea></label>
+            <label><span>项目链接 JSON</span><textarea id="projectLinksField" rows="8" spellcheck="false" placeholder='例如：[{"label":"GitHub","url":"https://..."}]'></textarea></label>
+          </section>
+        </div>
+
+        <section class="field-group">
           <div class="section-title-row">
-            <h2>relatedPages</h2>
-            <select id="relatedSectionFilter"><option value="all">全部分区</option></select>
+            <div>
+              <h2>关联内容</h2>
+              <p>勾选后会在详情页显示“相关项目 / 复盘 / 计划”。</p>
+            </div>
+            <select id="relatedSectionFilter"><option value="all">全部类型</option></select>
           </div>
           <div id="relatedPicker" class="related-picker"></div>
         </section>
-        <section>
-          <h2>资源与项目字段</h2>
-          <div id="assetPicker" class="asset-picker"></div>
-          <label><span>projectFacts JSON</span><textarea id="projectFactsField" rows="8" spellcheck="false"></textarea></label>
-          <label><span>projectLinks JSON</span><textarea id="projectLinksField" rows="8" spellcheck="false"></textarea></label>
-        </section>
-      </div>
 
-      <label class="body-editor">
-        <span>Markdown 正文</span>
-        <textarea id="bodyField" spellcheck="false"></textarea>
-      </label>
+        <label class="body-editor">
+          <span>正文 Markdown</span>
+          <textarea id="bodyField" spellcheck="false" placeholder="这里写页面正文。支持 Markdown 标题、列表、图片和链接。"></textarea>
+        </label>
+      </section>
     </section>
 
-    <section class="panel config-panel">
-      <div>
-        <h2>站点配置 JSON</h2>
-        <p>用于头像状态、菜单、SEO 默认值。保存前会校验 JSON。</p>
-      </div>
-      <textarea id="siteConfigField" rows="12" spellcheck="false"></textarea>
-      <button id="saveConfigButton" type="button">保存站点配置</button>
+    <section class="page-view" data-page="language">
+      <section class="panel">
+        <div class="panel-heading">
+          <div>
+            <h2>中英文配对页</h2>
+            <p>这里按同一个内容键检查中文和英文版本。缺英文时可以先打开中文，再用“创建英文草稿”复制一份基础信息。</p>
+          </div>
+        </div>
+        <div id="languageBoard" class="language-board"></div>
+      </section>
+    </section>
+
+    <section class="page-view" data-page="config">
+      <section class="panel config-panel">
+        <div class="panel-heading">
+          <div>
+            <h2>站点配置</h2>
+            <p>这里控制头像状态、菜单、SEO 默认值等。看不懂时先不要改 JSON 结构，只改文字值。</p>
+          </div>
+        </div>
+        <textarea id="siteConfigField" rows="18" spellcheck="false"></textarea>
+        <button id="saveConfigButton" type="button">保存站点配置</button>
+      </section>
     </section>
 
     <pre id="log" class="log" aria-live="polite"></pre>
