@@ -1,8 +1,8 @@
 ---
-import BaseLayout from "../../layouts/BaseLayout.astro";
-import PostCard from "../../components/PostCard.astro";
-import RightSidebar from "../../components/RightSidebar.astro";
-import { getEntries, getSectionPage } from "../../lib/content.js";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import PostCard from "../../../components/PostCard.astro";
+import RightSidebar from "../../../components/RightSidebar.astro";
+import { getEntries, getSectionPage } from "../../../lib/content.js";
 
 type ListingEntry = {
   slug: string;
@@ -22,27 +22,27 @@ type ListingEntry = {
   [key: string]: unknown;
 };
 
-const lang = "zh-cn";
+const lang = "en";
 const retrospectiveSection = await getSectionPage("retrospectives", lang);
 const planSection = await getSectionPage("plans", lang);
 const retrospectiveEntries = await getEntries("retrospectives", { lang }) as ListingEntry[];
 const planEntries = await getEntries("plans", { lang }) as ListingEntry[];
 const entries = [...retrospectiveEntries, ...planEntries];
-const title = "项目复盘&开发计划";
-const description = "把已经完成项目的过程复盘和后续开发计划放在同一条记录线里，先看复盘，再看下一步计划。";
+const title = "Project Retrospectives and Development Plans";
+const description = "A record line for completed project retrospectives and follow-up development plans.";
 ---
 <BaseLayout lang={lang} title={title} description={description} active="retrospectives" bodyClass="list-page records-page">
   <header>
     <h3 class="section-title">{title}</h3>
     <section class="section-card">
       <div class="section-details">
-        <h3 class="section-count">{retrospectiveEntries.length} 篇复盘 · {planEntries.length} 份计划</h3>
+        <h3 class="section-count">{retrospectiveEntries.length} retrospectives / {planEntries.length} plans</h3>
         <h1 class="section-term">{title}</h1>
         <h2 class="section-description">{description}</h2>
         <div class="project-section-actions records-section-actions">
-          <div class="project-filter-toggle records-filter-toggle" role="group" aria-label="筛选项目记录">
-            <button class="project-filter-toggle__button records-filter-button" type="button" data-record-filter="retrospectives">项目复盘</button>
-            <button class="project-filter-toggle__button records-filter-button" type="button" data-record-filter="plans">开发计划</button>
+          <div class="project-filter-toggle records-filter-toggle" role="group" aria-label="Filter project records">
+            <button class="project-filter-toggle__button records-filter-button" type="button" data-record-filter="retrospectives">Retrospectives</button>
+            <button class="project-filter-toggle__button records-filter-button" type="button" data-record-filter="plans">Development Plans</button>
           </div>
         </div>
       </div>
@@ -55,9 +55,9 @@ const description = "把已经完成项目的过程复盘和后续开发计划�
         <p class="records-section__eyebrow">Retrospectives</p>
         <h2 id="retrospectives-title">{retrospectiveSection.data.title}</h2>
       </div>
-      <span>{retrospectiveEntries.length} 篇</span>
+      <span>{retrospectiveEntries.length} posts</span>
     </div>
-    <div class="article-list--compact records-section__list" data-local-filter-list>
+    <div class="article-list--compact records-section__list">
       {retrospectiveEntries.map((entry) => <PostCard entry={entry} />)}
     </div>
   </section>
@@ -68,9 +68,9 @@ const description = "把已经完成项目的过程复盘和后续开发计划�
         <p class="records-section__eyebrow">Plans</p>
         <h2 id="plans-title">{planSection.data.title}</h2>
       </div>
-      <span>{planEntries.length} 份</span>
+      <span>{planEntries.length} plans</span>
     </div>
-    <div class="article-list--compact records-section__list" data-local-filter-list>
+    <div class="article-list--compact records-section__list">
       {planEntries.map((entry) => <PostCard entry={entry} />)}
     </div>
   </section>

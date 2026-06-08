@@ -1,11 +1,11 @@
 ---
-import ArticleLayout from "../../components/ArticleLayout.astro";
-import { getEntries } from "../../lib/content.js";
+import ArticleLayout from "../../../components/ArticleLayout.astro";
+import { getEntries } from "../../../lib/content.js";
 
 type PathEntry = { slug: string; [key: string]: unknown };
 
 export async function getStaticPaths() {
-  const entries = await getEntries("plans", { lang: "zh-cn" }) as PathEntry[];
+  const entries = await getEntries("plans", { lang: "en" }) as PathEntry[];
   return entries.map((entry) => ({
     params: { slug: entry.slug },
     props: { entry }

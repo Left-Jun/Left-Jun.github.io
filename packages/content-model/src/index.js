@@ -160,13 +160,15 @@ export function entryUrl(section, entry, lang = entryLanguage(entry)) {
     return lang === "en" ? `/en/${slug}/` : `/${slug}/`;
   }
   if (section === "retrospectives" || section === "plans") {
-    return `/${section}/${slug}/`;
+    return lang === "en" ? `/en/${section}/${slug}/` : `/${section}/${slug}/`;
   }
   return lang === "en" ? `/en/${section}/${slug}/` : `/${section}/${slug}/`;
 }
 
 export function listUrl(section, lang = "zh-cn") {
-  if (section === "retrospectives" || section === "plans") return `/${section}/`;
+  if (section === "retrospectives" || section === "plans") {
+    return lang === "en" ? `/en/${section}/` : `/${section}/`;
+  }
   return lang === "en" ? `/en/${section}/` : `/${section}/`;
 }
 

@@ -1,5 +1,14 @@
 {
   "plans": {
+    "en": {
+      "title": "Development Plans",
+      "description": "Version plans, playtest feedback, risk points, and next validation goals for ongoing projects.",
+      "slug": "plans",
+      "categories": [],
+      "tags": [],
+      "roleTags": [],
+      "relatedPages": []
+    },
     "zh-cn": {
       "title": "开发计划",
       "description": "这里整理仍在推进的版本计划、试玩反馈、风险点和下一轮验证目标。",
@@ -64,6 +73,15 @@
     }
   },
   "retrospectives": {
+    "en": {
+      "title": "Project Retrospectives",
+      "description": "Retrospectives on theme breakdown, system tradeoffs, production flow, and playtest feedback.",
+      "slug": "retrospectives",
+      "categories": [],
+      "tags": [],
+      "roleTags": [],
+      "relatedPages": []
+    },
     "zh-cn": {
       "title": "项目复盘",
       "description": "这里记录项目从主题拆解、系统取舍、现场开发到试玩反馈的过程复盘。",
