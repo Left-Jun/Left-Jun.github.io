@@ -7810,7 +7810,13 @@ html {
 .home-featured-projects,
 .home-dashboard .home-development-plans,
 .home-latest-posts {
-  gap: clamp(7px, 0.75vw, 10px);
+  gap: clamp(9px, 0.85vw, 12px);
+}
+
+.home-featured-projects > .home-section__header--with-link,
+.home-dashboard .home-development-plans > .home-section__header--with-link,
+.home-latest-posts > .home-section__header--with-link {
+  transform: translateY(-2px);
 }
 
 .home-workflow {
