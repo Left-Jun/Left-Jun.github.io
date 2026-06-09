@@ -12,6 +12,7 @@ tags:
 relatedPages:
   - "projects/emotion-mask"
   - "projects/ashe-lament"
+  - "posts/shuguang-youji-roadshow"
 ---
 
 Hello, and welcome. This site is my project portfolio, and also the long-term archive for the works I publish as Left Jun and develop under the Limenauts name.
@@ -25,13 +26,13 @@ So this site is a project archive rather than a general personal blog. Project p
 The site is organized into four main areas:
 
 1. [Project Portfolio](/en/projects/): finished or playable works, with project goals, system structure, and my contribution.
-2. [Retrospectives](/retrospectives/): process notes about how projects were built, what worked, and what needs correction.
-3. [Development Plans](/plans/): future-facing update plans based on feedback and project priorities.
+2. [Retrospectives](/en/retrospectives/): process notes about how projects were built, what worked, and what needs correction.
+3. [Development Plans](/en/plans/): future-facing update plans based on feedback and project priorities.
 4. [Articles & Columns](/en/posts/): event records, site notes, and technical notes worth keeping.
 
 If you want a quick view of my current direction, start with [Emotion Mask](/en/projects/emotion-mask/) and [Elegy of Asherah](/en/projects/ashe-lament/). The first shows how one core mechanic became a complete 48-hour loop and public release. The second shows how I handled resource management, narrative pressure, and endings inside a 72-hour team gameplay system.
 
-If you want to see how the projects were tested in public, read the roadshow note in the Chinese posts section. It records what happened when unfamiliar players tried the games in person, and why the site now separates project pages, retrospectives, and development plans.
+If you want to see how the projects were tested in public, read the [roadshow note](/en/posts/shuguang-youji-roadshow/). It records what happened when unfamiliar players tried the games in person, and why the site now separates project pages, retrospectives, and development plans.
 
 ## Why Projects, Retrospectives, and Plans Are Separate
 
