@@ -67,7 +67,7 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
         const root = document.documentElement;
         const reduceMotionQuery = matchMedia("(prefers-reduced-motion: reduce)");
         const reduceMotion = reduceMotionQuery.matches;
-        const languageTurnKey = "LeftJunLanguagePageTurn";
+        const languageFadeKey = "LeftJunLanguageFade";
         const normalClick = (event) => event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
         const pageTurnStorage = (() => {
           try {
@@ -106,7 +106,7 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
                     { clipPath: `circle(${radius}px at ${x}px ${y}px)` }
                   ],
                   {
-                    duration: 300,
+                    duration: 420,
                     easing: "cubic-bezier(0.2, 0.84, 0.2, 1)",
                     fill: "both",
                     pseudoElement: "::view-transition-new(root)"
@@ -125,11 +125,11 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
         };
 
         const initLanguagePageTurn = () => {
-          if (pageTurnStorage?.getItem(languageTurnKey)) {
-            pageTurnStorage.removeItem(languageTurnKey);
+          if (pageTurnStorage?.getItem(languageFadeKey)) {
+            pageTurnStorage.removeItem(languageFadeKey);
             if (!reduceMotionQuery.matches) {
-              root.classList.add("language-page-turn-in");
-              window.setTimeout(() => root.classList.remove("language-page-turn-in"), 420);
+              root.classList.add("language-fade-in");
+              window.setTimeout(() => root.classList.remove("language-fade-in"), 260);
             }
           }
 
@@ -139,11 +139,11 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
             const target = new URL(link.href, window.location.href);
             if (target.origin !== window.location.origin || reduceMotionQuery.matches) return;
             event.preventDefault();
-            pageTurnStorage?.setItem(languageTurnKey, "1");
-            root.classList.add("language-page-turn-out");
+            pageTurnStorage?.setItem(languageFadeKey, "1");
+            root.classList.add("language-fade-out");
             window.setTimeout(() => {
               window.location.href = target.href;
-            }, 320);
+            }, 240);
           });
         };
 

@@ -124,7 +124,7 @@ body {
 
 ::view-transition-old(root),
 ::view-transition-new(root) {
-  animation-duration: 0.3s;
+  animation-duration: 0.42s;
   animation-timing-function: cubic-bezier(0.2, 0.84, 0.2, 1);
 }
 
@@ -138,96 +138,38 @@ html.theme-transition-running::view-transition-new(root) {
   clip-path: circle(0 at var(--theme-transition-x, 50vw) var(--theme-transition-y, 50vh));
 }
 
-html.language-page-turn-out body {
+html.language-fade-out body {
   pointer-events: none;
-  transform-origin: left center;
-  animation: leftjun-language-turn-out 0.32s cubic-bezier(0.3, 0.72, 0.2, 1) forwards;
+  animation: leftjun-language-fade-out 0.24s ease forwards;
 }
 
-html.language-page-turn-in body {
-  transform-origin: right center;
-  animation: leftjun-language-turn-in 0.38s cubic-bezier(0.22, 0.74, 0.22, 1) both;
+html.language-fade-in body {
+  animation: leftjun-language-fade-in 0.26s ease both;
 }
 
-html.language-page-turn-out::after,
-html.language-page-turn-in::after {
-  content: "";
-  position: fixed;
-  z-index: 9999;
-  inset: 0;
-  pointer-events: none;
-  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.52), transparent);
-}
-
-html.language-page-turn-out::after {
-  animation: leftjun-language-sheen-out 0.32s ease forwards;
-}
-
-html.language-page-turn-in::after {
-  animation: leftjun-language-sheen-in 0.38s ease both;
-}
-
-@keyframes leftjun-language-turn-out {
+@keyframes leftjun-language-fade-out {
   0% {
     opacity: 1;
-    transform: perspective(1200px) translateX(0) rotateY(0deg);
-    filter: none;
   }
   100% {
-    opacity: 0.18;
-    transform: perspective(1200px) translateX(-5.5vw) rotateY(-7deg);
-    filter: blur(1px);
+    opacity: 0;
   }
 }
 
-@keyframes leftjun-language-turn-in {
+@keyframes leftjun-language-fade-in {
   0% {
-    opacity: 0.18;
-    transform: perspective(1200px) translateX(5.2vw) rotateY(7deg);
-    filter: blur(1px);
+    opacity: 0;
   }
   100% {
     opacity: 1;
-    transform: perspective(1200px) translateX(0) rotateY(0deg);
-    filter: none;
-  }
-}
-
-@keyframes leftjun-language-sheen-out {
-  0% {
-    opacity: 0;
-    transform: translateX(-70%);
-  }
-  44% {
-    opacity: 0.82;
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(70%);
-  }
-}
-
-@keyframes leftjun-language-sheen-in {
-  0% {
-    opacity: 0;
-    transform: translateX(70%);
-  }
-  42% {
-    opacity: 0.58;
-  }
-  100% {
-    opacity: 0;
-    transform: translateX(-70%);
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
   ::view-transition-old(root),
   ::view-transition-new(root),
-  html.language-page-turn-out body,
-  html.language-page-turn-in body,
-  html.language-page-turn-out::after,
-  html.language-page-turn-in::after {
+  html.language-fade-out body,
+  html.language-fade-in body {
     animation: none !important;
   }
 }
