@@ -2842,6 +2842,34 @@ main.main {
   gap: 0.8rem;
 }
 
+.post-card-column-badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.38rem;
+}
+
+.post-card-column-badge {
+  min-height: 1.36rem;
+  display: inline-flex;
+  align-items: center;
+  width: fit-content;
+  padding: 0.22rem 0.54rem;
+  border: 1px solid color-mix(in srgb, var(--leftjun-primary) 22%, transparent);
+  border-radius: 999px;
+  background: color-mix(in srgb, var(--leftjun-primary-soft) 82%, var(--leftjun-surface));
+  color: var(--leftjun-primary);
+  font-size: 0.72rem;
+  font-weight: 820;
+  line-height: 1;
+  white-space: nowrap;
+}
+
+:root[data-scheme="dark"] .post-card-column-badge {
+  border-color: rgba(138, 184, 239, 0.28);
+  background: rgba(34, 86, 145, 0.28);
+  color: #b9d8ff;
+}
+
 .article-list--compact .article-title {
   min-width: 0;
   margin: 0;
@@ -2908,6 +2936,28 @@ main.main {
 
 .posts-index-page .main > header {
   margin-bottom: 0;
+}
+
+.posts-section-card {
+  min-height: 0;
+}
+
+.posts-section-actions {
+  justify-content: flex-start;
+}
+
+.posts-view-toggle {
+  gap: 0.65rem;
+}
+
+.posts-view-panel[hidden],
+.posts-columns-panel[hidden] {
+  display: none !important;
+}
+
+.posts-columns-panel {
+  display: grid;
+  gap: var(--section-block-gap);
 }
 
 .posts-column-section {
