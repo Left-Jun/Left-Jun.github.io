@@ -64,7 +64,91 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
     </div>
     <script is:inline>
       (() => {
-        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const root = document.documentElement;
+        const reduceMotionQuery = matchMedia("(prefers-reduced-motion: reduce)");
+        const reduceMotion = reduceMotionQuery.matches;
+        const languageTurnKey = "LeftJunLanguagePageTurn";
+        const normalClick = (event) => event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
+        const pageTurnStorage = (() => {
+          try {
+            return window.sessionStorage;
+          } catch {
+            return null;
+          }
+        })();
+
+        window.LeftJunTransitions = {
+          runThemeTransition(trigger, update) {
+            if (reduceMotionQuery.matches || typeof document.startViewTransition !== "function") {
+              update();
+              return;
+            }
+
+            const rect = trigger?.getBoundingClientRect?.();
+            const x = rect ? rect.left + rect.width / 2 : window.innerWidth / 2;
+            const y = rect ? rect.top + rect.height / 2 : window.innerHeight / 2;
+            const radius = Math.hypot(
+              Math.max(x, window.innerWidth - x),
+              Math.max(y, window.innerHeight - y)
+            );
+
+            root.style.setProperty("--theme-transition-x", `${x}px`);
+            root.style.setProperty("--theme-transition-y", `${y}px`);
+            root.style.setProperty("--theme-transition-radius", `${radius}px`);
+            root.classList.add("theme-transition-running");
+
+            const transition = document.startViewTransition(() => update());
+            transition.ready
+              .then(() => {
+                root.animate(
+                  [
+                    { clipPath: `circle(0px at ${x}px ${y}px)` },
+                    { clipPath: `circle(${radius}px at ${x}px ${y}px)` }
+                  ],
+                  {
+                    duration: 300,
+                    easing: "cubic-bezier(0.2, 0.84, 0.2, 1)",
+                    fill: "both",
+                    pseudoElement: "::view-transition-new(root)"
+                  }
+                );
+              })
+              .catch(() => {});
+
+            transition.finished.finally(() => {
+              root.classList.remove("theme-transition-running");
+              root.style.removeProperty("--theme-transition-x");
+              root.style.removeProperty("--theme-transition-y");
+              root.style.removeProperty("--theme-transition-radius");
+            });
+          }
+        };
+
+        const initLanguagePageTurn = () => {
+          if (pageTurnStorage?.getItem(languageTurnKey)) {
+            pageTurnStorage.removeItem(languageTurnKey);
+            if (!reduceMotionQuery.matches) {
+              root.classList.add("language-page-turn-in");
+              window.setTimeout(() => root.classList.remove("language-page-turn-in"), 420);
+            }
+          }
+
+          document.addEventListener("click", (event) => {
+            const link = event.target.closest("a[data-language-transition]");
+            if (!(link instanceof HTMLAnchorElement) || event.defaultPrevented || !normalClick(event)) return;
+            const target = new URL(link.href, window.location.href);
+            if (target.origin !== window.location.origin || reduceMotionQuery.matches) return;
+            event.preventDefault();
+            pageTurnStorage?.setItem(languageTurnKey, "1");
+            root.classList.add("language-page-turn-out");
+            window.setTimeout(() => {
+              window.location.href = target.href;
+            }, 320);
+          });
+        };
+
+        initLanguagePageTurn();
+
         const anchorSelector = [
           ".right-sidebar a[href^='#']",
           ".article-toc a[href^='#']",

@@ -171,11 +171,18 @@ const searchJson = JSON.stringify(searchEntries).replace(/</g, "\\u003c");
     const saved = localStorage.getItem(themeKey) || localStorage.getItem("LeftJunAstroColorScheme");
     syncThemeControls(saved || root.dataset.scheme || (matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light"));
 
-    document.querySelector("#home-topbar-theme")?.addEventListener("click", () => {
+    document.querySelector("#home-topbar-theme")?.addEventListener("click", (event) => {
       const next = root.dataset.scheme === "dark" ? "light" : "dark";
-      localStorage.setItem(themeKey, next);
-      syncThemeControls(next);
-      window.dispatchEvent(new CustomEvent("leftjun:theme-change", { detail: { scheme: next } }));
+      const applyNext = () => {
+        localStorage.setItem(themeKey, next);
+        syncThemeControls(next);
+        window.dispatchEvent(new CustomEvent("leftjun:theme-change", { detail: { scheme: next } }));
+      };
+      if (window.LeftJunTransitions?.runThemeTransition) {
+        window.LeftJunTransitions.runThemeTransition(event.currentTarget, applyNext);
+      } else {
+        applyNext();
+      }
     });
 
     window.addEventListener("leftjun:theme-change", (event) => {

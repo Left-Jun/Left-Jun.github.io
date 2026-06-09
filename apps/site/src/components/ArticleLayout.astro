@@ -127,7 +127,7 @@ const projectSummaryItems = isProject ? [
           <footer class="article-time">
             {entry.formattedDate && <span>{entry.formattedDate}</span>}
             <span>{text.isEn ? `${entry.readingMinutes} ${text.readMinutes}` : `阅读时长：${entry.readingMinutes} ${text.readMinutes}`}</span>
-            {alternateUrl && <a href={alternateUrl}>{alternateLabel}</a>}
+            {alternateUrl && <a href={alternateUrl} data-language-transition>{alternateLabel}</a>}
           </footer>
         )}
         {isProject && (
@@ -139,7 +139,7 @@ const projectSummaryItems = isProject ? [
             <a class="project-detail-action project-detail-action--download" href={portfolioPdfUrl} download aria-label={portfolioDownloadAria}>
               {portfolioDownloadLabel}
             </a>
-            {alternateUrl && <a class="project-detail-action project-detail-action--language" href={alternateUrl}>{alternateLabel}</a>}
+            {alternateUrl && <a class="project-detail-action project-detail-action--language" href={alternateUrl} data-language-transition>{alternateLabel}</a>}
           </footer>
         )}
         {isProject && (projectQuickLinks.length > 0 || alternateUrl) && (
@@ -156,7 +156,7 @@ const projectSummaryItems = isProject ? [
               </a>
             ))}
             {alternateUrl && (
-              <a class="project-detail-mobile-action project-detail-mobile-action--language" href={alternateUrl}>
+              <a class="project-detail-mobile-action project-detail-mobile-action--language" href={alternateUrl} data-language-transition>
                 <Icon name="language" label="" />
                 <span>{alternateLabel}</span>
               </a>

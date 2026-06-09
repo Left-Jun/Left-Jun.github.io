@@ -148,7 +148,7 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
           </li>
         ))}
         <li class="mobile-social-language">
-          <a href={text.switchUrl} title={text.switchLabel} aria-label={text.switchLabel}>
+          <a href={text.switchUrl} title={text.switchLabel} aria-label={text.switchLabel} data-language-transition>
             <Icon name="language" label="" />
             <span>{text.switchLabel}</span>
           </a>
@@ -202,7 +202,7 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
   </ol>
 
   <div class="sidebar-bottom-actions">
-    <a id="i18n-switch" href={text.switchUrl}>
+    <a id="i18n-switch" href={text.switchUrl} data-language-transition>
       <span class="menu-icon" aria-hidden="true"><Icon name="language" label="" /></span>
       <span class="menu-label">{text.switchLabel}</span>
     </a>
@@ -298,20 +298,24 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
     applyTheme(initial);
     setSidebarCollapsed(localStorage.getItem(sidebarKey) === "1", false);
 
-    themeButton?.addEventListener("click", () => {
+    const toggleTheme = (trigger) => {
       const next = root.dataset.scheme === "dark" ? "light" : "dark";
-      localStorage.setItem(themeKey, next);
-      applyTheme(next);
-      window.dispatchEvent(new CustomEvent("leftjun:theme-change", { detail: { scheme: next } }));
-    });
-
-    mobileThemeButtons.forEach((button) => {
-      button.addEventListener("click", () => {
-        const next = root.dataset.scheme === "dark" ? "light" : "dark";
+      const applyNext = () => {
         localStorage.setItem(themeKey, next);
         applyTheme(next);
         window.dispatchEvent(new CustomEvent("leftjun:theme-change", { detail: { scheme: next } }));
-      });
+      };
+      if (window.LeftJunTransitions?.runThemeTransition) {
+        window.LeftJunTransitions.runThemeTransition(trigger, applyNext);
+      } else {
+        applyNext();
+      }
+    };
+
+    themeButton?.addEventListener("click", (event) => toggleTheme(event.currentTarget));
+
+    mobileThemeButtons.forEach((button) => {
+      button.addEventListener("click", (event) => toggleTheme(event.currentTarget));
     });
 
     window.addEventListener("leftjun:theme-change", (event) => {

@@ -3,41 +3,13 @@ import BaseLayout from "../../../layouts/BaseLayout.astro";
 import PostCard from "../../../components/PostCard.astro";
 import RightSidebar from "../../../components/RightSidebar.astro";
 import { getEntries, getSectionPage } from "../../../lib/content.js";
+import { getPostColumnBadgesBySlug, getPostColumns } from "../../../lib/post-columns.js";
 
 const lang = "en";
 const section = await getSectionPage("posts", lang);
 const posts = await getEntries("posts", { lang });
-const columnDefinitions = [
-  {
-    id: "technical",
-    label: "Technical Collection",
-    badge: "Column · Technical Collection",
-    eyebrow: "Column",
-    title: "Technical Collection",
-    description: "Site-building, tooling, and implementation notes collected as a technical column.",
-    terms: ["Astro", "Site Building", "Technical Notes"]
-  }
-];
-const columnSections = columnDefinitions
-  .map((column) => {
-    const termSet = new Set(column.terms.map((term) => term.toLowerCase()));
-    const entries = posts.filter((entry: (typeof posts)[number]) => {
-      const terms = [...(entry.data.categories || []), ...(entry.data.tags || [])].map((term) =>
-        String(term).toLowerCase()
-      );
-      return terms.some((term) => termSet.has(term));
-    });
-    return { ...column, entries };
-  })
-  .filter((column) => column.entries.length > 0);
-const columnBadgesBySlug = new Map(
-  posts.map((entry: (typeof posts)[number]) => [
-    entry.slug,
-    columnSections
-      .filter((column) => column.entries.some((item: (typeof posts)[number]) => item.slug === entry.slug))
-      .map((column) => column.badge)
-  ])
-);
+const columnSections = getPostColumns(posts, lang);
+const columnBadgesBySlug = getPostColumnBadgesBySlug(posts, columnSections);
 const hasColumns = columnSections.length > 0;
 const postColumnBadges = (entry: (typeof posts)[number]) => columnBadgesBySlug.get(entry.slug) || [];
 ---
@@ -77,17 +49,28 @@ const postColumnBadges = (entry: (typeof posts)[number]) => columnBadgesBySlug.g
   {hasColumns && (
     <div class="posts-columns-panel posts-view-panel" data-posts-view-panel="columns" hidden>
       {columnSections.map((column) => (
-        <section class="posts-column-section" aria-labelledby={`${column.id}-column-title`}>
+        <section class:list={["posts-column-section", `posts-column-section--${column.accent}`]} aria-labelledby={`${column.id}-column-title`}>
           <div class="posts-column-section__header">
             <div>
               <p class="posts-column-section__eyebrow">{column.eyebrow}</p>
-              <h2 id={`${column.id}-column-title`}>{column.title}</h2>
+              <a class="posts-column-section__title-link" href={column.url}>
+                <h2 id={`${column.id}-column-title`}>{column.title}</h2>
+              </a>
             </div>
-            <span>{column.entries.length} saved</span>
+            <a class="posts-column-section__all-link" href={column.url}>
+              <span>{column.viewAll}</span>
+              <span aria-hidden="true">→</span>
+            </a>
           </div>
           <p class="posts-column-section__description">{column.description}</p>
-          <div class="article-list--compact posts-column-list">
-            {column.entries.map((entry: (typeof posts)[number]) => <PostCard entry={entry} columnBadges={postColumnBadges(entry)} />)}
+          <div class="posts-column-section__meta">
+            <span>{column.entries.length} {column.countSuffix}</span>
+          </div>
+          <div class="posts-column-latest">
+            <p class="posts-column-latest__label">{column.latestLabel}</p>
+            <div class="article-list--compact posts-column-list">
+              {column.latestEntry && <PostCard entry={column.latestEntry} columnBadges={postColumnBadges(column.latestEntry)} />}
+            </div>
           </div>
         </section>
       ))}
