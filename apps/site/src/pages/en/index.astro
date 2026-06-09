@@ -124,12 +124,17 @@ const techStack = [
 
   <section class="home-dashboard" id="home-featured-work">
     <section class="home-section home-featured-projects">
-      <div class="home-section__header">
+      <div class="home-section__header home-section__header--with-link">
         <div>
           <p class="home-section__eyebrow">{text.selectedWork}</p>
           <h2>{text.representativeProjects}</h2>
         </div>
-        <a class="home-section__link" href="/en/projects/">{text.allProjects}</a>
+        <div class="home-section__side">
+          <a class="home-section__link" href="/en/projects/">
+            <span>{text.allProjects}</span>
+            <Icon name="chevron-right" />
+          </a>
+        </div>
       </div>
       <div class="home-project-grid">
         {featured.map((entry) => <ProjectCard entry={entry} compact />)}
@@ -138,12 +143,17 @@ const techStack = [
 
     {planCards.length > 0 && (
       <section class="home-section home-development-plans">
-        <div class="home-section__header">
+        <div class="home-section__header home-section__header--with-link">
           <div>
             <p class="home-section__eyebrow">{text.inProgress}</p>
             <h2>{text.developmentPlans}</h2>
           </div>
-          <a class="home-section__link" href="/retrospectives/#plans-list">{text.allPlans}</a>
+          <div class="home-section__side">
+            <a class="home-section__link" href="/retrospectives/#plans-list">
+              <span>{text.allPlans}</span>
+              <Icon name="chevron-right" />
+            </a>
+          </div>
         </div>
         <div class="home-plan-grid">
           {planCards.map(({ entry, retrospective }) => (
@@ -171,12 +181,17 @@ const techStack = [
 
   {posts.length > 0 && (
     <section class="home-section home-latest-posts">
-      <div class="home-section__header">
+      <div class="home-section__header home-section__header--with-link">
         <div>
           <p class="home-section__eyebrow">{text.latestNotes}</p>
           <h2>{text.postsAndRecords}</h2>
         </div>
-        <a class="home-section__link" href="/en/posts/">{text.allPosts}</a>
+        <div class="home-section__side">
+          <a class="home-section__link" href="/en/posts/">
+            <span>{text.allPosts}</span>
+            <Icon name="chevron-right" />
+          </a>
+        </div>
       </div>
       <section class="article-list--compact home-post-list">
         {posts.map((entry) => <PostCard entry={entry} />)}

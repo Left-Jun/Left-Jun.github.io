@@ -1746,6 +1746,14 @@ main.main {
   gap: 16px;
 }
 
+.home-section__header--with-link {
+  align-items: flex-end;
+}
+
+.home-section__header--with-link > div:first-child {
+  min-width: 0;
+}
+
 .home-section__header h2 {
   margin: 4px 0 0;
   color: var(--card-text-color-main);
@@ -1754,14 +1762,36 @@ main.main {
 }
 
 .home-section__link {
-  color: var(--card-text-color-secondary);
-  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 5px;
+  color: #0a84ff;
+  font-size: clamp(0.98rem, 0.92vw, 1.08rem);
   font-weight: 850;
+  line-height: 1;
+  text-decoration: none;
+  white-space: nowrap;
+  transition:
+    color 0.18s ease,
+    transform 0.18s ease;
+}
+
+.home-section__link .inline-icon {
+  width: 17px;
+  height: 17px;
+  transition: transform 0.18s ease;
 }
 
 .home-section__link:hover,
 .home-section__link:focus-visible {
   color: var(--leftjun-hover-accent);
+  transform: translateX(1px);
+}
+
+.home-section__link:hover .inline-icon,
+.home-section__link:focus-visible .inline-icon {
+  transform: translateX(3px);
 }
 
 .home-project-grid,
@@ -6882,6 +6912,8 @@ body {
   justify-content: flex-end;
   gap: 18px;
   flex-wrap: wrap;
+  flex: 0 0 auto;
+  margin-left: auto;
 }
 
 .home-mini-stats {
@@ -6952,7 +6984,6 @@ body {
 
 .home-dashboard .home-development-plans .home-section__link {
   margin-top: 2px;
-  font-size: 13px;
 }
 
 .home-dashboard .home-plan-card__actions {
@@ -7474,6 +7505,43 @@ body {
   .home-mini-stats {
     align-items: flex-start;
     justify-content: flex-start;
+  }
+
+  .home-section__header--with-link {
+    width: 100%;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    text-align: left;
+  }
+
+  .home-section__header--with-link > div:first-child {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: auto;
+  }
+
+  .home-section__header--with-link .home-section__side {
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: flex-end;
+    margin-left: auto;
+  }
+
+  .home-dashboard .home-development-plans .home-section__header--with-link {
+    align-items: flex-end;
+    justify-content: space-between;
+    text-align: left;
+  }
+
+  .home-dashboard .home-development-plans .home-section__header--with-link > div:first-child {
+    width: auto;
+    text-align: left;
+  }
+
+  .home-dashboard .home-development-plans .home-section__header--with-link .home-section__link {
+    align-self: flex-end;
   }
 
   .project-detail-page .right-sidebar {
