@@ -7,21 +7,53 @@ import { getEntries, getSectionPage } from "../../lib/content.js";
 const lang = "zh-cn";
 const section = await getSectionPage("posts", lang);
 const posts = await getEntries("posts", { lang });
+const technicalTerms = new Set(["Astro", "建站", "技术"].map((term) => term.toLowerCase()));
+const technicalPosts = posts.filter((entry: (typeof posts)[number]) => {
+  const terms = [...(entry.data.categories || []), ...(entry.data.tags || [])].map((term) =>
+    String(term).toLowerCase()
+  );
+  return terms.some((term) => technicalTerms.has(term));
+});
 ---
-<BaseLayout lang={lang} title={section.data.title} description={section.data.description} active="posts" bodyClass="list-page">
+<BaseLayout lang={lang} title={section.data.title} description={section.data.description} active="posts" bodyClass="list-page posts-index-page">
   <header>
-    <h3 class="section-title">文章与记录</h3>
+    <h3 class="section-title">文章与专栏</h3>
     <section class="section-card">
       <div class="section-details">
-        <h3 class="section-count">{posts.length} 篇记录</h3>
+        <h3 class="section-count">{posts.length} 篇内容</h3>
         <h1 class="section-term">{section.data.title}</h1>
         <h2 class="section-description">{section.data.description}</h2>
       </div>
     </section>
   </header>
 
-  <section class="article-list--compact" id="posts-list" data-local-filter-list>
-    {posts.map((entry) => <PostCard entry={entry} />)}
+  {technicalPosts.length > 0 && (
+    <section class="posts-column-section" aria-labelledby="technical-column-title">
+      <div class="posts-column-section__header">
+        <div>
+          <p class="posts-column-section__eyebrow">专栏</p>
+          <h2 id="technical-column-title">技术集合</h2>
+        </div>
+        <span>{technicalPosts.length} 篇收录</span>
+      </div>
+      <p class="posts-column-section__description">收录建站、工具链与技术实现相关的阶段性笔记。</p>
+      <div class="article-list--compact posts-column-list">
+        {technicalPosts.map((entry: (typeof technicalPosts)[number]) => <PostCard entry={entry} />)}
+      </div>
+    </section>
+  )}
+
+  <section class="records-section posts-all-section" aria-labelledby="all-posts-title">
+    <div class="records-section__header">
+      <div>
+        <p class="records-section__eyebrow">全部</p>
+        <h2 id="all-posts-title">全部文章</h2>
+      </div>
+      <span>{posts.length}</span>
+    </div>
+    <div class="article-list--compact" id="posts-list" data-local-filter-list>
+      {posts.map((entry: (typeof posts)[number]) => <PostCard entry={entry} />)}
+    </div>
   </section>
   <Fragment slot="right-sidebar">
     <RightSidebar lang={lang} entries={posts} />

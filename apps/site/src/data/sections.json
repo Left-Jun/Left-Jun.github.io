@@ -21,8 +21,8 @@
   },
   "posts": {
     "en": {
-      "title": "Articles and Records",
-      "description": "Project notes, event records, and technical writing around current projects.",
+      "title": "Articles & Columns",
+      "description": "Project notes, event records, technical columns, and writing around current projects.",
       "slug": "posts",
       "categories": [],
       "tags": [],
@@ -30,8 +30,8 @@
       "relatedPages": []
     },
     "zh-cn": {
-      "title": "文章与记录",
-      "description": "这里收集项目过程记录、活动复盘、建站说明和阶段性技术笔记。",
+      "title": "文章与专栏",
+      "description": "这里收集项目过程记录、活动复盘、建站说明、技术专栏和阶段性笔记。",
       "slug": "posts",
       "categories": [],
       "tags": [],

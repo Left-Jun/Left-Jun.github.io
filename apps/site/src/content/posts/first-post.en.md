@@ -3,7 +3,7 @@ title: "How This Portfolio Is Organized"
 date: 2026-04-22T10:00:00+08:00
 draft: false
 slug: "welcome"
-description: "A short note explaining how projects, retrospectives, development plans, and articles and records connect in this portfolio."
+description: "A short note explaining how projects, retrospectives, development plans, and articles & columns connect in this portfolio."
 categories:
   - "Notes"
 tags:
@@ -27,7 +27,7 @@ The site is organized into four main areas:
 1. [Project Portfolio](/en/projects/): finished or playable works, with project goals, system structure, and my contribution.
 2. [Retrospectives](/retrospectives/): process notes about how projects were built, what worked, and what needs correction.
 3. [Development Plans](/plans/): future-facing update plans based on feedback and project priorities.
-4. [Articles and Records](/en/posts/): event records, site notes, and technical notes worth keeping.
+4. [Articles & Columns](/en/posts/): event records, site notes, and technical notes worth keeping.
 
 If you want a quick view of my current direction, start with [Emotion Mask](/en/projects/emotion-mask/) and [Elegy of Asherah](/en/projects/ashe-lament/). The first shows how one core mechanic became a complete 48-hour loop and public release. The second shows how I handled resource management, narrative pressure, and endings inside a 72-hour team gameplay system.
 
