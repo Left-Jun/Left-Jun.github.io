@@ -8198,6 +8198,15 @@ body {
     word-break: keep-all;
     overflow-wrap: normal;
   }
+
+  .home-dashboard .home-development-plans .home-section__eyebrow {
+    display: inline-block;
+    writing-mode: horizontal-tb;
+    text-orientation: mixed;
+    white-space: nowrap;
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
 }
 
 @media (min-width: 768px) {
