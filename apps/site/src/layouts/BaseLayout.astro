@@ -108,13 +108,47 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
           return getComputedStyle(element).getPropertyValue("--leftjun-language-transition-name").trim();
         };
 
+        const minLanguageRectSize = 4;
+        const minLanguageScale = 0.72;
+        const maxLanguageScale = 1.38;
+        const languageLayoutWaitBudget = 120;
+        const languageLayoutAnimationDuration = 820;
+        const languageTransitionCleanupDelay = languageLayoutWaitBudget + languageLayoutAnimationDuration + 80;
+
+        const isUsableLanguageRect = (rect) =>
+          rect &&
+          Number.isFinite(rect.left) &&
+          Number.isFinite(rect.top) &&
+          Number.isFinite(rect.width) &&
+          Number.isFinite(rect.height) &&
+          rect.width >= minLanguageRectSize &&
+          rect.height >= minLanguageRectSize;
+
+        const isVisibleLanguageElement = (element) => {
+          const style = getComputedStyle(element);
+          return style.display !== "none" && style.visibility !== "hidden" && element.getClientRects().length > 0;
+        };
+
+        const nextLanguageFrame = () => new Promise((resolve) => requestAnimationFrame(resolve));
+
+        const waitForLanguageLayout = async () => {
+          await nextLanguageFrame();
+          await nextLanguageFrame();
+          if (!document.fonts?.ready) return;
+          await Promise.race([
+            document.fonts.ready.catch(() => undefined),
+            new Promise((resolve) => window.setTimeout(resolve, languageLayoutWaitBudget))
+          ]);
+        };
+
         const collectLanguageRects = () => {
           const rects = {};
           document.querySelectorAll(languageTransitionSelectors).forEach((element) => {
             const name = languageTransitionName(element);
             if (!name || name === "none") return;
+            if (!isVisibleLanguageElement(element)) return;
             const rect = element.getBoundingClientRect();
-            if (rect.width < 1 || rect.height < 1) return;
+            if (!isUsableLanguageRect(rect)) return;
             rects[name] = {
               left: rect.left,
               top: rect.top,
@@ -130,23 +164,32 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
           document.querySelectorAll(languageTransitionSelectors).forEach((element) => {
             const name = languageTransitionName(element);
             const previous = name ? previousRects[name] : null;
-            if (!previous) return;
+            if (!isUsableLanguageRect(previous) || !isVisibleLanguageElement(element)) return;
             const rect = element.getBoundingClientRect();
-            if (rect.width < 1 || rect.height < 1) return;
+            if (!isUsableLanguageRect(rect)) return;
             const deltaX = previous.left - rect.left;
             const deltaY = previous.top - rect.top;
             const scaleX = previous.width / rect.width;
             const scaleY = previous.height / rect.height;
+            const stableScale =
+              Number.isFinite(scaleX) &&
+              Number.isFinite(scaleY) &&
+              scaleX >= minLanguageScale &&
+              scaleX <= maxLanguageScale &&
+              scaleY >= minLanguageScale &&
+              scaleY <= maxLanguageScale;
+            const fromTransform = stableScale
+              ? `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`
+              : `translate(${deltaX}px, ${deltaY}px)`;
             if (
               Math.abs(deltaX) < 0.5 &&
               Math.abs(deltaY) < 0.5 &&
-              Math.abs(scaleX - 1) < 0.005 &&
-              Math.abs(scaleY - 1) < 0.005
+              (!stableScale || (Math.abs(scaleX - 1) < 0.005 && Math.abs(scaleY - 1) < 0.005))
             ) return;
-            element.animate(
+            const animation = element.animate(
               [
                 {
-                  transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
+                  transform: fromTransform,
                   transformOrigin: "top left"
                 },
                 {
@@ -157,10 +200,11 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
               {
                 duration: 820,
                 easing: "cubic-bezier(0.22, 1, 0.36, 1)",
-                fill: "both",
+                fill: "none",
                 composite: "add"
               }
             );
+            animation.finished.catch(() => undefined);
           });
         };
 
@@ -168,7 +212,7 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
           if (!root.classList.contains("language-transition-running")) return;
           window.setTimeout(() => {
             root.classList.remove("language-transition-running", "language-transition-entering", "language-transition-exiting");
-          }, reduceMotion ? 0 : 920);
+          }, reduceMotion ? 0 : languageTransitionCleanupDelay);
         };
 
         try {
@@ -179,7 +223,7 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
             } catch {}
             sessionStorage.removeItem(languageTransitionKey);
             sessionStorage.removeItem(languageRectsKey);
-            requestAnimationFrame(() => animateLanguageRects(previousRects));
+            waitForLanguageLayout().then(() => animateLanguageRects(previousRects));
             finishLanguagePageTurn();
           }
         } catch {}
