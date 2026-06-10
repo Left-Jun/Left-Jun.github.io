@@ -66,11 +66,9 @@ const postColumnBadges = (entry: (typeof posts)[number]) => columnBadgesBySlug.g
           <div class="posts-column-section__meta">
             <span>{column.entries.length} {column.countSuffix}</span>
           </div>
-          <div class="posts-column-latest">
+          <div class="article-list--compact posts-column-list">
             <p class="posts-column-latest__label">{column.latestLabel}</p>
-            <div class="article-list--compact posts-column-list">
-              {column.latestEntry && <PostCard entry={column.latestEntry} columnBadges={postColumnBadges(column.latestEntry)} />}
-            </div>
+            {column.latestEntry && <PostCard entry={column.latestEntry} columnBadges={postColumnBadges(column.latestEntry)} />}
           </div>
         </section>
       ))}
