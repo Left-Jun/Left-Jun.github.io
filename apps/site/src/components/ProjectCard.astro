@@ -22,6 +22,7 @@ const cardMeta = compact
   id={`project-${entry.slug}`}
   class:list={["project-card", (image || video) && "has-image", compact && "project-card--compact"]}
   data-project-type={projectType}
+  style={`--leftjun-language-transition-name: lj-project-${entry.slug};`}
 >
   <a href={entry.url}>
     {(image || video) && (

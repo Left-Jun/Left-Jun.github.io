@@ -44,6 +44,18 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
     <meta name="twitter:description" content={description || config.description} />
     <meta name="theme-color" content="#ebf5fc" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#171b1a" media="(prefers-color-scheme: dark)" />
+    <script is:inline>
+      (() => {
+        try {
+          if (
+            sessionStorage.getItem("LeftJunLanguageTransition") === "1" &&
+            !matchMedia("(prefers-reduced-motion: reduce)").matches
+          ) {
+            document.documentElement.classList.add("language-transition-running", "language-transition-entering");
+          }
+        } catch {}
+      })();
+    </script>
     {priorityImageUrl && <link rel="preload" as="image" href={priorityImageUrl} fetchpriority="high" />}
   </head>
   <body class={bodyClass}>
@@ -67,15 +79,126 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
         const root = document.documentElement;
         const reduceMotionQuery = matchMedia("(prefers-reduced-motion: reduce)");
         const reduceMotion = reduceMotionQuery.matches;
-        const languageFadeKey = "LeftJunLanguageFade";
+        const languageTransitionKey = "LeftJunLanguageTransition";
+        const languageRectsKey = "LeftJunLanguageRects";
         const normalClick = (event) => event.button === 0 && !event.metaKey && !event.ctrlKey && !event.shiftKey && !event.altKey;
-        const pageTurnStorage = (() => {
-          try {
-            return window.sessionStorage;
-          } catch {
-            return null;
+
+        const languageTransitionSelectors = [
+          ".left-sidebar",
+          ".home-topbar",
+          ".home-hero__content",
+          ".home-hero__stage",
+          ".home-tech-stack__pills",
+          ".mobile-bottom-nav",
+          ".right-sidebar",
+          ".project-card",
+          ".home-plan-card",
+          ".post-card",
+          ".main-article"
+        ].join(",");
+
+        const languageTransitionName = (element) => {
+          if (element.matches(".left-sidebar")) return "lj-sidebar";
+          if (element.matches(".home-topbar")) return "lj-topbar";
+          if (element.matches(".home-hero__content")) return "lj-home-hero-copy";
+          if (element.matches(".home-hero__stage")) return "lj-home-hero-stage";
+          if (element.matches(".home-tech-stack__pills")) return "lj-tech-stack";
+          if (element.matches(".mobile-bottom-nav")) return "lj-mobile-bottom-nav";
+          if (element.matches(".right-sidebar")) return "lj-right-sidebar";
+          return getComputedStyle(element).getPropertyValue("--leftjun-language-transition-name").trim();
+        };
+
+        const collectLanguageRects = () => {
+          const rects = {};
+          document.querySelectorAll(languageTransitionSelectors).forEach((element) => {
+            const name = languageTransitionName(element);
+            if (!name || name === "none") return;
+            const rect = element.getBoundingClientRect();
+            if (rect.width < 1 || rect.height < 1) return;
+            rects[name] = {
+              left: rect.left,
+              top: rect.top,
+              width: rect.width,
+              height: rect.height
+            };
+          });
+          return rects;
+        };
+
+        const animateLanguageRects = (previousRects) => {
+          if (reduceMotionQuery.matches || !previousRects) return;
+          document.querySelectorAll(languageTransitionSelectors).forEach((element) => {
+            const name = languageTransitionName(element);
+            const previous = name ? previousRects[name] : null;
+            if (!previous) return;
+            const rect = element.getBoundingClientRect();
+            if (rect.width < 1 || rect.height < 1) return;
+            const deltaX = previous.left - rect.left;
+            const deltaY = previous.top - rect.top;
+            const scaleX = previous.width / rect.width;
+            const scaleY = previous.height / rect.height;
+            if (
+              Math.abs(deltaX) < 0.5 &&
+              Math.abs(deltaY) < 0.5 &&
+              Math.abs(scaleX - 1) < 0.005 &&
+              Math.abs(scaleY - 1) < 0.005
+            ) return;
+            element.animate(
+              [
+                {
+                  transform: `translate(${deltaX}px, ${deltaY}px) scale(${scaleX}, ${scaleY})`,
+                  transformOrigin: "top left"
+                },
+                {
+                  transform: "translate(0, 0) scale(1, 1)",
+                  transformOrigin: "top left"
+                }
+              ],
+              {
+                duration: 820,
+                easing: "cubic-bezier(0.22, 1, 0.36, 1)",
+                fill: "both",
+                composite: "add"
+              }
+            );
+          });
+        };
+
+        const finishLanguagePageTurn = () => {
+          if (!root.classList.contains("language-transition-running")) return;
+          window.setTimeout(() => {
+            root.classList.remove("language-transition-running", "language-transition-entering", "language-transition-exiting");
+          }, reduceMotion ? 0 : 920);
+        };
+
+        try {
+          if (sessionStorage.getItem(languageTransitionKey) === "1") {
+            let previousRects = {};
+            try {
+              previousRects = JSON.parse(sessionStorage.getItem(languageRectsKey) || "{}");
+            } catch {}
+            sessionStorage.removeItem(languageTransitionKey);
+            sessionStorage.removeItem(languageRectsKey);
+            requestAnimationFrame(() => animateLanguageRects(previousRects));
+            finishLanguagePageTurn();
           }
-        })();
+        } catch {}
+
+        document.addEventListener("click", (event) => {
+          const link = event.target.closest("a[data-language-transition]");
+          if (!(link instanceof HTMLAnchorElement) || event.defaultPrevented || !normalClick(event)) return;
+          const target = new URL(link.href, window.location.href);
+          if (target.origin !== window.location.origin || reduceMotionQuery.matches) return;
+          event.preventDefault();
+          try {
+            sessionStorage.setItem(languageTransitionKey, "1");
+            sessionStorage.setItem(languageRectsKey, JSON.stringify(collectLanguageRects()));
+          } catch {}
+          root.classList.add("language-transition-running", "language-transition-exiting");
+          window.setTimeout(() => {
+            window.location.href = target.href;
+          }, 190);
+        });
 
         window.LeftJunTransitions = {
           runThemeTransition(trigger, update) {
@@ -123,31 +246,6 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
             });
           }
         };
-
-        const initLanguagePageTurn = () => {
-          if (pageTurnStorage?.getItem(languageFadeKey)) {
-            pageTurnStorage.removeItem(languageFadeKey);
-            if (!reduceMotionQuery.matches) {
-              root.classList.add("language-fade-in");
-              window.setTimeout(() => root.classList.remove("language-fade-in"), 260);
-            }
-          }
-
-          document.addEventListener("click", (event) => {
-            const link = event.target.closest("a[data-language-transition]");
-            if (!(link instanceof HTMLAnchorElement) || event.defaultPrevented || !normalClick(event)) return;
-            const target = new URL(link.href, window.location.href);
-            if (target.origin !== window.location.origin || reduceMotionQuery.matches) return;
-            event.preventDefault();
-            pageTurnStorage?.setItem(languageFadeKey, "1");
-            root.classList.add("language-fade-out");
-            window.setTimeout(() => {
-              window.location.href = target.href;
-            }, 240);
-          });
-        };
-
-        initLanguagePageTurn();
 
         const anchorSelector = [
           ".right-sidebar a[href^='#']",

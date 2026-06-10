@@ -157,7 +157,7 @@ const techStack = [
         </div>
         <div class="home-plan-grid">
           {planCards.map(({ entry, retrospective }) => (
-            <article class="home-plan-card">
+            <article class="home-plan-card" style={`--leftjun-language-transition-name: lj-entry-plans-${entry.slug};`}>
               <a class="home-plan-card__main" href={entry.url}>
                 {entry.formattedDate && <span class="home-plan-card__meta">{entry.formattedDate}</span>}
                 <span class="home-plan-card__title">{entry.data.title}</span>

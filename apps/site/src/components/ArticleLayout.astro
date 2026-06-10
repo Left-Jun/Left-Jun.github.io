@@ -83,7 +83,7 @@ const projectSummaryItems = isProject ? [
   active={active}
   bodyClass={isProject ? "article-page project-detail-page" : "article-page"}
 >
-  <article class:list={["main-article", cover && "has-image"]}>
+  <article class:list={["main-article", cover && "has-image"]} style={`--leftjun-language-transition-name: lj-article-${entry.section}-${entry.slug};`}>
     <header class:list={["article-header", isProject && "project-detail-hero"]}>
       {cover && (
         <div class="article-image">

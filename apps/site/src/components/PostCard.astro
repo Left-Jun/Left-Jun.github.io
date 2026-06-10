@@ -14,6 +14,7 @@ const visibleColumnBadges = Array.isArray(columnBadges) ? columnBadges.filter(Bo
   data-entry-categories={categorySlugs.join(" ")}
   data-entry-tags={tagSlugs.join(" ")}
   data-entry-section={entry.section}
+  style={`--leftjun-language-transition-name: lj-entry-${entry.section}-${entry.slug};`}
 >
   <a href={entry.url}>
     <div class="article-details">
