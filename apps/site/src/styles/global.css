@@ -8020,6 +8020,30 @@ body {
     position: static;
     top: auto;
   }
+
+  .home-dashboard .home-development-plans .home-section__header--with-link {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .home-dashboard .home-development-plans .home-section__header--with-link > div:first-child {
+    flex: 1 1 0;
+    min-width: 9rem;
+    width: auto;
+  }
+
+  .home-dashboard .home-development-plans .home-section__header h2 {
+    word-break: keep-all;
+    overflow-wrap: normal;
+  }
+
+  .home-dashboard .home-development-plans .home-section__side {
+    flex: 0 0 auto;
+    margin-left: auto;
+  }
 }
 
 @media (max-width: 767px) {

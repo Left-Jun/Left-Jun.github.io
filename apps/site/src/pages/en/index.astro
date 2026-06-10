@@ -21,7 +21,7 @@ const heroProjects = preferredSlugs
   .filter(Boolean);
 const featured = heroProjects;
 const posts = (await getEntries("posts", { lang })).slice(0, 2);
-const plans = (await getEntries("plans")).slice(0, 2);
+const plans = (await getEntries("plans", { lang })).slice(0, 2);
 const planCards = await Promise.all(plans.map(async (entry) => ({
   entry,
   retrospective: (await relatedEntries(entry)).find((item) => item.section === "retrospectives")
