@@ -14,5 +14,4 @@ For implementation discussions, playtest feedback, collaboration, internship opp
 
 ## Contact
 
-- Email: Zuo051607@163.com
-- Email: Limenaut0@gmail.com
+- Email: [limenaut0@gmail.com](mailto:limenaut0@gmail.com)

@@ -14,5 +14,4 @@ description: "Left Jun 的项目交流、作品反馈、合作与游戏客户端
 
 ## 联系方式
 
-- 邮箱：[Zuo051607@163.com](mailto:Zuo051607@163.com)
-- 邮箱：[Limenaut0@gmail.com](mailto:Limenaut0@gmail.com)
+- 邮箱：[limenaut0@gmail.com](mailto:limenaut0@gmail.com)
