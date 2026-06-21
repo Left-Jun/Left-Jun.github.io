@@ -1,14 +1,15 @@
 ---
-title: "UE5 Multiplayer PVE Demo"
+title: "UE5 Multiplayer PvE Demo"
 date: 2026-06-21T20:00:00+08:00
 draft: false
 slug: "ue5-coop-training-range"
 description: "My first Unreal Engine 5 multiplayer PVE demo: a Blueprint and Replication based local Listen Server build with server-authoritative shooting, enemy AI, respawn, team scoring, and win-state sync."
 image: "cover.webp"
 imagePosition: "center"
-featured: false
-featuredWeight: 25
-weight: 25
+featured: true
+featuredWeight: 30
+pinWeight: 30
+weight: 30
 portfolioType: "game"
 projectFacts:
   developmentTime: "2026.06"

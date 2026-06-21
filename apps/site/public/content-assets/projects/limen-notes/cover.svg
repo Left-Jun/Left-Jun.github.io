@@ -1,0 +1,70 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1600" height="1000" viewBox="0 0 1600 1000" role="img" aria-labelledby="title desc">
+  <title id="title">阈限手记 cover</title>
+  <desc id="desc">A warm paper-like cover for the Limenauts notes web project.</desc>
+  <defs>
+    <linearGradient id="paper" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#f9f0dc"/>
+      <stop offset="0.55" stop-color="#f4dfbd"/>
+      <stop offset="1" stop-color="#e8c99b"/>
+    </linearGradient>
+    <linearGradient id="ink" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#263238"/>
+      <stop offset="1" stop-color="#5d4732"/>
+    </linearGradient>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="140%">
+      <feDropShadow dx="0" dy="24" stdDeviation="26" flood-color="#7d5d3b" flood-opacity="0.18"/>
+    </filter>
+    <pattern id="grain" width="160" height="160" patternUnits="userSpaceOnUse">
+      <rect width="160" height="160" fill="transparent"/>
+      <circle cx="22" cy="41" r="1.3" fill="#805f3a" opacity="0.14"/>
+      <circle cx="118" cy="21" r="1.1" fill="#fff7e9" opacity="0.36"/>
+      <circle cx="73" cy="126" r="1.4" fill="#805f3a" opacity="0.1"/>
+      <circle cx="145" cy="105" r="1" fill="#fff7e9" opacity="0.28"/>
+    </pattern>
+  </defs>
+
+  <rect width="1600" height="1000" fill="#223033"/>
+  <rect width="1600" height="1000" fill="url(#paper)"/>
+  <rect width="1600" height="1000" fill="url(#grain)" opacity="0.65"/>
+
+  <g opacity="0.24">
+    <path d="M0 165 C240 95 428 192 650 135 C920 66 1112 176 1600 92 L1600 0 L0 0 Z" fill="#fff5e2"/>
+    <path d="M0 895 C274 825 420 928 692 870 C980 808 1196 910 1600 842 L1600 1000 L0 1000 Z" fill="#bd8f58"/>
+  </g>
+
+  <g filter="url(#shadow)">
+    <rect x="176" y="126" width="980" height="748" rx="18" fill="#fff8ea" opacity="0.92"/>
+    <rect x="220" y="178" width="892" height="648" rx="12" fill="#f7ead3"/>
+    <path d="M282 284 H814" stroke="#8a6a46" stroke-width="5" stroke-linecap="round" opacity="0.34"/>
+    <path d="M282 366 H1010" stroke="#8a6a46" stroke-width="4" stroke-linecap="round" opacity="0.22"/>
+    <path d="M282 436 H920" stroke="#8a6a46" stroke-width="4" stroke-linecap="round" opacity="0.22"/>
+    <path d="M282 506 H970" stroke="#8a6a46" stroke-width="4" stroke-linecap="round" opacity="0.22"/>
+    <path d="M282 576 H862" stroke="#8a6a46" stroke-width="4" stroke-linecap="round" opacity="0.22"/>
+    <path d="M282 646 H1008" stroke="#8a6a46" stroke-width="4" stroke-linecap="round" opacity="0.22"/>
+    <path d="M282 716 H748" stroke="#8a6a46" stroke-width="4" stroke-linecap="round" opacity="0.22"/>
+    <rect x="282" y="230" width="196" height="34" rx="17" fill="#d6b17a" opacity="0.36"/>
+    <rect x="912" y="224" width="128" height="42" rx="21" fill="#25353a" opacity="0.13"/>
+  </g>
+
+  <g transform="translate(1030 230)" filter="url(#shadow)">
+    <rect x="0" y="0" width="370" height="520" rx="34" fill="#243236"/>
+    <rect x="25" y="52" width="320" height="410" rx="22" fill="#fff4df"/>
+    <circle cx="185" cy="486" r="14" fill="#f5dfbb" opacity="0.7"/>
+    <rect x="82" y="105" width="130" height="24" rx="12" fill="#8f6b43" opacity="0.28"/>
+    <rect x="82" y="163" width="205" height="14" rx="7" fill="#8f6b43" opacity="0.2"/>
+    <rect x="82" y="205" width="170" height="14" rx="7" fill="#8f6b43" opacity="0.2"/>
+    <rect x="82" y="247" width="215" height="14" rx="7" fill="#8f6b43" opacity="0.2"/>
+    <rect x="82" y="316" width="138" height="44" rx="22" fill="#d6b17a" opacity="0.32"/>
+  </g>
+
+  <g fill="url(#ink)">
+    <text x="250" y="262" font-family="Georgia, 'Times New Roman', serif" font-size="68" font-weight="700">阈限手记</text>
+    <text x="250" y="336" font-family="Inter, Arial, sans-serif" font-size="25" font-weight="700" letter-spacing="5">LIMENAUTS NOTES</text>
+    <text x="250" y="792" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="600">Journals / Essays / Personal Web Product</text>
+  </g>
+
+  <g transform="translate(1248 126)" opacity="0.75">
+    <path d="M0 0 H144 C173 0 196 23 196 52 V102" fill="none" stroke="#344447" stroke-width="10" stroke-linecap="round"/>
+    <path d="M196 102 L172 76 M196 102 L220 76" fill="none" stroke="#344447" stroke-width="10" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+</svg>

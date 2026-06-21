@@ -6,7 +6,8 @@ slug: "relativity-of-a-dot"
 description: "A 6-hour 2D / 3D switching puzzle prototype using DimensionManager, Cinemachine, movement-axis switching, and collider switching to test spatial-rule changes."
 image: "cover.png"
 imagePosition: "45% center"
-weight: 30
+pinWeight: 60
+weight: 60
 portfolioType: "game"
 projectFacts:
   developmentTime: "2026.2, Mengya Cup 2026 creative prototype"

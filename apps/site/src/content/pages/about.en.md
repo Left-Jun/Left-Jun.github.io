@@ -3,47 +3,62 @@ title: "About"
 date: 2026-04-22T10:30:00+08:00
 draft: false
 slug: "about"
-description: "A portfolio positioning note for Left Jun, focused on game client work, Unity gameplay, Game Jam prototypes, and STM32 hardware-software practice."
+description: "Left Jun is an undergraduate student in Electronic Information at Sichuan University and the founder of Limenauts. His current focus is game client and gameplay development, with project experience across Unity, Unreal Engine 5, web products, and embedded systems."
 ---
 
 I publish work as Left Jun. In formal resumes, competition materials, and recruiting contexts, I use my legal name, Zuo Hanjun.
 
-Limenauts is the long-term project team name I use as team lead, and it also appears as my personal competition team name across Game Jam entries, competition works, and team projects I lead. It is less a separate organization and more a creative banner tied to my ongoing game prototypes, team development, and project records.
+Limenauts is the personal and team creation brand I initiated and continue to use. It carries the game jams, playable prototypes, team projects, and long-term development records that I lead. It is not a separate organization detached from me, but a creative banner for organizing collaboration, finishing work, and exploring game expression through implementation.
 
-I am currently an Electronic Information undergraduate at Sichuan University, expected to graduate in July 2029. My main focus is game client work, gameplay system implementation, interaction prototypes, and hardware-software integration. This site is not a general personal blog; it is a living project archive of the playable works I have built since November 2025, the systems I personally owned, the feedback those works received in public, and the methods I am forming through jam development and engineering practice.
+I am currently an Electronic Information undergraduate at Sichuan University, expected to graduate in June 2029. My current focus is game client and gameplay development. Unity / C# remains my main foundation, while I am strengthening Unreal Engine 5, Blueprint, multiplayer networking, and C/C++ engineering ability.
+
+Beyond games, I also keep building web products and STM32 hardware-software projects. This site is not a general blog; it is a living project archive that records playable works, systems I personally owned, public feedback, and the path from short prototypes toward more complete delivery.
 
 ## Current Focus
 
-- Game client work: mainly Unity and C#, with a focus on platformer feel, state machines, level interaction, UI feedback, timers, settlement, and playable loops.
-- Gameplay design and implementation: turning themes into mechanics, level flow, narrative goals, tunable values, scripts, and Inspector-driven configuration.
-- Presentation and feedback: integrating pixel assets, state visuals, background/music switching, process prompts, and readable feedback in short production cycles.
-- Software-hardware projects: STM32, HAL, PCB design, ADC input, SPI wireless communication, PWM control, and system debugging.
-- Team execution: organizing projects under the Limenauts name, leading small teams, breaking down tasks, running syncs, integrating builds, and controlling deliverable scope.
+- Game client development: character control, state machines, enemy interaction, level logic, UI feedback, scoring, scene flow, and basic multiplayer synchronization.
+- Gameplay design and implementation: breaking down themes and experience goals into mechanics, player flow, tunable parameters, feedback, and working systems.
+- Rapid prototyping and delivery: multiple 48-72 hour development cycles, with practice in scope control, task breakdown, asset integration, and demonstrable builds.
+- Cross-domain development: web products, C/C++, STM32, PCB work, wireless communication, and hardware-software integration.
+- Team execution: repeatedly serving as team lead or main developer, responsible for task planning, build integration, communication, and presentation.
+- Research and collaboration: participating in a Tencent Photon youth training camp research group under confidentiality requirements, supporting game-related research planning, team collaboration, and technical work without disclosing topic details.
 
 ## Representative Projects
 
-- Elegy of Asherah: a 72-hour Tencent University Game Extreme Development Competition team project where I served as team lead, main programmer, gameplay designer, and music producer, building platforming, spirit-energy resources, underground safe time, shortcut construction, and multi-ending systems.
-- Emotion Mask: a solo 48-hour Global Game Jam 2026 project covering design, programming, pixel art, music, and release preparation; its core rule is "emotion state = operation ability + level solution," and it has been published on TapTap.
-- Relativity of a Dot: a 6-hour creative prototype that validates 2D/3D switching, camera linking, and spatial puzzle solving.
-- Echoes of Time: a 7-day game jam team project where I worked as team lead, designer, writer, and gameplay designer, building a narrative puzzle experience around three timelines, music, and memory.
-- Wireless Remote-Control System for a Wind-Powered Smart Boat Model: a software-hardware project covering the remote controller, receiver, drivers, PCB design, and debugging.
+1. **Emotion Mask:** a solo 48-hour Global Game Jam 2026 Changsha project that connects three emotion states with character abilities, scene interaction, and audio-visual feedback; published on TapTap.
+2. **Elegy of Asherah:** a 72-hour cross-school team project where I served as team lead, main programmer, and gameplay systems designer, building spirit-energy resources, form switching, underground safe time, shortcut construction, and multiple endings.
+3. **UE5 Multiplayer PvE Demo:** my first Unreal Engine 5 multiplayer technical demo, covering server-authoritative shooting, enemy AI, respawn, cooperative scoring, and synchronized win state.
+4. **阈限手记:** a personal web product for journals, essays, and personal expression, focused on low-interruption writing, immersive reading, content organization, and a warm paper-like visual direction.
+5. **Wireless-Controlled Wind-Powered Model Boat:** an embedded hardware-software project covering the controller, boat receiver, STM32 drivers, PCB work, and system debugging; reached the finals and ranked ninth among 72 teams.
+6. **Relativity of a Dot:** a 6-hour prototype validating a 2D / 3D switching mechanic.
+7. **Echoes Through Time:** an early team narrative project built around ancient, modern, and future timelines and musical memory.
+
+## 2026 In Progress
+
+- **Tencent Afterclass Client Direction:** completed a UE5 multiplayer PvE demo, demo video, and technical report, adding hands-on Unreal Engine 5 and multiplayer practice.
+- **Tencent Photon Youth Training Camp Research Group Member:** participating in game-related research planning, team collaboration, and technical support; specific topics and stage results follow confidentiality requirements and are not publicly shown.
+- **阈限手记:** continuing product structure, writing and reading experience, responsive pages, and content feature development.
 
 ## Skills and Tools
 
-- Languages: C#, C, and continuing to strengthen C++ and engineering ability.
-- Game engines: mainly Unity, with experience in Godot.
-- Game systems: movement, jump / dash / wall detection, emotion or spirit-energy state machines, resource systems, checkpoints, timer settlement, leaderboards, multiple endings, basic UI, and audio feedback.
-- Embedded and hardware: STM32F103C8T6, HAL, SPI, ADC, PWM, JLC EDA, soldering, and integration debugging.
-- Development tools: Git, Visual Studio, VS Code, and Keil.
-- Support tools: I use AI tools for debugging, logic analysis, script completion, feature breakdown, writing, and prototype building.
+- Languages: C#, C, and C++.
+- Game engines: Unity and Unreal Engine 5, with collaborative project experience in Godot.
+- Gameplay: movement, jump / dash / wall detection, state switching, resource systems, damage and health, enemy AI, checkpoints, scoring, multiple endings, and basic multiplayer synchronization.
+- UE5: Blueprint, Replication, Listen Server, UMG, basic AI, and multiplayer gameplay flow.
+- Web: Astro, Next.js, responsive layout, component-based pages, static-site maintenance and deployment; the technical stack of 阈限手记 is described according to its actual repository.
+- Embedded and hardware: STM32F103C8T6, HAL, SPI, ADC, PWM, nRF24L01, JLC EDA, soldering, and integration debugging.
+- Development tools: Git, Visual Studio, VS Code, STM32CubeIDE / Keil.
+- AI-assisted development: I use Codex, Claude Code, DeepSeek, and similar tools for requirement breakdown, code review, log analysis, error diagnosis, and documentation; generated content must be understood, debugged, and verified by me before entering a project.
 
 ## What I Care About
 
 I am especially interested in these questions:
 
-- How can a gameplay mechanic be validated quickly?
-- How can core systems such as character control, state switching, and feedback rhythm feel smoother?
-- How can narrative, levels, and interaction support each other instead of staying separate?
-- When a project is still small, how can its engineering stay clear without becoming heavy?
+- How can a gameplay mechanic be validated as a playable loop in a short time?
+- How do character control, state switching, enemy behavior, and feedback rhythm combine into game feel?
+- How can rules, level structure, and narrative expression support each other?
+- In multiplayer contexts, which gameplay states should be server-authoritative and how should they synchronize to clients?
+- How can small teams and solo projects keep engineering clear, control scope, and still deliver?
+- What common structures exist across input, state, feedback, and reliability in game development, web products, and hardware-software practice?
 
 If you want a quick picture of me, start with [Projects](/en/projects/).

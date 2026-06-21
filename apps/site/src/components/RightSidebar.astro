@@ -92,6 +92,7 @@ const retrospectiveLabel = isEn ? "Retrospectives" : "项目复盘";
 const planLabel = isEn ? "Development Plans" : "开发计划";
 const gameLabel = data.gameFilterLabel || (isEn ? "Game Development" : "游戏开发");
 const embeddedLabel = data.embeddedFilterLabel || (isEn ? "Embedded Development" : "嵌入式开发");
+const webLabel = data.webFilterLabel || (isEn ? "Web Development" : "Web 开发");
 const typeTitle = data.typeTitle || (isEn ? "Project Types" : "项目类型");
 const indexTitle = data.indexTitle || (isEn ? "Project Index" : "项目索引");
 const categoryTitle = localFilters ? (isEn ? "Categories" : "分类") : (isEn ? "Related Categories" : "相关分类");
@@ -109,6 +110,7 @@ const tagTitle = localFilters ? (isEn ? "Topics" : "主题筛选") : (isEn ? "Re
         <div class="project-index-type-list" role="group" aria-label={data.filterAriaLabel || (isEn ? "Filter project categories" : "筛选项目分类")}>
           <button class="project-index-type-button" type="button" data-filter-target="game">{gameLabel}</button>
           <button class="project-index-type-button" type="button" data-filter-target="embedded">{embeddedLabel}</button>
+          <button class="project-index-type-button" type="button" data-filter-target="web">{webLabel}</button>
         </div>
       </section>
 

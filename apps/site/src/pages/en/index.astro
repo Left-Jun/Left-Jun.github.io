@@ -15,9 +15,8 @@ import {
 const lang = "en";
 const text = siteText(lang);
 const projects = await getEntries("projects", { lang });
-const heroSlugs = ["ashe-lament", "emotion-mask", "ue5-coop-training-range", "smart-boat"];
-const representativeSlugs = ["ashe-lament", "emotion-mask", "smart-boat"];
-const technicalDemoSlugs = new Set(["ue5-coop-training-range"]);
+const heroSlugs = ["emotion-mask", "ashe-lament", "ue5-coop-training-range", "limen-notes"];
+const representativeSlugs = ["emotion-mask", "ashe-lament", "ue5-coop-training-range"];
 const heroProjects = heroSlugs
   .map((slug) => projects.find((entry) => entry.slug === slug))
   .filter(Boolean);
@@ -38,20 +37,26 @@ const techStack = [
   { label: "C# / .NET", href: taxonomyTermUrl("tags", "C#", lang) },
   { label: "Unity", href: taxonomyTermUrl("tags", "Unity", lang) },
   { label: "Unreal Engine 5", href: taxonomyTermUrl("tags", "Unreal Engine 5", lang) },
-  { label: "Blueprint", href: taxonomyTermUrl("tags", "Blueprint", lang) },
-  { label: "Gameplay Networking", href: taxonomyTermUrl("tags", "Gameplay Networking", lang) },
-  { label: "STM32", href: taxonomyTermUrl("tags", "STM32", lang) },
+  { label: "Blueprint / Replication", href: taxonomyTermUrl("tags", "Replication", lang) },
   { label: "C / C++", href: taxonomyTermUrl("tags", "C", lang) },
-  { label: "Photoshop", href: taxonomyTermUrl("tags", "Photoshop", lang) }
+  { label: "Git", href: taxonomyTermUrl("tags", "Git", lang) },
+  { label: "STM32", href: taxonomyTermUrl("tags", "STM32", lang) },
+  { label: "Web Development", href: taxonomyTermUrl("tags", "Web Development", lang) }
 ];
 ---
-<BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Embedded Developer" active="home" bodyClass="home-page">
+<BaseLayout
+  lang={lang}
+  title="Left Jun - Gameplay Programmer & Game Client Developer"
+  description="Portfolio of Left Jun, a gameplay programmer and game client developer working with Unity, Unreal Engine 5, web products, and embedded systems."
+  active="home"
+  bodyClass="home-page"
+>
   <section class="home-hero" data-hero-carousel aria-label="Featured project carousel">
     <div class="home-hero__content">
       <p class="home-hero__eyebrow">Sichuan University · Electronic Information · Class of 2029</p>
       <h1 class="home-hero__title">Left Jun</h1>
-      <p class="home-hero__role">Game Client / Gameplay Programmer / Embedded Developer</p>
-      <p class="home-hero__subtitle">I build Unity / C# gameplay systems, playable jam prototypes, UE5 technical demos, and STM32 hardware-software projects. This portfolio tracks what I implemented, how each system landed, and what still needs iteration.</p>
+      <p class="home-hero__role">Game Client / Gameplay Development</p>
+      <p class="home-hero__subtitle">I build playable prototypes, gameplay systems, and interactive products, primarily with Unity / C# and Unreal Engine 5, alongside hands-on experience in C/C++, STM32, and web development.</p>
       <div class="home-hero__actions">
         <a class="home-action home-action--primary" href="/en/projects/"><Icon name="link" /><span>View Projects</span></a>
         <a class="home-action" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer"><Icon name="briefcase" /><span>Portfolio PDF</span></a>
@@ -61,7 +66,7 @@ const techStack = [
       <div class="home-hero__summary-list" aria-live="polite">
         {heroProjects.map((entry, index) => (
           <article class:list={["home-hero__summary", index === 0 && "is-active"]} data-hero-summary aria-hidden={index === 0 ? "false" : "true"}>
-            <span>{technicalDemoSlugs.has(entry.slug) ? "Technical Demo" : index === 0 ? "Representative Project" : "Featured Project"}</span>
+            <span>{entry.slug === "limen-notes" ? "Web Project" : entry.slug === "ue5-coop-training-range" ? "Technical Demo" : "Representative Project"}</span>
             <strong>{entry.data.title}</strong>
             {entry.data.description && <small>{entry.data.description}</small>}
             <div class="home-hero__summary-tags" aria-label="Project tags">
@@ -76,7 +81,7 @@ const techStack = [
       {heroProjects.map((entry, index) => {
         const image = entry.data.image ? entry.asset(entry.data.image) : "";
         const mediaPosition = entry.data.imagePosition || "center right";
-        const projectKind = technicalDemoSlugs.has(entry.slug) ? "Technical Demo" : "Representative Project";
+        const projectKind = entry.slug === "limen-notes" ? "Web Project" : entry.slug === "ue5-coop-training-range" ? "Technical Demo" : "Representative Project";
         return (
           <article class:list={["home-hero__slide", index === 0 && "is-active"]} data-hero-slide aria-hidden={index === 0 ? "false" : "true"}>
             <a class="home-hero__media-link" href={entry.url} tabindex={index === 0 ? "0" : "-1"} aria-label={`View ${entry.data.title}`}>

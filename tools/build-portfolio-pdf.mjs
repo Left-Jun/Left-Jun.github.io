@@ -98,8 +98,8 @@ const img = (slug, file) => pathToFileURL(projectPath(slug, file)).href;
 const profile = {
   name: "左涵俊",
   alias: "Left Jun / Limenaut",
-  school: "四川大学 · 电子信息类本科 · 2029 年 7 月毕业",
-  direction: "游戏客户端、Unity Gameplay 系统、STM32 软硬件联调",
+  school: "四川大学 · 电子信息类本科 · 2029 年 6 月毕业",
+  direction: "游戏客户端 / Gameplay 系统 / UE5 与 Unity 原型 / Web 与 STM32 实践",
   email: ["Zuo051607@163.com", "Limenaut0@gmail.com"],
   contact: ["QQ 1508017864", "微信 Zuo18481428798"],
   links: [
@@ -348,12 +348,12 @@ page(`
   <div class="profile-layout">
     <div class="profile-main">
       <h3>${esc(profile.name)} <span>${esc(profile.alias)}</span></h3>
-      <p>我目前就读于四川大学电子信息类本科，主要方向是游戏客户端、Unity Gameplay 系统实现和 STM32 软硬件联调。作品集重点展示我在短周期项目里把想法落成可运行版本的能力：从机制验证、系统实现、内容整合，到团队推进和公开发布。</p>
+      <p>我目前就读于四川大学电子信息类本科，主要方向是游戏客户端与 Gameplay 系统开发。作品集重点展示我在短周期项目里把想法落成可运行版本的能力：从机制验证、系统实现、内容整合，到团队推进和公开发布。</p>
       <p>我更关注“机制是否真的能被玩出来”：角色控制是否顺手、状态切换是否带来决策、叙事是否能落到关卡和系统里，以及工程结构是否足够清晰，能在有限时间内继续迭代。</p>
       <div class="quick-facts">
         <div><strong>方向</strong><span>游戏客户端 / Gameplay / 嵌入式实践</span></div>
-        <div><strong>毕业</strong><span>2029 年 7 月</span></div>
-        <div><strong>主力工具</strong><span>Unity、C#、STM32、Astro</span></div>
+        <div><strong>毕业</strong><span>2029 年 6 月</span></div>
+        <div><strong>主力工具</strong><span>Unity、UE5、C#、STM32、Astro</span></div>
       </div>
     </div>
     <div class="profile-side">

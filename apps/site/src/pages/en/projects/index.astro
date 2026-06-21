@@ -9,6 +9,7 @@ const section = await getSectionPage("projects", lang);
 const projects = await getEntries("projects", { lang });
 const gameLabel = section.data.gameFilterLabel || "Game Development";
 const embeddedLabel = section.data.embeddedFilterLabel || "Embedded Development";
+const webLabel = section.data.webFilterLabel || "Web Development";
 const singleLabel = section.data.singleViewLabel || "Single";
 const gridLabel = section.data.gridViewLabel || "Grid";
 ---
@@ -25,6 +26,7 @@ const gridLabel = section.data.gridViewLabel || "Grid";
           <div class="project-filter-toggle" role="group" aria-label={section.data.filterAriaLabel || "Filter project categories"}>
             <button class="project-filter-toggle__button" type="button" data-filter-target="game">{gameLabel}</button>
             <button class="project-filter-toggle__button" type="button" data-filter-target="embedded">{embeddedLabel}</button>
+            <button class="project-filter-toggle__button" type="button" data-filter-target="web">{webLabel}</button>
           </div>
           <div class="project-view-toggle" role="group" aria-label={section.data.viewAriaLabel || "Switch project display mode"}>
             <button class="project-view-toggle__button is-active" type="button" data-view-target="single">{singleLabel}</button>
@@ -55,7 +57,7 @@ const gridLabel = section.data.gridViewLabel || "Grid";
         const cards = [...showcase.querySelectorAll(".project-card")];
         const indexItems = [...document.querySelectorAll(".project-index-list [data-project-type]")];
         const allowedViews = new Set(["single", "grid"]);
-        const allowedFilters = new Set(["game", "embedded"]);
+        const allowedFilters = new Set(["game", "embedded", "web"]);
         let selectedFilters = [];
 
         const applyView = (view) => {

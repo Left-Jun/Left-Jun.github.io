@@ -28,7 +28,7 @@ const statusEmoji = status.emoji || sidebar.emoji || "💻";
 const statusTitle = status.title || "";
 const statusDescription = status.description || "";
 const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
-const rolePill = lang === "en" ? "Limenauts Lead" : "阈限开拓者 主创";
+const rolePill = lang === "en" ? "Founder / Lead Creator at Limenauts" : "Limenauts 主创";
 const identityLines = String(sidebar.identity || "").split(/\n/).filter(Boolean);
 const portfolioPdfUrl = "/files/left-jun-portfolio.pdf";
 const portfolioPdfLabel = text.isEn ? "Portfolio PDF" : "作品集 PDF";

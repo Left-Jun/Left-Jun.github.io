@@ -9,6 +9,7 @@ const section = await getSectionPage("projects", lang);
 const projects = await getEntries("projects", { lang });
 const gameLabel = section.data.gameFilterLabel || "游戏开发";
 const embeddedLabel = section.data.embeddedFilterLabel || "嵌入式开发";
+const webLabel = section.data.webFilterLabel || "Web 开发";
 const singleLabel = section.data.singleViewLabel || "单列";
 const gridLabel = section.data.gridViewLabel || "网格";
 ---
@@ -25,6 +26,7 @@ const gridLabel = section.data.gridViewLabel || "网格";
           <div class="project-filter-toggle" role="group" aria-label={section.data.filterAriaLabel || "筛选项目分类"}>
             <button class="project-filter-toggle__button" type="button" data-filter-target="game">{gameLabel}</button>
             <button class="project-filter-toggle__button" type="button" data-filter-target="embedded">{embeddedLabel}</button>
+            <button class="project-filter-toggle__button" type="button" data-filter-target="web">{webLabel}</button>
           </div>
           <div class="project-view-toggle" role="group" aria-label={section.data.viewAriaLabel || "切换项目展示方式"}>
             <button class="project-view-toggle__button is-active" type="button" data-view-target="single">{singleLabel}</button>
@@ -55,7 +57,7 @@ const gridLabel = section.data.gridViewLabel || "网格";
         const cards = [...showcase.querySelectorAll(".project-card")];
         const indexItems = [...document.querySelectorAll(".project-index-list [data-project-type]")];
         const allowedViews = new Set(["single", "grid"]);
-        const allowedFilters = new Set(["game", "embedded"]);
+        const allowedFilters = new Set(["game", "embedded", "web"]);
         let selectedFilters = [];
 
         const applyView = (view) => {

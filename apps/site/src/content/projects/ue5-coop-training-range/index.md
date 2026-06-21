@@ -1,14 +1,15 @@
 ---
-title: "ue5多人pvedemo"
+title: "UE5 多人 PVE Demo"
 date: 2026-06-21T20:00:00+08:00
 draft: false
 slug: "ue5-coop-training-range"
 description: "第一次使用 Unreal Engine 5 完成的多人 PVE Demo。基于 Blueprint、Replication 与 Listen Server，实现服务器权威射击、敌人 AI、死亡重生、协作计分和胜利同步。"
 image: "cover.webp"
 imagePosition: "center"
-featured: false
-featuredWeight: 25
-weight: 25
+featured: true
+featuredWeight: 30
+pinWeight: 30
+weight: 30
 portfolioType: "game"
 projectFacts:
   developmentTime: "2026.06"

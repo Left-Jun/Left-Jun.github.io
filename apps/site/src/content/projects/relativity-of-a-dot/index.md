@@ -6,7 +6,8 @@ slug: "relativity-of-a-dot"
 description: "一个 6 小时完成的二维 / 三维切换解谜原型，通过 DimensionManager、Cinemachine、移动轴切换和碰撞体切换验证同一关卡的空间解法变化。"
 image: "cover.png"
 imagePosition: "45% center"
-weight: 30
+pinWeight: 60
+weight: 60
 portfolioType: "game"
 projectFacts:
   developmentTime: "2026.2（萌芽杯 2026 创意原型）"

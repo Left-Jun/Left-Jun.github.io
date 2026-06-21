@@ -7,9 +7,9 @@ description: "A 72-hour Tencent University Game Extreme Development Competition 
 image: "cover.png"
 coverVideo: "cover.mp4"
 pinned: true
-pinWeight: 10
+pinWeight: 20
 featured: true
-featuredWeight: 10
+featuredWeight: 20
 weight: 20
 portfolioType: "game"
 projectFacts:

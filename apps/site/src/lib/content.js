@@ -218,8 +218,8 @@ export const workflowItems = [
     icon: "infinity",
     title: { zh: "玩法原型", en: "Gameplay Prototyping" },
     body: {
-      zh: "用 Game Jam 式限制把机制压缩成可体验闭环，在 48 到 72 小时内验证操作、反馈和失败重试。",
-      en: "Use jam constraints to turn mechanics into playable loops, validating controls, feedback, failure, and retry within 48 to 72 hours."
+      zh: "用 Game Jam 式限制把想法压缩成可体验闭环，在短周期内验证核心机制、操作手感和玩家反馈。",
+      en: "Use jam constraints to compress ideas into playable loops and validate core mechanics, game feel, and player feedback in short cycles."
     },
     slugs: ["emotion-mask", "relativity-of-a-dot"]
   },
@@ -227,27 +227,27 @@ export const workflowItems = [
     icon: "categories",
     title: { zh: "Gameplay 系统", en: "Gameplay Systems" },
     body: {
-      zh: "围绕同一个设计目标组织角色控制、状态机、资源循环、检查点、UI 反馈和结算流程。",
-      en: "Connect character control, state machines, resource loops, checkpoints, UI feedback, and settlement flow around one design goal."
+      zh: "围绕设计目标组织角色控制、状态切换、资源循环、敌人交互、UI 反馈、计分与结算流程，并通过可配置参数支持持续调试。",
+      en: "Organize character control, state switching, resource loops, enemy interaction, UI feedback, scoring, and settlement around a clear design goal with tunable parameters."
     },
     slugs: ["ashe-lament", "emotion-mask", "ue5-coop-training-range"]
   },
   {
-    icon: "messages",
-    title: { zh: "叙事与关卡", en: "Narrative and Level Flow" },
+    icon: "code",
+    title: { zh: "工程与交付", en: "Engineering and Delivery" },
     body: {
-      zh: "把主题拆成世界观、关卡路径、交互道具、对话文案、美术需求和最终演出节奏。",
-      en: "Translate themes into worlds, level routes, interactive props, dialogue, art requirements, and final beats."
+      zh: "将需求拆分为相对独立的模块，结合 Git 和 AI 编程工具完成实现、调试、文档与演示交付，并在短周期项目中控制可交付范围。",
+      en: "Split requirements into modular work, use Git and AI coding tools for implementation, debugging, documentation, and demos, and keep scope deliverable in short projects."
     },
-    slugs: ["time-echo", "ashe-lament"]
+    slugs: ["ue5-coop-training-range", "ashe-lament", "limen-notes"]
   },
   {
     icon: "link",
-    title: { zh: "软硬件联调", en: "Hardware Integration" },
+    title: { zh: "跨领域实践", en: "Cross-domain Practice" },
     body: {
-      zh: "实践 STM32、PCB、无线通信、输入采样、PWM 输出、供电稳定和整机调试。",
-      en: "Work with STM32, PCB design, wireless communication, input sampling, PWM output, power stability, and integration debugging."
+      zh: "将游戏开发之外的 Web 产品、STM32、PCB、无线通信与整机联调经验，转化为对输入、状态、反馈和系统可靠性的理解。",
+      en: "Turn web product, STM32, PCB, wireless communication, and integration experience into a broader understanding of input, state, feedback, and reliability."
     },
-    slugs: ["smart-boat"]
+    slugs: ["limen-notes", "smart-boat"]
   }
 ];

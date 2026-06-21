@@ -15,9 +15,8 @@ import {
 const lang = "zh-cn";
 const text = siteText(lang);
 const projects = await getEntries("projects", { lang });
-const heroSlugs = ["ashe-lament", "emotion-mask", "ue5-coop-training-range", "smart-boat"];
-const representativeSlugs = ["ashe-lament", "emotion-mask", "smart-boat"];
-const technicalDemoSlugs = new Set(["ue5-coop-training-range"]);
+const heroSlugs = ["emotion-mask", "ashe-lament", "ue5-coop-training-range", "limen-notes"];
+const representativeSlugs = ["emotion-mask", "ashe-lament", "ue5-coop-training-range"];
 const heroProjects = heroSlugs
   .map((slug) => projects.find((entry) => entry.slug === slug))
   .filter(Boolean);
@@ -42,25 +41,31 @@ const techStack = [
   { label: "C# / .NET", href: taxonomyTermUrl("tags", "C#", lang) },
   { label: "Unity", href: taxonomyTermUrl("tags", "Unity", lang) },
   { label: "Unreal Engine 5", href: taxonomyTermUrl("tags", "Unreal Engine 5", lang) },
-  { label: "Blueprint", href: taxonomyTermUrl("tags", "Blueprint", lang) },
-  { label: "Gameplay Networking", href: taxonomyTermUrl("tags", "Gameplay Networking", lang) },
-  { label: "STM32", href: taxonomyTermUrl("tags", "STM32", lang) },
+  { label: "Blueprint / Replication", href: taxonomyTermUrl("tags", "Replication", lang) },
   { label: "C / C++", href: taxonomyTermUrl("tags", "C", lang) },
-  { label: "Photoshop", href: taxonomyTermUrl("tags", "Photoshop", lang) }
+  { label: "Git", href: taxonomyTermUrl("tags", "Git", lang) },
+  { label: "STM32", href: taxonomyTermUrl("tags", "STM32", lang) },
+  { label: "Web Development", href: taxonomyTermUrl("tags", "Web Development", lang) }
 ];
 const homeStats = [
-  { value: "3", label: "代表项目" },
+  { value: `${projects.length}+`, label: "项目 / Demo" },
   { value: "4", label: "Game Jam" },
-  { value: "3", label: "线下路演" }
+  { value: "3", label: "路演 / 展示" }
 ];
 ---
-<BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Embedded Developer" active="home" bodyClass="home-page">
+<BaseLayout
+  lang={lang}
+  title="Left Jun - Gameplay Programmer & Game Client Developer"
+  description="左涵俊（Left Jun）的个人作品集，聚焦 Unity / C#、Unreal Engine 5、Gameplay 系统、Game Jam 原型、Web 产品与 STM32 软硬件实践。"
+  active="home"
+  bodyClass="home-page"
+>
   <section class="home-hero" data-hero-carousel aria-label="首页项目轮换">
     <div class="home-hero__content">
       <p class="home-hero__eyebrow">四川大学 · 电子信息类 · 2029届</p>
       <h1 class="home-hero__title">Left Jun</h1>
-      <p class="home-hero__role">游戏客户端 / Gameplay Programmer / 嵌入式开发</p>
-      <p class="home-hero__subtitle">用 Unity / C# 把玩法机制落成可玩的客户端系统，也持续做 Game Jam 原型、UE5 技术 Demo 和 STM32 软硬件联调。这里按项目记录我负责的系统、实现取舍、试玩反馈和下一步验证。</p>
+      <p class="home-hero__role">游戏客户端 / Gameplay 开发</p>
+      <p class="home-hero__subtitle">持续制作可玩的游戏原型、Gameplay 系统与交互产品。当前主要使用 Unity / C# 与 Unreal Engine 5，并保留 C/C++、STM32 软硬件和 Web 开发实践。</p>
       <div class="home-hero__actions">
         <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>查看项目</span></a>
         <a class="home-action" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer"><Icon name="briefcase" /><span>作品集 PDF</span></a>
@@ -80,7 +85,7 @@ const homeStats = [
       {heroProjects.map((entry, index) => {
         const image = entry.data.image ? entry.asset(entry.data.image) : "";
         const mediaPosition = entry.data.imagePosition || "center right";
-        const projectKind = technicalDemoSlugs.has(entry.slug) ? "技术 Demo" : "代表项目";
+        const projectKind = entry.slug === "limen-notes" ? "Web 项目" : entry.slug === "ue5-coop-training-range" ? "技术 Demo" : "代表项目";
         return (
           <article class:list={["home-hero__slide", index === 0 && "is-active"]} data-hero-slide aria-hidden={index === 0 ? "false" : "true"}>
             <a class="home-hero__media-link" href={entry.url} tabindex={index === 0 ? "0" : "-1"} aria-label={`查看${entry.data.title}`}>

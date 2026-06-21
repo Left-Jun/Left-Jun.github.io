@@ -8,9 +8,9 @@ image: "cover.png"
 coverVideo: "cover.mp4"
 imagePosition: "62% center"
 pinned: true
-pinWeight: 10
+pinWeight: 20
 featured: true
-featuredWeight: 10
+featuredWeight: 20
 weight: 20
 portfolioType: "game"
 projectFacts:
