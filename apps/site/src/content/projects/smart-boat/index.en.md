@@ -5,10 +5,10 @@ draft: false
 slug: "smart-boat"
 description: "An STM32 software-hardware project based on BOAT02 / CONTROL02, covering ADC joystick sampling, NRF24L01 wireless communication, PWM servo/ESC control, PCB design, and integration debugging."
 image: "cover.png"
-featured: false
-featuredWeight: 50
-pinWeight: 50
-weight: 50
+featured: true
+featuredWeight: 30
+pinWeight: 40
+weight: 40
 portfolioType: "embedded"
 projectFacts:
   developmentTime: "2026.3"

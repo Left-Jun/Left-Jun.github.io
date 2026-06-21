@@ -6,7 +6,7 @@ slug: "ue5-coop-training-range"
 description: "My first Unreal Engine 5 multiplayer PVE demo: a Blueprint and Replication based local Listen Server build with server-authoritative shooting, enemy AI, respawn, team scoring, and win-state sync."
 image: "cover.webp"
 imagePosition: "center"
-featured: true
+featured: false
 featuredWeight: 30
 pinWeight: 30
 weight: 30

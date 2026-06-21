@@ -8,10 +8,10 @@ image: "cover.png"
 coverVideo: "cover.mp4"
 imagePosition: "62% center"
 pinned: true
-pinWeight: 20
+pinWeight: 10
 featured: true
-featuredWeight: 20
-weight: 20
+featuredWeight: 10
+weight: 10
 portfolioType: "game"
 projectFacts:
   developmentTime: "2026.03 - 2026.05"

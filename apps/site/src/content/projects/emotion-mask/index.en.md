@@ -6,9 +6,9 @@ slug: "emotion-mask"
 description: "A 2D platformer-puzzle game built around an emotion state machine, platform visibility, dash-based breaking, shard collection, timer settlement, and public release flow, completed solo within 48 hours and published on TapTap."
 image: "cover.png"
 featured: true
-featuredWeight: 10
-pinWeight: 10
-weight: 10
+featuredWeight: 20
+pinWeight: 20
+weight: 20
 portfolioType: "game"
 projectFacts:
   developmentTime: "2026.1, Global Game Jam 2026 Changsha site"

@@ -6,7 +6,7 @@ slug: "ue5-coop-training-range"
 description: "第一次使用 Unreal Engine 5 完成的多人 PVE Demo。基于 Blueprint、Replication 与 Listen Server，实现服务器权威射击、敌人 AI、死亡重生、协作计分和胜利同步。"
 image: "cover.webp"
 imagePosition: "center"
-featured: true
+featured: false
 featuredWeight: 30
 pinWeight: 30
 weight: 30

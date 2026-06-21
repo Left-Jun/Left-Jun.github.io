@@ -4,12 +4,12 @@ date: 2026-06-21T21:30:00+08:00
 draft: false
 slug: "limen-notes"
 description: "一个面向随笔、日记与个人表达场景的开发中 Web 产品，以暖色纸张、留白排版和低干扰交互构建写作与阅读体验。"
-image: "cover.svg"
+image: "cover.png"
 imagePosition: "center"
 featured: false
-featuredWeight: 40
-pinWeight: 40
-weight: 40
+featuredWeight: 70
+pinWeight: 70
+weight: 70
 portfolioType: "web"
 projectFacts:
   developmentTime: "2026.06 - 进行中"
@@ -22,6 +22,9 @@ projectFacts:
   platformNote: "notes.leftjun.com"
   result: "已形成公开笔记、分类、搜索、登录资料、后台编辑、PWA 外壳与心情相关原型等代码路径，仍处于持续打磨阶段。"
 projectLinks:
+  - label: "在线站点"
+    url: "https://notes.leftjun.com"
+    icon: "link"
   - label: "GitHub 仓库"
     url: "https://github.com/Left-Jun/notes"
     icon: "brand-github"

@@ -7,10 +7,10 @@ description: "A 72-hour Tencent University Game Extreme Development Competition 
 image: "cover.png"
 coverVideo: "cover.mp4"
 pinned: true
-pinWeight: 20
+pinWeight: 10
 featured: true
-featuredWeight: 20
-weight: 20
+featuredWeight: 10
+weight: 10
 portfolioType: "game"
 projectFacts:
   developmentTime: "2026.3, Tencent University Game Extreme Development Competition"

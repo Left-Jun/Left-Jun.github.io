@@ -15,8 +15,8 @@ import {
 const lang = "en";
 const text = siteText(lang);
 const projects = await getEntries("projects", { lang });
-const heroSlugs = ["emotion-mask", "ashe-lament", "ue5-coop-training-range", "limen-notes"];
-const representativeSlugs = ["emotion-mask", "ashe-lament", "ue5-coop-training-range"];
+const heroSlugs = ["ashe-lament", "emotion-mask", "ue5-coop-training-range", "smart-boat", "limen-notes"];
+const representativeSlugs = ["ashe-lament", "emotion-mask", "smart-boat"];
 const heroProjects = heroSlugs
   .map((slug) => projects.find((entry) => entry.slug === slug))
   .filter(Boolean);
@@ -66,7 +66,7 @@ const techStack = [
       <div class="home-hero__summary-list" aria-live="polite">
         {heroProjects.map((entry, index) => (
           <article class:list={["home-hero__summary", index === 0 && "is-active"]} data-hero-summary aria-hidden={index === 0 ? "false" : "true"}>
-            <span>{entry.slug === "limen-notes" ? "Web Project" : entry.slug === "ue5-coop-training-range" ? "Technical Demo" : "Representative Project"}</span>
+            <span>{entry.slug === "limen-notes" ? "Web Project" : entry.slug === "ue5-coop-training-range" ? "Technical Demo" : entry.slug === "smart-boat" ? "Embedded Project" : "Representative Project"}</span>
             <strong>{entry.data.title}</strong>
             {entry.data.description && <small>{entry.data.description}</small>}
             <div class="home-hero__summary-tags" aria-label="Project tags">
@@ -81,7 +81,7 @@ const techStack = [
       {heroProjects.map((entry, index) => {
         const image = entry.data.image ? entry.asset(entry.data.image) : "";
         const mediaPosition = entry.data.imagePosition || "center right";
-        const projectKind = entry.slug === "limen-notes" ? "Web Project" : entry.slug === "ue5-coop-training-range" ? "Technical Demo" : "Representative Project";
+        const projectKind = entry.slug === "limen-notes" ? "Web Project" : entry.slug === "ue5-coop-training-range" ? "Technical Demo" : entry.slug === "smart-boat" ? "Embedded Project" : "Representative Project";
         return (
           <article class:list={["home-hero__slide", index === 0 && "is-active"]} data-hero-slide aria-hidden={index === 0 ? "false" : "true"}>
             <a class="home-hero__media-link" href={entry.url} tabindex={index === 0 ? "0" : "-1"} aria-label={`View ${entry.data.title}`}>
@@ -120,6 +120,12 @@ const techStack = [
           </article>
         );
       })}
+      <button class="home-hero__nav home-hero__nav--prev" type="button" data-hero-prev aria-label="Previous project">
+        <Icon name="chevron-left" />
+      </button>
+      <button class="home-hero__nav home-hero__nav--next" type="button" data-hero-next aria-label="Next project">
+        <Icon name="chevron-right" />
+      </button>
       <div class="home-hero__dots" role="tablist" aria-label="Switch featured project">
         {heroProjects.map((entry, index) => (
           <button type="button" data-hero-dot aria-label={`Switch to ${entry.data.title}`} aria-current={index === 0 ? "true" : undefined}>
@@ -266,6 +272,8 @@ const techStack = [
         const slides = [...hero.querySelectorAll("[data-hero-slide]")];
         const summaries = [...hero.querySelectorAll("[data-hero-summary]")];
         const dots = [...hero.querySelectorAll("[data-hero-dot]")];
+        const prevButton = hero.querySelector("[data-hero-prev]");
+        const nextButton = hero.querySelector("[data-hero-next]");
         const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
         let active = 0;
         let timer = null;
@@ -315,6 +323,18 @@ const techStack = [
           setSlide(index);
           start();
         }));
+        prevButton?.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setSlide(active - 1);
+          start();
+        });
+        nextButton?.addEventListener("click", (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          setSlide(active + 1);
+          start();
+        });
         hero.addEventListener("mouseenter", () => {
           isPointerInside = true;
           stop();
@@ -359,6 +379,7 @@ const techStack = [
           stage.addEventListener("pointerdown", (event) => {
             if (event.pointerType === "mouse" && event.button !== 0) return;
             if (event.isPrimary === false) return;
+            if (event.target?.closest?.("[data-hero-dot], [data-hero-prev], [data-hero-next]")) return;
             startX = event.clientX;
             startY = event.clientY;
             isDragging = true;
@@ -383,6 +404,7 @@ const techStack = [
               event.stopPropagation();
               return;
             }
+            if (event.target?.closest?.("[data-hero-dot], [data-hero-prev], [data-hero-next]")) return;
             const activeLink = stage.querySelector(".home-hero__slide.is-active .home-hero__media-link");
             if (activeLink?.href) {
               event.preventDefault();

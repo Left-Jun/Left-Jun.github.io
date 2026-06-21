@@ -5,8 +5,8 @@ draft: false
 slug: "time-echo"
 description: "An early Limenauts team project: a 2D narrative puzzle-platformer built around ancient, modern, and future timelines, timeline switching, instrument collection, and music-driven level progression."
 image: "cover.png"
-pinWeight: 70
-weight: 70
+pinWeight: 60
+weight: 60
 portfolioType: "game"
 projectFacts:
   developmentTime: "2025.11, SCU & UESTC & Sichuan Fine Arts Institute Sanjiao Cup Game Jam"

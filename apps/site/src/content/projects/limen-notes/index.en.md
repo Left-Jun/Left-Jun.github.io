@@ -4,12 +4,12 @@ date: 2026-06-21T21:30:00+08:00
 draft: false
 slug: "limen-notes"
 description: "A personal web product in progress for journals, essays, and personal expression, using warm paper-like visuals, generous spacing, and low-interruption interaction for writing and reading."
-image: "cover.svg"
+image: "cover.png"
 imagePosition: "center"
 featured: false
-featuredWeight: 40
-pinWeight: 40
-weight: 40
+featuredWeight: 70
+pinWeight: 70
+weight: 70
 portfolioType: "web"
 projectFacts:
   developmentTime: "2026.06 - in progress"
@@ -22,6 +22,9 @@ projectFacts:
   platformNote: "notes.leftjun.com"
   result: "The repository contains code paths for public notes, categories, search, login profiles, admin editing, a PWA shell, and mood-related prototypes, while the product is still being refined."
 projectLinks:
+  - label: "Live Site"
+    url: "https://notes.leftjun.com"
+    icon: "link"
   - label: "GitHub Repository"
     url: "https://github.com/Left-Jun/notes"
     icon: "brand-github"
