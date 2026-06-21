@@ -179,6 +179,34 @@ const featured = [
   },
 ];
 
+const ue5Demo = {
+  title: "UE5 多人 PVE Demo",
+  subtitle: "腾讯青科训练营 2026 春客户端大作业 · 技术 Demo",
+  role: "独立开发 / Gameplay & Networking Implementation",
+  tools: "Unreal Engine 5.7 / Blueprint / UMG",
+  image: img("ue5-coop-training-range", "cover.webp"),
+  tags: ["UE5", "Blueprint", "Replication", "Listen Server", "Gameplay Networking"],
+  summary:
+    "第一次使用 Unreal Engine 5 完成的多人 PVE Demo。基于官方 First Person 模板，在约三天内实现本地 Listen Server 双人流程、服务器权威射击、敌人 AI、死亡重生、协作计分和胜利同步。",
+  highlights: [
+    "使用 Listen Server 完成本地双开双人联机流程，包含创建房间、加入游戏、Lobby 人数判断和 ServerTravel 切图。",
+    "将伤害、敌人 AI、死亡、复活、计分和胜利状态放在服务器侧处理，客户端主要负责输入、HUD 和即时反馈。",
+    "通过 Server RPC、Owning Client RPC、Multicast RPC 和 Replication 处理开火、死亡菜单、敌人攻击动画和公共比赛状态同步。",
+  ],
+  systems: [
+    "Player：复制 Health / IsDead，死亡后由 Owning Client RPC 显示复活菜单，ServerRespawn 负责恢复状态和位置。",
+    "Combat：客户端请求 ServerFire，服务器执行 LineTrace、命中判定和 Apply Damage，避免多窗口各自计算伤害。",
+    "Enemy：服务器端基于 NavMesh 寻找最近存活玩家、追击、攻击并造成伤害，死亡后触发计分。",
+    "GameMode / GameState：GameMode 处理击杀计分，GameState 复制 TeamScore、TargetScore 和 bGameOver 给所有客户端。",
+    "UI：HUD 显示准星、血量、分数和胜利提示；主菜单提供单人、创建多人游戏和加入入口。",
+  ],
+  gallery: [
+    [img("ue5-coop-training-range", "pdf-extracted/p02-img01.webp"), "ServerFire：服务器权威射线伤害"],
+    [img("ue5-coop-training-range", "pdf-extracted/p08-img01.webp"), "敌人 AI：服务器端索敌、追击与攻击"],
+    [img("ue5-coop-training-range", "pdf-extracted/p09-img01.webp"), "GameMode / GameState：计分与胜利同步"],
+  ],
+};
+
 const secondary = [
   {
     title: "时瞳回响",
@@ -223,6 +251,7 @@ const secondary = [
 ];
 
 const skills = [
+  ["UE5 / Blueprint", "Listen Server、本地双人联机、Replication、Server RPC、Client RPC、Multicast RPC、UMG 和服务器权威 Gameplay 逻辑。"],
   ["Unity / C#", "游戏客户端、角色控制、跳跃/冲刺/贴墙、状态机、资源系统、检查点、结算、多结局、UI 与音频反馈。"],
   ["工程拆分", "按玩家控制、状态资源、关卡交互、UI 对话、场景表现、结局流程拆模块，保持短周期可维护。"],
   ["Godot 原型", "做过叙事解谜项目的场景组织、交互道具拆解、时间线切换需求设计和流程调试。"],
@@ -235,6 +264,7 @@ const techStack = [
   {
     title: "游戏程序",
     items: [
+      "UE5 Blueprint：Listen Server、本地双人流程、RPC、Replication、UMG 和服务器权威战斗逻辑。",
       "角色控制：移动、长短跳、二段跳、冲刺、贴墙、受伤、死亡、复活。",
       "状态系统：面具/强化状态、参数切换、能力开关、场景反馈和音乐联动。",
       "关卡交互：移动平台、陷阱、隐藏平台、检查点、资源收集、道具与触发器。",
@@ -435,6 +465,37 @@ page(`
     <strong>阅读方式：</strong>先看输入如何进入状态中心，再看状态如何分发到 UI、关卡、结算或硬件输出。这样比脚本清单更容易判断项目是否有清晰工程主线。
   </div>
 `, "system-index-page");
+
+page(`
+  <div class="project-header ue5-header">
+    <div>
+      <p class="eyebrow">Unreal Engine 5 / Multiplayer Technical Demo</p>
+      <h2>${esc(ue5Demo.title)}</h2>
+      <p>${esc(ue5Demo.summary)}</p>
+      ${chipList(ue5Demo.tags)}
+    </div>
+    <div class="fact-box">
+      <p><strong>时间</strong>2026.06 · 约 3 天</p>
+      <p><strong>定位</strong>技术 Demo / 非完整商业联机框架</p>
+      <p><strong>角色</strong>${esc(ue5Demo.role)}</p>
+      <p><strong>工具</strong>${esc(ue5Demo.tools)}</p>
+    </div>
+  </div>
+  <div class="ue5-layout">
+    <div class="ue5-main-image">
+      ${imageCard(ue5Demo.image, "Blueprint 事件图表：第一人称角色、射击、伤害、死亡与重生逻辑")}
+    </div>
+    <div class="ue5-copy">
+      <h3>开发重点</h3>
+      <ul>${ue5Demo.highlights.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+      <h3>网络同步拆分</h3>
+      <ul>${ue5Demo.systems.slice(0, 3).map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+    </div>
+  </div>
+  <div class="ue5-gallery">
+    ${ue5Demo.gallery.map(([src, caption]) => imageCard(src, caption)).join("")}
+  </div>
+`, "ue5-page");
 
 page(`
   <div class="section-title">
@@ -892,6 +953,56 @@ const html = `<!doctype html>
     color: #526173;
     font-size: 11pt;
   }
+  .ue5-page {
+    background: #f7f4ee;
+  }
+  .ue5-header {
+    grid-template-columns: 1fr .62fr;
+    margin-bottom: 2mm;
+  }
+  .ue5-header h2 {
+    margin-bottom: 3mm;
+  }
+  .ue5-header p {
+    font-size: 10.1pt;
+  }
+  .ue5-layout {
+    display: grid;
+    grid-template-columns: 1.1fr .9fr;
+    gap: 6mm;
+    align-items: start;
+  }
+  .ue5-main-image .image-card img {
+    height: 64mm;
+    object-fit: contain;
+    background: #121820;
+  }
+  .ue5-copy {
+    padding: 5mm;
+    border: 1px solid #d9e3ec;
+    border-radius: 6mm;
+    background: #fffdf8;
+  }
+  .ue5-copy h3 {
+    color: #0c546d;
+    font-size: 12.5pt;
+    margin-bottom: 2mm;
+  }
+  .ue5-copy li {
+    font-size: 8.2pt;
+    margin-bottom: 1.1mm;
+  }
+  .ue5-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4mm;
+    margin-top: 3mm;
+  }
+  .ue5-gallery .image-card img {
+    height: 29mm;
+    object-fit: contain;
+    background: #121820;
+  }
   .featured-three {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -1070,17 +1181,24 @@ const html = `<!doctype html>
   }
   .skill-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 5mm;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4mm;
   }
-  .skill-grid article { min-height: 38mm; }
+  .skill-grid article {
+    min-height: 31mm;
+    padding: 4mm;
+  }
   .skill-grid h3 { color: #0c546d; }
+  .skill-grid p {
+    font-size: 9pt;
+    line-height: 1.5;
+  }
   .contact-band {
     display: grid;
     grid-template-columns: .9fr 1.3fr;
     gap: 6mm;
-    margin-top: 7mm;
-    padding: 6mm;
+    margin-top: 5mm;
+    padding: 5mm;
     border-radius: 6mm;
     background: #102236;
     color: #fff;
