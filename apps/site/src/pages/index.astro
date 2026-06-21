@@ -15,11 +15,15 @@ import {
 const lang = "zh-cn";
 const text = siteText(lang);
 const projects = await getEntries("projects", { lang });
-const preferredSlugs = ["ashe-lament", "emotion-mask", "smart-boat"];
-const heroProjects = preferredSlugs
+const heroSlugs = ["ashe-lament", "emotion-mask", "ue5-coop-training-range", "smart-boat"];
+const representativeSlugs = ["ashe-lament", "emotion-mask", "smart-boat"];
+const technicalDemoSlugs = new Set(["ue5-coop-training-range"]);
+const heroProjects = heroSlugs
   .map((slug) => projects.find((entry) => entry.slug === slug))
   .filter(Boolean);
-const featured = heroProjects;
+const featured = representativeSlugs
+  .map((slug) => projects.find((entry) => entry.slug === slug))
+  .filter(Boolean);
 const posts = (await getEntries("posts", { lang })).slice(0, 2);
 const plans = (await getEntries("plans", { lang })).slice(0, 2);
 const planCards = await Promise.all(plans.map(async (entry) => {
@@ -37,23 +41,26 @@ const workflows = await Promise.all(workflowItems.map(async (item) => ({
 const techStack = [
   { label: "C# / .NET", href: taxonomyTermUrl("tags", "C#", lang) },
   { label: "Unity", href: taxonomyTermUrl("tags", "Unity", lang) },
+  { label: "Unreal Engine 5", href: taxonomyTermUrl("tags", "Unreal Engine 5", lang) },
+  { label: "Blueprint", href: taxonomyTermUrl("tags", "Blueprint", lang) },
+  { label: "Gameplay Networking", href: taxonomyTermUrl("tags", "Gameplay Networking", lang) },
   { label: "STM32", href: taxonomyTermUrl("tags", "STM32", lang) },
   { label: "C / C++", href: taxonomyTermUrl("tags", "C", lang) },
   { label: "Photoshop", href: taxonomyTermUrl("tags", "Photoshop", lang) }
 ];
 const homeStats = [
-  { value: "5+", label: "代表项目" },
+  { value: "3", label: "代表项目" },
   { value: "4", label: "Game Jam" },
   { value: "3", label: "线下路演" }
 ];
 ---
 <BaseLayout lang={lang} title="Left Jun - Gameplay Programmer & Embedded Developer" active="home" bodyClass="home-page">
-  <section class="home-hero" data-hero-carousel aria-label="首页代表项目">
+  <section class="home-hero" data-hero-carousel aria-label="首页项目轮换">
     <div class="home-hero__content">
       <p class="home-hero__eyebrow">四川大学 · 电子信息类 · 2029届</p>
       <h1 class="home-hero__title">Left Jun</h1>
       <p class="home-hero__role">游戏客户端 / Gameplay Programmer / 嵌入式开发</p>
-      <p class="home-hero__subtitle">用 Unity / C# 把玩法机制落成可玩的客户端系统，也持续做 Game Jam 原型和 STM32 软硬件联调。这里按项目记录我负责的系统、实现取舍、试玩反馈和下一步验证。</p>
+      <p class="home-hero__subtitle">用 Unity / C# 把玩法机制落成可玩的客户端系统，也持续做 Game Jam 原型、UE5 技术 Demo 和 STM32 软硬件联调。这里按项目记录我负责的系统、实现取舍、试玩反馈和下一步验证。</p>
       <div class="home-hero__actions">
         <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>查看项目</span></a>
         <a class="home-action" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer"><Icon name="briefcase" /><span>作品集 PDF</span></a>
@@ -73,6 +80,7 @@ const homeStats = [
       {heroProjects.map((entry, index) => {
         const image = entry.data.image ? entry.asset(entry.data.image) : "";
         const mediaPosition = entry.data.imagePosition || "center right";
+        const projectKind = technicalDemoSlugs.has(entry.slug) ? "技术 Demo" : "代表项目";
         return (
           <article class:list={["home-hero__slide", index === 0 && "is-active"]} data-hero-slide aria-hidden={index === 0 ? "false" : "true"}>
             <a class="home-hero__media-link" href={entry.url} tabindex={index === 0 ? "0" : "-1"} aria-label={`查看${entry.data.title}`}>
@@ -103,7 +111,7 @@ const homeStats = [
                 )}
               </span>
               <span class="home-hero__project-link">
-                <small>代表项目</small>
+                <small>{projectKind}</small>
                 <strong>{entry.data.title}</strong>
                 <Icon name="chevron-right" />
               </span>
@@ -111,7 +119,7 @@ const homeStats = [
           </article>
         );
       })}
-      <div class="home-hero__dots" role="tablist" aria-label="切换代表项目">
+      <div class="home-hero__dots" role="tablist" aria-label="切换展示项目">
         {heroProjects.map((entry, index) => (
           <button type="button" data-hero-dot aria-label={`切换到${entry.data.title}`} aria-current={index === 0 ? "true" : undefined}>
             <span>{entry.data.title}</span>

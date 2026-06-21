@@ -19,7 +19,7 @@ projectFacts:
   result: "单人完成并上架 TapTap，商店评分 9.4。"
 projectLinks:
   - label: "TapTap 页面"
-    url: "https://www.taptap.cn/app/814556?os=pc"
+    url: "https://www.taptap.cn/app/868040?os=pc"
     icon: "link"
   - label: "Global Game Jam"
     url: "https://globalgamejam.org/games/2026/emotion-mask-6"
@@ -28,7 +28,7 @@ projectLinks:
     url: "https://www.bilibili.com/video/BV15e6tBNEKg/"
     icon: "brand-bilibili"
   - label: "可执行版本"
-    url: "https://pan.quark.cn/s/e9fadb101a75?pwd=duyj"
+    url: "https://pan.quark.cn/s/c587f493752e"
     icon: "link"
 tags:
   - "Unity"

@@ -230,7 +230,7 @@ export const workflowItems = [
       zh: "围绕同一个设计目标组织角色控制、状态机、资源循环、检查点、UI 反馈和结算流程。",
       en: "Connect character control, state machines, resource loops, checkpoints, UI feedback, and settlement flow around one design goal."
     },
-    slugs: ["ashe-lament", "emotion-mask"]
+    slugs: ["ashe-lament", "emotion-mask", "ue5-coop-training-range"]
   },
   {
     icon: "messages",
