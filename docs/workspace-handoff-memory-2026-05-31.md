@@ -10,8 +10,8 @@
 
 ### 1.1 本地路径
 
-- 工作区根目录：`C:\Users\MR\Desktop\Hugo`
-- 当前主要仓库：`C:\Users\MR\Desktop\Hugo\Left_Jun`
+- 工作区根目录：`D:\Desktop\LeftJun-Web`
+- 当前主要仓库：`D:\Desktop\LeftJun-Web\Left_Jun`
 - 当前 Git 分支：`main`
 - 远端：`origin/main`
 - 当前状态（写本文前确认）：`main...origin/main`，工作树干净。
@@ -760,7 +760,7 @@ EdgeOne 部署完成后至少打开：
 
 ### 10.1 常用命令
 
-在仓库根目录：`C:\Users\MR\Desktop\Hugo\Left_Jun`
+在仓库根目录：`D:\Desktop\LeftJun-Web\Left_Jun`
 
 开发：
 
@@ -1041,7 +1041,7 @@ apps/site/dist
 1. 进入仓库：
 
 ```bash
-cd C:\Users\MR\Desktop\Hugo\Left_Jun
+cd D:\Desktop\LeftJun-Web\Left_Jun
 ```
 
 2. 确认状态：
