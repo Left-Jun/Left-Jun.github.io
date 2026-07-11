@@ -12,7 +12,7 @@
   "dependencies": {
     "@astrojs/sitemap": "^3.6.0",
     "@left-jun/content-model": "0.1.0",
-    "astro": "^5.16.4"
+    "astro": "^6.4.8"
   },
   "devDependencies": {
     "@astrojs/check": "^0.9.4",

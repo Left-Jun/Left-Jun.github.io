@@ -4,13 +4,14 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=20 <23"
+    "node": ">=22.12 <23"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
   "scripts": {
+    "test": "npm --workspace @left-jun/content-model run test",
     "dev:site": "npm --workspace @left-jun/site run dev",
     "build:site": "npm --workspace @left-jun/site run build",
     "check:site": "npm --workspace @left-jun/site run check",

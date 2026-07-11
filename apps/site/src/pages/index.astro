@@ -11,6 +11,7 @@ import {
   workflowItems,
   taxonomyTermUrl
 } from "../lib/content.js";
+import type { SiteEntry } from "../lib/content.js";
 
 const lang = "zh-cn";
 const text = siteText(lang);
@@ -19,10 +20,10 @@ const heroSlugs = ["ashe-lament", "emotion-mask", "ue5-coop-training-range", "sm
 const representativeSlugs = ["ashe-lament", "emotion-mask", "smart-boat"];
 const heroProjects = heroSlugs
   .map((slug) => projects.find((entry) => entry.slug === slug))
-  .filter(Boolean);
+  .filter((entry): entry is SiteEntry => Boolean(entry));
 const featured = representativeSlugs
   .map((slug) => projects.find((entry) => entry.slug === slug))
-  .filter(Boolean);
+  .filter((entry): entry is SiteEntry => Boolean(entry));
 const posts = (await getEntries("posts", { lang })).slice(0, 2);
 const plans = (await getEntries("plans", { lang })).slice(0, 2);
 const planCards = await Promise.all(plans.map(async (entry) => {
@@ -35,7 +36,8 @@ const planCards = await Promise.all(plans.map(async (entry) => {
 }));
 const workflows = await Promise.all(workflowItems.map(async (item) => ({
   ...item,
-  linked: (await Promise.all(item.slugs.map((slug) => getEntryBySlug("projects", slug, lang)))).filter(Boolean)
+  linked: (await Promise.all(item.slugs.map((slug) => getEntryBySlug("projects", slug, lang))))
+    .filter((entry): entry is SiteEntry => Boolean(entry))
 })));
 const techStack = [
   { label: "C# / .NET", href: taxonomyTermUrl("tags", "C#", lang) },

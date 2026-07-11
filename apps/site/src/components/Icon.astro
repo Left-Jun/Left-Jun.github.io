@@ -1,14 +1,16 @@
 ---
 import { readFileSync } from "node:fs";
+import path from "node:path";
 
 const { name, label = "" } = Astro.props;
 const safeName = /^[a-z0-9-]+$/i.test(name) ? name : "link";
 
 let svg = "";
+const iconRoot = path.resolve(process.cwd(), "public", "icons");
 try {
-  svg = readFileSync(new URL(`../../public/icons/${safeName}.svg`, import.meta.url), "utf8");
+  svg = readFileSync(path.join(iconRoot, `${safeName}.svg`), "utf8");
 } catch {
-  svg = readFileSync(new URL("../../public/icons/link.svg", import.meta.url), "utf8");
+  svg = readFileSync(path.join(iconRoot, "link.svg"), "utf8");
 }
 ---
 <span class="inline-icon" role={label ? "img" : undefined} aria-label={label || undefined} aria-hidden={label ? undefined : "true"} set:html={svg} />

@@ -8,10 +8,11 @@
     ".": "./src/index.js"
   },
   "scripts": {
+    "test": "node --test test/*.test.mjs",
     "validate": "node scripts/validate.mjs"
   },
   "dependencies": {
-    "gray-matter": "^4.0.3",
+    "@11ty/gray-matter": "^2.1.0",
     "markdown-it": "^14.1.0",
     "yaml": "^2.8.1",
     "zod": "^4.1.12"

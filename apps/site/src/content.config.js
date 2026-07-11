@@ -1,7 +1,8 @@
-import { defineCollection, z } from "astro:content";
+import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
+import { z } from "astro/zod";
 
-const baseSchema = z.object({
+const baseSchema = z.looseObject({
   title: z.string(),
   date: z.coerce.date().optional(),
   draft: z.boolean().optional().default(false),
@@ -18,7 +19,7 @@ const baseSchema = z.object({
   projectLinks: z.array(z.record(z.string(), z.unknown())).optional(),
   featured: z.boolean().optional().default(false),
   featuredWeight: z.number().optional().default(999)
-}).passthrough();
+});
 
 const pageSchema = baseSchema.extend({
   countSuffix: z.string().optional(),

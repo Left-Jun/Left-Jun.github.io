@@ -1,6 +1,6 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import matter from "gray-matter";
+import matter from "@11ty/gray-matter";
 import MarkdownIt from "markdown-it";
 import { z } from "zod";
 
@@ -15,7 +15,7 @@ export const SECTION_LABELS = {
   pages: { zh: "页面", en: "Pages" }
 };
 
-export const contentFrontMatterSchema = z.object({
+export const contentFrontMatterSchema = z.looseObject({
   title: z.string().min(1),
   date: z.union([z.string(), z.date()]).optional(),
   draft: z.boolean().optional().default(false),
@@ -32,9 +32,9 @@ export const contentFrontMatterSchema = z.object({
   projectLinks: z.array(z.record(z.string(), z.unknown())).optional(),
   featured: z.boolean().optional(),
   featuredWeight: z.number().optional()
-}).passthrough();
+});
 
-export const sectionPageSchema = z.object({
+export const sectionPageSchema = z.looseObject({
   title: z.string().min(1),
   slug: z.string().optional().default(""),
   description: z.string().optional().default(""),
@@ -44,7 +44,7 @@ export const sectionPageSchema = z.object({
   typeGame: z.string().optional(),
   typeEmbedded: z.string().optional(),
   indexTitle: z.string().optional()
-}).passthrough();
+});
 
 export function stripBom(text) {
   return String(text ?? "").replace(/^\uFEFF/, "");
