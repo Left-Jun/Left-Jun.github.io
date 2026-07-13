@@ -11,8 +11,10 @@ pinned: true
 pinWeight: 10
 featured: true
 featuredWeight: 10
+homeHeroWeight: 10
 weight: 10
 portfolioType: "game"
+status: "completed"
 projectFacts:
   developmentTime: "2026.03 - 2026.05"
   duration: "72h"

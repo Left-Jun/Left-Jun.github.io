@@ -7,9 +7,11 @@ description: "一款围绕情绪状态机、平台显隐、冲刺破坏、碎片
 image: "cover.png"
 featured: true
 featuredWeight: 20
+homeHeroWeight: 20
 pinWeight: 20
 weight: 20
 portfolioType: "game"
+status: "completed"
 projectFacts:
   developmentTime: "2026.1（Global Game Jam 2026 长沙线下站）"
   duration: "48h"

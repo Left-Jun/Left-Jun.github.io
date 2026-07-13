@@ -8,9 +8,11 @@ image: "cover.png"
 imagePosition: "center"
 featured: false
 featuredWeight: 70
+homeHeroWeight: 50
 pinWeight: 70
 weight: 70
 portfolioType: "web"
+status: "in-progress"
 projectFacts:
   developmentTime: "2026.06 - 进行中"
   duration: "持续迭代"

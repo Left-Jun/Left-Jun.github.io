@@ -9,6 +9,7 @@ imagePosition: "45% center"
 pinWeight: 50
 weight: 50
 portfolioType: "game"
+status: "completed"
 projectFacts:
   developmentTime: "2026.2, Mengya Cup 2026 creative prototype"
   duration: "6 hours"
