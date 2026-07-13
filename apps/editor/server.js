@@ -77,7 +77,10 @@ function listPathForNew(section, slug, lang) {
 async function listAssetsForEntry(entry) {
   const assetDir = path.join(ASSET_ROOT, entry.section, baseEntryId(entry.path));
   if (!isInside(assetDir, ASSET_ROOT) || !fs.existsSync(assetDir)) return [];
-  const files = await walkFiles(assetDir, (file) => /\.(png|jpe?g|webp|gif|svg|mp4|webm|pdf)$/i.test(file));
+  const files = await walkFiles(assetDir, (file) => (
+    /\.(png|jpe?g|webp|gif|svg|mp4|webm|pdf)$/i.test(file)
+    && !/-\d+\.webp$/i.test(file)
+  ));
   return files.map((file) => {
     const relative = normalizeSlash(path.relative(assetDir, file));
     return {
@@ -176,9 +179,10 @@ async function saveSiteConfig(body) {
 
 function runBuild() {
   return new Promise((resolve) => {
+    const command = "npm run optimize:media && npm run validate:content && npm run build:site";
     const child = process.platform === "win32"
-      ? spawn(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", "npm --workspace @left-jun/site run build"], { cwd: REPO_ROOT })
-      : spawn("npm", ["--workspace", "@left-jun/site", "run", "build"], { cwd: REPO_ROOT });
+      ? spawn(process.env.ComSpec || "cmd.exe", ["/d", "/s", "/c", command], { cwd: REPO_ROOT })
+      : spawn("sh", ["-c", command], { cwd: REPO_ROOT });
     let stdout = "";
     let stderr = "";
     child.stdout.on("data", (chunk) => { stdout += chunk.toString(); });

@@ -75,6 +75,9 @@
           <label><span>语言版本</span><select id="langField"><option value="zh-cn">中文</option><option value="en">English</option></select></label>
           <label><span>链接名</span><input id="slugField" placeholder="留空会根据标题生成"></label>
           <label><span>发布时间</span><input id="dateField" placeholder="2026-05-28T10:00:00+08:00"></label>
+          <label><span>更新时间</span><input id="updatedAtField" placeholder="留空时不显示更新时间"></label>
+          <label><span>内容状态</span><select id="statusField"><option value="">未设置</option><option value="planned">计划中</option><option value="in-progress">进行中</option><option value="completed">已完成</option><option value="paused">已暂停</option><option value="archived">已归档</option></select></label>
+          <label><span>动态类型</span><select id="updateKindField"><option value="">非动态内容</option><option value="project">项目</option><option value="event">活动</option><option value="award">奖项</option><option value="training">训练</option><option value="research">研究</option><option value="release">发布</option><option value="article">文章</option></select></label>
           <label class="checkbox"><input id="draftField" type="checkbox"><span>保存为草稿，不公开显示</span></label>
           <label class="wide-field"><span>列表摘要</span><textarea id="descriptionField" rows="3" placeholder="首页、列表页和搜索里看到的一小段介绍"></textarea></label>
         </div>
@@ -98,6 +101,10 @@
               <label><span>封面图片</span><input id="imageField" placeholder="cover.png 或 /content-assets/..."></label>
               <label><span>封面视频</span><input id="coverVideoField" placeholder="cover.mp4"></label>
               <label><span>项目类型</span><input id="portfolioTypeField" placeholder="game / embedded"></label>
+              <label class="checkbox"><input id="featuredField" type="checkbox"><span>首页代表项目</span></label>
+              <label><span>代表项目权重</span><input id="featuredWeightField" type="number" min="0" step="1" placeholder="数字越小越靠前"></label>
+              <label><span>Hero 权重</span><input id="homeHeroWeightField" type="number" min="0" step="1" placeholder="留空则不进入 Hero"></label>
+              <label><span>项目列表权重</span><input id="pinWeightField" type="number" min="0" step="1" placeholder="数字越小越靠前"></label>
               <label><span>分类</span><textarea id="categoriesField" rows="3" placeholder="一行一个，或用逗号分隔"></textarea></label>
               <label><span>标签</span><textarea id="tagsField" rows="3" placeholder="Unity&#10;C#&#10;STM32"></textarea></label>
               <label><span>职责标签</span><textarea id="roleTagsField" rows="3" placeholder="Gameplay Programmer&#10;Technical Artist"></textarea></label>

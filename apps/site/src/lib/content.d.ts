@@ -1,13 +1,37 @@
 export type SiteLanguage = "zh-cn" | "en";
-export type ContentSection = "projects" | "posts" | "retrospectives" | "plans" | "pages";
+export type ContentSection = "projects" | "posts" | "retrospectives" | "plans" | "updates" | "pages";
+export type ContentStatus = "planned" | "in-progress" | "completed" | "paused" | "archived";
+export type UpdateKind = "project" | "event" | "award" | "training" | "research" | "release" | "article";
 
 export interface ProjectLink {
-  [key: string]: string;
+  label: string;
+  url: string;
+  icon?: string;
+}
+
+export interface ProjectFacts {
+  developmentTime?: string;
+  duration?: string;
+  team?: string;
+  event?: string;
+  competition?: string;
+  role?: string;
+  roleNote?: string;
+  tools?: string;
+  techNote?: string;
+  platform?: string;
+  platformNote?: string;
+  finishedAt?: string;
+  trailerDuration?: string;
+  result?: string;
 }
 
 export interface SiteEntryData {
   title: string;
   date?: Date;
+  updatedAt?: Date;
+  status?: ContentStatus;
+  kind?: UpdateKind;
   draft?: boolean;
   slug?: string;
   description?: string;
@@ -20,10 +44,11 @@ export interface SiteEntryData {
   relatedPages: string[];
   roleTags: string[];
   portfolioType?: string;
-  projectFacts?: Record<string, string | number | undefined>;
+  projectFacts?: ProjectFacts;
   projectLinks?: ProjectLink[];
   featured?: boolean;
   featuredWeight?: number;
+  homeHeroWeight?: number;
   pinWeight?: number;
   weight?: number;
   countSuffix?: string;
@@ -87,6 +112,7 @@ export interface SiteText {
     main: MenuItem[];
     social: MenuItem[];
   };
+  sections: Partial<Record<ContentSection, string>>;
   languageName: string;
   homeUrl: string;
   switchUrl: string;
@@ -96,6 +122,7 @@ export interface SiteText {
   allProjects: string;
   allPosts: string;
   allPlans: string;
+  allUpdates: string;
   viewProject: string;
   portfolioPdf: string;
   aboutMe: string;
@@ -147,6 +174,7 @@ export function isEnglish(lang?: string | null): boolean;
 export function pageLanguage(entry: Pick<SiteEntry, "id">): SiteLanguage;
 export function getEntries(section: ContentSection, options?: EntryOptions): Promise<SiteEntry[]>;
 export function getAllEntries(options?: EntryOptions): Promise<SiteEntry[]>;
+export function getTimelineEntries(lang?: SiteLanguage): Promise<SiteEntry[]>;
 export function getEntryBySlug(section: ContentSection, slug: string, lang?: SiteLanguage): Promise<SiteEntry | undefined>;
 export function getPageBySlug(slug: string, lang?: SiteLanguage): Promise<SiteEntry | undefined>;
 export function getSectionPage(section: ContentSection, lang?: SiteLanguage): Promise<SiteEntry | SectionPage>;

@@ -1,0 +1,174 @@
+---
+type UpdateKind = "project" | "event" | "award" | "training" | "research" | "release" | "article";
+
+type TimelineEntry = {
+  url: string;
+  formattedDate?: string;
+  data: {
+    title: string;
+    description?: string;
+    kind?: UpdateKind;
+    date?: Date;
+  };
+};
+
+const { entries = [], lang = "zh-cn" } = Astro.props as {
+  entries?: TimelineEntry[];
+  lang?: "zh-cn" | "en";
+};
+
+const isEn = lang === "en";
+const labels: Record<UpdateKind, { "zh-cn": string; en: string }> = {
+  project: { "zh-cn": "项目", en: "Project" },
+  event: { "zh-cn": "活动", en: "Event" },
+  award: { "zh-cn": "奖项", en: "Award" },
+  training: { "zh-cn": "训练", en: "Training" },
+  research: { "zh-cn": "研究", en: "Research" },
+  release: { "zh-cn": "发布", en: "Release" },
+  article: { "zh-cn": "文章", en: "Article" }
+};
+---
+
+{entries.length > 0 ? (
+  <ol class="update-timeline">
+    {entries.map((entry) => {
+      const kind = entry.data.kind || "project";
+      return (
+        <li class:list={["update-timeline__item", `update-timeline__item--${kind}`]}>
+          <span class="update-timeline__marker" aria-hidden="true"></span>
+          <article class="update-timeline__entry">
+            <div class="update-timeline__meta">
+              {entry.formattedDate && (
+                <time datetime={entry.data.date?.toISOString?.()}>{entry.formattedDate}</time>
+              )}
+              <span class="update-timeline__kind">{labels[kind][lang]}</span>
+            </div>
+            <h2><a href={entry.url}>{entry.data.title}</a></h2>
+            {entry.data.description && <p>{entry.data.description}</p>}
+            <a class="update-timeline__link" href={entry.url}>
+              {isEn ? "Read update" : "查看动态"}<span aria-hidden="true"> →</span>
+            </a>
+          </article>
+        </li>
+      );
+    })}
+  </ol>
+) : (
+  <p class="update-timeline__empty">{isEn ? "New updates are being prepared." : "新的动态正在整理中。"}</p>
+)}
+
+<style>
+  .update-timeline {
+    position: relative;
+    display: grid;
+    gap: 1.25rem;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .update-timeline::before {
+    position: absolute;
+    inset: 0 auto 0 0.4rem;
+    width: 1px;
+    background: var(--card-separator-color);
+    content: "";
+  }
+
+  .update-timeline__item {
+    position: relative;
+    padding-left: 2rem;
+  }
+
+  .update-timeline__marker {
+    position: absolute;
+    top: 1.4rem;
+    left: 0;
+    width: 0.85rem;
+    height: 0.85rem;
+    border: 3px solid var(--body-background);
+    border-radius: 50%;
+    background: var(--accent-color);
+    box-shadow: 0 0 0 1px var(--card-separator-color);
+  }
+
+  .update-timeline__entry,
+  .update-timeline__empty {
+    border: 1px solid var(--card-separator-color);
+    border-radius: 8px;
+    background: var(--card-background);
+  }
+
+  .update-timeline__entry {
+    padding: clamp(1rem, 2vw, 1.4rem);
+  }
+
+  .update-timeline__meta {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+    color: var(--card-text-color-tertiary);
+    font-size: 1.25rem;
+  }
+
+  .update-timeline__kind {
+    padding: 0.18rem 0.5rem;
+    border: 1px solid color-mix(in srgb, var(--accent-color) 28%, var(--card-separator-color));
+    border-radius: 999px;
+    color: var(--accent-color-darker);
+    background: color-mix(in srgb, var(--accent-color) 8%, var(--card-background));
+  }
+
+  .update-timeline h2 {
+    margin: 0.65rem 0 0;
+    font-size: clamp(1.8rem, 2vw, 2.2rem);
+    letter-spacing: 0;
+  }
+
+  .update-timeline h2 a {
+    color: var(--card-text-color-main);
+    text-decoration: none;
+  }
+
+  .update-timeline h2 a:hover,
+  .update-timeline h2 a:focus-visible,
+  .update-timeline__link:hover,
+  .update-timeline__link:focus-visible {
+    color: var(--accent-color);
+  }
+
+  .update-timeline p {
+    margin: 0.55rem 0 0;
+    color: var(--card-text-color-secondary);
+    line-height: 1.65;
+  }
+
+  .update-timeline__link {
+    display: inline-block;
+    margin-top: 0.8rem;
+    color: var(--accent-color-darker);
+    font-size: 1.3rem;
+    font-weight: 650;
+    text-decoration: none;
+  }
+
+  .update-timeline__empty {
+    margin: 0;
+    padding: 1.25rem;
+    color: var(--card-text-color-secondary);
+  }
+
+  @media (max-width: 600px) {
+    .update-timeline__item {
+      padding-left: 1.5rem;
+    }
+
+    .update-timeline::before {
+      left: 0.3rem;
+    }
+
+    .update-timeline__marker {
+      left: -0.1rem;
+    }
+  }
+</style>

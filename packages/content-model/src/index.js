@@ -5,19 +5,79 @@ import MarkdownIt from "markdown-it";
 import { z } from "zod";
 
 export const PUBLIC_LANGUAGES = ["zh-cn", "en"];
-export const CONTENT_SECTIONS = ["projects", "posts", "retrospectives", "plans", "pages"];
-export const LIST_SECTIONS = ["projects", "posts", "retrospectives", "plans"];
+export const CONTENT_SECTIONS = ["projects", "posts", "retrospectives", "plans", "updates", "pages"];
+export const LIST_SECTIONS = ["projects", "posts", "retrospectives", "plans", "updates"];
+export const CONTENT_STATUSES = ["planned", "in-progress", "completed", "paused", "archived"];
+export const UPDATE_KINDS = ["project", "event", "award", "training", "research", "release", "article"];
+export const PORTFOLIO_TYPE_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const SECTION_LABELS = {
   projects: { zh: "项目&作品集", en: "Projects & Portfolio" },
   posts: { zh: "文章", en: "Posts" },
   retrospectives: { zh: "项目复盘", en: "Retrospectives" },
   plans: { zh: "开发计划", en: "Development Plans" },
+  updates: { zh: "动态", en: "Updates" },
   pages: { zh: "页面", en: "Pages" }
 };
+
+export const projectFactsSchema = z.strictObject({
+  developmentTime: z.string().optional(),
+  duration: z.string().optional(),
+  team: z.string().optional(),
+  event: z.string().optional(),
+  competition: z.string().optional(),
+  role: z.string().optional(),
+  roleNote: z.string().optional(),
+  tools: z.string().optional(),
+  techNote: z.string().optional(),
+  platform: z.string().optional(),
+  platformNote: z.string().optional(),
+  finishedAt: z.string().optional(),
+  trailerDuration: z.string().optional(),
+  result: z.string().optional()
+});
+
+export function isStablePortfolioType(value) {
+  return PORTFOLIO_TYPE_PATTERN.test(String(value || ""));
+}
+
+export function isSafeProjectLink(value) {
+  const candidate = String(value || "");
+  if (!candidate || candidate !== candidate.trim() || /[\u0000-\u0020\u007f\\]/.test(candidate)) return false;
+
+  if (candidate.startsWith("/")) {
+    if (candidate.startsWith("//") || candidate.startsWith("/\\")) return false;
+    try {
+      const site = new URL("https://leftjun.invalid/");
+      return new URL(candidate, site).origin === site.origin;
+    } catch {
+      return false;
+    }
+  }
+
+  try {
+    const url = new URL(candidate);
+    return (url.protocol === "http:" || url.protocol === "https:")
+      && Boolean(url.hostname)
+      && !url.username
+      && !url.password;
+  } catch {
+    return false;
+  }
+}
+
+export const projectLinkSchema = z.strictObject({
+  label: z.string().min(1),
+  url: z.string().min(1).refine(isSafeProjectLink, {
+    message: "Project links must use a site-relative, http, or https URL"
+  }),
+  icon: z.string().optional()
+});
 
 export const contentFrontMatterSchema = z.looseObject({
   title: z.string().min(1),
   date: z.union([z.string(), z.date()]).optional(),
+  updatedAt: z.union([z.string(), z.date()]).optional(),
+  status: z.enum(CONTENT_STATUSES).optional(),
   draft: z.boolean().optional().default(false),
   slug: z.string().optional().default(""),
   description: z.string().optional().default(""),
@@ -27,11 +87,30 @@ export const contentFrontMatterSchema = z.looseObject({
   tags: z.array(z.string()).optional().default([]),
   relatedPages: z.array(z.string()).optional().default([]),
   roleTags: z.array(z.string()).optional().default([]),
-  portfolioType: z.string().optional().default(""),
-  projectFacts: z.record(z.string(), z.unknown()).optional(),
-  projectLinks: z.array(z.record(z.string(), z.unknown())).optional(),
+  portfolioType: z.union([
+    z.literal(""),
+    z.string().refine(isStablePortfolioType, {
+      message: "Portfolio types must use a lowercase kebab-case token"
+    })
+  ]).optional().default(""),
+  projectFacts: projectFactsSchema.optional(),
+  projectLinks: z.array(projectLinkSchema).optional(),
   featured: z.boolean().optional(),
-  featuredWeight: z.number().optional()
+  featuredWeight: z.number().optional(),
+  homeHeroWeight: z.number().optional()
+});
+
+export const updateFrontMatterSchema = contentFrontMatterSchema.extend({
+  date: z.union([z.string(), z.date()]),
+  description: z.string().min(1),
+  kind: z.enum(UPDATE_KINDS),
+  relatedPages: z.array(z.string())
+});
+
+export const projectFrontMatterSchema = contentFrontMatterSchema.extend({
+  portfolioType: z.string().refine(isStablePortfolioType, {
+    message: "Projects require a lowercase kebab-case portfolio type"
+  })
 });
 
 export const sectionPageSchema = z.looseObject({
@@ -95,7 +174,13 @@ export function normalizeFrontMatter(input = {}) {
 }
 
 export function validateFrontMatter(frontMatter, { section = "posts", isSectionIndex = false } = {}) {
-  const schema = isSectionIndex ? sectionPageSchema : contentFrontMatterSchema;
+  const schema = isSectionIndex
+    ? sectionPageSchema
+    : section === "projects"
+      ? projectFrontMatterSchema
+      : section === "updates"
+        ? updateFrontMatterSchema
+        : contentFrontMatterSchema;
   const result = schema.safeParse(normalizeFrontMatter(frontMatter));
   if (!result.success) {
     const issue = result.error.issues[0];
@@ -225,7 +310,24 @@ function rewriteRelativeAssets(html, section, idOrPath) {
   });
 }
 
-export function markdownToHtml(markdown, { section = "posts", id = "" } = {}) {
+function mediaSrcset(variants = []) {
+  return variants.map((variant) => `${variant.src} ${variant.width}w`).join(", ");
+}
+
+function applyResponsiveMedia(html, mediaManifest = {}) {
+  return html.replace(/<img\b[^>]*\bsrc=(["'])([^"']+)\1[^>]*>/gi, (imageTag, quote, src) => {
+    const media = mediaManifest?.[src];
+    if (!media?.avif?.length || !media?.webp?.length) return imageTag;
+    let fallback = imageTag;
+    if (!/\bwidth=/i.test(fallback) && media.width) fallback = fallback.replace(/<img\b/i, `<img width="${media.width}"`);
+    if (!/\bheight=/i.test(fallback) && media.height) fallback = fallback.replace(/<img\b/i, `<img height="${media.height}"`);
+    if (!/\bdecoding=/i.test(fallback)) fallback = fallback.replace(/<img\b/i, '<img decoding="async"');
+    if (!/\bloading=/i.test(fallback)) fallback = fallback.replace(/<img\b/i, '<img loading="lazy"');
+    return `<picture class="content-responsive-image"><source type="image/avif" srcset="${mediaSrcset(media.avif)}" sizes="(max-width: 767px) 100vw, 920px"><source type="image/webp" srcset="${mediaSrcset(media.webp)}" sizes="(max-width: 767px) 100vw, 920px">${fallback}</picture>`;
+  });
+}
+
+export function markdownToHtml(markdown, { section = "posts", id = "", mediaManifest = {} } = {}) {
   const md = new MarkdownIt({
     html: true,
     linkify: true,
@@ -248,7 +350,8 @@ export function markdownToHtml(markdown, { section = "posts", id = "" } = {}) {
     token.attrSet("loading", "lazy");
     return defaultImage ? defaultImage(tokens, idx, options, env, self) : self.renderToken(tokens, idx, options);
   };
-  return rewriteRelativeAssets(md.render(stripBom(markdown || "")), section, id);
+  const html = rewriteRelativeAssets(md.render(stripBom(markdown || "")), section, id);
+  return applyResponsiveMedia(html, mediaManifest);
 }
 
 export function buildToc(markdown) {
@@ -344,6 +447,84 @@ export async function validateContentRoot(contentRoot) {
       if (!refs.has(ref)) {
         errors.push({ path: entry.path, message: `Broken relatedPages reference: ${ref}` });
       }
+    }
+  }
+
+  const translationGroups = new Map();
+  for (const entry of entries) {
+    const ref = entryRef(entry.section, entry.path);
+    if (!translationGroups.has(ref)) translationGroups.set(ref, []);
+    translationGroups.get(ref).push(entry);
+  }
+
+  for (const [ref, translations] of translationGroups) {
+    for (const language of PUBLIC_LANGUAGES) {
+      const count = translations.filter((entry) => entry.lang === language).length;
+      if (count === 0) {
+        const pathForError = translations[0]?.path || ref;
+        errors.push({ path: pathForError, message: `Missing ${language} translation for ${ref}` });
+      } else if (count > 1) {
+        const pathForError = translations.find((entry) => entry.lang === language)?.path || ref;
+        errors.push({ path: pathForError, message: `Duplicate ${language} translation for ${ref}` });
+      }
+    }
+
+    const slugs = new Set(translations.map((entry) => entrySlug({
+      id: entry.path,
+      data: entry.frontMatter
+    })));
+    if (slugs.size > 1) {
+      const pathForError = translations[0]?.path || ref;
+      errors.push({ path: pathForError, message: `Translation slug mismatch for ${ref}: ${[...slugs].join(", ")}` });
+    }
+
+    const invariantKeys = ["date", "updatedAt", "status", "draft", "relatedPages"];
+    if (translations[0]?.section === "projects") {
+      invariantKeys.push("portfolioType", "featured", "featuredWeight", "homeHeroWeight", "pinWeight", "weight");
+    }
+    if (translations[0]?.section === "updates") invariantKeys.push("kind");
+
+    if (translations.length === PUBLIC_LANGUAGES.length) {
+      for (const key of invariantKeys) {
+        const comparable = translations.map((entry) => {
+          const value = entry.frontMatter[key];
+          if ((key === "date" || key === "updatedAt") && value) {
+            const timestamp = new Date(value).getTime();
+            return Number.isNaN(timestamp) ? String(value) : timestamp;
+          }
+          if (key === "draft") return Boolean(value);
+          if (Array.isArray(value)) return JSON.stringify([...value].sort());
+          return JSON.stringify(value ?? null);
+        });
+        if (new Set(comparable).size > 1) {
+          errors.push({
+            path: translations[0]?.path || ref,
+            message: `Translation metadata mismatch for ${ref}: ${key}`
+          });
+        }
+      }
+    }
+  }
+
+  const routeOwners = new Map([
+    ["/", "<zh-cn home>"],
+    ["/en/", "<en home>"]
+  ]);
+  for (const language of PUBLIC_LANGUAGES) {
+    for (const section of LIST_SECTIONS) {
+      routeOwners.set(listUrl(section, language), `<${section} index>`);
+    }
+  }
+  for (const entry of entries.filter((item) => !item.isSectionIndex)) {
+    const routeKey = entryUrl(entry.section, {
+      id: entry.path,
+      data: entry.frontMatter
+    }, entry.lang);
+    const existing = routeOwners.get(routeKey);
+    if (existing && existing !== entry.path) {
+      errors.push({ path: entry.path, message: `Duplicate public route for ${routeKey}: ${existing}, ${entry.path}` });
+    } else {
+      routeOwners.set(routeKey, entry.path);
     }
   }
 
