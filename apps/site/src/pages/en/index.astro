@@ -131,20 +131,6 @@ const techStack = [
                 <Icon name="chevron-right" />
               </span>
             </a>
-            {entry.data.coverVideo && (
-              <button
-                class="home-hero__video-toggle"
-                type="button"
-                data-hero-video-toggle
-                data-state="paused"
-                aria-label="Play project preview"
-                title="Play project preview"
-                tabindex={index === 0 ? "0" : "-1"}
-              >
-                <span data-video-play-icon><Icon name="play" /></span>
-                <span data-video-pause-icon><Icon name="pause" /></span>
-              </button>
-            )}
           </article>
         );
       })}
@@ -307,18 +293,17 @@ const techStack = [
         const dots = [...hero.querySelectorAll("[data-hero-dot]")];
         const prevButton = hero.querySelector("[data-hero-prev]");
         const nextButton = hero.querySelector("[data-hero-next]");
-        const videoToggles = [...hero.querySelectorAll("[data-hero-video-toggle]")];
-        const playLabel = "Play project preview";
-        const pauseLabel = "Pause project preview";
+        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const supportsHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
         let active = 0;
-
-        const syncVideoToggle = (button, video) => {
-          const playing = !video.paused;
-          const label = playing ? pauseLabel : playLabel;
-          button.dataset.state = playing ? "playing" : "paused";
-          button.setAttribute("aria-label", label);
-          button.setAttribute("title", label);
-        };
+        let timer = null;
+        let isPointerInside = false;
+        let isFocusInside = false;
+        const isPaused = () =>
+          document.hidden ||
+          isFocusInside ||
+          hero.matches(":focus-within") ||
+          (supportsHover && (isPointerInside || hero.matches(":hover")));
 
         const setSlide = (next) => {
           if (slides.length === 0) return;
@@ -327,9 +312,10 @@ const techStack = [
             const isActive = index === active;
             slide.classList.toggle("is-active", isActive);
             slide.setAttribute("aria-hidden", isActive ? "false" : "true");
-            slide.querySelectorAll("a, button").forEach((control) => control.setAttribute("tabindex", isActive ? "0" : "-1"));
+            slide.querySelectorAll("a").forEach((link) => link.setAttribute("tabindex", isActive ? "0" : "-1"));
             slide.querySelectorAll("video").forEach((video) => {
-              if (!isActive) video.pause?.();
+              if (isActive && !reduceMotion && !document.hidden) video.play?.().catch(() => {});
+              else video.pause?.();
             });
           });
           summaries.forEach((summary, index) => {
@@ -343,30 +329,62 @@ const techStack = [
           });
         };
 
-        videoToggles.forEach((button) => {
-          const video = button.closest("[data-hero-slide]")?.querySelector("[data-hero-video]");
-          if (!video) return;
-          syncVideoToggle(button, video);
-          video.addEventListener("play", () => syncVideoToggle(button, video));
-          video.addEventListener("pause", () => syncVideoToggle(button, video));
-          button.addEventListener("click", (event) => {
-            event.preventDefault();
-            event.stopPropagation();
-            if (video.paused) video.play?.().catch(() => {});
-            else video.pause?.();
-          });
-        });
+        const stop = () => {
+          if (timer) window.clearInterval(timer);
+          timer = null;
+        };
 
-        dots.forEach((dot, index) => dot.addEventListener("click", () => setSlide(index)));
+        const start = () => {
+          stop();
+          if (!reduceMotion && slides.length > 1 && !isPaused()) {
+            timer = window.setInterval(() => {
+              if (!isPaused()) setSlide(active + 1);
+            }, 6000);
+          }
+        };
+
+        dots.forEach((dot, index) => dot.addEventListener("click", () => {
+          setSlide(index);
+          start();
+        }));
         prevButton?.addEventListener("click", (event) => {
           event.preventDefault();
           event.stopPropagation();
           setSlide(active - 1);
+          start();
         });
         nextButton?.addEventListener("click", (event) => {
           event.preventDefault();
           event.stopPropagation();
           setSlide(active + 1);
+          start();
+        });
+        if (supportsHover) {
+          hero.addEventListener("mouseenter", () => {
+            isPointerInside = true;
+            stop();
+          });
+          hero.addEventListener("mouseleave", () => {
+            isPointerInside = false;
+            start();
+          });
+        }
+        hero.addEventListener("focusin", () => {
+          isFocusInside = true;
+          stop();
+        });
+        hero.addEventListener("focusout", () => {
+          isFocusInside = hero.matches(":focus-within");
+          start();
+        });
+        document.addEventListener("visibilitychange", () => {
+          if (document.hidden) {
+            stop();
+            slides.forEach((slide) => slide.querySelectorAll("video").forEach((video) => video.pause?.()));
+          } else {
+            setSlide(active);
+            start();
+          }
         });
 
         const stage = hero.querySelector(".home-hero__stage");
@@ -390,15 +408,17 @@ const techStack = [
                 suppressClick = false;
               }, 0);
             }
+            start();
           };
 
           stage.addEventListener("pointerdown", (event) => {
             if (event.pointerType === "mouse" && event.button !== 0) return;
             if (event.isPrimary === false) return;
-            if (event.target?.closest?.("[data-hero-dot], [data-hero-prev], [data-hero-next], [data-hero-video-toggle]")) return;
+            if (event.target?.closest?.("[data-hero-dot], [data-hero-prev], [data-hero-next]")) return;
             startX = event.clientX;
             startY = event.clientY;
             isDragging = true;
+            stop();
             stage.setPointerCapture?.(event.pointerId);
           });
           stage.addEventListener("pointermove", (event) => {
@@ -411,6 +431,7 @@ const techStack = [
           stage.addEventListener("pointercancel", () => {
             isDragging = false;
             stage.classList.remove("is-swiping");
+            start();
           });
           stage.addEventListener("click", (event) => {
             if (suppressClick) {
@@ -418,7 +439,7 @@ const techStack = [
               event.stopPropagation();
               return;
             }
-            if (event.target?.closest?.("[data-hero-dot], [data-hero-prev], [data-hero-next], [data-hero-video-toggle]")) return;
+            if (event.target?.closest?.("[data-hero-dot], [data-hero-prev], [data-hero-next]")) return;
             const activeLink = stage.querySelector(".home-hero__slide.is-active .home-hero__media-link");
             if (activeLink?.href) {
               event.preventDefault();
@@ -428,6 +449,7 @@ const techStack = [
         }
 
         setSlide(0);
+        start();
       }
 
       if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;
