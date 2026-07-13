@@ -3,29 +3,36 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import PostCard from "../../components/PostCard.astro";
 import Icon from "../../components/Icon.astro";
+import ResponsiveImage from "../../components/ResponsiveImage.astro";
+import { optimizedPoster } from "../../lib/media";
 import {
   getEntries,
   getEntryBySlug,
   relatedEntries,
   siteText,
   workflowItems,
-  taxonomyTermUrl
+  taxonomySlug,
+  taxonomyTermUrl,
+  getTaxonomyTerms
 } from "../../lib/content.js";
 import type { SiteEntry } from "../../lib/content.js";
 
 const lang = "en";
 const text = siteText(lang);
 const projects = await getEntries("projects", { lang });
-const heroSlugs = ["ashe-lament", "emotion-mask", "ue5-coop-training-range", "smart-boat", "limen-notes"];
-const representativeSlugs = ["ashe-lament", "emotion-mask", "smart-boat"];
-const heroProjects = heroSlugs
-  .map((slug) => projects.find((entry) => entry.slug === slug))
-  .filter((entry): entry is SiteEntry => Boolean(entry));
-const featured = representativeSlugs
-  .map((slug) => projects.find((entry) => entry.slug === slug))
-  .filter((entry): entry is SiteEntry => Boolean(entry));
-const posts = (await getEntries("posts", { lang })).slice(0, 2);
-const plans = (await getEntries("plans", { lang })).slice(0, 2);
+const heroProjects = projects
+  .filter((entry) => Number.isFinite(entry.data.homeHeroWeight))
+  .sort((a, b) => Number(a.data.homeHeroWeight) - Number(b.data.homeHeroWeight));
+const featured = projects
+  .filter((entry) => entry.data.featured)
+  .sort((a, b) => Number(a.data.featuredWeight ?? 999) - Number(b.data.featuredWeight ?? 999));
+const posts = (await getEntries("posts", { lang })).slice(0, 3);
+const plans = (await getEntries("plans", { lang })).slice(0, 3);
+const projectKind = (entry: SiteEntry) => ({
+  game: "Game Project",
+  embedded: "Embedded Project",
+  web: "Web Project"
+}[entry.data.portfolioType || ""] || "Representative Project");
 const planCards = await Promise.all(plans.map(async (entry) => ({
   entry,
   retrospective: (await relatedEntries(entry)).find((item) => item.section === "retrospectives")
@@ -35,21 +42,26 @@ const workflows = await Promise.all(workflowItems.map(async (item) => ({
   linked: (await Promise.all(item.slugs.map((slug) => getEntryBySlug("projects", slug, lang))))
     .filter((entry): entry is SiteEntry => Boolean(entry))
 })));
+const availableTagSlugs = new Set((await getTaxonomyTerms("tags", lang)).map((term) => term.slug));
 const techStack = [
-  { label: "C# / .NET", href: taxonomyTermUrl("tags", "C#", lang) },
-  { label: "Unity", href: taxonomyTermUrl("tags", "Unity", lang) },
-  { label: "Unreal Engine 5", href: taxonomyTermUrl("tags", "Unreal Engine 5", lang) },
-  { label: "Blueprint / Replication", href: taxonomyTermUrl("tags", "Replication", lang) },
-  { label: "C / C++", href: taxonomyTermUrl("tags", "C", lang) },
-  { label: "Git", href: taxonomyTermUrl("tags", "Git", lang) },
-  { label: "STM32", href: taxonomyTermUrl("tags", "STM32", lang) },
-  { label: "Web Development", href: taxonomyTermUrl("tags", "Web Development", lang) }
-];
+  { label: "C# / .NET", term: "C#" },
+  { label: "Unity", term: "Unity" },
+  { label: "Unreal Engine 5", term: "Unreal Engine 5" },
+  { label: "Blueprint / Replication", term: "Replication" },
+  { label: "C / C++", term: "C" },
+  { label: "Git", term: "Git" },
+  { label: "STM32", term: "STM32" },
+  { label: "Web Development", term: "Web Development" }
+].map((item) => ({
+  ...item,
+  href: availableTagSlugs.has(taxonomySlug(item.term)) ? taxonomyTermUrl("tags", item.term, lang) : ""
+}));
 ---
 <BaseLayout
   lang={lang}
   title="Left Jun - Gameplay Programmer & Game Client Developer"
   description="Portfolio of Left Jun, a gameplay programmer and game client developer working with Unity, Unreal Engine 5, web products, and embedded systems."
+  alternatePath="/"
   active="home"
   bodyClass="home-page"
 >
@@ -68,7 +80,7 @@ const techStack = [
       <div class="home-hero__summary-list" aria-live="polite">
         {heroProjects.map((entry, index) => (
           <article class:list={["home-hero__summary", index === 0 && "is-active"]} data-hero-summary aria-hidden={index === 0 ? "false" : "true"}>
-            <span>{entry.slug === "limen-notes" ? "Web Project" : entry.slug === "ue5-coop-training-range" ? "Technical Demo" : entry.slug === "smart-boat" ? "Embedded Project" : "Representative Project"}</span>
+            <span>{projectKind(entry)}</span>
             <strong>{entry.data.title}</strong>
             {entry.data.description && <small>{entry.data.description}</small>}
             <div class="home-hero__summary-tags" aria-label="Project tags">
@@ -83,42 +95,56 @@ const techStack = [
       {heroProjects.map((entry, index) => {
         const image = entry.data.image ? entry.asset(entry.data.image) : "";
         const mediaPosition = entry.data.imagePosition || "center right";
-        const projectKind = entry.slug === "limen-notes" ? "Web Project" : entry.slug === "ue5-coop-training-range" ? "Technical Demo" : entry.slug === "smart-boat" ? "Embedded Project" : "Representative Project";
         return (
           <article class:list={["home-hero__slide", index === 0 && "is-active"]} data-hero-slide aria-hidden={index === 0 ? "false" : "true"}>
             <a class="home-hero__media-link" href={entry.url} tabindex={index === 0 ? "0" : "-1"} aria-label={`View ${entry.data.title}`}>
-              {image && (
-                <span class="home-hero__media-blur" aria-hidden="true">
-                  <img src={image} alt="" loading={index === 0 ? "eager" : "lazy"} style={`object-position: ${mediaPosition};`} />
-                </span>
-              )}
               <span class="home-hero__media-frame">
                 {entry.data.coverVideo ? (
                   <video
-                    autoplay={index === 0}
                     muted
                     loop
                     playsinline
-                    preload={index === 0 ? "metadata" : "none"}
+                    preload="none"
                     controlslist="nodownload noplaybackrate noremoteplayback"
                     disablepictureinpicture
                     disableRemotePlayback
-                    poster={image || undefined}
+                    poster={image ? optimizedPoster(image) : undefined}
                     style={`object-position: ${mediaPosition};`}
                     data-hero-video
                   >
                     <source src={entry.asset(entry.data.coverVideo)} type="video/mp4" />
                   </video>
                 ) : image && (
-                  <img src={image} alt={entry.data.title} loading={index === 0 ? "eager" : "lazy"} style={`object-position: ${mediaPosition};`} />
+                  <ResponsiveImage
+                    src={image}
+                    alt={entry.data.title}
+                    sizes="(max-width: 767px) 100vw, 52vw"
+                    loading={index === 0 ? "eager" : "lazy"}
+                    fetchpriority={index === 0 ? "high" : "auto"}
+                    style={`object-position: ${mediaPosition};`}
+                  />
                 )}
               </span>
               <span class="home-hero__project-link">
-                <small>{projectKind}</small>
+                <small>{projectKind(entry)}</small>
                 <strong>{entry.data.title}</strong>
                 <Icon name="chevron-right" />
               </span>
             </a>
+            {entry.data.coverVideo && (
+              <button
+                class="home-hero__video-toggle"
+                type="button"
+                data-hero-video-toggle
+                data-state="paused"
+                aria-label="Play project preview"
+                title="Play project preview"
+                tabindex={index === 0 ? "0" : "-1"}
+              >
+                <span data-video-play-icon><Icon name="play" /></span>
+                <span data-video-pause-icon><Icon name="pause" /></span>
+              </button>
+            )}
           </article>
         );
       })}
@@ -170,7 +196,7 @@ const techStack = [
             <h2>{text.developmentPlans}</h2>
           </div>
           <div class="home-section__side">
-            <a class="home-section__link" href="/retrospectives/#plans-list">
+            <a class="home-section__link" href="/en/retrospectives/#plans-list">
               <span>{text.allPlans}</span>
               <Icon name="chevron-right" />
             </a>
@@ -242,7 +268,12 @@ const techStack = [
                 {project.data.image && (
                   <span class="home-workflow__preview" aria-hidden="true">
                     <span class="home-workflow__preview-media">
-                      <img src={project.asset(project.data.image)} loading="lazy" alt="" />
+                      <ResponsiveImage
+                        src={project.asset(project.data.image)}
+                        alt=""
+                        sizes="240px"
+                        loading="lazy"
+                      />
                     </span>
                     {project.data.description && <span class="home-workflow__preview-caption">{project.data.description}</span>}
                   </span>
@@ -263,7 +294,7 @@ const techStack = [
       </div>
     </div>
     <div class="home-tech-stack__pills" aria-label="Tech Stack">
-      {techStack.map((item) => <a href={item.href}>{item.label}</a>)}
+      {techStack.map((item) => item.href ? <a href={item.href}>{item.label}</a> : <span>{item.label}</span>)}
     </div>
   </section>
 
@@ -276,12 +307,18 @@ const techStack = [
         const dots = [...hero.querySelectorAll("[data-hero-dot]")];
         const prevButton = hero.querySelector("[data-hero-prev]");
         const nextButton = hero.querySelector("[data-hero-next]");
-        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const videoToggles = [...hero.querySelectorAll("[data-hero-video-toggle]")];
+        const playLabel = "Play project preview";
+        const pauseLabel = "Pause project preview";
         let active = 0;
-        let timer = null;
-        let isPointerInside = false;
-        let isFocusInside = false;
-        const isPaused = () => isPointerInside || isFocusInside || hero.matches(":hover, :focus-within");
+
+        const syncVideoToggle = (button, video) => {
+          const playing = !video.paused;
+          const label = playing ? pauseLabel : playLabel;
+          button.dataset.state = playing ? "playing" : "paused";
+          button.setAttribute("aria-label", label);
+          button.setAttribute("title", label);
+        };
 
         const setSlide = (next) => {
           if (slides.length === 0) return;
@@ -290,10 +327,9 @@ const techStack = [
             const isActive = index === active;
             slide.classList.toggle("is-active", isActive);
             slide.setAttribute("aria-hidden", isActive ? "false" : "true");
-            slide.querySelectorAll("a").forEach((link) => link.setAttribute("tabindex", isActive ? "0" : "-1"));
+            slide.querySelectorAll("a, button").forEach((control) => control.setAttribute("tabindex", isActive ? "0" : "-1"));
             slide.querySelectorAll("video").forEach((video) => {
-              if (isActive) video.play?.().catch(() => {});
-              else video.pause?.();
+              if (!isActive) video.pause?.();
             });
           });
           summaries.forEach((summary, index) => {
@@ -307,51 +343,30 @@ const techStack = [
           });
         };
 
-        const stop = () => {
-          if (timer) window.clearInterval(timer);
-          timer = null;
-        };
+        videoToggles.forEach((button) => {
+          const video = button.closest("[data-hero-slide]")?.querySelector("[data-hero-video]");
+          if (!video) return;
+          syncVideoToggle(button, video);
+          video.addEventListener("play", () => syncVideoToggle(button, video));
+          video.addEventListener("pause", () => syncVideoToggle(button, video));
+          button.addEventListener("click", (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+            if (video.paused) video.play?.().catch(() => {});
+            else video.pause?.();
+          });
+        });
 
-        const start = () => {
-          stop();
-          if (!reduceMotion && slides.length > 1 && !isPaused()) {
-            timer = window.setInterval(() => {
-              if (!isPaused()) setSlide(active + 1);
-            }, 6000);
-          }
-        };
-
-        dots.forEach((dot, index) => dot.addEventListener("click", () => {
-          setSlide(index);
-          start();
-        }));
+        dots.forEach((dot, index) => dot.addEventListener("click", () => setSlide(index)));
         prevButton?.addEventListener("click", (event) => {
           event.preventDefault();
           event.stopPropagation();
           setSlide(active - 1);
-          start();
         });
         nextButton?.addEventListener("click", (event) => {
           event.preventDefault();
           event.stopPropagation();
           setSlide(active + 1);
-          start();
-        });
-        hero.addEventListener("mouseenter", () => {
-          isPointerInside = true;
-          stop();
-        });
-        hero.addEventListener("mouseleave", () => {
-          isPointerInside = false;
-          start();
-        });
-        hero.addEventListener("focusin", () => {
-          isFocusInside = true;
-          stop();
-        });
-        hero.addEventListener("focusout", () => {
-          isFocusInside = hero.matches(":focus-within");
-          start();
         });
 
         const stage = hero.querySelector(".home-hero__stage");
@@ -375,17 +390,15 @@ const techStack = [
                 suppressClick = false;
               }, 0);
             }
-            start();
           };
 
           stage.addEventListener("pointerdown", (event) => {
             if (event.pointerType === "mouse" && event.button !== 0) return;
             if (event.isPrimary === false) return;
-            if (event.target?.closest?.("[data-hero-dot], [data-hero-prev], [data-hero-next]")) return;
+            if (event.target?.closest?.("[data-hero-dot], [data-hero-prev], [data-hero-next], [data-hero-video-toggle]")) return;
             startX = event.clientX;
             startY = event.clientY;
             isDragging = true;
-            stop();
             stage.setPointerCapture?.(event.pointerId);
           });
           stage.addEventListener("pointermove", (event) => {
@@ -398,7 +411,6 @@ const techStack = [
           stage.addEventListener("pointercancel", () => {
             isDragging = false;
             stage.classList.remove("is-swiping");
-            start();
           });
           stage.addEventListener("click", (event) => {
             if (suppressClick) {
@@ -406,7 +418,7 @@ const techStack = [
               event.stopPropagation();
               return;
             }
-            if (event.target?.closest?.("[data-hero-dot], [data-hero-prev], [data-hero-next]")) return;
+            if (event.target?.closest?.("[data-hero-dot], [data-hero-prev], [data-hero-next], [data-hero-video-toggle]")) return;
             const activeLink = stage.querySelector(".home-hero__slide.is-active .home-hero__media-link");
             if (activeLink?.href) {
               event.preventDefault();
@@ -416,7 +428,6 @@ const techStack = [
         }
 
         setSlide(0);
-        start();
       }
 
       if (!matchMedia("(hover: hover) and (pointer: fine)").matches) return;

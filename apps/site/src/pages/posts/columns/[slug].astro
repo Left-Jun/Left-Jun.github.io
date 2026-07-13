@@ -22,7 +22,7 @@ const columnBadgesBySlug = getPostColumnBadgesBySlug(posts, [column]);
 const postColumnBadges = (entry: (typeof posts)[number]) => columnBadgesBySlug.get(entry.slug) || [];
 const pageTitle = `${column.pageTitle} - ${section.data.title}`;
 ---
-<BaseLayout lang={lang} title={pageTitle} description={column.description} active="posts" bodyClass="list-page posts-index-page posts-column-detail-page">
+<BaseLayout lang={lang} title={pageTitle} description={column.description} alternatePath={`/en/posts/columns/${column.id}/`} active="posts" bodyClass="list-page posts-index-page posts-column-detail-page">
   <header>
     <h3 class="section-title">{column.backLabel}</h3>
     <section class:list={["section-card", "posts-section-card", "posts-column-detail-hero", `posts-column-detail-hero--${column.accent}`]}>

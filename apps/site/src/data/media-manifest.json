@@ -1,0 +1,1553 @@
+{
+  "/content-assets/plans/ashe-lament-roadmap/cover.jpg": {
+    "width": 2560,
+    "height": 1440,
+    "avif": [
+      {
+        "src": "/content-assets/plans/ashe-lament-roadmap/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/plans/ashe-lament-roadmap/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/plans/ashe-lament-roadmap/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/plans/ashe-lament-roadmap/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/plans/ashe-lament-roadmap/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/plans/ashe-lament-roadmap/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/plans/ashe-lament-roadmap/cover-960.webp"
+  },
+  "/content-assets/plans/emotion-mask-roadmap/cover.jpg": {
+    "width": 1672,
+    "height": 941,
+    "avif": [
+      {
+        "src": "/content-assets/plans/emotion-mask-roadmap/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/plans/emotion-mask-roadmap/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/plans/emotion-mask-roadmap/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/plans/emotion-mask-roadmap/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/plans/emotion-mask-roadmap/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/plans/emotion-mask-roadmap/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/plans/emotion-mask-roadmap/cover-960.webp"
+  },
+  "/content-assets/posts/shuguang-youji-roadshow/booth-overview.png": {
+    "width": 1280,
+    "height": 960,
+    "avif": [
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-overview-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-overview-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-overview-1280.avif",
+        "width": 1280
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-overview-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-overview-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-overview-1280.webp",
+        "width": 1280
+      }
+    ],
+    "poster": "/content-assets/posts/shuguang-youji-roadshow/booth-overview-960.webp"
+  },
+  "/content-assets/posts/shuguang-youji-roadshow/booth-playtest.png": {
+    "width": 1280,
+    "height": 960,
+    "avif": [
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-playtest-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-playtest-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-playtest-1280.avif",
+        "width": 1280
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-playtest-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-playtest-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/booth-playtest-1280.webp",
+        "width": 1280
+      }
+    ],
+    "poster": "/content-assets/posts/shuguang-youji-roadshow/booth-playtest-960.webp"
+  },
+  "/content-assets/posts/shuguang-youji-roadshow/group-photo.jpg": {
+    "width": 2280,
+    "height": 1520,
+    "avif": [
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/group-photo-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/group-photo-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/group-photo-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/group-photo-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/group-photo-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/posts/shuguang-youji-roadshow/group-photo-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/posts/shuguang-youji-roadshow/group-photo-960.webp"
+  },
+  "/content-assets/projects/ashe-lament/cover.png": {
+    "width": 2560,
+    "height": 1440,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ashe-lament/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ashe-lament/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ashe-lament/cover-960.webp"
+  },
+  "/content-assets/projects/ashe-lament/screenshot-dialogue.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-dialogue-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-dialogue-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-dialogue-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-dialogue-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-dialogue-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-dialogue-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ashe-lament/screenshot-dialogue-960.webp"
+  },
+  "/content-assets/projects/ashe-lament/screenshot-ending.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-ending-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-ending-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-ending-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-ending-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-ending-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-ending-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ashe-lament/screenshot-ending-960.webp"
+  },
+  "/content-assets/projects/ashe-lament/screenshot-epilogue.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-epilogue-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-epilogue-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-epilogue-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-epilogue-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-epilogue-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-epilogue-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ashe-lament/screenshot-epilogue-960.webp"
+  },
+  "/content-assets/projects/ashe-lament/screenshot-notice-board.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-notice-board-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-notice-board-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-notice-board-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-notice-board-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-notice-board-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-notice-board-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ashe-lament/screenshot-notice-board-960.webp"
+  },
+  "/content-assets/projects/ashe-lament/screenshot-shortcut.png": {
+    "width": 2559,
+    "height": 1438,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-shortcut-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-shortcut-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-shortcut-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-shortcut-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-shortcut-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-shortcut-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ashe-lament/screenshot-shortcut-960.webp"
+  },
+  "/content-assets/projects/ashe-lament/screenshot-speed-board.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-speed-board-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-speed-board-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-speed-board-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-speed-board-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-speed-board-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-speed-board-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ashe-lament/screenshot-speed-board-960.webp"
+  },
+  "/content-assets/projects/ashe-lament/screenshot-staff.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-staff-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-staff-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-staff-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-staff-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-staff-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-staff-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ashe-lament/screenshot-staff-960.webp"
+  },
+  "/content-assets/projects/ashe-lament/screenshot-underground.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-underground-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-underground-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-underground-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-underground-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-underground-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ashe-lament/screenshot-underground-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ashe-lament/screenshot-underground-960.webp"
+  },
+  "/content-assets/projects/emotion-mask/cover.png": {
+    "width": 1672,
+    "height": 941,
+    "avif": [
+      {
+        "src": "/content-assets/projects/emotion-mask/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/emotion-mask/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/emotion-mask/cover-960.webp"
+  },
+  "/content-assets/projects/emotion-mask/screenshot-happy-platform.png": {
+    "width": 1269,
+    "height": 541,
+    "avif": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-happy-platform-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-happy-platform-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-happy-platform-1269.avif",
+        "width": 1269
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-happy-platform-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-happy-platform-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-happy-platform-1269.webp",
+        "width": 1269
+      }
+    ],
+    "poster": "/content-assets/projects/emotion-mask/screenshot-happy-platform-960.webp"
+  },
+  "/content-assets/projects/emotion-mask/screenshot-level.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/emotion-mask/screenshot-level-960.webp"
+  },
+  "/content-assets/projects/emotion-mask/screenshot-mask-tutorial.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-mask-tutorial-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-mask-tutorial-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-mask-tutorial-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-mask-tutorial-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-mask-tutorial-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-mask-tutorial-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/emotion-mask/screenshot-mask-tutorial-960.webp"
+  },
+  "/content-assets/projects/emotion-mask/screenshot-neutral-platform.png": {
+    "width": 1250,
+    "height": 565,
+    "avif": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-neutral-platform-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-neutral-platform-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-neutral-platform-1250.avif",
+        "width": 1250
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-neutral-platform-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-neutral-platform-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-neutral-platform-1250.webp",
+        "width": 1250
+      }
+    ],
+    "poster": "/content-assets/projects/emotion-mask/screenshot-neutral-platform-960.webp"
+  },
+  "/content-assets/projects/limen-notes/cover.png": {
+    "width": 2557,
+    "height": 1398,
+    "avif": [
+      {
+        "src": "/content-assets/projects/limen-notes/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/limen-notes/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/limen-notes/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/limen-notes/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/limen-notes/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/limen-notes/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/limen-notes/cover-960.webp"
+  },
+  "/content-assets/projects/relativity-of-a-dot/cover.png": {
+    "width": 2200,
+    "height": 1238,
+    "avif": [
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/relativity-of-a-dot/cover-960.webp"
+  },
+  "/content-assets/projects/relativity-of-a-dot/screenshot-2d-view.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-2d-view-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-2d-view-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-2d-view-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-2d-view-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-2d-view-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-2d-view-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/relativity-of-a-dot/screenshot-2d-view-960.webp"
+  },
+  "/content-assets/projects/relativity-of-a-dot/screenshot-3d-view.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-3d-view-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-3d-view-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-3d-view-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-3d-view-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-3d-view-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/relativity-of-a-dot/screenshot-3d-view-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/relativity-of-a-dot/screenshot-3d-view-960.webp"
+  },
+  "/content-assets/projects/smart-boat/cover.png": {
+    "width": 995,
+    "height": 485,
+    "avif": [
+      {
+        "src": "/content-assets/projects/smart-boat/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/cover-995.avif",
+        "width": 995
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/smart-boat/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/cover-995.webp",
+        "width": 995
+      }
+    ],
+    "poster": "/content-assets/projects/smart-boat/cover-960.webp"
+  },
+  "/content-assets/projects/smart-boat/screenshot-code.png": {
+    "width": 2559,
+    "height": 1599,
+    "avif": [
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-code-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-code-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-code-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-code-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-code-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-code-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/smart-boat/screenshot-code-960.webp"
+  },
+  "/content-assets/projects/smart-boat/screenshot-schematic.png": {
+    "width": 1575,
+    "height": 983,
+    "avif": [
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-schematic-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-schematic-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-schematic-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-schematic-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-schematic-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-schematic-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/smart-boat/screenshot-schematic-960.webp"
+  },
+  "/content-assets/projects/smart-boat/screenshot-stm32-pinout.png": {
+    "width": 1126,
+    "height": 1000,
+    "avif": [
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-stm32-pinout-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-stm32-pinout-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-stm32-pinout-1126.avif",
+        "width": 1126
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-stm32-pinout-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-stm32-pinout-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/smart-boat/screenshot-stm32-pinout-1126.webp",
+        "width": 1126
+      }
+    ],
+    "poster": "/content-assets/projects/smart-boat/screenshot-stm32-pinout-960.webp"
+  },
+  "/content-assets/projects/time-echo/cover.png": {
+    "width": 2560,
+    "height": 1440,
+    "avif": [
+      {
+        "src": "/content-assets/projects/time-echo/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/time-echo/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/time-echo/cover-960.webp"
+  },
+  "/content-assets/projects/time-echo/screenshot-ancient-dialogue.png": {
+    "width": 1586,
+    "height": 678,
+    "avif": [
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-dialogue-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-dialogue-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-dialogue-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-dialogue-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-dialogue-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-dialogue-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/time-echo/screenshot-ancient-dialogue-960.webp"
+  },
+  "/content-assets/projects/time-echo/screenshot-ancient-platforming.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-platforming-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-platforming-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-platforming-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-platforming-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-platforming-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-ancient-platforming-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/time-echo/screenshot-ancient-platforming-960.webp"
+  },
+  "/content-assets/projects/time-echo/screenshot-future-platforming.png": {
+    "width": 2559,
+    "height": 1430,
+    "avif": [
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-future-platforming-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-future-platforming-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-future-platforming-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-future-platforming-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-future-platforming-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-future-platforming-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/time-echo/screenshot-future-platforming-960.webp"
+  },
+  "/content-assets/projects/time-echo/screenshot-modern-scene.png": {
+    "width": 2559,
+    "height": 1439,
+    "avif": [
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-modern-scene-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-modern-scene-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-modern-scene-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-modern-scene-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-modern-scene-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-modern-scene-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/time-echo/screenshot-modern-scene-960.webp"
+  },
+  "/content-assets/projects/time-echo/screenshot-opening.png": {
+    "width": 2559,
+    "height": 1438,
+    "avif": [
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-opening-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-opening-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-opening-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-opening-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-opening-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/time-echo/screenshot-opening-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/time-echo/screenshot-opening-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/cover.webp": {
+    "width": 1800,
+    "height": 1071,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/cover-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p02-img01.webp": {
+    "width": 2314,
+    "height": 981,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p02-img01-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p02-img01-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p02-img01-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p02-img01-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p02-img01-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p02-img01-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p02-img01-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p03-img01.webp": {
+    "width": 2032,
+    "height": 558,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p03-img01-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p03-img01-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p03-img01-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p03-img01-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p03-img01-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p03-img01-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p03-img01-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p05-img02.webp": {
+    "width": 1588,
+    "height": 1111,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p05-img02-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p05-img02-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p05-img02-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p05-img02-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p05-img02-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p05-img02-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p05-img02-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p08-img01.webp": {
+    "width": 2557,
+    "height": 1597,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p08-img01-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p08-img01-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p08-img01-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p08-img01-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p08-img01-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p08-img01-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p08-img01-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img01.webp": {
+    "width": 1525,
+    "height": 724,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img01-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img01-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img01-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img01-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img01-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img01-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img01-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img02.webp": {
+    "width": 1675,
+    "height": 681,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img02-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img02-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img02-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img02-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img02-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img02-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p09-img02-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img01.webp": {
+    "width": 2557,
+    "height": 1597,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img01-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img01-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img01-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img01-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img01-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img01-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img01-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img02.webp": {
+    "width": 1152,
+    "height": 1185,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img02-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img02-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img02-1152.avif",
+        "width": 1152
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img02-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img02-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img02-1152.webp",
+        "width": 1152
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p10-img02-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p11-img02.webp": {
+    "width": 2554,
+    "height": 1597,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p11-img02-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p11-img02-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p11-img02-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p11-img02-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p11-img02-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p11-img02-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p11-img02-960.webp"
+  },
+  "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p12-img02.webp": {
+    "width": 2557,
+    "height": 1597,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p12-img02-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p12-img02-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p12-img02-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p12-img02-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p12-img02-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p12-img02-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ue5-coop-training-range/pdf-extracted/p12-img02-960.webp"
+  },
+  "/content-assets/retrospectives/ashe-lament-retrospective/cover.jpg": {
+    "width": 2560,
+    "height": 1440,
+    "avif": [
+      {
+        "src": "/content-assets/retrospectives/ashe-lament-retrospective/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/retrospectives/ashe-lament-retrospective/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/retrospectives/ashe-lament-retrospective/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/retrospectives/ashe-lament-retrospective/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/retrospectives/ashe-lament-retrospective/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/retrospectives/ashe-lament-retrospective/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/retrospectives/ashe-lament-retrospective/cover-960.webp"
+  },
+  "/content-assets/retrospectives/emotion-mask-retrospective/cover.jpg": {
+    "width": 1672,
+    "height": 941,
+    "avif": [
+      {
+        "src": "/content-assets/retrospectives/emotion-mask-retrospective/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/retrospectives/emotion-mask-retrospective/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/retrospectives/emotion-mask-retrospective/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/retrospectives/emotion-mask-retrospective/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/retrospectives/emotion-mask-retrospective/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/retrospectives/emotion-mask-retrospective/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/retrospectives/emotion-mask-retrospective/cover-960.webp"
+  },
+  "/content-assets/retrospectives/time-echo-retrospective/cover.jpg": {
+    "width": 2560,
+    "height": 1440,
+    "avif": [
+      {
+        "src": "/content-assets/retrospectives/time-echo-retrospective/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/retrospectives/time-echo-retrospective/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/retrospectives/time-echo-retrospective/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/retrospectives/time-echo-retrospective/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/retrospectives/time-echo-retrospective/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/retrospectives/time-echo-retrospective/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/retrospectives/time-echo-retrospective/cover-960.webp"
+  }
+}

@@ -13,7 +13,7 @@ const columnBadgesBySlug = getPostColumnBadgesBySlug(posts, columnSections);
 const hasColumns = columnSections.length > 0;
 const postColumnBadges = (entry: (typeof posts)[number]) => columnBadgesBySlug.get(entry.slug) || [];
 ---
-<BaseLayout lang={lang} title={section.data.title} description={section.data.description} active="posts" bodyClass="list-page posts-index-page">
+<BaseLayout lang={lang} title={section.data.title} description={section.data.description} alternatePath="/en/posts/" active="posts" bodyClass="list-page posts-index-page">
   <header>
     <h3 class="section-title">文章与专栏</h3>
     <section class="section-card posts-section-card">

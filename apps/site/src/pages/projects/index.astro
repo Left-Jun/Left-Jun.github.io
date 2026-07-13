@@ -7,13 +7,18 @@ import { getEntries, getSectionPage } from "../../lib/content.js";
 const lang = "zh-cn";
 const section = await getSectionPage("projects", lang);
 const projects = await getEntries("projects", { lang });
-const gameLabel = section.data.gameFilterLabel || "游戏开发";
-const embeddedLabel = section.data.embeddedFilterLabel || "嵌入式开发";
-const webLabel = section.data.webFilterLabel || "Web 开发";
+const projectTypes = [...new Set(projects.map((entry) => entry.data.portfolioType || "other"))];
+const projectTypeLabels: Record<string, string> = {
+  game: section.data.gameFilterLabel || "游戏开发",
+  embedded: section.data.embeddedFilterLabel || "嵌入式开发",
+  web: section.data.webFilterLabel || "Web 开发",
+  other: "其他项目"
+};
+const projectTypeLabel = (type: string) => projectTypeLabels[type] || type.replace(/[-_]+/g, " ");
 const singleLabel = section.data.singleViewLabel || "单列";
 const gridLabel = section.data.gridViewLabel || "网格";
 ---
-<BaseLayout lang={lang} title={section.data.title} description={section.data.description} active="projects">
+<BaseLayout lang={lang} title={section.data.title} description={section.data.description} alternatePath="/en/projects/" active="projects">
   <header class="project-hero">
     <section class="section-card project-section-card">
       <div class="section-details">
@@ -24,9 +29,9 @@ const gridLabel = section.data.gridViewLabel || "网格";
         </div>
         <div class="project-section-actions">
           <div class="project-filter-toggle" role="group" aria-label={section.data.filterAriaLabel || "筛选项目分类"}>
-            <button class="project-filter-toggle__button" type="button" data-filter-target="game">{gameLabel}</button>
-            <button class="project-filter-toggle__button" type="button" data-filter-target="embedded">{embeddedLabel}</button>
-            <button class="project-filter-toggle__button" type="button" data-filter-target="web">{webLabel}</button>
+            {projectTypes.map((type) => (
+              <button class="project-filter-toggle__button" type="button" data-filter-target={type}>{projectTypeLabel(type)}</button>
+            ))}
           </div>
           <div class="project-view-toggle" role="group" aria-label={section.data.viewAriaLabel || "切换项目展示方式"}>
             <button class="project-view-toggle__button is-active" type="button" data-view-target="single">{singleLabel}</button>
@@ -37,7 +42,7 @@ const gridLabel = section.data.gridViewLabel || "网格";
     </section>
   </header>
 
-  <section class="project-showcase" data-view="single">
+  <section class="project-showcase" data-view="single" data-project-types={projectTypes.join(" ")}>
     <div class="project-list">
       {projects.map((entry) => <ProjectCard entry={entry} />)}
     </div>
@@ -57,7 +62,7 @@ const gridLabel = section.data.gridViewLabel || "网格";
         const cards = [...showcase.querySelectorAll(".project-card")];
         const indexItems = [...document.querySelectorAll(".project-index-list [data-project-type]")];
         const allowedViews = new Set(["single", "grid"]);
-        const allowedFilters = new Set(["game", "embedded", "web"]);
+        const allowedFilters = new Set((showcase.dataset.projectTypes || "").split(/\s+/).filter(Boolean));
         let selectedFilters = [];
 
         const applyView = (view) => {

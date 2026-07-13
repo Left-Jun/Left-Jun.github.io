@@ -1,6 +1,7 @@
 ---
 import ArticleLayout from "../../components/ArticleLayout.astro";
 import { getEntries } from "../../lib/content.js";
+import type { SiteEntry } from "../../lib/content.js";
 
 type PathEntry = { slug: string; [key: string]: unknown };
 
@@ -12,6 +13,6 @@ export async function getStaticPaths() {
   }));
 }
 
-const { entry } = Astro.props;
+const { entry } = Astro.props as { entry: SiteEntry };
 ---
 <ArticleLayout entry={entry} active="retrospectives" />

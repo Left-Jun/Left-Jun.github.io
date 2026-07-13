@@ -1,6 +1,9 @@
 ---
+import ResponsiveImage from "./ResponsiveImage.astro";
+
 const { entry } = Astro.props;
 const image = entry.data.image;
+const imageUrl = image ? entry.asset(image) : "";
 const terms = [...(entry.data.categories || []), ...(entry.data.tags || [])].filter(Boolean).slice(0, 3);
 const projectType = entry.section === "projects" ? entry.data.portfolioType || "game" : entry.section;
 const imagePosition = entry.data.imagePosition || "center";
@@ -8,7 +11,15 @@ const imagePosition = entry.data.imagePosition || "center";
 <article class:list={["related-card", `related-card--${projectType}`, image && "has-image"]}>
   <a href={entry.url} aria-label={entry.data.title}>
     <div class="related-card__media" aria-hidden={!image}>
-      {image && <img src={entry.asset(image)} alt="" loading="lazy" style={`object-position: ${imagePosition};`} />}
+      {image && (
+        <ResponsiveImage
+          src={imageUrl}
+          alt=""
+          sizes="(max-width: 767px) 92vw, 320px"
+          loading="lazy"
+          style={`object-position: ${imagePosition};`}
+        />
+      )}
     </div>
     <div class="related-card__overlay">
       {terms.length > 0 && (
