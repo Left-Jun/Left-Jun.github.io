@@ -98,16 +98,24 @@ export const contentFrontMatterSchema = z.looseObject({
   featured: z.boolean().optional(),
   featuredWeight: z.number().optional(),
   homeHeroWeight: z.number().optional()
+}).superRefine((data, context) => {
+  if (data.coverVideo.trim() && !data.image.trim()) {
+    context.addIssue({
+      code: "custom",
+      path: ["image"],
+      message: "coverVideo requires an image poster"
+    });
+  }
 });
 
-export const updateFrontMatterSchema = contentFrontMatterSchema.extend({
+export const updateFrontMatterSchema = contentFrontMatterSchema.safeExtend({
   date: z.union([z.string(), z.date()]),
   description: z.string().min(1),
   kind: z.enum(UPDATE_KINDS),
   relatedPages: z.array(z.string())
 });
 
-export const projectFrontMatterSchema = contentFrontMatterSchema.extend({
+export const projectFrontMatterSchema = contentFrontMatterSchema.safeExtend({
   portfolioType: z.string().refine(isStablePortfolioType, {
     message: "Projects require a lowercase kebab-case portfolio type"
   })
@@ -478,7 +486,7 @@ export async function validateContentRoot(contentRoot) {
       errors.push({ path: pathForError, message: `Translation slug mismatch for ${ref}: ${[...slugs].join(", ")}` });
     }
 
-    const invariantKeys = ["date", "updatedAt", "status", "draft", "relatedPages"];
+    const invariantKeys = ["date", "updatedAt", "status", "draft", "relatedPages", "coverVideo"];
     if (translations[0]?.section === "projects") {
       invariantKeys.push("portfolioType", "featured", "featuredWeight", "homeHeroWeight", "pinWeight", "weight");
     }
@@ -493,6 +501,7 @@ export async function validateContentRoot(contentRoot) {
             return Number.isNaN(timestamp) ? String(value) : timestamp;
           }
           if (key === "draft") return Boolean(value);
+          if (key === "coverVideo") return JSON.stringify(String(value || "").trim());
           if (Array.isArray(value)) return JSON.stringify([...value].sort());
           return JSON.stringify(value ?? null);
         });

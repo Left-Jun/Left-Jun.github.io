@@ -1,8 +1,8 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import CoverMedia from "./CoverMedia.astro";
 import Icon from "./Icon.astro";
 import RelatedCard from "./RelatedCard.astro";
-import ResponsiveImage from "./ResponsiveImage.astro";
 import { getResponsiveMedia, mediaSrcset, optimizedPoster } from "../lib/media";
 import {
   getEntryBySlug,
@@ -155,31 +155,15 @@ const projectSummaryItems = isProject ? [
     <header class:list={["article-header", isProject && "project-detail-hero"]}>
       {cover && (
         <div class="article-image">
-          {entry.data.coverVideo ? (
-            <video
-              controls
-              muted
-              loop
-              playsinline
-              preload="none"
-              controlslist="nodownload noplaybackrate noremoteplayback"
-              disablepictureinpicture
-              disableRemotePlayback
-              poster={optimizedImageUrl || undefined}
-              style={`object-position: ${imagePosition};`}
-            >
-              <source src={entry.asset(entry.data.coverVideo)} type="video/mp4" />
-            </video>
-          ) : (
-            <ResponsiveImage
-              src={imageUrl}
-              alt={entry.data.title}
-              sizes={priorityImageSizes}
-              loading="eager"
-              fetchpriority="high"
-              style={`object-position: ${imagePosition};`}
-            />
-          )}
+          <CoverMedia
+            imageSrc={imageUrl}
+            videoSrc={entry.data.coverVideo ? entry.asset(entry.data.coverVideo) : ""}
+            alt={entry.data.title}
+            sizes={priorityImageSizes}
+            loading="eager"
+            fetchpriority="high"
+            style={`object-position: ${imagePosition};`}
+          />
         </div>
       )}
       <div class:list={["article-details", isProject && "project-detail-hero__details"]}>

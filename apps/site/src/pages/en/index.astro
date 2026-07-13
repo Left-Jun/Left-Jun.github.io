@@ -3,8 +3,8 @@ import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
 import PostCard from "../../components/PostCard.astro";
 import Icon from "../../components/Icon.astro";
+import CoverMedia from "../../components/CoverMedia.astro";
 import ResponsiveImage from "../../components/ResponsiveImage.astro";
-import { optimizedPoster } from "../../lib/media";
 import {
   getEntries,
   getEntryBySlug,
@@ -99,24 +99,10 @@ const techStack = [
           <article class:list={["home-hero__slide", index === 0 && "is-active"]} data-hero-slide aria-hidden={index === 0 ? "false" : "true"}>
             <a class="home-hero__media-link" href={entry.url} tabindex={index === 0 ? "0" : "-1"} aria-label={`View ${entry.data.title}`}>
               <span class="home-hero__media-frame">
-                {entry.data.coverVideo ? (
-                  <video
-                    muted
-                    loop
-                    playsinline
-                    preload="none"
-                    controlslist="nodownload noplaybackrate noremoteplayback"
-                    disablepictureinpicture
-                    disableRemotePlayback
-                    poster={image ? optimizedPoster(image) : undefined}
-                    style={`object-position: ${mediaPosition};`}
-                    data-hero-video
-                  >
-                    <source src={entry.asset(entry.data.coverVideo)} type="video/mp4" />
-                  </video>
-                ) : image && (
-                  <ResponsiveImage
-                    src={image}
+                {image && (
+                  <CoverMedia
+                    imageSrc={image}
+                    videoSrc={entry.data.coverVideo ? entry.asset(entry.data.coverVideo) : ""}
                     alt={entry.data.title}
                     sizes="(max-width: 767px) 100vw, 52vw"
                     loading={index === 0 ? "eager" : "lazy"}
@@ -293,7 +279,7 @@ const techStack = [
         const dots = [...hero.querySelectorAll("[data-hero-dot]")];
         const prevButton = hero.querySelector("[data-hero-prev]");
         const nextButton = hero.querySelector("[data-hero-next]");
-        const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
+        const reduceMotionQuery = matchMedia("(prefers-reduced-motion: reduce)");
         const supportsHover = matchMedia("(hover: hover) and (pointer: fine)").matches;
         let active = 0;
         let timer = null;
@@ -313,10 +299,6 @@ const techStack = [
             slide.classList.toggle("is-active", isActive);
             slide.setAttribute("aria-hidden", isActive ? "false" : "true");
             slide.querySelectorAll("a").forEach((link) => link.setAttribute("tabindex", isActive ? "0" : "-1"));
-            slide.querySelectorAll("video").forEach((video) => {
-              if (isActive && !reduceMotion && !document.hidden) video.play?.().catch(() => {});
-              else video.pause?.();
-            });
           });
           summaries.forEach((summary, index) => {
             const isActive = index === active;
@@ -327,6 +309,7 @@ const techStack = [
             if (index === active) dot.setAttribute("aria-current", "true");
             else dot.removeAttribute("aria-current");
           });
+          document.dispatchEvent(new Event("leftjun:cover-video-sync"));
         };
 
         const stop = () => {
@@ -336,7 +319,7 @@ const techStack = [
 
         const start = () => {
           stop();
-          if (!reduceMotion && slides.length > 1 && !isPaused()) {
+          if (!reduceMotionQuery.matches && slides.length > 1 && !isPaused()) {
             timer = window.setInterval(() => {
               if (!isPaused()) setSlide(active + 1);
             }, 6000);
@@ -380,11 +363,15 @@ const techStack = [
         document.addEventListener("visibilitychange", () => {
           if (document.hidden) {
             stop();
-            slides.forEach((slide) => slide.querySelectorAll("video").forEach((video) => video.pause?.()));
           } else {
             setSlide(active);
             start();
           }
+        });
+        reduceMotionQuery.addEventListener?.("change", () => {
+          if (reduceMotionQuery.matches) stop();
+          else start();
+          document.dispatchEvent(new Event("leftjun:cover-video-sync"));
         });
 
         const stage = hero.querySelector(".home-hero__stage");

@@ -34,6 +34,21 @@ test("front matter validation rejects entries without a title", () => {
   assert.throws(() => validateFrontMatter({ tags: ["test"] }), /title/i);
 });
 
+test("cover videos require an image poster", () => {
+  assert.throws(() => validateFrontMatter({
+    title: "Video cover",
+    coverVideo: "cover.mp4",
+    portfolioType: "game"
+  }, { section: "projects" }), /coverVideo requires an image poster/i);
+
+  assert.doesNotThrow(() => validateFrontMatter({
+    title: "Video cover",
+    image: "cover.webp",
+    coverVideo: "cover.mp4",
+    portfolioType: "game"
+  }, { section: "projects" }));
+});
+
 test("update front matter requires a dated update kind", () => {
   assert.throws(() => validateFrontMatter({
     title: "Milestone",
@@ -174,6 +189,45 @@ test("content validation rejects translation metadata drift and duplicate public
   const duplicated = await validateContentRoot(root);
   assert.equal(duplicated.ok, false);
   assert.match(duplicated.errors.map((error) => error.message).join("\n"), /Duplicate public route/);
+});
+
+test("content validation keeps bilingual cover video configuration in sync", async (t) => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "leftjun-content-cover-video-"));
+  t.after(() => fs.rm(root, { recursive: true, force: true }));
+  await fs.mkdir(path.join(root, "posts", "video-cover"), { recursive: true });
+
+  const cover = {
+    title: "Video cover",
+    slug: "video-cover",
+    image: "cover.webp",
+    coverVideo: "cover.mp4"
+  };
+  await fs.writeFile(path.join(root, "posts", "video-cover", "index.md"), stringifyMarkdown(cover, ""));
+  await fs.writeFile(path.join(root, "posts", "video-cover", "index.en.md"), stringifyMarkdown({
+    ...cover,
+    title: "Video cover in English"
+  }, ""));
+
+  const paired = await validateContentRoot(root);
+  assert.equal(paired.ok, true);
+
+  await fs.writeFile(path.join(root, "posts", "video-cover", "index.en.md"), stringifyMarkdown({
+    ...cover,
+    title: "Video cover in English",
+    coverVideo: ""
+  }, ""));
+  const missing = await validateContentRoot(root);
+  assert.equal(missing.ok, false);
+  assert.match(missing.errors.map((error) => error.message).join("\n"), /metadata mismatch.*coverVideo/i);
+
+  await fs.writeFile(path.join(root, "posts", "video-cover", "index.en.md"), stringifyMarkdown({
+    ...cover,
+    title: "Video cover in English",
+    coverVideo: "alternate-cover.mp4"
+  }, ""));
+  const mismatched = await validateContentRoot(root);
+  assert.equal(mismatched.ok, false);
+  assert.match(mismatched.errors.map((error) => error.message).join("\n"), /metadata mismatch.*coverVideo/i);
 });
 
 test("content validation compares final public URLs against section routes", async (t) => {

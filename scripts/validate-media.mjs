@@ -1,6 +1,11 @@
 import fs from "node:fs/promises";
 import path from "node:path";
-import { collectContentImageSources, publicMediaUrl } from "./media-sources.mjs";
+import {
+  collectContentCoverVideoSources,
+  collectContentImageSources,
+  publicMediaUrl,
+  validateCoverVideoSources
+} from "./media-sources.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 const contentRoot = path.join(repoRoot, "apps/site/src/content");
@@ -15,6 +20,9 @@ for (const sourcePath of referencedSources) {
   const source = publicMediaUrl(publicRoot, sourcePath);
   if (!manifest[source]) errors.push(`Referenced image missing responsive mapping: ${source}`);
 }
+
+const coverVideoSources = await collectContentCoverVideoSources({ contentRoot, publicRoot });
+errors.push(...await validateCoverVideoSources(coverVideoSources));
 
 for (const [source, item] of Object.entries(manifest)) {
   const sourcePath = path.join(publicRoot, source.replace(/^\//, ""));
