@@ -1,9 +1,10 @@
 ---
-import ResponsiveImage from "./ResponsiveImage.astro";
+import CoverMedia from "./CoverMedia.astro";
 
 const { entry, compact = false } = Astro.props;
 const image = entry.data.image;
 const imageUrl = image ? entry.asset(image) : "";
+const coverVideoUrl = entry.data.coverVideo ? entry.asset(entry.data.coverVideo) : "";
 const roleTags: string[] = entry.data.roleTags || [];
 const tags: string[] = entry.data.tags || [];
 const allDisplayTags = [...roleTags, ...tags].filter(Boolean);
@@ -29,8 +30,9 @@ const cardMeta = compact
   <a href={entry.url}>
     {image && (
       <div class="project-card__image">
-        <ResponsiveImage
-          src={imageUrl}
+        <CoverMedia
+          imageSrc={imageUrl}
+          videoSrc={coverVideoUrl}
           alt={`Featured image of project ${entry.data.title}`}
           sizes={compact ? "(max-width: 767px) 92vw, 24vw" : "(max-width: 767px) 92vw, 56vw"}
           loading="lazy"

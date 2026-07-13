@@ -1,0 +1,77 @@
+---
+import ResponsiveImage from "./ResponsiveImage.astro";
+import { optimizedPoster } from "../lib/media";
+
+interface Props {
+  imageSrc: string;
+  videoSrc?: string;
+  alt: string;
+  class?: string;
+  pictureClass?: string;
+  sizes?: string;
+  loading?: "eager" | "lazy";
+  decoding?: "sync" | "async" | "auto";
+  fetchpriority?: "high" | "low" | "auto";
+  preload?: "none" | "metadata" | "auto";
+  style?: string;
+}
+
+const {
+  imageSrc,
+  videoSrc = "",
+  alt,
+  class: className,
+  pictureClass,
+  sizes = "100vw",
+  loading = "lazy",
+  decoding = "async",
+  fetchpriority = "auto",
+  preload = "none",
+  style
+} = Astro.props as Props;
+
+if (videoSrc && !imageSrc) {
+  throw new Error(`Cover video "${videoSrc}" requires an image poster.`);
+}
+
+const poster = imageSrc ? optimizedPoster(imageSrc) || imageSrc : "";
+const cleanVideoSrc = videoSrc.split(/[?#]/, 1)[0].toLowerCase();
+const videoType = cleanVideoSrc.endsWith(".webm") ? "video/webm" : "video/mp4";
+---
+{videoSrc ? (
+  <video
+    class={className}
+    muted
+    loop
+    playsinline
+    preload={preload}
+    poster={poster}
+    controlslist="nodownload noplaybackrate noremoteplayback"
+    disablepictureinpicture
+    disableRemotePlayback
+    data-cover-video
+    aria-hidden="true"
+    style={style}
+  >
+    <source src={videoSrc} type={videoType} />
+  </video>
+) : imageSrc ? (
+  <ResponsiveImage
+    src={imageSrc}
+    alt={alt}
+    class={className}
+    pictureClass={pictureClass}
+    sizes={sizes}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={fetchpriority}
+    style={style}
+  />
+) : null}
+
+<script>
+  import { initCoverVideos } from "../scripts/cover-video-client.js";
+
+  initCoverVideos();
+  document.addEventListener("astro:page-load", () => initCoverVideos());
+</script>
