@@ -38,15 +38,38 @@
   margin-top: 0;
   overflow: visible;
   padding-bottom: 2px;
+  background: transparent;
+  box-shadow: none;
+}
+
+.project-detail-page .site-content-layout > .right-sidebar {
+  overflow: visible;
 }
 
 .project-detail-page .right-sidebar .widget {
+  flex: 0 0 auto;
   max-width: 260px;
+  box-shadow: var(--leftjun-surface-shadow-soft);
+}
+
+.project-detail-page .right-sidebar .widget--toc {
+  min-height: 0;
+  display: flex;
+  flex: 0 1 auto;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.project-detail-page .right-sidebar .widget--toc .widget-title {
+  flex: 0 0 auto;
 }
 
 .project-detail-page .right-sidebar .widget--toc .toc-nav {
+  min-height: 0;
+  flex: 1 1 auto;
   max-height: none;
-  overflow: visible;
+  overflow-x: hidden;
+  overflow-y: auto;
   padding-right: 4px;
   overscroll-behavior: contain;
   scrollbar-width: thin;
@@ -54,8 +77,19 @@
 
 .project-detail-page .project-download-widget,
 .project-detail-page .project-summary-widget {
+  flex: 0 0 auto;
   max-height: none;
   overflow: visible;
+}
+
+.article-content img {
+  height: auto;
+}
+
+.project-detail-page .article-content .case-figure img {
+  height: auto;
+  display: block;
+  object-fit: contain;
 }
 
 .project-detail-hero .article-image {

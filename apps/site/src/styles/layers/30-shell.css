@@ -614,10 +614,10 @@ body {
 
 .case-figure img {
   width: 100%;
-  aspect-ratio: 16 / 9;
+  height: auto;
   border: 0;
   border-radius: 0;
-  object-fit: cover;
+  object-fit: contain;
 }
 
 .case-figure figcaption {
