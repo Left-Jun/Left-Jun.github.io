@@ -15,8 +15,6 @@ const menu = [...(text.menus.main || [])]
     icon: item.params?.icon || "link",
     newTab: Boolean(item.params && "newTab" in item.params && item.params.newTab)
   }));
-const drawerMenuIdentifiers = new Set(["retrospectives", "plans", "about", "contact"]);
-const drawerMenu = menu.filter((item) => drawerMenuIdentifiers.has(item.identifier));
 const activeMenu = active === "plans" ? "retrospectives" : active;
 const social = [...(text.menus.social || [])]
   .sort((a, b) => (a.weight || 0) - (b.weight || 0))
@@ -52,70 +50,34 @@ const mobileSearchCopy = isEn
       dark: "暗色模式",
       light: "浅色模式"
     };
-const mobileDrawerCopy = isEn
+const mobileMenuCopy = isEn
   ? {
-      menu: "Open profile and more",
-      close: "Close profile menu",
-      title: "Profile and more",
-      navigation: "Profile navigation"
+      open: "Open navigation menu",
+      close: "Close navigation menu"
     }
   : {
-      menu: "打开个人资料与更多选项",
-      close: "关闭个人资料菜单",
-      title: "个人资料与更多",
-      navigation: "个人资料导航"
+      open: "打开导航菜单",
+      close: "关闭导航菜单"
     };
 const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
 ---
 <aside class="sidebar left-sidebar sticky is-expanded" id="site-sidebar">
-  <div class="mobile-identity-bar">
-    <a class="mobile-identity-bar__profile" href={text.homeUrl} aria-label={config.title}>
-      <img src={avatar} alt="" width="42" height="42" loading="eager" decoding="async" />
-      <span>
-        <strong>{config.title}</strong>
-        <small>{rolePill}</small>
-      </span>
-    </a>
+  <div class="sidebar-profile-card">
+    <BrandLogo href={text.homeUrl} />
     <button
-      class="hamburger hamburger--spin mobile-identity-bar__menu"
+      class="hamburger hamburger--spin"
       type="button"
       id="toggle-menu"
-      aria-label={mobileDrawerCopy.menu}
-      data-open-label={mobileDrawerCopy.menu}
-      data-close-label={mobileDrawerCopy.close}
+      aria-label={mobileMenuCopy.open}
+      data-open-label={mobileMenuCopy.open}
+      data-close-label={mobileMenuCopy.close}
       aria-expanded="false"
-      aria-controls="mobile-sidebar-drawer"
+      aria-controls="main-menu"
     >
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
       </span>
     </button>
-  </div>
-
-  <button
-    class="mobile-sidebar-backdrop"
-    type="button"
-    data-mobile-drawer-backdrop
-    aria-label={mobileDrawerCopy.close}
-    tabindex="-1"
-  ></button>
-
-  <div
-    class="mobile-sidebar-drawer"
-    id="mobile-sidebar-drawer"
-    data-mobile-sidebar-drawer
-    aria-labelledby="mobile-sidebar-drawer-title"
-    aria-hidden="true"
-  >
-    <div class="mobile-sidebar-drawer__head">
-      <strong id="mobile-sidebar-drawer-title">{mobileDrawerCopy.title}</strong>
-      <button type="button" data-mobile-drawer-close aria-label={mobileDrawerCopy.close}>
-        <Icon name="chevron-right" label="" />
-      </button>
-    </div>
-
-    <div class="sidebar-profile-card">
-      <BrandLogo href={text.homeUrl} />
 
     <header>
       <figure class="site-avatar">
@@ -214,23 +176,6 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
     <div class="mobile-sidebar-search__results" data-mobile-sidebar-search-results data-search-results hidden></div>
   </div>
 
-  {drawerMenu.length > 0 && (
-    <nav class="mobile-sidebar-drawer__links" aria-label={mobileDrawerCopy.navigation}>
-      {drawerMenu.map((item) => (
-        <a
-          class:list={[activeMenu === item.identifier && "is-active"]}
-          href={item.url}
-          target={item.newTab ? "_blank" : undefined}
-          rel={item.newTab ? "noopener noreferrer" : undefined}
-          data-mobile-drawer-link
-        >
-          <Icon name={item.icon} label="" />
-          <span>{item.name}</span>
-        </a>
-      ))}
-    </nav>
-  )}
-
   <ol class="menu" id="main-menu">
     {menu.map((item) => (
       <li class:list={[activeMenu === item.identifier && "current"]}>
@@ -272,7 +217,6 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
       <span class="sidebar-collapse-toggle__label">收起</span>
     </button>
   </div>
-  </div>
 </aside>
 
 <script is:inline>
@@ -281,19 +225,16 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
     const body = document.body;
     const sidebar = document.querySelector("#site-sidebar");
     const toggle = document.querySelector("#toggle-menu");
-    const drawer = document.querySelector("[data-mobile-sidebar-drawer]");
-    const drawerClose = document.querySelector("[data-mobile-drawer-close]");
-    const drawerBackdrop = document.querySelector("[data-mobile-drawer-backdrop]");
+    const mainMenu = document.querySelector("#main-menu");
     const themeButton = document.querySelector("#dark-mode-toggle");
     const themeLabel = themeButton?.querySelector(".theme-toggle__label");
     const mobileThemeButtons = document.querySelectorAll("[data-mobile-theme-toggle]");
     const collapseButton = document.querySelector("#sidebar-collapse-toggle");
     const collapseLabel = collapseButton?.querySelector(".sidebar-collapse-toggle__label");
-    const menuLinks = document.querySelectorAll("#main-menu a, [data-mobile-drawer-link]");
+    const menuLinks = document.querySelectorAll("#main-menu a");
     const themeKey = "LeftJunColorScheme";
     const sidebarKey = "LeftJunSidebarCollapsed";
     const desktopQuery = matchMedia("(min-width: 768px)");
-    let focusBeforeDrawer = null;
 
     const applyTheme = (scheme) => {
       const isDark = scheme === "dark";
@@ -310,50 +251,20 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
       });
     };
 
-    const drawerFocusable = () => {
-      if (!drawer) return [];
-      return Array.from(drawer.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'))
-        .filter((element) => element instanceof HTMLElement && element.getClientRects().length > 0);
-    };
-
-    const setMenuOpen = (open, restoreFocus = true) => {
+    const setMenuOpen = (open) => {
       const mobile = !desktopQuery.matches;
       const next = Boolean(open && mobile);
-
-      if (next && document.activeElement instanceof HTMLElement) focusBeforeDrawer = document.activeElement;
       body.classList.toggle("show-menu", next);
-      body.classList.toggle("mobile-drawer-open", next);
       sidebar?.classList.toggle("is-open", next);
       toggle?.classList.toggle("is-active", next);
       toggle?.setAttribute("aria-expanded", next ? "true" : "false");
-      if (toggle) toggle.setAttribute("aria-label", next ? toggle.dataset.closeLabel || "Close" : toggle.dataset.openLabel || "Open");
       if (toggle instanceof HTMLElement) {
         toggle.setAttribute("aria-label", next ? toggle.dataset.closeLabel || "Close menu" : toggle.dataset.openLabel || "Open menu");
       }
-
-      if (drawer instanceof HTMLElement) {
-        if (mobile) {
-          drawer.setAttribute("role", "dialog");
-          drawer.setAttribute("aria-modal", "true");
-          drawer.setAttribute("aria-labelledby", "mobile-sidebar-drawer-title");
-          drawer.setAttribute("aria-hidden", next ? "false" : "true");
-        } else {
-          drawer.removeAttribute("role");
-          drawer.removeAttribute("aria-modal");
-          drawer.removeAttribute("aria-labelledby");
-          drawer.removeAttribute("aria-hidden");
-        }
-        drawer.inert = mobile && !next;
-      }
-
-      if (next) {
-        requestAnimationFrame(() => {
-          const target = drawerClose instanceof HTMLElement ? drawerClose : drawerFocusable()[0];
-          target?.focus();
-        });
-      } else if (restoreFocus && focusBeforeDrawer instanceof HTMLElement && mobile) {
-        focusBeforeDrawer.focus();
-        focusBeforeDrawer = null;
+      if (mainMenu instanceof HTMLElement) {
+        mainMenu.inert = mobile && !next;
+        if (mobile) mainMenu.setAttribute("aria-hidden", next ? "false" : "true");
+        else mainMenu.removeAttribute("aria-hidden");
       }
     };
 
@@ -410,37 +321,20 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
 
     desktopQuery.addEventListener?.("change", () => {
       setSidebarCollapsed(localStorage.getItem(sidebarKey) === "1", false);
-      setMenuOpen(false, false);
+      setMenuOpen(false);
     });
 
     toggle?.addEventListener("click", () => setMenuOpen(!body.classList.contains("show-menu")));
-    drawerClose?.addEventListener("click", () => setMenuOpen(false));
-    drawerBackdrop?.addEventListener("click", () => setMenuOpen(false));
-    menuLinks.forEach((link) => link.addEventListener("click", () => setMenuOpen(false, false)));
+    menuLinks.forEach((link) => link.addEventListener("click", () => setMenuOpen(false)));
 
     document.addEventListener("keydown", (event) => {
-      if (!body.classList.contains("show-menu")) return;
-      if (event.key === "Escape") {
-        event.preventDefault();
-        setMenuOpen(false);
-        return;
-      }
-      if (event.key !== "Tab") return;
-
-      const focusable = drawerFocusable();
-      if (focusable.length === 0) return;
-      const first = focusable[0];
-      const last = focusable[focusable.length - 1];
-      if (event.shiftKey && document.activeElement === first) {
-        event.preventDefault();
-        last.focus();
-      } else if (!event.shiftKey && document.activeElement === last) {
-        event.preventDefault();
-        first.focus();
-      }
+      if (event.key !== "Escape" || !body.classList.contains("show-menu")) return;
+      event.preventDefault();
+      setMenuOpen(false);
+      toggle?.focus();
     });
 
-    setMenuOpen(false, false);
+    setMenuOpen(false);
   })();
 </script>
 
