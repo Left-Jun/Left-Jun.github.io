@@ -1,44 +1,26 @@
-/* Incremental visual refresh. Existing desktop layout remains the default. */
-:root {
-  --leftjun-radius-lg: 8px;
-  --leftjun-radius-md: 8px;
-  --leftjun-radius-sm: 6px;
-  --card-border-radius: 8px;
-  --shadow-l1: 0 6px 16px rgba(35, 86, 136, 0.08);
-  --shadow-l2: 0 12px 28px rgba(35, 86, 136, 0.12);
-  --leftjun-surface-shadow: var(--shadow-l2);
-  --leftjun-surface-shadow-soft: var(--shadow-l1);
-  --leftjun-page-wash: linear-gradient(180deg, #edf7fd 0%, #f7fbfe 100%);
-}
-
-:root[data-scheme="dark"] {
-  --shadow-l1: 0 6px 16px rgba(0, 0, 0, 0.16);
-  --shadow-l2: 0 12px 28px rgba(0, 0, 0, 0.22);
-  --leftjun-page-wash: #111b20;
-}
+/* Responsive compatibility for the refreshed content and navigation. */
 
 picture {
   display: contents;
 }
 
-.home-topbar,
-.home-hero,
-.section-card,
-.project-card,
-.post-card,
-.home-plan-card,
-.home-workflow__item,
-.main-article,
-.right-sidebar > section {
-  border-radius: var(--card-border-radius);
-  box-shadow: var(--shadow-l1);
+@media (min-width: 768px) {
+  .left-sidebar {
+    --sidebar-bottom-reserve-gap: clamp(1rem, 2vh, 1.5rem);
+  }
+
+  #main-menu,
+  body.sidebar-collapsed #main-menu {
+    scrollbar-gutter: auto;
+  }
 }
 
-.home-hero__stage,
-.home-hero__media-frame,
-.project-card__image,
-.article-image {
-  border-radius: var(--card-border-radius);
+@media (min-width: 768px) and (min-height: 840px) and (max-height: 960px) {
+  .left-sidebar {
+    --sidebar-bottom-reserve-gap: 0;
+    gap: 0.5rem;
+    padding-block: 1rem 0.5rem;
+  }
 }
 
 @media (max-width: 767px) {
@@ -58,48 +40,14 @@ picture {
     grid-template-columns: repeat(4, minmax(0, 1fr));
     gap: 3px;
     padding: 6px;
-    border-radius: 8px;
-    background: color-mix(in srgb, var(--leftjun-surface-strong) 88%, transparent);
-    box-shadow: 0 10px 28px rgba(20, 77, 110, 0.14);
-  }
-
-  :root[data-scheme="dark"] body .mobile-bottom-nav {
-    background: rgba(14, 26, 34, 0.9);
-    box-shadow: 0 10px 28px rgba(0, 0, 0, 0.28);
   }
 
   html body .mobile-bottom-nav a {
     min-height: 46px;
-    border-radius: 6px;
   }
 
   html body.home-page main.main {
     gap: 18px;
-  }
-
-  html body.home-page .home-hero,
-  html body .section-card,
-  html body .section-hero,
-  html body .main-article,
-  html body .project-card,
-  html body .home-workflow__item,
-  html body .home-plan-card {
-    border-radius: 8px;
-    box-shadow: 0 7px 20px rgba(35, 86, 136, 0.08);
-  }
-
-  :root[data-scheme="dark"] body.home-page .home-hero,
-  :root[data-scheme="dark"] body .section-card,
-  :root[data-scheme="dark"] body .section-hero,
-  :root[data-scheme="dark"] body .main-article,
-  :root[data-scheme="dark"] body .project-card,
-  :root[data-scheme="dark"] body .home-workflow__item,
-  :root[data-scheme="dark"] body .home-plan-card {
-    box-shadow: 0 7px 20px rgba(0, 0, 0, 0.18);
-  }
-
-  html body.home-page .home-hero__stage {
-    border-radius: 8px;
   }
 
   html body.home-page .home-hero__content {
@@ -108,7 +56,7 @@ picture {
 }
 
 @media (min-width: 768px) and (max-width: 1000px) {
-  html body.home-page .home-topbar__search {
+  html body .home-topbar__search {
     display: none;
   }
 }
@@ -120,6 +68,10 @@ picture {
 }
 
 @media (min-width: 768px) and (max-width: 900px) {
+  html body .home-topbar__portfolio-pdf {
+    display: none;
+  }
+
   html body.home-page .home-dashboard .home-development-plans .home-section__header--with-link .home-section__side {
     width: auto;
     min-width: 0;
