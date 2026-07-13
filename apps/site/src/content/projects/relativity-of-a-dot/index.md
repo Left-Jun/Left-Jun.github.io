@@ -9,6 +9,7 @@ imagePosition: "45% center"
 pinWeight: 50
 weight: 50
 portfolioType: "game"
+status: "completed"
 projectFacts:
   developmentTime: "2026.2（萌芽杯 2026 创意原型）"
   duration: "6h"

@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectCard from "./ProjectCard.astro";
 import PostCard from "./PostCard.astro";
 import RightSidebar from "./RightSidebar.astro";
+import { getTaxonomyTerm, taxonomyTermUrl } from "../lib/content.js";
 
 const { kind, term, lang = "zh-cn" } = Astro.props as {
   kind: "tags" | "categories";
@@ -20,8 +21,11 @@ const projectEntries = term.entries.filter((entry: any) => entry.section === "pr
 const recordEntries = term.entries.filter((entry: any) => entry.section !== "projects");
 const activeSection = projectEntries.length > 0 && recordEntries.length === 0 ? "projects" : "posts";
 const resetUrl = lang === "en" ? `/en/${activeSection}/` : `/${activeSection}/`;
+const alternateLang = isEn ? "zh-cn" : "en";
+const alternateTerm = await getTaxonomyTerm(kind, term.slug, alternateLang);
+const alternatePath = alternateTerm ? taxonomyTermUrl(kind, alternateTerm.name, alternateLang) : undefined;
 ---
-<BaseLayout lang={lang} title={`${label}: ${term.name}`} description={description} active={activeSection} bodyClass="list-page taxonomy-page">
+<BaseLayout lang={lang} title={`${label}: ${term.name}`} description={description} alternatePath={alternatePath} active={activeSection} bodyClass="list-page taxonomy-page">
   <header>
     <h3 class="section-title">{label}</h3>
     <section class="section-card">

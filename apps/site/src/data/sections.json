@@ -95,5 +95,25 @@
       "roleTags": [],
       "relatedPages": []
     }
+  },
+  "updates": {
+    "en": {
+      "title": "Updates",
+      "description": "A bilingual timeline of project milestones, events, awards, training, research, releases, and new writing.",
+      "slug": "updates",
+      "categories": [],
+      "tags": [],
+      "roleTags": [],
+      "relatedPages": []
+    },
+    "zh-cn": {
+      "title": "动态",
+      "description": "以双语时间线记录项目进展、活动、奖项、训练、研究、版本发布与新文章。",
+      "slug": "updates",
+      "categories": [],
+      "tags": [],
+      "roleTags": [],
+      "relatedPages": []
+    }
   }
 }

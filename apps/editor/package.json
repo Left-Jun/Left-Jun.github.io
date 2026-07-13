@@ -11,6 +11,6 @@
     "@left-jun/content-model": "0.1.0"
   },
   "engines": {
-    "node": ">=20"
+    "node": ">=22.12 <23"
   }
 }

@@ -11,12 +11,20 @@
     "packages/*"
   ],
   "scripts": {
-    "test": "npm --workspace @left-jun/content-model run test",
+    "test": "npm --workspace @left-jun/content-model run test && npm --workspace @left-jun/site run test",
+    "optimize:media": "node scripts/optimize-media.mjs",
+    "validate:media": "node scripts/validate-media.mjs",
+    "check:links": "node scripts/check-built-links.mjs",
     "dev:site": "npm --workspace @left-jun/site run dev",
     "build:site": "npm --workspace @left-jun/site run build",
     "check:site": "npm --workspace @left-jun/site run check",
     "preview:site": "npm --workspace @left-jun/site run preview",
     "editor": "npm --workspace @left-jun/editor run start",
     "validate:content": "npm --workspace @left-jun/content-model run validate"
+  },
+  "devDependencies": {
+    "markdown-it": "^14.1.0",
+    "parse5": "^7.3.0",
+    "sharp": "^0.34.5"
   }
 }

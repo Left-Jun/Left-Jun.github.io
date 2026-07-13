@@ -34,6 +34,11 @@
     "zh-cn": {
       "title": "Left Jun",
       "languageName": "中文",
+      "homeStats": [
+        { "key": "projects", "label": "项目 / Demo" },
+        { "value": "4", "label": "Game Jam" },
+        { "value": "3", "label": "路演 / 展示" }
+      ],
       "sidebar": {
         "compact": false,
         "emoji": "👋",
@@ -82,6 +87,15 @@
             "weight": 33,
             "params": {
               "icon": "infinity"
+            }
+          },
+          {
+            "identifier": "updates",
+            "name": "动态",
+            "url": "/updates/",
+            "weight": 35,
+            "params": {
+              "icon": "clock"
             }
           },
           {
@@ -150,6 +164,11 @@
     "en": {
       "title": "Left Jun",
       "languageName": "English",
+      "homeStats": [
+        { "key": "projects", "label": "Projects / Demos" },
+        { "value": "4", "label": "Game Jams" },
+        { "value": "3", "label": "Roadshows" }
+      ],
       "sidebar": {
         "compact": false,
         "emoji": "👋",
@@ -194,10 +213,19 @@
           {
             "identifier": "retrospectives",
             "name": "Retrospectives & Plans",
-            "url": "/retrospectives/",
+            "url": "/en/retrospectives/",
             "weight": 33,
             "params": {
               "icon": "infinity"
+            }
+          },
+          {
+            "identifier": "updates",
+            "name": "Updates",
+            "url": "/en/updates/",
+            "weight": 35,
+            "params": {
+              "icon": "clock"
             }
           },
           {

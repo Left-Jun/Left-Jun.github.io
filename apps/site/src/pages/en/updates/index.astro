@@ -1,0 +1,31 @@
+---
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import RightSidebar from "../../../components/RightSidebar.astro";
+import UpdateTimeline from "../../../components/UpdateTimeline.astro";
+import { getSectionPage, getTimelineEntries } from "../../../lib/content.js";
+
+const lang = "en";
+const section = await getSectionPage("updates", lang);
+const entries = await getTimelineEntries(lang);
+---
+
+<BaseLayout lang={lang} title={section.data.title} description={section.data.description} alternatePath="/updates/" active="updates" bodyClass="list-page updates-page">
+  <header>
+    <h3 class="section-title">Recent Updates</h3>
+    <section class="section-card">
+      <div class="section-details">
+        <h3 class="section-count">{entries.length} updates</h3>
+        <h1 class="section-term">{section.data.title}</h1>
+        <h2 class="section-description">{section.data.description}</h2>
+      </div>
+    </section>
+  </header>
+
+  <UpdateTimeline entries={entries} lang={lang} />
+
+  {entries.length > 0 && (
+    <Fragment slot="right-sidebar">
+      <RightSidebar lang={lang} entries={entries} />
+    </Fragment>
+  )}
+</BaseLayout>

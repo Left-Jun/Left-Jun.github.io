@@ -3,21 +3,99 @@ import "../styles/global.css";
 import Sidebar from "../components/Sidebar.astro";
 import SiteTopChrome from "../components/SiteTopChrome.astro";
 import { config, siteText } from "../lib/content.js";
+import {
+  buildAlternateLinks,
+  buildStructuredData,
+  languageCode,
+  resolveSiteUrl,
+  serializeJsonLd
+} from "../lib/seo";
+import type {
+  BreadcrumbInput,
+  CreativeWorkInput,
+  OpenGraphType,
+  SiteLanguage
+} from "../lib/seo";
+
+interface Props {
+  lang?: SiteLanguage;
+  title?: string;
+  description?: string;
+  image?: string;
+  imageAlt?: string;
+  priorityImage?: string;
+  priorityImageSrcset?: string;
+  priorityImageSizes?: string;
+  priorityImageType?: string;
+  active?: string;
+  bodyClass?: string;
+  canonicalUrl?: string;
+  alternateUrl?: string;
+  alternatePath?: string;
+  alternateLang?: SiteLanguage;
+  ogType?: OpenGraphType;
+  creativeWork?: CreativeWorkInput;
+  breadcrumbs?: BreadcrumbInput[];
+}
 
 const {
   lang = "zh-cn",
   title = config.title,
   description = config.description,
   image = `/${config.opengraph?.image || "img/avatar.jpg"}`,
+  imageAlt = config.opengraph?.imageAlt || title,
   priorityImage = "",
+  priorityImageSrcset = "",
+  priorityImageSizes = "",
+  priorityImageType = "",
   active = "home",
-  bodyClass = ""
-} = Astro.props;
+  bodyClass = "",
+  canonicalUrl = "",
+  alternateUrl = "",
+  alternatePath = "",
+  alternateLang,
+  ogType,
+  creativeWork,
+  breadcrumbs = []
+} = Astro.props as Props;
 
 const text = siteText(lang);
 const pageTitle = title === config.title ? title : `${title} - ${config.title}`;
-const canonical = new URL(Astro.url.pathname, config.siteUrl).toString();
-const priorityImageUrl = priorityImage ? new URL(priorityImage, config.siteUrl).toString() : "";
+const pageDescription = description || config.description;
+const canonical = resolveSiteUrl(canonicalUrl || Astro.url.pathname, config.siteUrl);
+const pageImageUrl = resolveSiteUrl(image, config.siteUrl);
+const personImageUrl = resolveSiteUrl(
+  `/${config.languages?.["zh-cn"]?.sidebar?.avatar || config.opengraph?.image || "img/avatar.jpg"}`,
+  config.siteUrl
+);
+const priorityImageUrl = priorityImage;
+const hreflangLinks = buildAlternateLinks({
+  siteUrl: config.siteUrl,
+  canonicalUrl: canonical,
+  lang,
+  alternateUrl,
+  alternatePath,
+  alternateLang
+});
+const resolvedOgType: OpenGraphType = ogType || (
+  creativeWork?.type === "Article" || creativeWork?.type === "BlogPosting" ? "article" : "website"
+);
+const sameAs = (config.languages?.["zh-cn"]?.menus?.social || []).map((item) => item.url).filter(Boolean);
+const structuredData = buildStructuredData({
+  siteName: config.title,
+  siteUrl: config.siteUrl,
+  canonicalUrl: canonical,
+  pageTitle,
+  pageDescription,
+  pageImageUrl,
+  personImageUrl,
+  lang,
+  sameAs,
+  creativeWork,
+  breadcrumbs
+});
+const structuredDataJson = serializeJsonLd(structuredData);
+const rssUrl = lang === "en" ? "/en/feed.xml" : "/feed.xml";
 const footerText = text.isEn ? "Built with Astro" : "";
 const hasRightSidebar = Astro.slots.has("right-sidebar");
 ---
@@ -27,21 +105,30 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{pageTitle}</title>
-    <meta name="description" content={description || config.description} />
+    <meta name="description" content={pageDescription} />
     <meta name="keywords" content={(config.keywords || []).join(", ")} />
     <link rel="canonical" href={canonical} />
+    {hreflangLinks.map((link) => <link rel="alternate" hreflang={link.hreflang} href={link.href} />)}
+    <link rel="alternate" type="application/rss+xml" title={lang === "en" ? "Left Jun - Updates" : "Left Jun - Latest Updates"} href={rssUrl} />
     <link rel="icon" href={config.favicon || "/favicon.ico"} sizes="any" />
     <link rel="icon" type="image/png" href="/favicon-48.png" sizes="48x48" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
     <link rel="manifest" href="/site.webmanifest" />
     <meta property="og:title" content={pageTitle} />
-    <meta property="og:description" content={description || config.description} />
+    <meta property="og:description" content={pageDescription} />
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content={config.title} />
-    <meta property="og:image" content={new URL(image, config.siteUrl).toString()} />
+    <meta property="og:type" content={resolvedOgType} />
+    <meta property="og:locale" content={languageCode(lang).replace("-", "_")} />
+    {hreflangLinks.length > 0 && <meta property="og:locale:alternate" content={languageCode(lang === "en" ? "zh-cn" : "en").replace("-", "_")} />}
+    <meta property="og:image" content={pageImageUrl} />
+    <meta property="og:image:alt" content={imageAlt} />
     <meta name="twitter:card" content={config.opengraph?.twitter?.card || "summary_large_image"} />
     <meta name="twitter:title" content={pageTitle} />
-    <meta name="twitter:description" content={description || config.description} />
+    <meta name="twitter:description" content={pageDescription} />
+    <meta name="twitter:image" content={pageImageUrl} />
+    <meta name="twitter:image:alt" content={imageAlt} />
+    <script type="application/ld+json" is:inline set:html={structuredDataJson}></script>
     <meta name="theme-color" content="#ebf5fc" media="(prefers-color-scheme: light)" />
     <meta name="theme-color" content="#171b1a" media="(prefers-color-scheme: dark)" />
     <script is:inline>
@@ -56,7 +143,17 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
         } catch {}
       })();
     </script>
-    {priorityImageUrl && <link rel="preload" as="image" href={priorityImageUrl} fetchpriority="high" />}
+    {priorityImageUrl && (
+      <link
+        rel="preload"
+        as="image"
+        href={priorityImageUrl}
+        imagesrcset={priorityImageSrcset || undefined}
+        imagesizes={priorityImageSizes || undefined}
+        type={priorityImageType || undefined}
+        fetchpriority="high"
+      />
+    )}
   </head>
   <body class={bodyClass}>
     <div class="container main-container flex on-phone--column extended site-shell">

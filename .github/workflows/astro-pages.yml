@@ -43,11 +43,17 @@ jobs:
       - name: Validate content
         run: npm run validate:content
 
+      - name: Validate responsive media
+        run: npm run validate:media
+
       - name: Check Astro site
         run: npm run check:site
 
       - name: Build Astro site
         run: npm run build:site
+
+      - name: Check generated links
+        run: npm run check:links
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3

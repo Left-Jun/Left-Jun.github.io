@@ -7,9 +7,11 @@ description: "一个基于 BOAT02 / CONTROL02 的 STM32 软硬件结合项目，
 image: "cover.png"
 featured: true
 featuredWeight: 30
+homeHeroWeight: 40
 pinWeight: 40
 weight: 40
 portfolioType: "embedded"
+status: "completed"
 projectFacts:
   developmentTime: "2026.3"
   duration: "课程 / 竞赛周期"

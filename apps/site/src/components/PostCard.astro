@@ -1,4 +1,5 @@
 ---
+import ResponsiveImage from "./ResponsiveImage.astro";
 import { taxonomySlug } from "../lib/content.js";
 
 const { entry, compact = true, columnBadges = [] } = Astro.props;
@@ -6,6 +7,7 @@ const terms: string[] = [...(entry.data.categories || []), ...(entry.data.tags |
 const categorySlugs = (entry.data.categories || []).map((term: string) => taxonomySlug(term)).filter(Boolean);
 const tagSlugs = (entry.data.tags || []).map((term: string) => taxonomySlug(term)).filter(Boolean);
 const image = entry.data.image;
+const imageUrl = image ? entry.asset(image) : "";
 const imagePosition = entry.data.imagePosition || "center";
 const visibleColumnBadges = Array.isArray(columnBadges) ? columnBadges.filter(Boolean) : [];
 ---
@@ -36,7 +38,13 @@ const visibleColumnBadges = Array.isArray(columnBadges) ? columnBadges.filter(Bo
     </div>
     {image && (
       <div class="article-image">
-        <img src={entry.asset(image)} alt={entry.data.title} loading="lazy" style={`object-position: ${imagePosition};`} />
+        <ResponsiveImage
+          src={imageUrl}
+          alt={entry.data.title}
+          sizes="(max-width: 767px) 92vw, 280px"
+          loading="lazy"
+          style={`object-position: ${imagePosition};`}
+        />
       </div>
     )}
   </a>

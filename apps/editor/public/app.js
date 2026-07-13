@@ -6,9 +6,10 @@ const state = {
   page: "editor"
 };
 
-const sections = ["projects", "posts", "retrospectives", "plans", "pages"];
+const sections = ["projects", "updates", "posts", "retrospectives", "plans", "pages"];
 const sectionLabels = {
   projects: "项目作品",
+  updates: "动态",
   posts: "文章",
   retrospectives: "项目复盘",
   plans: "开发计划",
@@ -22,7 +23,7 @@ const pageMeta = {
   editor: {
     kicker: "本地工具",
     title: "内容编辑",
-    hint: "编辑项目、文章、复盘、计划和关于页面。保存后内容会写回仓库 Markdown 文件。"
+    hint: "编辑项目、动态、文章、复盘、计划和关于页面。保存后内容会写回仓库 Markdown 文件。"
   },
   language: {
     kicker: "Language",
@@ -305,11 +306,18 @@ function fillForm(entry) {
   $("#titleField").value = fm.title || "";
   $("#slugField").value = fm.slug || "";
   $("#dateField").value = fm.date || "";
+  $("#updatedAtField").value = fm.updatedAt || "";
+  $("#statusField").value = fm.status || "";
+  $("#updateKindField").value = fm.kind || "";
   $("#draftField").checked = !!fm.draft;
   $("#descriptionField").value = fm.description || "";
   $("#imageField").value = fm.image || "";
   $("#coverVideoField").value = fm.coverVideo || "";
   $("#portfolioTypeField").value = fm.portfolioType || "";
+  $("#featuredField").checked = !!fm.featured;
+  $("#featuredWeightField").value = Number.isFinite(fm.featuredWeight) ? fm.featuredWeight : "";
+  $("#homeHeroWeightField").value = Number.isFinite(fm.homeHeroWeight) ? fm.homeHeroWeight : "";
+  $("#pinWeightField").value = Number.isFinite(fm.pinWeight) ? fm.pinWeight : "";
   $("#categoriesField").value = listToText(fm.categories);
   $("#tagsField").value = listToText(fm.tags);
   $("#roleTagsField").value = listToText(fm.roleTags);
@@ -328,25 +336,55 @@ function readForm() {
   if (!title) throw new Error("保存前需要填写标题。");
   const facts = $("#projectFactsField").value.trim();
   const links = $("#projectLinksField").value.trim();
+  const section = $("#sectionField").value;
+  const numberValue = (selector) => {
+    const value = $(selector).value.trim();
+    return value === "" ? undefined : Number(value);
+  };
   const frontMatter = {
     ...(state.current?.frontMatter || {}),
     title,
     date: $("#dateField").value.trim(),
+    updatedAt: $("#updatedAtField").value.trim(),
+    status: $("#statusField").value,
     draft: $("#draftField").checked,
     slug: $("#slugField").value.trim() || slugify(title),
     description: $("#descriptionField").value.trim(),
     image: $("#imageField").value.trim(),
     coverVideo: $("#coverVideoField").value.trim(),
-    portfolioType: $("#portfolioTypeField").value.trim(),
     categories: textToList($("#categoriesField").value),
     tags: textToList($("#tagsField").value),
     roleTags: textToList($("#roleTagsField").value),
     relatedPages: [...document.querySelectorAll("#relatedPicker input:checked")].map((input) => input.value)
   };
-  if (facts) frontMatter.projectFacts = JSON.parse(facts);
-  if (links) frontMatter.projectLinks = JSON.parse(links);
+  for (const key of ["date", "updatedAt", "status"]) {
+    if (!frontMatter[key]) delete frontMatter[key];
+  }
+  if (section === "updates") frontMatter.kind = $("#updateKindField").value;
+  else delete frontMatter.kind;
+  if (section === "projects") {
+    frontMatter.portfolioType = $("#portfolioTypeField").value.trim();
+    frontMatter.featured = $("#featuredField").checked;
+    for (const [key, selector] of [
+      ["featuredWeight", "#featuredWeightField"],
+      ["homeHeroWeight", "#homeHeroWeightField"],
+      ["pinWeight", "#pinWeightField"]
+    ]) {
+      const value = numberValue(selector);
+      if (value === undefined) delete frontMatter[key];
+      else frontMatter[key] = value;
+    }
+    if (facts) frontMatter.projectFacts = JSON.parse(facts);
+    else delete frontMatter.projectFacts;
+    if (links) frontMatter.projectLinks = JSON.parse(links);
+    else delete frontMatter.projectLinks;
+  } else {
+    for (const key of ["portfolioType", "featured", "featuredWeight", "homeHeroWeight", "pinWeight", "projectFacts", "projectLinks"]) {
+      delete frontMatter[key];
+    }
+  }
   return {
-    section: $("#sectionField").value,
+    section,
     lang: $("#langField").value,
     frontMatter,
     body: $("#bodyField").value
@@ -374,15 +412,18 @@ async function openEntry(id) {
 }
 
 function newEntry() {
+  const section = $("#sectionFilter").value;
   fillForm({
     id: "new",
     path: "",
-    section: $("#sectionFilter").value,
+    section,
     lang: $("#languageFilter").value === "en" ? "en" : "zh-cn",
     frontMatter: {
       title: "",
       slug: "",
       date: new Date(Date.now() - new Date().getTimezoneOffset() * 60000).toISOString().slice(0, 19) + "+08:00",
+      status: section === "updates" ? "in-progress" : undefined,
+      kind: section === "updates" ? "project" : undefined,
       draft: false,
       categories: [],
       tags: [],

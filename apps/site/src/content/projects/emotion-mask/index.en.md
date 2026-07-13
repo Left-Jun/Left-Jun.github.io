@@ -7,9 +7,11 @@ description: "A 2D platformer-puzzle game built around an emotion state machine,
 image: "cover.png"
 featured: true
 featuredWeight: 20
+homeHeroWeight: 20
 pinWeight: 20
 weight: 20
 portfolioType: "game"
+status: "completed"
 projectFacts:
   developmentTime: "2026.1, Global Game Jam 2026 Changsha site"
   duration: "48 hours"

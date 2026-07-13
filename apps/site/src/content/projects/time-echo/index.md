@@ -8,6 +8,7 @@ image: "cover.png"
 pinWeight: 60
 weight: 60
 portfolioType: "game"
+status: "completed"
 projectFacts:
   developmentTime: "2025.11（川大 & 成电 & 川美三教杯 Game Jam）"
   duration: "7天"

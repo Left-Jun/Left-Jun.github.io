@@ -10,7 +10,7 @@ const lang = "en";
 const section = await getSectionPage("plans", lang);
 const entries = await getEntries("plans", { lang }) as ListingEntry[];
 ---
-<BaseLayout lang={lang} title={section.data.title} description={section.data.description} active="plans" bodyClass="list-page">
+<BaseLayout lang={lang} title={section.data.title} description={section.data.description} alternatePath="/plans/" active="plans" bodyClass="list-page">
   <header>
     <h3 class="section-title">Development Plans</h3>
     <section class="section-card">

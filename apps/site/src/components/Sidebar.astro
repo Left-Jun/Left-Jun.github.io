@@ -1,7 +1,7 @@
 ---
 import BrandLogo from "./BrandLogo.astro";
 import Icon from "./Icon.astro";
-import { config, getAllEntries, siteText } from "../lib/content.js";
+import { config, siteText } from "../lib/content.js";
 
 const { lang = "zh-cn", active = "home" } = Astro.props;
 const isEn = lang === "en";
@@ -15,6 +15,8 @@ const menu = [...(text.menus.main || [])]
     icon: item.params?.icon || "link",
     newTab: Boolean(item.params && "newTab" in item.params && item.params.newTab)
   }));
+const drawerMenuIdentifiers = new Set(["retrospectives", "plans", "about", "contact"]);
+const drawerMenu = menu.filter((item) => drawerMenuIdentifiers.has(item.identifier));
 const activeMenu = active === "plans" ? "retrospectives" : active;
 const social = [...(text.menus.social || [])]
   .sort((a, b) => (a.weight || 0) - (b.weight || 0))
@@ -37,64 +39,83 @@ const portfolioOpenAria = text.isEn ? "Open portfolio PDF" : "打开作品集 PD
 const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作品集 PDF";
 const mobileSearchCopy = isEn
   ? {
-      search: "Search projects, systems, articles...",
+      search: "Search projects, updates, articles...",
       searchLabel: "Search site content",
       empty: "No matching results",
       dark: "Dark Mode",
       light: "Light Mode"
     }
   : {
-      search: "搜索项目、系统、文章...",
+      search: "搜索项目、动态、文章...",
       searchLabel: "搜索站内内容",
       empty: "没有匹配结果",
       dark: "暗色模式",
       light: "浅色模式"
     };
-const sectionLabels = isEn
+const mobileDrawerCopy = isEn
   ? {
-      projects: "Project",
-      posts: "Article / Column",
-      retrospectives: "Retrospective",
-      plans: "Roadmap"
+      menu: "Open profile and more",
+      close: "Close profile menu",
+      title: "Profile and more",
+      navigation: "Profile navigation"
     }
   : {
-      projects: "项目",
-      posts: "文章 / 专栏",
-      retrospectives: "复盘",
-      plans: "计划"
+      menu: "打开个人资料与更多选项",
+      close: "关闭个人资料菜单",
+      title: "个人资料与更多",
+      navigation: "个人资料导航"
     };
-const mobileSearchEntries = (await getAllEntries({ lang })).map((entry) => {
-  const tags = [
-    ...(entry.data.tags || []),
-    ...(entry.data.roleTags || []),
-    ...(entry.data.categories || [])
-  ]
-    .filter(Boolean)
-    .slice(0, 8);
-  const description = entry.data.description || entry.data.summary || "";
-  const search = [entry.data.title, description, ...tags, entry.section]
-    .join(" ")
-    .toLowerCase();
-  return {
-    title: entry.data.title,
-    description,
-    url: entry.url,
-    section: sectionLabels[entry.section] || entry.section,
-    tags,
-    search
-  };
-});
-const mobileSearchIndexId = `mobile-sidebar-search-index-${isEn ? "en" : "zh"}`;
-const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u003c");
+const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
 ---
 <aside class="sidebar left-sidebar sticky is-expanded" id="site-sidebar">
-  <div class="sidebar-profile-card">
-    <BrandLogo href={text.homeUrl} />
-    <button class="hamburger hamburger--spin" type="button" id="toggle-menu" aria-label="Toggle menu">
+  <div class="mobile-identity-bar">
+    <a class="mobile-identity-bar__profile" href={text.homeUrl} aria-label={config.title}>
+      <img src={avatar} alt="" width="42" height="42" loading="eager" decoding="async" />
+      <span>
+        <strong>{config.title}</strong>
+        <small>{rolePill}</small>
+      </span>
+    </a>
+    <button
+      class="hamburger hamburger--spin mobile-identity-bar__menu"
+      type="button"
+      id="toggle-menu"
+      aria-label={mobileDrawerCopy.menu}
+      data-open-label={mobileDrawerCopy.menu}
+      data-close-label={mobileDrawerCopy.close}
+      aria-expanded="false"
+      aria-controls="mobile-sidebar-drawer"
+    >
       <span class="hamburger-box">
         <span class="hamburger-inner"></span>
       </span>
     </button>
+  </div>
+
+  <button
+    class="mobile-sidebar-backdrop"
+    type="button"
+    data-mobile-drawer-backdrop
+    aria-label={mobileDrawerCopy.close}
+    tabindex="-1"
+  ></button>
+
+  <div
+    class="mobile-sidebar-drawer"
+    id="mobile-sidebar-drawer"
+    data-mobile-sidebar-drawer
+    aria-labelledby="mobile-sidebar-drawer-title"
+    aria-hidden="true"
+  >
+    <div class="mobile-sidebar-drawer__head">
+      <strong id="mobile-sidebar-drawer-title">{mobileDrawerCopy.title}</strong>
+      <button type="button" data-mobile-drawer-close aria-label={mobileDrawerCopy.close}>
+        <Icon name="chevron-right" label="" />
+      </button>
+    </div>
+
+    <div class="sidebar-profile-card">
+      <BrandLogo href={text.homeUrl} />
 
     <header>
       <figure class="site-avatar">
@@ -160,7 +181,9 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
   <div
     class="mobile-sidebar-search"
     data-mobile-sidebar-search
-    data-search-index-id={mobileSearchIndexId}
+    data-search-shell
+    data-search-variant="mobile"
+    data-search-index-url={searchIndexUrl}
     data-empty={mobileSearchCopy.empty}
   >
     <label class="mobile-sidebar-search__field">
@@ -172,6 +195,7 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
         autocomplete="off"
         spellcheck="false"
         data-mobile-sidebar-search-input
+        data-search-input
       />
     </label>
     <button
@@ -187,8 +211,25 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
         <Icon name="toggle-right" label="" />
       </span>
     </button>
-    <div class="mobile-sidebar-search__results" data-mobile-sidebar-search-results hidden></div>
+    <div class="mobile-sidebar-search__results" data-mobile-sidebar-search-results data-search-results hidden></div>
   </div>
+
+  {drawerMenu.length > 0 && (
+    <nav class="mobile-sidebar-drawer__links" aria-label={mobileDrawerCopy.navigation}>
+      {drawerMenu.map((item) => (
+        <a
+          class:list={[activeMenu === item.identifier && "is-active"]}
+          href={item.url}
+          target={item.newTab ? "_blank" : undefined}
+          rel={item.newTab ? "noopener noreferrer" : undefined}
+          data-mobile-drawer-link
+        >
+          <Icon name={item.icon} label="" />
+          <span>{item.name}</span>
+        </a>
+      ))}
+    </nav>
+  )}
 
   <ol class="menu" id="main-menu">
     {menu.map((item) => (
@@ -231,9 +272,8 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
       <span class="sidebar-collapse-toggle__label">收起</span>
     </button>
   </div>
+  </div>
 </aside>
-
-<script type="application/json" id={mobileSearchIndexId} set:html={mobileSearchJson} is:inline></script>
 
 <script is:inline>
   (() => {
@@ -241,15 +281,19 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
     const body = document.body;
     const sidebar = document.querySelector("#site-sidebar");
     const toggle = document.querySelector("#toggle-menu");
+    const drawer = document.querySelector("[data-mobile-sidebar-drawer]");
+    const drawerClose = document.querySelector("[data-mobile-drawer-close]");
+    const drawerBackdrop = document.querySelector("[data-mobile-drawer-backdrop]");
     const themeButton = document.querySelector("#dark-mode-toggle");
     const themeLabel = themeButton?.querySelector(".theme-toggle__label");
     const mobileThemeButtons = document.querySelectorAll("[data-mobile-theme-toggle]");
     const collapseButton = document.querySelector("#sidebar-collapse-toggle");
     const collapseLabel = collapseButton?.querySelector(".sidebar-collapse-toggle__label");
-    const menuLinks = document.querySelectorAll("#main-menu a");
+    const menuLinks = document.querySelectorAll("#main-menu a, [data-mobile-drawer-link]");
     const themeKey = "LeftJunColorScheme";
     const sidebarKey = "LeftJunSidebarCollapsed";
     const desktopQuery = matchMedia("(min-width: 768px)");
+    let focusBeforeDrawer = null;
 
     const applyTheme = (scheme) => {
       const isDark = scheme === "dark";
@@ -266,11 +310,51 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
       });
     };
 
-    const setMenuOpen = (open) => {
-      body.classList.toggle("show-menu", open);
-      sidebar?.classList.toggle("is-open", open);
-      toggle?.classList.toggle("is-active", open);
-      toggle?.setAttribute("aria-expanded", open ? "true" : "false");
+    const drawerFocusable = () => {
+      if (!drawer) return [];
+      return Array.from(drawer.querySelectorAll('a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])'))
+        .filter((element) => element instanceof HTMLElement && element.getClientRects().length > 0);
+    };
+
+    const setMenuOpen = (open, restoreFocus = true) => {
+      const mobile = !desktopQuery.matches;
+      const next = Boolean(open && mobile);
+
+      if (next && document.activeElement instanceof HTMLElement) focusBeforeDrawer = document.activeElement;
+      body.classList.toggle("show-menu", next);
+      body.classList.toggle("mobile-drawer-open", next);
+      sidebar?.classList.toggle("is-open", next);
+      toggle?.classList.toggle("is-active", next);
+      toggle?.setAttribute("aria-expanded", next ? "true" : "false");
+      if (toggle) toggle.setAttribute("aria-label", next ? toggle.dataset.closeLabel || "Close" : toggle.dataset.openLabel || "Open");
+      if (toggle instanceof HTMLElement) {
+        toggle.setAttribute("aria-label", next ? toggle.dataset.closeLabel || "Close menu" : toggle.dataset.openLabel || "Open menu");
+      }
+
+      if (drawer instanceof HTMLElement) {
+        if (mobile) {
+          drawer.setAttribute("role", "dialog");
+          drawer.setAttribute("aria-modal", "true");
+          drawer.setAttribute("aria-labelledby", "mobile-sidebar-drawer-title");
+          drawer.setAttribute("aria-hidden", next ? "false" : "true");
+        } else {
+          drawer.removeAttribute("role");
+          drawer.removeAttribute("aria-modal");
+          drawer.removeAttribute("aria-labelledby");
+          drawer.removeAttribute("aria-hidden");
+        }
+        drawer.inert = mobile && !next;
+      }
+
+      if (next) {
+        requestAnimationFrame(() => {
+          const target = drawerClose instanceof HTMLElement ? drawerClose : drawerFocusable()[0];
+          target?.focus();
+        });
+      } else if (restoreFocus && focusBeforeDrawer instanceof HTMLElement && mobile) {
+        focusBeforeDrawer.focus();
+        focusBeforeDrawer = null;
+      }
     };
 
     const updateCollapseButton = (collapsed) => {
@@ -322,98 +406,46 @@ const mobileSearchJson = JSON.stringify(mobileSearchEntries).replace(/</g, "\\u0
       if (event.detail?.scheme) applyTheme(event.detail.scheme);
     });
 
-    document.querySelectorAll("[data-mobile-sidebar-search]").forEach((shell) => {
-      const input = shell.querySelector("[data-mobile-sidebar-search-input]");
-      const results = shell.querySelector("[data-mobile-sidebar-search-results]");
-      const indexNode = document.getElementById(shell.dataset.searchIndexId || "");
-      if (!(input instanceof HTMLInputElement) || !results || !indexNode) return;
-
-      let entries = [];
-      try {
-        entries = JSON.parse(indexNode.textContent || "[]");
-      } catch {
-        entries = [];
-      }
-
-      const closeResults = () => {
-        results.hidden = true;
-        results.replaceChildren();
-        shell.classList.remove("is-search-open");
-      };
-
-      const makeNode = (tag, className, text) => {
-        const node = document.createElement(tag);
-        node.className = className;
-        node.textContent = text || "";
-        return node;
-      };
-
-      const renderResults = () => {
-        const query = input.value.trim();
-        results.replaceChildren();
-        if (!query) {
-          closeResults();
-          return;
-        }
-
-        const tokens = query.toLowerCase().split(/\s+/).filter(Boolean);
-        const matches = entries
-          .filter((entry) => tokens.every((token) => String(entry.search || "").includes(token)))
-          .slice(0, 8);
-
-        if (matches.length === 0) {
-          results.append(makeNode("p", "mobile-sidebar-search__empty", shell.dataset.empty || "No matching results"));
-        } else {
-          matches.forEach((entry) => {
-            const link = document.createElement("a");
-            link.className = "mobile-sidebar-search__result";
-            link.href = entry.url || "#";
-            link.append(makeNode("span", "mobile-sidebar-search__result-section", entry.section));
-            link.append(makeNode("strong", "mobile-sidebar-search__result-title", entry.title));
-            if (entry.description) link.append(makeNode("small", "mobile-sidebar-search__result-description", entry.description));
-            if (Array.isArray(entry.tags) && entry.tags.length > 0) {
-              link.append(makeNode("em", "mobile-sidebar-search__result-tags", entry.tags.slice(0, 4).join(" / ")));
-            }
-            results.append(link);
-          });
-        }
-
-        results.hidden = false;
-        shell.classList.add("is-search-open");
-      };
-
-      input.addEventListener("input", renderResults);
-      input.addEventListener("focus", () => {
-        if (input.value.trim()) renderResults();
-      });
-      input.addEventListener("keydown", (event) => {
-        if (event.key !== "Escape") return;
-        input.value = "";
-        closeResults();
-        input.blur();
-      });
-      document.addEventListener("click", (event) => {
-        if (event.target instanceof Node && !shell.contains(event.target)) closeResults();
-      });
-    });
-
     collapseButton?.addEventListener("click", () => setSidebarCollapsed(!body.classList.contains("sidebar-collapsed")));
 
-    desktopQuery.addEventListener?.("change", () => setSidebarCollapsed(localStorage.getItem(sidebarKey) === "1", false));
+    desktopQuery.addEventListener?.("change", () => {
+      setSidebarCollapsed(localStorage.getItem(sidebarKey) === "1", false);
+      setMenuOpen(false, false);
+    });
 
     toggle?.addEventListener("click", () => setMenuOpen(!body.classList.contains("show-menu")));
-    menuLinks.forEach((link) => link.addEventListener("click", () => sessionStorage.setItem("LeftJunMenuNavigation", "1")));
+    drawerClose?.addEventListener("click", () => setMenuOpen(false));
+    drawerBackdrop?.addEventListener("click", () => setMenuOpen(false));
+    menuLinks.forEach((link) => link.addEventListener("click", () => setMenuOpen(false, false)));
 
-    const isHome = location.pathname === "/" || location.pathname === "/en/";
-    const cameFromMenu = sessionStorage.getItem("LeftJunMenuNavigation") === "1";
-    sessionStorage.removeItem("LeftJunMenuNavigation");
-    if (isHome || cameFromMenu) {
-      root.classList.add("mobile-menu-preopen");
-      setMenuOpen(true);
-      setTimeout(() => {
-        root.classList.remove("mobile-menu-preopen");
+    document.addEventListener("keydown", (event) => {
+      if (!body.classList.contains("show-menu")) return;
+      if (event.key === "Escape") {
+        event.preventDefault();
         setMenuOpen(false);
-      }, isHome ? 650 : 180);
-    }
+        return;
+      }
+      if (event.key !== "Tab") return;
+
+      const focusable = drawerFocusable();
+      if (focusable.length === 0) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    });
+
+    setMenuOpen(false, false);
   })();
+</script>
+
+<script>
+  import { initSiteSearch } from "../scripts/search-client.js";
+  initSiteSearch();
+  document.addEventListener("astro:page-load", () => initSiteSearch());
 </script>

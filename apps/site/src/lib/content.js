@@ -1,6 +1,7 @@
 import { getCollection } from "astro:content";
 import siteConfig from "../data/site-config.json";
 import sections from "../data/sections.json";
+import mediaManifest from "../data/media-manifest.json";
 import {
   assetUrl,
   baseEntryId,
@@ -20,7 +21,7 @@ import {
 
 export const config = siteConfig;
 export const sectionMeta = sections;
-export const sectionsWithLists = ["projects", "posts", "retrospectives", "plans"];
+export const sectionsWithLists = ["projects", "posts", "retrospectives", "plans", "updates"];
 
 export function languageKey(lang) {
   return lang === "en" ? "en" : "zh-cn";
@@ -38,7 +39,8 @@ export function toSiteEntry(section, entry) {
   const lang = pageLanguage(entry);
   const data = {
     ...entry.data,
-    date: entry.data.date ? new Date(entry.data.date) : undefined
+    date: entry.data.date ? new Date(entry.data.date) : undefined,
+    updatedAt: entry.data.updatedAt ? new Date(entry.data.updatedAt) : undefined
   };
   const modelEntry = {
     id: entry.id,
@@ -55,7 +57,7 @@ export function toSiteEntry(section, entry) {
     ref: entryRef(section, entry.id),
     url: entryUrl(section, modelEntry, lang),
     asset: (value) => assetUrl(section, entry.id, value),
-    html: markdownToHtml(entry.body || "", { section, id: entry.id }),
+    html: markdownToHtml(entry.body || "", { section, id: entry.id, mediaManifest }),
     toc: buildToc(entry.body || ""),
     readingMinutes: readTimeMinutes(entry.body || ""),
     formattedDate: formatDate(data.date, lang)
@@ -90,6 +92,27 @@ function sortProjects(entries) {
 export async function getAllEntries(options = {}) {
   const groups = await Promise.all(sectionsWithLists.map((section) => getEntries(section, options)));
   return groups.flat();
+}
+
+export async function getTimelineEntries(lang = "zh-cn") {
+  const kindBySection = {
+    projects: "project",
+    posts: "article",
+    retrospectives: "project",
+    plans: "project",
+    updates: "project"
+  };
+  const groups = await Promise.all(sectionsWithLists.map((section) => getEntries(section, { lang })));
+  const entries = groups.flat()
+    .filter((entry) => entry.data.date)
+    .map((entry) => ({
+      ...entry,
+      data: {
+        ...entry.data,
+        kind: entry.data.kind || kindBySection[entry.section]
+      }
+    }));
+  return sortByDateDesc(entries);
 }
 
 export function taxonomySlug(value) {
@@ -181,6 +204,10 @@ export function siteText(lang) {
     isEn: key === "en",
     sidebar: config.languages[key]?.sidebar || config.languages["zh-cn"].sidebar,
     menus: config.languages[key]?.menus || config.languages["zh-cn"].menus,
+    sections: Object.fromEntries(Object.entries(sectionMeta).map(([section, translations]) => [
+      section,
+      translations?.[key]?.title || translations?.["zh-cn"]?.title || section
+    ])),
     languageName: config.languages[key]?.languageName || key,
     homeUrl: key === "en" ? "/en/" : "/",
     switchUrl: key === "en" ? "/" : "/en/",
@@ -190,6 +217,7 @@ export function siteText(lang) {
     allProjects: key === "en" ? "All projects" : "全部项目",
     allPosts: key === "en" ? "All articles & columns" : "全部文章与专栏",
     allPlans: key === "en" ? "All plans" : "全部计划",
+    allUpdates: key === "en" ? "All updates" : "全部动态",
     viewProject: key === "en" ? "View Projects" : "查看项目",
     portfolioPdf: key === "en" ? "Portfolio PDF" : "作品集 PDF",
     aboutMe: key === "en" ? "About Me" : "关于我",

@@ -10,8 +10,10 @@ pinned: true
 pinWeight: 10
 featured: true
 featuredWeight: 10
+homeHeroWeight: 10
 weight: 10
 portfolioType: "game"
+status: "completed"
 projectFacts:
   developmentTime: "2026.3, Tencent University Game Extreme Development Competition"
   duration: "72 hours"

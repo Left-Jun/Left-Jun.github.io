@@ -8,9 +8,11 @@ image: "cover.webp"
 imagePosition: "center"
 featured: false
 featuredWeight: 30
+homeHeroWeight: 30
 pinWeight: 30
 weight: 30
 portfolioType: "game"
+status: "completed"
 projectFacts:
   developmentTime: "2026.06"
   duration: "About 3 days"

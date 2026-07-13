@@ -1,7 +1,9 @@
 ---
+import ResponsiveImage from "./ResponsiveImage.astro";
+
 const { entry, compact = false } = Astro.props;
 const image = entry.data.image;
-const video = entry.data.coverVideo;
+const imageUrl = image ? entry.asset(image) : "";
 const roleTags: string[] = entry.data.roleTags || [];
 const tags: string[] = entry.data.tags || [];
 const allDisplayTags = [...roleTags, ...tags].filter(Boolean);
@@ -20,33 +22,20 @@ const cardMeta = compact
 ---
 <article
   id={`project-${entry.slug}`}
-  class:list={["project-card", (image || video) && "has-image", compact && "project-card--compact"]}
+  class:list={["project-card", image && "has-image", compact && "project-card--compact"]}
   data-project-type={projectType}
   style={`--leftjun-language-transition-name: lj-project-${entry.slug};`}
 >
   <a href={entry.url}>
-    {(image || video) && (
+    {image && (
       <div class="project-card__image">
-        {video ? (
-          <video
-            autoplay
-            muted
-            loop
-            playsinline
-            preload="none"
-            data-lazy-video={entry.asset(video)}
-            data-lazy-video-type="video/mp4"
-            controlslist="nodownload noplaybackrate noremoteplayback"
-            disablepictureinpicture
-            disableRemotePlayback
-            translate="no"
-            poster={image ? entry.asset(image) : undefined}
-            style={`object-position: ${imagePosition};`}
-            aria-label={`Video preview of project ${entry.data.title}`}
-          ></video>
-        ) : (
-          <img src={entry.asset(image)} alt={`Featured image of project ${entry.data.title}`} loading="lazy" decoding="async" style={`object-position: ${imagePosition};`} />
-        )}
+        <ResponsiveImage
+          src={imageUrl}
+          alt={`Featured image of project ${entry.data.title}`}
+          sizes={compact ? "(max-width: 767px) 92vw, 24vw" : "(max-width: 767px) 92vw, 56vw"}
+          loading="lazy"
+          style={`object-position: ${imagePosition};`}
+        />
       </div>
     )}
     <div class="project-card__content">
@@ -75,47 +64,3 @@ const cardMeta = compact
     </div>
   </a>
 </article>
-
-<script is:inline>
-  (() => {
-    if (window.__leftJunLazyProjectVideoInit) return;
-    window.__leftJunLazyProjectVideoInit = true;
-
-    const videos = () => Array.from(document.querySelectorAll("video[data-lazy-video]"));
-    const loadVideo = (video) => {
-      if (video.dataset.lazyVideoLoaded || !video.dataset.lazyVideo) return;
-      const source = document.createElement("source");
-      source.src = video.dataset.lazyVideo;
-      source.type = video.dataset.lazyVideoType || "video/mp4";
-      video.append(source);
-      video.dataset.lazyVideoLoaded = "1";
-      video.load();
-    };
-    const playVideo = (video) => {
-      loadVideo(video);
-      const playback = video.play();
-      if (playback?.catch) playback.catch(() => {});
-    };
-
-    if (!("IntersectionObserver" in window)) {
-      videos().forEach(playVideo);
-      return;
-    }
-
-    const observer = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        const video = entry.target;
-        if (entry.isIntersecting) {
-          playVideo(video);
-        } else {
-          video.pause();
-        }
-      });
-    }, { rootMargin: "240px 0px", threshold: 0.01 });
-
-    videos().forEach((video) => observer.observe(video));
-    document.addEventListener("astro:after-swap", () => {
-      videos().forEach((video) => observer.observe(video));
-    });
-  })();
-</script>

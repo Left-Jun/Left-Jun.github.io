@@ -2,20 +2,30 @@
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "./Icon.astro";
 import RelatedCard from "./RelatedCard.astro";
+import ResponsiveImage from "./ResponsiveImage.astro";
+import { getResponsiveMedia, mediaSrcset, optimizedPoster } from "../lib/media";
 import {
   getEntryBySlug,
   relatedEntries,
   siteText,
   taxonomyTermUrl
 } from "../lib/content.js";
+import type { ProjectLink, SiteEntry, SiteLanguage } from "../lib/content.js";
 
-const { entry, active = entry.section, lang = entry.lang } = Astro.props;
+interface Props {
+  entry: SiteEntry;
+  active?: string;
+  lang?: SiteLanguage;
+}
+
+const props = Astro.props as Props;
+const { entry, active = props.entry.section, lang = props.entry.lang } = props;
 const text = siteText(lang);
 const related = await relatedEntries(entry);
 const projectRecords = related.filter((item) => item.section === "retrospectives" || item.section === "plans");
 const relatedReading = related.filter((item) => item.section !== "retrospectives" && item.section !== "plans");
 const facts = entry.data.projectFacts || {};
-const projectLinks: Array<Record<string, string>> = entry.data.projectLinks || [];
+const projectLinks: ProjectLink[] = entry.data.projectLinks || [];
 const tocItems: Array<{ depth: number; text: string; id: string }> = entry.toc || [];
 const isProject = entry.section === "projects";
 const isAboutPage = entry.section === "pages" && entry.slug === "about";
@@ -24,8 +34,8 @@ const contactCardCta = text.isEn ? "Open contact page" : "查看完整联系页"
 const projectQuickLinks = isProject
   ? projectLinks
     .map((link) => {
-      const label = String(link.label || link.title || "");
-      const href = String(link.url || link.website || "");
+      const label = link.label;
+      const href = link.url;
       const icon = String(link.icon || "");
       const target = `${label} ${href}`.toLowerCase();
       const kind = target.includes("taptap")
@@ -42,46 +52,104 @@ const tagLinks: Array<{ name: string; url: string }> = (entry.data.tags || []).f
   url: taxonomyTermUrl("tags", tag, lang)
 }));
 const cover = entry.data.coverVideo || entry.data.image;
+const imageUrl = entry.data.image ? entry.asset(entry.data.image) : "";
+const optimizedImageUrl = imageUrl ? optimizedPoster(imageUrl) : "";
+const responsiveImage = imageUrl ? getResponsiveMedia(imageUrl) : null;
+const priorityVariants = entry.data.coverVideo
+  ? []
+  : (responsiveImage?.avif?.length ? responsiveImage.avif : responsiveImage?.webp || []);
+const priorityImageUrl = entry.data.coverVideo
+  ? optimizedImageUrl
+  : (priorityVariants.findLast((variant) => variant.width <= 960)?.src || priorityVariants.at(-1)?.src || imageUrl);
+const priorityImageSrcset = priorityVariants.length > 0 ? mediaSrcset(priorityVariants) : "";
+const priorityImageType = priorityVariants.length > 0
+  ? (responsiveImage?.avif?.length ? "image/avif" : "image/webp")
+  : "";
+const priorityImageSizes = "(max-width: 767px) 100vw, 72vw";
 const imagePosition = entry.data.imagePosition || "center";
 const alternateLang = text.isEn ? "zh-cn" : "en";
 const alternateEntry = await getEntryBySlug(entry.section, entry.slug, alternateLang);
 const alternateUrl = alternateEntry?.url;
 const alternateLabel = text.isEn ? "中文" : "English";
+const sectionLabel = text.sections?.[entry.section] || entry.section;
+const sectionUrl = entry.section === "pages"
+  ? (text.isEn ? "/en/" : "/")
+  : (text.isEn ? `/en/${entry.section}/` : `/${entry.section}/`);
+const creativeWorkType: "VideoGame" | "SoftwareApplication" | "BlogPosting" | "CreativeWork" = entry.section === "projects"
+  ? (entry.data.portfolioType === "game" ? "VideoGame" : "SoftwareApplication")
+  : entry.section === "posts"
+    ? "BlogPosting"
+    : "CreativeWork";
 const portfolioPdfUrl = "/files/left-jun-portfolio.pdf";
 const portfolioPdfLabel = text.isEn ? "Portfolio PDF" : "作品集 PDF";
 const portfolioDownloadLabel = text.isEn ? "Download" : "下载";
 const portfolioOpenAria = text.isEn ? "Open portfolio PDF" : "打开作品集 PDF";
 const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作品集 PDF";
 const roleText = String(facts.role || "");
+const statusText = entry.data.status ? ({
+  planned: text.isEn ? "Planned" : "计划中",
+  "in-progress": text.isEn ? "In progress" : "进行中",
+  completed: text.isEn ? "Completed" : "已完成",
+  paused: text.isEn ? "Paused" : "已暂停",
+  archived: text.isEn ? "Archived" : "已归档"
+}[entry.data.status] || entry.data.status) : "";
+const updatedAtText = entry.data.updatedAt
+  ? new Intl.DateTimeFormat(text.isEn ? "en-US" : "zh-CN", { year: "numeric", month: "2-digit", day: "2-digit" }).format(entry.data.updatedAt)
+  : "";
 const developmentTimeText = String(facts.developmentTime || "").replace(/\s*[\(（].*?[)）]\s*$/, "");
 const inferredTeam = text.isEn
   ? (roleText.toLowerCase().includes("solo") ? "Solo" : "Team project")
   : (roleText.includes("独立") || roleText.includes("单人") ? "独立开发" : "团队项目");
 const projectInfoItems = isProject ? [
+  { icon: "clock", label: text.isEn ? "Status" : "项目状态", value: statusText, note: updatedAtText ? `${text.isEn ? "Updated" : "更新"} ${updatedAtText}` : "" },
   { icon: "clock", label: text.isEn ? "Time" : "开发时间", value: developmentTimeText || facts.developmentTime, note: facts.duration },
   { icon: "users", label: text.isEn ? "Team" : "团队规模", value: facts.team || inferredTeam, note: facts.event || facts.competition },
   { icon: "user", label: text.isEn ? "My Role" : "我的角色", value: facts.role, note: facts.roleNote },
   { icon: "display", label: text.isEn ? "Platform" : "开发平台", value: facts.platform, note: facts.platformNote },
-  { icon: "code", label: text.isEn ? "Tools" : "使用技术", value: facts.tools, note: facts.techNote }
+  { icon: "code", label: text.isEn ? "Tools" : "使用技术", value: facts.tools, note: facts.techNote },
+  { icon: "trophy", label: text.isEn ? "Outcome" : "项目成果", value: facts.result, note: "" }
 ].filter((item) => item.value) : [];
 const projectPills = isProject
   ? [...new Set([...(entry.data.roleTags || []), ...(entry.data.tags || [])].filter(Boolean))]
   : [];
 const projectSummaryItems = isProject ? [
+  { label: text.isEn ? "Status" : "项目状态", value: statusText },
   { label: text.isEn ? "Duration" : "开发周期", value: facts.duration },
   { label: text.isEn ? "Team" : "团队人数", value: facts.team || inferredTeam },
   { label: text.isEn ? "Event" : "比赛", value: facts.event || facts.competition || String(facts.developmentTime || "").match(/（(.+?)）/)?.[1] },
-  { label: text.isEn ? "Finished" : "完成时间", value: facts.finishedAt || entry.formattedDate }
+  { label: text.isEn ? "Updated" : "更新时间", value: updatedAtText }
 ].filter((item) => item.value) : [];
 ---
 <BaseLayout
   lang={lang}
   title={entry.data.title}
   description={entry.data.description}
-  image={entry.data.image ? entry.asset(entry.data.image) : undefined}
-  priorityImage={entry.data.image ? entry.asset(entry.data.image) : undefined}
+  image={optimizedImageUrl || undefined}
+  imageAlt={entry.data.title}
+  priorityImage={priorityImageUrl || undefined}
+  priorityImageSrcset={priorityImageSrcset || undefined}
+  priorityImageSizes={priorityImageSrcset ? priorityImageSizes : undefined}
+  priorityImageType={priorityImageType || undefined}
   active={active}
   bodyClass={isProject ? "article-page project-detail-page" : "article-page"}
+  alternateUrl={alternateUrl}
+  alternateLang={alternateEntry?.lang}
+  ogType={isProject ? "website" : "article"}
+  creativeWork={{
+    type: creativeWorkType,
+    name: entry.data.title,
+    description: entry.data.description,
+    url: entry.url,
+    image: optimizedImageUrl || undefined,
+    datePublished: entry.data.date,
+    dateModified: entry.data.updatedAt || entry.data.date,
+    keywords: [...(entry.data.tags || []), ...(entry.data.roleTags || [])]
+  }}
+  breadcrumbs={[
+    { name: text.isEn ? "Home" : "首页", url: text.isEn ? "/en/" : "/" },
+    ...(entry.section === "pages" ? [] : [{ name: sectionLabel, url: sectionUrl }]),
+    { name: entry.data.title, url: entry.url }
+  ]}
 >
   <article class:list={["main-article", cover && "has-image"]} style={`--leftjun-language-transition-name: lj-article-${entry.section}-${entry.slug};`}>
     <header class:list={["article-header", isProject && "project-detail-hero"]}>
@@ -89,25 +157,25 @@ const projectSummaryItems = isProject ? [
         <div class="article-image">
           {entry.data.coverVideo ? (
             <video
-              autoplay
+              controls
               muted
               loop
               playsinline
-              preload="metadata"
+              preload="none"
               controlslist="nodownload noplaybackrate noremoteplayback"
               disablepictureinpicture
               disableRemotePlayback
-              poster={entry.data.image ? entry.asset(entry.data.image) : undefined}
+              poster={optimizedImageUrl || undefined}
               style={`object-position: ${imagePosition};`}
             >
               <source src={entry.asset(entry.data.coverVideo)} type="video/mp4" />
             </video>
           ) : (
-            <img
-              src={entry.asset(entry.data.image)}
+            <ResponsiveImage
+              src={imageUrl}
               alt={entry.data.title}
+              sizes={priorityImageSizes}
               loading="eager"
-              decoding="async"
               fetchpriority="high"
               style={`object-position: ${imagePosition};`}
             />
@@ -186,9 +254,9 @@ const projectSummaryItems = isProject ? [
         <h2 class="project-links__title sr-only">{text.projectLinks}</h2>
         <div class="project-links__list">
           {projectLinks.map((link) => (
-            <a class="project-links__button" href={link.url || link.website} target="_blank" rel="noopener noreferrer">
+            <a class="project-links__button" href={link.url} target="_blank" rel="noopener noreferrer">
               <Icon name={link.icon || "link"} />
-              <span>{link.label || link.title || link.url || link.website}</span>
+              <span>{link.label}</span>
             </a>
           ))}
         </div>
@@ -283,9 +351,9 @@ const projectSummaryItems = isProject ? [
             <h2 class="widget-title">{text.isEn ? "Downloads" : "项目资料下载"}</h2>
             <div class="project-download-list">
               {projectLinks.map((link) => (
-                <a href={link.url || link.website} target="_blank" rel="noopener noreferrer">
+                <a href={link.url} target="_blank" rel="noopener noreferrer">
                   <Icon name={link.icon || "link"} />
-                  <span>{link.label || link.title || link.url || link.website}</span>
+                  <span>{link.label}</span>
                   <Icon name="chevron-right" />
                 </a>
               ))}

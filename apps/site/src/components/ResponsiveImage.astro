@@ -1,0 +1,43 @@
+---
+import { getResponsiveMedia, mediaSrcset } from "../lib/media";
+
+interface Props {
+  src: string;
+  alt: string;
+  class?: string;
+  pictureClass?: string;
+  sizes?: string;
+  loading?: "eager" | "lazy";
+  decoding?: "sync" | "async" | "auto";
+  fetchpriority?: "high" | "low" | "auto";
+  style?: string;
+}
+
+const {
+  src,
+  alt,
+  class: className,
+  pictureClass,
+  sizes = "100vw",
+  loading = "lazy",
+  decoding = "async",
+  fetchpriority = "auto",
+  style
+} = Astro.props;
+const media = getResponsiveMedia(src);
+---
+<picture class={pictureClass}>
+  {media?.avif?.length > 0 && <source type="image/avif" srcset={mediaSrcset(media.avif)} sizes={sizes} />}
+  {media?.webp?.length > 0 && <source type="image/webp" srcset={mediaSrcset(media.webp)} sizes={sizes} />}
+  <img
+    src={media?.webp?.[0]?.src || media?.poster || src}
+    alt={alt}
+    class={className}
+    width={media?.width}
+    height={media?.height}
+    loading={loading}
+    decoding={decoding}
+    fetchpriority={fetchpriority}
+    style={style}
+  />
+</picture>

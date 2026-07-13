@@ -8,6 +8,7 @@ image: "cover.png"
 pinWeight: 60
 weight: 60
 portfolioType: "game"
+status: "completed"
 projectFacts:
   developmentTime: "2025.11, SCU & UESTC & Sichuan Fine Arts Institute Sanjiao Cup Game Jam"
   duration: "7 days"
