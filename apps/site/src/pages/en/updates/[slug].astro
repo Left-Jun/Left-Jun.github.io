@@ -1,5 +1,5 @@
 ---
-import ArticleLayout from "../../../components/ArticleLayout.astro";
+import UpdateLayout from "../../../components/UpdateLayout.astro";
 import { getEntries } from "../../../lib/content.js";
 
 export async function getStaticPaths() {
@@ -13,4 +13,4 @@ export async function getStaticPaths() {
 const { entry } = Astro.props;
 ---
 
-<ArticleLayout entry={entry} active="updates" />
+<UpdateLayout entry={entry} />

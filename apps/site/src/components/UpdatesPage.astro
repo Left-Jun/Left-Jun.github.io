@@ -1,0 +1,175 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import UpdateFilters from "./UpdateFilters.astro";
+import UpdateTimeline from "./UpdateTimeline.astro";
+import { buildTimelineFilterOptions } from "../lib/timeline.js";
+import type { SectionPage, SiteEntry, SiteLanguage } from "../lib/content.js";
+import type { TimelineEntry } from "../lib/timeline.js";
+
+interface Props {
+  lang: SiteLanguage;
+  section: SiteEntry | SectionPage;
+  entries: TimelineEntry[];
+  alternatePath: string;
+}
+
+const { lang, section, entries, alternatePath } = Astro.props as Props;
+const isEn = lang === "en";
+const filters = buildTimelineFilterOptions(entries, lang);
+const latest = entries[0];
+const updateCount = entries.filter((entry) => entry.source === "updates").length;
+const archiveCount = entries.length - updateCount;
+const labels = {
+  eyebrow: isEn ? "Recent updates" : "近期动态",
+  updates: isEn ? (updateCount === 1 ? "update" : "updates") : "条动态",
+  archive: isEn ? (archiveCount === 1 ? "archive entry" : "archive entries") : "条档案",
+  showing: isEn ? "Showing" : "当前显示",
+  latest: isEn ? "Latest" : "最近更新"
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={section.data.title}
+  description={section.data.description}
+  alternatePath={alternatePath}
+  active="updates"
+  bodyClass="list-page updates-page"
+>
+  <header class="updates-page-header">
+    <div class="updates-page-header__copy">
+      <p class="updates-page-header__eyebrow">{labels.eyebrow}</p>
+      <h1>{section.data.title}</h1>
+      {section.data.description && <p class="updates-page-header__description">{section.data.description}</p>}
+    </div>
+    <div class="updates-page-header__meta" aria-live="polite">
+      <span><strong>{updateCount}</strong> {labels.updates} · <strong>{archiveCount}</strong> {labels.archive}</span>
+      <span class="updates-page-header__visible">{labels.showing} <strong data-timeline-visible-count>{entries.length}</strong></span>
+      {latest?.formattedDate && <span class="updates-page-header__latest">{labels.latest} · {latest.formattedDate}</span>}
+    </div>
+    <UpdateFilters groups={filters.groups} years={filters.years} lang={lang} variant="inline" total={entries.length} />
+  </header>
+
+  <UpdateTimeline entries={entries} lang={lang} />
+
+  {entries.length > 0 && (
+    <Fragment slot="right-sidebar">
+      <UpdateFilters groups={filters.groups} years={filters.years} lang={lang} variant="sidebar" total={entries.length} />
+    </Fragment>
+  )}
+</BaseLayout>
+
+<script>
+  import { initUpdatesFilters } from "../scripts/updates-filter-client.js";
+
+  initUpdatesFilters();
+  document.addEventListener("astro:page-load", () => initUpdatesFilters());
+</script>
+
+<style>
+  .updates-page-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 1rem 2rem;
+    margin-bottom: clamp(2.4rem, 5vw, 4rem);
+    padding: clamp(0.5rem, 2vw, 1.2rem) 0 1.35rem;
+    border-bottom: 1px solid var(--card-separator-color);
+  }
+
+  .updates-page-header__copy {
+    min-width: 0;
+  }
+
+  .updates-page-header__eyebrow {
+    margin: 0 0 0.42rem;
+    color: var(--leftjun-primary);
+    font-size: 0.82rem;
+    font-weight: 820;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .updates-page-header h1 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: clamp(2.15rem, 4vw, 3.35rem);
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .updates-page-header__description {
+    max-width: 58rem;
+    margin: 0.8rem 0 0;
+    color: var(--card-text-color-secondary);
+    font-size: 1rem;
+    line-height: 1.7;
+  }
+
+  .updates-page-header__meta {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 0.35rem;
+    padding-bottom: 0.15rem;
+    color: var(--card-text-color-tertiary);
+    font-size: 0.82rem;
+    white-space: nowrap;
+  }
+
+  .updates-page-header__meta strong {
+    color: var(--card-text-color-main);
+    font-size: 1.35rem;
+  }
+
+  .updates-page-header :global(.updates-inline-filters) {
+    grid-column: 1 / -1;
+  }
+
+  @media (max-width: 767px) {
+    .updates-page-header {
+      grid-template-columns: 1fr;
+      gap: 0.3rem;
+      margin-bottom: 0.85rem;
+      padding: 0 0 0.45rem;
+    }
+
+    .updates-page-header__eyebrow,
+    .updates-page-header__description {
+      display: none;
+    }
+
+    .updates-page-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .updates-page-header__meta {
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 0.2rem 0.5rem;
+      font-size: 0.76rem;
+      white-space: normal;
+    }
+
+    .updates-page-header__meta strong {
+      font-size: 1rem;
+    }
+
+    .updates-page-header__visible {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      overflow: hidden;
+      clip: rect(0, 0, 0, 0);
+      white-space: nowrap;
+      border: 0;
+    }
+
+    .updates-page-header__latest {
+      display: none;
+    }
+  }
+</style>

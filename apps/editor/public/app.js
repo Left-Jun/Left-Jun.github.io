@@ -1,3 +1,5 @@
+import { applySectionMetadata, sectionFieldPolicy } from "./content-fields.js";
+
 const state = {
   entries: [],
   pairs: [],
@@ -98,6 +100,31 @@ function sectionLabel(section) {
 
 function languageLabel(lang) {
   return languageLabels[lang] || lang;
+}
+
+function updateSectionFields(section) {
+  const policy = sectionFieldPolicy(section);
+  for (const [id, visible] of [
+    ["updateKindGroup", policy.isUpdate],
+    ["contributionGroup", policy.isUpdate],
+    ["resultGroup", policy.isUpdate],
+    ["portfolioTypeGroup", policy.isProject],
+    ["featuredGroup", policy.showFeatured],
+    ["featuredWeightGroup", policy.showFeatured],
+    ["homeHeroWeightGroup", policy.isProject],
+    ["pinWeightGroup", policy.isProject],
+    ["projectFactsGroup", policy.isProject],
+    ["projectLinksGroup", policy.showLinks]
+  ]) {
+    const element = $(`#${id}`);
+    if (element) element.hidden = !visible;
+  }
+  $("#featuredLabel").textContent = policy.featuredLabel;
+  $("#featuredWeightLabel").textContent = policy.featuredWeightLabel;
+  $("#projectLinksLabel").textContent = policy.linksLabel;
+  $("#mediaGroupHint").textContent = policy.mediaHint;
+  $("#resourceDetailsTitle").textContent = policy.detailsTitle;
+  $("#resourceDetailsHint").textContent = policy.detailsHint;
 }
 
 function entryById(id) {
@@ -309,6 +336,8 @@ function fillForm(entry) {
   $("#updatedAtField").value = fm.updatedAt || "";
   $("#statusField").value = fm.status || "";
   $("#updateKindField").value = fm.kind || "";
+  $("#contributionField").value = fm.contribution || "";
+  $("#resultField").value = fm.result || "";
   $("#draftField").checked = !!fm.draft;
   $("#descriptionField").value = fm.description || "";
   $("#imageField").value = fm.image || "";
@@ -325,6 +354,7 @@ function fillForm(entry) {
   $("#projectLinksField").value = JSON.stringify(fm.projectLinks || [], null, 2);
   $("#bodyField").value = entry.body || "";
   $("#previewLink").href = entry.previewUrl || "#";
+  updateSectionFields($("#sectionField").value);
   renderList();
   renderPair();
   renderRelatedPicker();
@@ -341,7 +371,7 @@ function readForm() {
     const value = $(selector).value.trim();
     return value === "" ? undefined : Number(value);
   };
-  const frontMatter = {
+  let frontMatter = {
     ...(state.current?.frontMatter || {}),
     title,
     date: $("#dateField").value.trim(),
@@ -360,29 +390,18 @@ function readForm() {
   for (const key of ["date", "updatedAt", "status"]) {
     if (!frontMatter[key]) delete frontMatter[key];
   }
-  if (section === "updates") frontMatter.kind = $("#updateKindField").value;
-  else delete frontMatter.kind;
-  if (section === "projects") {
-    frontMatter.portfolioType = $("#portfolioTypeField").value.trim();
-    frontMatter.featured = $("#featuredField").checked;
-    for (const [key, selector] of [
-      ["featuredWeight", "#featuredWeightField"],
-      ["homeHeroWeight", "#homeHeroWeightField"],
-      ["pinWeight", "#pinWeightField"]
-    ]) {
-      const value = numberValue(selector);
-      if (value === undefined) delete frontMatter[key];
-      else frontMatter[key] = value;
-    }
-    if (facts) frontMatter.projectFacts = JSON.parse(facts);
-    else delete frontMatter.projectFacts;
-    if (links) frontMatter.projectLinks = JSON.parse(links);
-    else delete frontMatter.projectLinks;
-  } else {
-    for (const key of ["portfolioType", "featured", "featuredWeight", "homeHeroWeight", "pinWeight", "projectFacts", "projectLinks"]) {
-      delete frontMatter[key];
-    }
-  }
+  frontMatter = applySectionMetadata(frontMatter, section, {
+    kind: $("#updateKindField").value,
+    contribution: $("#contributionField").value,
+    result: $("#resultField").value,
+    portfolioType: $("#portfolioTypeField").value,
+    featured: $("#featuredField").checked,
+    featuredWeight: numberValue("#featuredWeightField"),
+    homeHeroWeight: numberValue("#homeHeroWeightField"),
+    pinWeight: numberValue("#pinWeightField"),
+    projectFacts: section === "projects" && facts ? JSON.parse(facts) : undefined,
+    projectLinks: (section === "projects" || section === "updates") && links ? JSON.parse(links) : undefined
+  });
   return {
     section,
     lang: $("#langField").value,
@@ -515,6 +534,8 @@ function bind() {
   $("#buildButton").addEventListener("click", () => build().catch((error) => log(error.message)));
   $("#saveConfigButton").addEventListener("click", () => saveConfig().catch((error) => log(error.message)));
   $("#relatedSectionFilter").addEventListener("change", renderRelatedPicker);
+  $("#sectionField").addEventListener("change", (event) => updateSectionFields(event.target.value));
+  updateSectionFields($("#sectionField").value);
   switchPage("editor");
 }
 

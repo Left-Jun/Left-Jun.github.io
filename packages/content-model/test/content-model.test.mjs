@@ -58,6 +58,29 @@ test("update front matter requires a dated update kind", () => {
   }, { section: "updates" }), /kind/i);
 });
 
+test("update front matter accepts recruitment evidence and featured metadata", () => {
+  const update = validateFrontMatter({
+    title: "Milestone",
+    date: "2026-07-13",
+    description: "A public milestone.",
+    kind: "training",
+    relatedPages: [],
+    contribution: "Implemented the gameplay loop.",
+    result: "Delivered a playable build.",
+    featured: true,
+    featuredWeight: 20,
+    projectLinks: [{ label: "Demo", url: "https://example.com/demo", icon: "display" }]
+  }, { section: "updates" });
+
+  assert.equal(update.contribution, "Implemented the gameplay loop.");
+  assert.equal(update.result, "Delivered a playable build.");
+  assert.equal(update.featured, true);
+  assert.equal(update.featuredWeight, 20);
+  assert.deepEqual(update.projectLinks, [
+    { label: "Demo", url: "https://example.com/demo", icon: "display" }
+  ]);
+});
+
 test("project links reject executable and non-web URL schemes", () => {
   for (const url of ["javascript:alert(1)", "//evil.example/path", "/\\evil.example/path", "https://"]) {
     assert.equal(isSafeProjectLink(url), false);
@@ -189,6 +212,93 @@ test("content validation rejects translation metadata drift and duplicate public
   const duplicated = await validateContentRoot(root);
   assert.equal(duplicated.ok, false);
   assert.match(duplicated.errors.map((error) => error.message).join("\n"), /Duplicate public route/);
+});
+
+test("update translations align featured metadata and evidence structure", async (t) => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "leftjun-update-evidence-"));
+  t.after(() => fs.rm(root, { recursive: true, force: true }));
+  const updateDir = path.join(root, "updates", "milestone");
+  await fs.mkdir(updateDir, { recursive: true });
+
+  const zh = {
+    title: "训练营里程碑",
+    slug: "milestone",
+    date: "2026-07-13",
+    description: "完成阶段训练。",
+    kind: "training",
+    relatedPages: [],
+    contribution: "实现联机玩法循环。",
+    result: "交付可玩版本。",
+    featured: true,
+    featuredWeight: 10,
+    projectLinks: [
+      { label: "演示", url: "https://example.com/demo", icon: "display" },
+      { label: "报告", url: "/content-assets/report.pdf", icon: "link" }
+    ]
+  };
+  const en = {
+    ...zh,
+    title: "Training milestone",
+    description: "Completed a training milestone.",
+    contribution: "Implemented the multiplayer gameplay loop.",
+    result: "Delivered a playable build.",
+    projectLinks: [
+      { label: "Demo", url: "https://example.com/demo", icon: "display" },
+      { label: "Report", url: "/content-assets/report.pdf", icon: "link" }
+    ]
+  };
+  const zhPath = path.join(updateDir, "index.md");
+  const enPath = path.join(updateDir, "index.en.md");
+  await fs.writeFile(zhPath, stringifyMarkdown(zh, ""));
+
+  async function validateEnglish(frontMatter) {
+    await fs.writeFile(enPath, stringifyMarkdown(frontMatter, ""));
+    return validateContentRoot(root);
+  }
+
+  assert.equal((await validateEnglish(en)).ok, true);
+
+  for (const [key, value] of [
+    ["kind", "award"],
+    ["featured", false],
+    ["featuredWeight", 30]
+  ]) {
+    const drifted = await validateEnglish({ ...en, [key]: value });
+    assert.equal(drifted.ok, false);
+    assert.match(drifted.errors.map((error) => error.message).join("\n"), new RegExp(`metadata mismatch.*${key}`, "i"));
+  }
+
+  for (const key of ["contribution", "result"]) {
+    const missingField = { ...en };
+    delete missingField[key];
+    const drifted = await validateEnglish(missingField);
+    assert.equal(drifted.ok, false);
+    assert.match(drifted.errors.map((error) => error.message).join("\n"), new RegExp(`field presence mismatch.*${key}`, "i"));
+  }
+
+  const missingLink = await validateEnglish({ ...en, projectLinks: en.projectLinks.slice(0, 1) });
+  assert.equal(missingLink.ok, false);
+  assert.match(missingLink.errors.map((error) => error.message).join("\n"), /evidence link count mismatch.*projectLinks/i);
+
+  const changedUrl = await validateEnglish({
+    ...en,
+    projectLinks: [
+      { ...en.projectLinks[0], url: "https://example.com/other" },
+      en.projectLinks[1]
+    ]
+  });
+  assert.equal(changedUrl.ok, false);
+  assert.match(changedUrl.errors.map((error) => error.message).join("\n"), /evidence link mismatch.*projectLinks\[0\]\.url/i);
+
+  const changedIcon = await validateEnglish({
+    ...en,
+    projectLinks: [
+      en.projectLinks[0],
+      { ...en.projectLinks[1], icon: "download" }
+    ]
+  });
+  assert.equal(changedIcon.ok, false);
+  assert.match(changedIcon.errors.map((error) => error.message).join("\n"), /evidence link mismatch.*projectLinks\[1\]\.icon/i);
 });
 
 test("content validation keeps bilingual cover video configuration in sync", async (t) => {

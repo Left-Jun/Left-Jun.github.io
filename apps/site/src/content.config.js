@@ -74,7 +74,12 @@ const updateSchema = baseSchema.extend({
   date: z.coerce.date(),
   description: z.string().min(1),
   kind: updateKindSchema,
-  relatedPages: z.array(z.string())
+  relatedPages: z.array(z.string()),
+  contribution: z.string().trim().min(1).optional(),
+  result: z.string().trim().min(1).optional(),
+  featured: z.boolean().optional().default(false),
+  featuredWeight: z.number().optional().default(999),
+  projectLinks: z.array(projectLinkSchema).optional()
 });
 
 const updateCollectionSchema = z.union([

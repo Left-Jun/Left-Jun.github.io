@@ -112,7 +112,12 @@ export const updateFrontMatterSchema = contentFrontMatterSchema.safeExtend({
   date: z.union([z.string(), z.date()]),
   description: z.string().min(1),
   kind: z.enum(UPDATE_KINDS),
-  relatedPages: z.array(z.string())
+  relatedPages: z.array(z.string()),
+  contribution: z.string().trim().min(1).optional(),
+  result: z.string().trim().min(1).optional(),
+  featured: z.boolean().optional(),
+  featuredWeight: z.number().optional(),
+  projectLinks: z.array(projectLinkSchema).optional()
 });
 
 export const projectFrontMatterSchema = contentFrontMatterSchema.safeExtend({
@@ -490,7 +495,9 @@ export async function validateContentRoot(contentRoot) {
     if (translations[0]?.section === "projects") {
       invariantKeys.push("portfolioType", "featured", "featuredWeight", "homeHeroWeight", "pinWeight", "weight");
     }
-    if (translations[0]?.section === "updates") invariantKeys.push("kind");
+    if (translations[0]?.section === "updates") {
+      invariantKeys.push("kind", "featured", "featuredWeight");
+    }
 
     if (translations.length === PUBLIC_LANGUAGES.length) {
       for (const key of invariantKeys) {
@@ -510,6 +517,44 @@ export async function validateContentRoot(contentRoot) {
             path: translations[0]?.path || ref,
             message: `Translation metadata mismatch for ${ref}: ${key}`
           });
+        }
+      }
+
+      if (translations[0]?.section === "updates") {
+        for (const key of ["contribution", "result"]) {
+          const presence = translations.map((entry) => (
+            typeof entry.frontMatter[key] === "string" && entry.frontMatter[key].trim().length > 0
+          ));
+          if (new Set(presence).size > 1) {
+            errors.push({
+              path: translations[0]?.path || ref,
+              message: `Translation field presence mismatch for ${ref}: ${key}`
+            });
+          }
+        }
+
+        const evidenceLinks = translations.map((entry) => (
+          Array.isArray(entry.frontMatter.projectLinks) ? entry.frontMatter.projectLinks : []
+        ));
+        const linkCounts = evidenceLinks.map((links) => links.length);
+        if (new Set(linkCounts).size > 1) {
+          errors.push({
+            path: translations[0]?.path || ref,
+            message: `Translation evidence link count mismatch for ${ref}: projectLinks`
+          });
+        } else {
+          const linkCount = linkCounts[0] || 0;
+          for (let index = 0; index < linkCount; index += 1) {
+            for (const key of ["url", "icon"]) {
+              const values = evidenceLinks.map((links) => String(links[index]?.[key] || "").trim());
+              if (new Set(values).size > 1) {
+                errors.push({
+                  path: translations[0]?.path || ref,
+                  message: `Translation evidence link mismatch for ${ref}: projectLinks[${index}].${key}`
+                });
+              }
+            }
+          }
         }
       }
     }
