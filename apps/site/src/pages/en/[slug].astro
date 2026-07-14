@@ -1,9 +1,11 @@
 ---
 import ArticleLayout from "../../components/ArticleLayout.astro";
+import AboutPage from "../../components/AboutPage.astro";
 import { getEntries } from "../../lib/content.js";
+import type { SiteEntry } from "../../lib/content.js";
 
 interface Props {
-  entry: any;
+  entry: SiteEntry;
 }
 
 export async function getStaticPaths() {
@@ -15,4 +17,8 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props as Props;
 ---
-<ArticleLayout entry={entry} active={entry.slug === "contact" ? "contact" : "about"} />
+{entry.slug === "about" ? (
+  <AboutPage entry={entry} />
+) : (
+  <ArticleLayout entry={entry} active={entry.slug === "contact" ? "contact" : "about"} />
+)}
