@@ -1,0 +1,241 @@
+---
+import Icon from "./Icon.astro";
+import type { TimelineFilterOption } from "../lib/timeline.js";
+
+interface Props {
+  groups?: TimelineFilterOption[];
+  years?: TimelineFilterOption[];
+  lang?: "zh-cn" | "en";
+  variant?: "inline" | "sidebar";
+  total?: number;
+}
+
+const {
+  groups = [],
+  years = [],
+  lang = "zh-cn",
+  variant = "inline",
+  total = 0
+} = Astro.props as Props;
+const isEn = lang === "en";
+const labels = {
+  type: isEn ? "Type" : "类型",
+  year: isEn ? "Year" : "年份",
+  allTypes: isEn ? "All" : "全部",
+  allYears: isEn ? "All years" : "全部年份",
+  typeAria: isEn ? "Filter updates by type" : "按类型筛选动态",
+  yearAria: isEn ? "Filter updates by year" : "按年份筛选动态"
+};
+---
+
+{variant === "sidebar" ? (
+  <aside class="sidebar right-sidebar sticky updates-filter-sidebar" data-timeline-filter-controls>
+    <section class="widget updates-filter-widget">
+      <div class="widget-icon" aria-hidden="true"><Icon name="categories" /></div>
+      <h2 class="widget-title section-title">{labels.type}</h2>
+      <div class="updates-filter-list" role="group" aria-label={labels.typeAria}>
+        <button class="updates-filter-button is-active" type="button" data-timeline-filter-axis="group" data-timeline-filter-value="all" aria-pressed="true">
+          <span>{labels.allTypes}</span><small>{total}</small>
+        </button>
+        {groups.map((option) => (
+          <button class="updates-filter-button" type="button" data-timeline-filter-axis="group" data-timeline-filter-value={option.value} aria-pressed="false">
+            <span>{option.label}</span><small>{option.count}</small>
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <section class="widget updates-filter-widget">
+      <div class="widget-icon" aria-hidden="true"><Icon name="date" /></div>
+      <h2 class="widget-title section-title">{labels.year}</h2>
+      <div class="updates-filter-list" role="group" aria-label={labels.yearAria}>
+        <button class="updates-filter-button is-active" type="button" data-timeline-filter-axis="year" data-timeline-filter-value="all" aria-pressed="true">
+          <span>{labels.allYears}</span><small>{total}</small>
+        </button>
+        {years.map((option) => (
+          <button class="updates-filter-button" type="button" data-timeline-filter-axis="year" data-timeline-filter-value={option.value} aria-pressed="false">
+            <span>{option.label}</span><small>{option.count}</small>
+          </button>
+        ))}
+      </div>
+    </section>
+  </aside>
+) : (
+  <div class="updates-inline-filters" data-timeline-filter-controls>
+    <div class="updates-inline-filter-group" role="group" aria-label={labels.typeAria}>
+      <span class="updates-inline-filter-label">{labels.type}</span>
+      <button class="updates-filter-chip is-active" type="button" data-timeline-filter-axis="group" data-timeline-filter-value="all" aria-pressed="true">{labels.allTypes}<small>{total}</small></button>
+      {groups.map((option) => (
+        <button class="updates-filter-chip" type="button" data-timeline-filter-axis="group" data-timeline-filter-value={option.value} aria-pressed="false">{option.label}<small>{option.count}</small></button>
+      ))}
+    </div>
+    <div class="updates-inline-filter-group" role="group" aria-label={labels.yearAria}>
+      <span class="updates-inline-filter-label">{labels.year}</span>
+      <button class="updates-filter-chip is-active" type="button" data-timeline-filter-axis="year" data-timeline-filter-value="all" aria-pressed="true">{labels.allYears}<small>{total}</small></button>
+      {years.map((option) => (
+        <button class="updates-filter-chip" type="button" data-timeline-filter-axis="year" data-timeline-filter-value={option.value} aria-pressed="false">{option.label}<small>{option.count}</small></button>
+      ))}
+    </div>
+  </div>
+)}
+
+<style>
+  .updates-inline-filters {
+    display: none;
+    gap: 0.7rem;
+    margin-top: 1.15rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--card-separator-color);
+  }
+
+  .updates-inline-filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .updates-inline-filter-label {
+    min-width: 3.2rem;
+    color: var(--card-text-color-tertiary);
+    font-size: 0.8rem;
+    font-weight: 760;
+  }
+
+  .updates-filter-chip,
+  .updates-filter-button {
+    appearance: none;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 10px;
+    background: var(--leftjun-surface-strong);
+    color: var(--card-text-color-secondary);
+    cursor: pointer;
+    font: inherit;
+    transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
+  }
+
+  .updates-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    min-height: 2.35rem;
+    padding: 0.48rem 0.72rem;
+    font-size: 0.82rem;
+    flex: 0 0 auto;
+  }
+
+  .updates-filter-chip small,
+  .updates-filter-button small {
+    color: var(--card-text-color-tertiary);
+    font-size: 0.72rem;
+    font-weight: 700;
+  }
+
+  .updates-filter-chip:hover,
+  .updates-filter-chip:focus-visible,
+  .updates-filter-button:hover,
+  .updates-filter-button:focus-visible {
+    transform: translateY(var(--leftjun-hover-lift));
+    border-color: var(--leftjun-hover-border);
+    background: var(--leftjun-hover-surface);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+    color: var(--leftjun-hover-accent);
+  }
+
+  .updates-filter-chip:focus-visible,
+  .updates-filter-button:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--leftjun-primary) 28%, transparent);
+    outline-offset: 2px;
+  }
+
+  .updates-filter-chip.is-active,
+  .updates-filter-button.is-active {
+    border-color: color-mix(in srgb, var(--leftjun-primary) 48%, var(--card-separator-color));
+    background: color-mix(in srgb, var(--leftjun-primary) 13%, var(--leftjun-surface-strong));
+    color: var(--leftjun-primary);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--leftjun-primary) 10%, transparent);
+    font-weight: 760;
+  }
+
+  .updates-filter-sidebar {
+    overflow: visible;
+  }
+
+  .updates-filter-sidebar .updates-filter-widget {
+    overflow: visible;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 22px;
+  }
+
+  .updates-filter-list {
+    display: grid;
+    gap: 0.38rem;
+  }
+
+  .updates-filter-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem;
+    width: 100%;
+    min-height: 3rem;
+    padding: 0.68rem 0.78rem;
+    text-align: left;
+  }
+
+  @media (max-width: 1360px) {
+    .updates-inline-filters {
+      display: grid;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .updates-inline-filters {
+      display: flex;
+      gap: 0.45rem;
+      margin-top: 0.35rem;
+      padding: 0.45rem 0.15rem 0.15rem;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scroll-padding-inline: 0.15rem;
+      scrollbar-width: none;
+    }
+
+    .updates-inline-filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .updates-inline-filter-group {
+      flex: 0 0 auto;
+      flex-wrap: nowrap;
+      min-height: 2.35rem;
+      gap: 0.4rem;
+    }
+
+    .updates-inline-filter-label {
+      flex: 0 0 auto;
+      min-width: auto;
+      min-height: 2.25rem;
+      padding: 0.63rem 0.15rem 0.55rem 0;
+    }
+
+    .updates-filter-chip {
+      min-height: 2.25rem;
+      padding-block: 0.42rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .updates-filter-chip,
+    .updates-filter-button {
+      transition: none;
+    }
+
+    .updates-filter-chip:hover,
+    .updates-filter-chip:focus-visible,
+    .updates-filter-button:hover,
+    .updates-filter-button:focus-visible {
+      transform: none;
+    }
+  }
+</style>

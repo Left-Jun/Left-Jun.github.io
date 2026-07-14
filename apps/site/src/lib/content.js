@@ -18,6 +18,7 @@ import {
   sortByDateDesc,
   slugify
 } from "@left-jun/content-model";
+import { buildTimelineEntries } from "./timeline.js";
 
 export const config = siteConfig;
 export const sectionMeta = sections;
@@ -95,24 +96,8 @@ export async function getAllEntries(options = {}) {
 }
 
 export async function getTimelineEntries(lang = "zh-cn") {
-  const kindBySection = {
-    projects: "project",
-    posts: "article",
-    retrospectives: "project",
-    plans: "project",
-    updates: "project"
-  };
   const groups = await Promise.all(sectionsWithLists.map((section) => getEntries(section, { lang })));
-  const entries = groups.flat()
-    .filter((entry) => entry.data.date)
-    .map((entry) => ({
-      ...entry,
-      data: {
-        ...entry.data,
-        kind: entry.data.kind || kindBySection[entry.section]
-      }
-    }));
-  return sortByDateDesc(entries);
+  return buildTimelineEntries(groups.flat());
 }
 
 export function taxonomySlug(value) {

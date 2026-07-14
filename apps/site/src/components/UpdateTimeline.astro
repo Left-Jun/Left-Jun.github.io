@@ -1,174 +1,279 @@
 ---
-type UpdateKind = "project" | "event" | "award" | "training" | "research" | "release" | "article";
+import TimelineEntryCard from "./TimelineEntryCard.astro";
+import {
+  groupTimelineArchiveByYear,
+  groupTimelineByMonth,
+  splitTimelineEntries
+} from "../lib/timeline.js";
+import type { TimelineEntry } from "../lib/timeline.js";
 
-type TimelineEntry = {
-  url: string;
-  formattedDate?: string;
-  data: {
-    title: string;
-    description?: string;
-    kind?: UpdateKind;
-    date?: Date;
-  };
-};
-
-const { entries = [], lang = "zh-cn" } = Astro.props as {
+interface Props {
   entries?: TimelineEntry[];
   lang?: "zh-cn" | "en";
-};
+}
 
+const { entries = [], lang = "zh-cn" } = Astro.props as Props;
 const isEn = lang === "en";
-const labels: Record<UpdateKind, { "zh-cn": string; en: string }> = {
-  project: { "zh-cn": "项目", en: "Project" },
-  event: { "zh-cn": "活动", en: "Event" },
-  award: { "zh-cn": "奖项", en: "Award" },
-  training: { "zh-cn": "训练", en: "Training" },
-  research: { "zh-cn": "研究", en: "Research" },
-  release: { "zh-cn": "发布", en: "Release" },
-  article: { "zh-cn": "文章", en: "Article" }
+const { spotlight, updates, archive } = splitTimelineEntries(entries);
+const updateGroups = groupTimelineByMonth(updates, lang);
+const archiveGroups = groupTimelineArchiveByYear(archive);
+const labels = {
+  spotlightEyebrow: isEn ? "Start here" : "优先阅读",
+  spotlight: isEn ? "Spotlight" : "精选动态",
+  spotlightHint: isEn ? "A current milestone worth opening first" : "优先了解的近期节点",
+  timelineEyebrow: isEn ? "Chronology" : "按月记录",
+  timeline: isEn ? "Development log" : "动态主线",
+  timelineHint: isEn ? "Published updates, grouped by month" : "按月份整理的正式动态",
+  archiveEyebrow: isEn ? "Browse all" : "回看全部",
+  archive: isEn ? "Complete archive" : "完整档案",
+  archiveHint: isEn
+    ? "Projects, writing, retrospectives, and development plans in one chronology"
+    : "项目、文章、复盘与开发计划的完整时间档案",
+  empty: isEn ? "No entries match these filters." : "没有符合当前筛选条件的内容。",
+  initialEmpty: isEn ? "New updates are being prepared." : "新的动态正在整理中。"
 };
 ---
 
-{entries.length > 0 ? (
-  <ol class="update-timeline">
-    {entries.map((entry) => {
-      const kind = entry.data.kind || "project";
-      return (
-        <li class:list={["update-timeline__item", `update-timeline__item--${kind}`]}>
-          <span class="update-timeline__marker" aria-hidden="true"></span>
-          <article class="update-timeline__entry">
-            <div class="update-timeline__meta">
-              {entry.formattedDate && (
-                <time datetime={entry.data.date?.toISOString?.()}>{entry.formattedDate}</time>
-              )}
-              <span class="update-timeline__kind">{labels[kind][lang]}</span>
+<div class="updates-experience" data-timeline-root>
+  {entries.length > 0 ? (
+    <>
+      {spotlight && (
+        <section class="updates-block updates-spotlight" data-timeline-section aria-labelledby="updates-spotlight-title">
+          <div class="updates-block__heading">
+            <div>
+              <p>{labels.spotlightEyebrow}</p>
+              <h2 id="updates-spotlight-title">{labels.spotlight}</h2>
             </div>
-            <h2><a href={entry.url}>{entry.data.title}</a></h2>
-            {entry.data.description && <p>{entry.data.description}</p>}
-            <a class="update-timeline__link" href={entry.url}>
-              {isEn ? "Read update" : "查看动态"}<span aria-hidden="true"> →</span>
-            </a>
-          </article>
-        </li>
-      );
-    })}
-  </ol>
-) : (
-  <p class="update-timeline__empty">{isEn ? "New updates are being prepared." : "新的动态正在整理中。"}</p>
-)}
+            <span>{labels.spotlightHint}</span>
+          </div>
+          <div data-timeline-cluster>
+            <TimelineEntryCard entry={spotlight} lang={lang} variant="spotlight" />
+          </div>
+        </section>
+      )}
+
+      {updateGroups.length > 0 && (
+        <section class="updates-block updates-stream" data-timeline-section aria-labelledby="updates-stream-title">
+          <div class="updates-block__heading">
+            <div>
+              <p>{labels.timelineEyebrow}</p>
+              <h2 id="updates-stream-title">{labels.timeline}</h2>
+            </div>
+            <span>{labels.timelineHint}</span>
+          </div>
+          <div class="updates-months">
+            {updateGroups.map((group) => (
+              <section class="updates-month" data-timeline-cluster aria-labelledby={`updates-month-${group.key}`}>
+                <h3 id={`updates-month-${group.key}`}>{group.label}</h3>
+                <div class="updates-month__entries">
+                  {group.entries.map((entry) => <TimelineEntryCard entry={entry} lang={lang} variant="timeline" />)}
+                </div>
+              </section>
+            ))}
+          </div>
+        </section>
+      )}
+
+      {archiveGroups.length > 0 && (
+        <section class="updates-block updates-archive" data-timeline-section aria-labelledby="updates-archive-title">
+          <div class="updates-block__heading">
+            <div>
+              <p>{labels.archiveEyebrow}</p>
+              <h2 id="updates-archive-title">{labels.archive}</h2>
+            </div>
+            <span>{labels.archiveHint}</span>
+          </div>
+          <div class="updates-archive__years">
+            {archiveGroups.map((group) => (
+              <section class="updates-archive__year" data-timeline-cluster aria-labelledby={`updates-archive-${group.year}`}>
+                <div class="updates-archive__year-heading">
+                  <h3 id={`updates-archive-${group.year}`}>{group.year}</h3>
+                  <span data-timeline-cluster-count>{group.entries.length}</span>
+                </div>
+                <div class="updates-archive__grid">
+                  {group.entries.map((entry) => <TimelineEntryCard entry={entry} lang={lang} variant="archive" />)}
+                </div>
+              </section>
+            ))}
+          </div>
+        </section>
+      )}
+
+      <p class="updates-filter-empty" data-timeline-filter-empty hidden>{labels.empty}</p>
+    </>
+  ) : (
+    <p class="updates-filter-empty">{labels.initialEmpty}</p>
+  )}
+</div>
 
 <style>
-  .update-timeline {
-    position: relative;
+  .updates-experience {
     display: grid;
-    gap: 1.25rem;
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    gap: clamp(2.5rem, 5vw, 4.5rem);
   }
 
-  .update-timeline::before {
-    position: absolute;
-    inset: 0 auto 0 0.4rem;
-    width: 1px;
-    background: var(--card-separator-color);
-    content: "";
+  .updates-block {
+    min-width: 0;
   }
 
-  .update-timeline__item {
-    position: relative;
-    padding-left: 2rem;
-  }
-
-  .update-timeline__marker {
-    position: absolute;
-    top: 1.4rem;
-    left: 0;
-    width: 0.85rem;
-    height: 0.85rem;
-    border: 3px solid var(--body-background);
-    border-radius: 50%;
-    background: var(--accent-color);
-    box-shadow: 0 0 0 1px var(--card-separator-color);
-  }
-
-  .update-timeline__entry,
-  .update-timeline__empty {
-    border: 1px solid var(--card-separator-color);
-    border-radius: 8px;
-    background: var(--card-background);
-  }
-
-  .update-timeline__entry {
-    padding: clamp(1rem, 2vw, 1.4rem);
-  }
-
-  .update-timeline__meta {
+  .updates-block__heading {
     display: flex;
-    align-items: center;
-    gap: 0.65rem;
-    color: var(--card-text-color-tertiary);
-    font-size: 1.25rem;
+    align-items: end;
+    justify-content: space-between;
+    gap: 1.5rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 0.85rem;
+    border-bottom: 1px solid var(--card-separator-color);
   }
 
-  .update-timeline__kind {
-    padding: 0.18rem 0.5rem;
-    border: 1px solid color-mix(in srgb, var(--accent-color) 28%, var(--card-separator-color));
-    border-radius: 999px;
-    color: var(--accent-color-darker);
-    background: color-mix(in srgb, var(--accent-color) 8%, var(--card-background));
+  .updates-block__heading p {
+    margin: 0 0 0.3rem;
+    color: var(--leftjun-primary);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
   }
 
-  .update-timeline h2 {
-    margin: 0.65rem 0 0;
-    font-size: clamp(1.8rem, 2vw, 2.2rem);
+  .updates-block__heading h2 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    line-height: 1.25;
     letter-spacing: 0;
   }
 
-  .update-timeline h2 a {
-    color: var(--card-text-color-main);
-    text-decoration: none;
+  .updates-block__heading > span {
+    max-width: 31rem;
+    color: var(--card-text-color-tertiary);
+    font-size: 0.84rem;
+    line-height: 1.5;
+    text-align: right;
   }
 
-  .update-timeline h2 a:hover,
-  .update-timeline h2 a:focus-visible,
-  .update-timeline__link:hover,
-  .update-timeline__link:focus-visible {
-    color: var(--accent-color);
+  .updates-months,
+  .updates-archive__years {
+    display: grid;
+    gap: 2rem;
   }
 
-  .update-timeline p {
-    margin: 0.55rem 0 0;
-    color: var(--card-text-color-secondary);
-    line-height: 1.65;
+  .updates-month {
+    display: grid;
+    grid-template-columns: minmax(92px, 0.2fr) minmax(0, 1fr);
+    gap: 1.35rem;
   }
 
-  .update-timeline__link {
-    display: inline-block;
-    margin-top: 0.8rem;
-    color: var(--accent-color-darker);
-    font-size: 1.3rem;
-    font-weight: 650;
-    text-decoration: none;
-  }
-
-  .update-timeline__empty {
+  .updates-month > h3 {
+    position: sticky;
+    top: calc(var(--main-top-padding) + 1rem);
+    align-self: start;
     margin: 0;
-    padding: 1.25rem;
+    padding-top: 0.25rem;
     color: var(--card-text-color-secondary);
+    font-size: 0.95rem;
+    line-height: 1.4;
   }
 
-  @media (max-width: 600px) {
-    .update-timeline__item {
-      padding-left: 1.5rem;
+  .updates-month__entries {
+    position: relative;
+    display: grid;
+    gap: 1rem;
+    padding-left: 1.35rem;
+  }
+
+  .updates-month__entries::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 2px;
+    border-radius: 10px;
+    background: linear-gradient(180deg, var(--leftjun-primary), var(--card-separator-color));
+    content: "";
+  }
+
+  .updates-archive__year {
+    display: grid;
+    gap: 0.9rem;
+  }
+
+  .updates-archive__year-heading {
+    display: flex;
+    align-items: center;
+    gap: 0.65rem;
+  }
+
+  .updates-archive__year-heading h3 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 1.25rem;
+    letter-spacing: 0;
+  }
+
+  .updates-archive__year-heading span {
+    display: inline-flex;
+    min-width: 1.7rem;
+    min-height: 1.7rem;
+    align-items: center;
+    justify-content: center;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--leftjun-primary) 10%, var(--leftjun-surface-muted));
+    color: var(--leftjun-primary);
+    font-size: 0.74rem;
+    font-weight: 760;
+  }
+
+  .updates-archive__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+  }
+
+  .updates-filter-empty {
+    margin: 0;
+    padding: 1.2rem;
+    border: 1px dashed var(--card-separator-color);
+    border-radius: 16px;
+    background: var(--leftjun-surface-muted);
+    color: var(--card-text-color-secondary);
+    text-align: center;
+  }
+
+  @media (max-width: 960px) {
+    .updates-archive__grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .updates-experience {
+      gap: 2.1rem;
     }
 
-    .update-timeline::before {
-      left: 0.3rem;
+    .updates-block__heading {
+      display: block;
+      margin-bottom: 0.55rem;
+      padding-bottom: 0.45rem;
     }
 
-    .update-timeline__marker {
-      left: -0.1rem;
+    .updates-block__heading p,
+    .updates-block__heading > span {
+      display: none;
+    }
+
+    .updates-block__heading h2 {
+      font-size: 1.25rem;
+    }
+
+    .updates-month {
+      grid-template-columns: 1fr;
+      gap: 0.65rem;
+    }
+
+    .updates-month > h3 {
+      position: static;
+    }
+
+    .updates-month__entries {
+      padding-left: 0.8rem;
     }
   }
 </style>
