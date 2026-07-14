@@ -109,7 +109,7 @@ const labels = {
 <style>
   .updates-experience {
     display: grid;
-    gap: clamp(2.5rem, 5vw, 4.5rem);
+    gap: 48px;
   }
 
   .updates-block {
@@ -120,17 +120,18 @@ const labels = {
     display: flex;
     align-items: end;
     justify-content: space-between;
-    gap: 1.5rem;
-    margin-bottom: 1.25rem;
-    padding-bottom: 0.85rem;
+    gap: 24px;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
     border-bottom: 1px solid var(--card-separator-color);
   }
 
   .updates-block__heading p {
-    margin: 0 0 0.3rem;
+    margin: 0 0 4px;
     color: var(--leftjun-primary);
-    font-size: 0.78rem;
+    font-size: 12px;
     font-weight: 800;
+    line-height: 1.4;
     letter-spacing: 0;
     text-transform: uppercase;
   }
@@ -138,7 +139,7 @@ const labels = {
   .updates-block__heading h2 {
     margin: 0;
     color: var(--card-text-color-main);
-    font-size: clamp(1.45rem, 2.5vw, 2rem);
+    font-size: 26px;
     line-height: 1.25;
     letter-spacing: 0;
   }
@@ -146,7 +147,7 @@ const labels = {
   .updates-block__heading > span {
     max-width: 31rem;
     color: var(--card-text-color-tertiary);
-    font-size: 0.84rem;
+    font-size: 14px;
     line-height: 1.5;
     text-align: right;
   }
@@ -154,31 +155,31 @@ const labels = {
   .updates-months,
   .updates-archive__years {
     display: grid;
-    gap: 2rem;
+    gap: 28px;
   }
 
   .updates-month {
     display: grid;
     grid-template-columns: minmax(92px, 0.2fr) minmax(0, 1fr);
-    gap: 1.35rem;
+    gap: 18px;
   }
 
   .updates-month > h3 {
     position: sticky;
-    top: calc(var(--main-top-padding) + 1rem);
+    top: calc(var(--main-top-padding) + 10px);
     align-self: start;
     margin: 0;
-    padding-top: 0.25rem;
+    padding-top: 4px;
     color: var(--card-text-color-secondary);
-    font-size: 0.95rem;
-    line-height: 1.4;
+    font-size: 14px;
+    line-height: 1.45;
   }
 
   .updates-month__entries {
     position: relative;
     display: grid;
-    gap: 1rem;
-    padding-left: 1.35rem;
+    gap: 16px;
+    padding-left: 18px;
   }
 
   .updates-month__entries::before {
@@ -192,44 +193,44 @@ const labels = {
 
   .updates-archive__year {
     display: grid;
-    gap: 0.9rem;
+    gap: 12px;
   }
 
   .updates-archive__year-heading {
     display: flex;
     align-items: center;
-    gap: 0.65rem;
+    gap: 8px;
   }
 
   .updates-archive__year-heading h3 {
     margin: 0;
     color: var(--card-text-color-main);
-    font-size: 1.25rem;
+    font-size: 18px;
     letter-spacing: 0;
   }
 
   .updates-archive__year-heading span {
     display: inline-flex;
-    min-width: 1.7rem;
-    min-height: 1.7rem;
+    min-width: 24px;
+    min-height: 24px;
     align-items: center;
     justify-content: center;
     border-radius: 10px;
     background: color-mix(in srgb, var(--leftjun-primary) 10%, var(--leftjun-surface-muted));
     color: var(--leftjun-primary);
-    font-size: 0.74rem;
+    font-size: 12px;
     font-weight: 760;
   }
 
   .updates-archive__grid {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem;
+    gap: 16px;
   }
 
   .updates-filter-empty {
     margin: 0;
-    padding: 1.2rem;
+    padding: 18px;
     border: 1px dashed var(--card-separator-color);
     border-radius: 16px;
     background: var(--leftjun-surface-muted);
@@ -237,7 +238,33 @@ const labels = {
     text-align: center;
   }
 
-  @media (max-width: 960px) {
+  @media (max-width: 1000px) {
+    .updates-experience {
+      gap: 36px;
+    }
+
+    .updates-block__heading {
+      margin-bottom: 14px;
+    }
+
+    .updates-block__heading h2 {
+      font-size: 24px;
+    }
+
+    .updates-month {
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .updates-month > h3 {
+      position: static;
+      padding-top: 0;
+    }
+
+    .updates-month__entries {
+      padding-left: 12px;
+    }
+
     .updates-archive__grid {
       grid-template-columns: 1fr;
     }
@@ -245,13 +272,13 @@ const labels = {
 
   @media (max-width: 767px) {
     .updates-experience {
-      gap: 2.1rem;
+      gap: 28px;
     }
 
     .updates-block__heading {
       display: block;
-      margin-bottom: 0.55rem;
-      padding-bottom: 0.45rem;
+      margin-bottom: 12px;
+      padding-bottom: 8px;
     }
 
     .updates-block__heading p,
@@ -260,20 +287,20 @@ const labels = {
     }
 
     .updates-block__heading h2 {
-      font-size: 1.25rem;
+      font-size: 20px;
     }
 
     .updates-month {
-      grid-template-columns: 1fr;
-      gap: 0.65rem;
-    }
-
-    .updates-month > h3 {
-      position: static;
+      gap: 8px;
     }
 
     .updates-month__entries {
-      padding-left: 0.8rem;
+      padding-left: 10px;
+    }
+
+    .updates-months,
+    .updates-archive__years {
+      gap: 24px;
     }
   }
 </style>
