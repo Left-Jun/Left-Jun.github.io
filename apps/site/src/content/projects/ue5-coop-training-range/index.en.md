@@ -6,7 +6,7 @@ slug: "ue5-coop-training-range"
 description: "My first Unreal Engine 5 multiplayer PVE demo: a Blueprint and Replication based local Listen Server build with server-authoritative shooting, enemy AI, respawn, team scoring, and win-state sync."
 image: "cover.webp"
 imagePosition: "center"
-featured: false
+featured: true
 featuredWeight: 30
 homeHeroWeight: 30
 pinWeight: 30
@@ -29,15 +29,19 @@ projectLinks:
   - label: "GitHub Repository"
     url: "https://github.com/Left-Jun/Left_Jun-Unreal-Afterclasswork_Tencent2026"
     icon: "brand-github"
+    kind: "source"
   - label: "Playable Build"
     url: "https://pan.quark.cn/s/1529aa6d5da7"
     icon: "display"
+    kind: "playable"
   - label: "Technical Report PDF"
     url: "/content-assets/projects/ue5-coop-training-range/technical-report.pdf"
     icon: "link"
+    kind: "report"
   - label: "Submission Brief PDF"
     url: "/content-assets/projects/ue5-coop-training-range/submission-brief.pdf"
     icon: "link"
+    kind: "report"
 tags:
   - "Unreal Engine 5"
   - "Blueprint"

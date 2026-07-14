@@ -5,7 +5,7 @@ draft: false
 slug: "smart-boat"
 description: "一个基于 BOAT02 / CONTROL02 的 STM32 软硬件结合项目，覆盖 ADC 摇杆采样、NRF24L01 无线通信、PWM 舵机/电调控制、PCB 设计和整机联调。"
 image: "cover.png"
-featured: true
+featured: false
 featuredWeight: 30
 homeHeroWeight: 40
 pinWeight: 40

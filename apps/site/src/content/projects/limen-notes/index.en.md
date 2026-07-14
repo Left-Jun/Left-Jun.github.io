@@ -27,9 +27,11 @@ projectLinks:
   - label: "Live Site"
     url: "https://notes.leftjun.com"
     icon: "link"
+    kind: "site"
   - label: "GitHub Repository"
     url: "https://github.com/Left-Jun/notes"
     icon: "brand-github"
+    kind: "source"
 tags:
   - "Web Development"
   - "Next.js"

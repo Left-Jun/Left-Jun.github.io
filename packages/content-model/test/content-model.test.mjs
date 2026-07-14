@@ -5,9 +5,11 @@ import path from "node:path";
 import test from "node:test";
 
 import {
+  PROJECT_LINK_KINDS,
   assetUrl,
   entryUrl,
   isKnownPostColumnId,
+  isKnownProjectLinkKind,
   isSafeProjectLink,
   isStableColumnId,
   isStablePortfolioType,
@@ -125,6 +127,40 @@ test("project links reject executable and non-web URL schemes", () => {
   for (const url of ["/content-assets/report.pdf", "https://example.com/build", "http://example.com/demo"]) {
     assert.equal(isSafeProjectLink(url), true);
   }
+});
+
+test("project link kinds are optional and restricted to the shared registry", () => {
+  assert.deepEqual(PROJECT_LINK_KINDS, [
+    "playable",
+    "store",
+    "video",
+    "source",
+    "report",
+    "site",
+    "evidence"
+  ]);
+
+  assert.doesNotThrow(() => validateFrontMatter({
+    title: "Legacy project link",
+    portfolioType: "game",
+    projectLinks: [{ label: "Demo", url: "https://example.com/demo" }]
+  }, { section: "projects" }));
+
+  for (const kind of PROJECT_LINK_KINDS) {
+    assert.equal(isKnownProjectLinkKind(kind), true);
+    assert.doesNotThrow(() => validateFrontMatter({
+      title: `Project link ${kind}`,
+      portfolioType: "game",
+      projectLinks: [{ label: "Evidence", url: "https://example.com/evidence", kind }]
+    }, { section: "projects" }));
+  }
+
+  assert.equal(isKnownProjectLinkKind("download"), false);
+  assert.throws(() => validateFrontMatter({
+    title: "Invalid project link kind",
+    portfolioType: "game",
+    projectLinks: [{ label: "Download", url: "https://example.com/build", kind: "download" }]
+  }, { section: "projects" }), /projectLinks\.0\.kind/i);
 });
 
 test("project portfolio types use stable lowercase tokens", () => {
@@ -330,6 +366,60 @@ test("update translations align featured metadata and evidence structure", async
   });
   assert.equal(changedIcon.ok, false);
   assert.match(changedIcon.errors.map((error) => error.message).join("\n"), /evidence link mismatch.*projectLinks\[1\]\.icon/i);
+});
+
+test("project translations align link structure while labels may be translated", async (t) => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "leftjun-project-links-"));
+  t.after(() => fs.rm(root, { recursive: true, force: true }));
+  const projectDir = path.join(root, "projects", "project-evidence");
+  await fs.mkdir(projectDir, { recursive: true });
+
+  const zh = {
+    title: "Project evidence",
+    slug: "project-evidence",
+    portfolioType: "game",
+    projectLinks: [
+      { label: "Playable build", url: "https://example.com/build", icon: "display", kind: "playable" },
+      { label: "Source code", url: "https://example.com/source", icon: "brand-github", kind: "source" }
+    ]
+  };
+  const en = {
+    ...zh,
+    title: "Project evidence in English",
+    projectLinks: [
+      { ...zh.projectLinks[0], label: "Download build" },
+      { ...zh.projectLinks[1], label: "Repository" }
+    ]
+  };
+  await fs.writeFile(path.join(projectDir, "index.md"), stringifyMarkdown(zh, ""));
+  const enPath = path.join(projectDir, "index.en.md");
+
+  async function validateEnglish(frontMatter) {
+    await fs.writeFile(enPath, stringifyMarkdown(frontMatter, ""));
+    return validateContentRoot(root);
+  }
+
+  assert.equal((await validateEnglish(en)).ok, true);
+
+  const missingLink = await validateEnglish({ ...en, projectLinks: en.projectLinks.slice(0, 1) });
+  assert.equal(missingLink.ok, false);
+  assert.match(missingLink.errors.map((error) => error.message).join("\n"), /evidence link count mismatch.*projectLinks/i);
+
+  for (const [key, value] of [
+    ["url", "https://example.com/other"],
+    ["icon", "link"],
+    ["kind", "evidence"]
+  ]) {
+    const projectLinks = en.projectLinks.map((link, index) => (
+      index === 0 ? { ...link, [key]: value } : link
+    ));
+    const drifted = await validateEnglish({ ...en, projectLinks });
+    assert.equal(drifted.ok, false);
+    assert.match(
+      drifted.errors.map((error) => error.message).join("\n"),
+      new RegExp(`evidence link mismatch.*projectLinks\\[0\\]\\.${key}`, "i")
+    );
+  }
 });
 
 test("post translations align column and featured metadata", async (t) => {

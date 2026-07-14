@@ -22,6 +22,7 @@ projectLinks:
   - label: "Playable build"
     url: "https://pan.quark.cn/s/0e4e5440844f?pwd=RvND"
     icon: "link"
+    kind: "playable"
 tags:
   - "Unity"
   - "C#"

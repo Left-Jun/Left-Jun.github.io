@@ -12,6 +12,7 @@ test("editor labels and visibility follow the selected section", () => {
   assert.equal(project.showFeatured, true);
   assert.equal(project.featuredLabel, "首页代表项目");
   assert.equal(project.linksLabel, "项目链接 JSON");
+  assert.match(project.detailsHint, /playable \/ store \/ video \/ source \/ report \/ site \/ evidence/);
 
   const update = sectionFieldPolicy("updates");
   assert.equal(update.isUpdate, true);
@@ -63,7 +64,7 @@ test("editor keeps existing project metadata behavior", () => {
     homeHeroWeight: 30,
     pinWeight: 10,
     projectFacts: { duration: "48 hours" },
-    projectLinks: [{ label: "Demo", url: "https://example.com/demo" }]
+    projectLinks: [{ label: "Demo", url: "https://example.com/demo", kind: "playable" }]
   });
 
   assert.deepEqual(result, {
@@ -75,7 +76,7 @@ test("editor keeps existing project metadata behavior", () => {
     homeHeroWeight: 30,
     pinWeight: 10,
     projectFacts: { duration: "48 hours" },
-    projectLinks: [{ label: "Demo", url: "https://example.com/demo" }]
+    projectLinks: [{ label: "Demo", url: "https://example.com/demo", kind: "playable" }]
   });
 });
 

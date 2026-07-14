@@ -22,6 +22,7 @@ projectLinks:
   - label: "可执行版本"
     url: "https://pan.quark.cn/s/0e4e5440844f?pwd=RvND"
     icon: "link"
+    kind: "playable"
 tags:
   - "Unity"
   - "C#"

@@ -2,11 +2,13 @@ export type SiteLanguage = "zh-cn" | "en";
 export type ContentSection = "projects" | "posts" | "retrospectives" | "plans" | "updates" | "pages";
 export type ContentStatus = "planned" | "in-progress" | "completed" | "paused" | "archived";
 export type UpdateKind = "project" | "event" | "award" | "training" | "research" | "release" | "article";
+export type ProjectLinkKind = "playable" | "store" | "video" | "source" | "report" | "site" | "evidence";
 
 export interface ProjectLink {
   label: string;
   url: string;
   icon?: string;
+  kind?: ProjectLinkKind;
 }
 
 export interface ProjectFacts {

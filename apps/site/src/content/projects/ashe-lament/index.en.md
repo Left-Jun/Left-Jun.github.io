@@ -26,6 +26,7 @@ projectLinks:
   - label: "Playable build"
     url: "https://pan.quark.cn/s/efcee623b3f4?pwd=TQCA"
     icon: "link"
+    kind: "playable"
 tags:
   - "Unity"
   - "Platformer"

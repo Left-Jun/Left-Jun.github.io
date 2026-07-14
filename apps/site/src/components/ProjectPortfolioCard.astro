@@ -1,0 +1,442 @@
+---
+import CoverMedia from "./CoverMedia.astro";
+import Icon from "./Icon.astro";
+import type { SiteEntry, SiteLanguage } from "../lib/content.js";
+
+interface Props {
+  entry: SiteEntry;
+  lang: SiteLanguage;
+  variant: "core" | "archive";
+  priority?: boolean;
+}
+
+const { entry, lang, variant, priority = false } = Astro.props as Props;
+const isEn = lang === "en";
+const data = entry.data;
+const facts = data.projectFacts || {};
+const imageUrl = data.image ? entry.asset(data.image) : "";
+const videoUrl = data.coverVideo ? entry.asset(data.coverVideo) : "";
+const imagePosition = data.imagePosition || "center";
+const type = data.portfolioType || "other";
+const role = facts.role || data.roleTags.filter(Boolean).slice(0, 2).join(" / ");
+const result = facts.result || "";
+const evidence = data.projectLinks?.[0];
+const evidenceExternal = evidence ? /^https?:\/\//i.test(evidence.url) : false;
+const titleId = `portfolio-project-${variant}-${entry.slug}`;
+const labels = {
+  type: {
+    game: isEn ? "Game" : "游戏",
+    embedded: isEn ? "Embedded" : "嵌入式",
+    web: "Web",
+    other: isEn ? "Project" : "项目"
+  },
+  status: {
+    planned: isEn ? "Planned" : "计划中",
+    "in-progress": isEn ? "In progress" : "进行中",
+    completed: isEn ? "Completed" : "已完成",
+    paused: isEn ? "Paused" : "已暂停",
+    archived: isEn ? "Archived" : "已归档"
+  },
+  role: isEn ? "Role" : "职责",
+  result: isEn ? "Outcome" : "成果",
+  duration: isEn ? "Cycle" : "周期",
+  team: isEn ? "Team" : "团队",
+  tools: isEn ? "Stack" : "工具",
+  view: isEn ? "View case" : "查看案例"
+};
+const status = data.status ? labels.status[data.status] : "";
+const factsList = [
+  { label: labels.duration, value: facts.duration || facts.developmentTime },
+  { label: labels.team, value: facts.team },
+  { label: labels.tools, value: facts.tools }
+].filter((item) => item.value);
+const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封面`;
+---
+
+<article
+  id={`project-${entry.slug}`}
+  class:list={["portfolio-project-card", `portfolio-project-card--${variant}`]}
+  aria-labelledby={titleId}
+  data-project-item
+  data-project-section={variant}
+  data-project-type={type}
+  style={`--leftjun-language-transition-name: lj-project-${entry.slug};`}
+>
+  {imageUrl && (
+    <a class="portfolio-project-card__media" href={entry.url} aria-label={data.title} tabindex="-1">
+      <CoverMedia
+        imageSrc={imageUrl}
+        videoSrc={videoUrl}
+        alt={coverAlt}
+        sizes={variant === "core"
+          ? "(max-width: 767px) 92vw, (max-width: 1180px) 46vw, 30vw"
+          : "(max-width: 767px) 92vw, (max-width: 1180px) 46vw, 42vw"}
+        loading={priority ? "eager" : "lazy"}
+        fetchpriority={priority ? "high" : "auto"}
+        style={`object-position: ${imagePosition};`}
+      />
+    </a>
+  )}
+
+  <div class="portfolio-project-card__content">
+    <div class="portfolio-project-card__labels">
+      <span class:list={["portfolio-project-card__type", `portfolio-project-card__type--${type}`]}>
+        {labels.type[type] || labels.type.other}
+      </span>
+      {status && <span class="portfolio-project-card__status">{status}</span>}
+    </div>
+
+    <h3 id={titleId}><a href={entry.url}>{data.title}</a></h3>
+
+    {role && (
+      <p class="portfolio-project-card__statement portfolio-project-card__statement--role">
+        <strong>{labels.role}</strong><span>{role}</span>
+      </p>
+    )}
+    {result && (
+      <p class="portfolio-project-card__statement portfolio-project-card__statement--result">
+        <strong>{labels.result}</strong><span>{result}</span>
+      </p>
+    )}
+
+    {factsList.length > 0 && (
+      <dl class="portfolio-project-card__facts">
+        {factsList.map((fact) => (
+          <div>
+            <dt>{fact.label}</dt>
+            <dd>{fact.value}</dd>
+          </div>
+        ))}
+      </dl>
+    )}
+
+    <div class="portfolio-project-card__actions">
+      <a class="portfolio-project-card__case-link" href={entry.url}>
+        <Icon name="briefcase" label="" />
+        <span>{labels.view}</span>
+        <Icon name="chevron-right" label="" />
+      </a>
+      {evidence && (
+        <a
+          class="portfolio-project-card__evidence-link"
+          href={evidence.url}
+          target={evidenceExternal ? "_blank" : undefined}
+          rel={evidenceExternal ? "noopener noreferrer" : undefined}
+        >
+          <Icon name={evidence.icon || "link"} label="" />
+          <span>{evidence.label}</span>
+          {evidenceExternal && <span aria-hidden="true">↗</span>}
+        </a>
+      )}
+    </div>
+  </div>
+</article>
+
+<style>
+  .portfolio-project-card {
+    position: relative;
+    display: flex;
+    min-width: 0;
+    overflow: hidden;
+    flex-direction: column;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 16px;
+    background: var(--leftjun-neutral-card-background);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+    scroll-margin-top: 20px;
+    transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
+  }
+
+  .portfolio-project-card--core {
+    border-radius: 22px;
+    box-shadow: var(--leftjun-surface-shadow);
+  }
+
+  .portfolio-project-card:hover,
+  .portfolio-project-card:focus-within {
+    transform: translateY(var(--leftjun-hover-lift));
+    border-color: var(--leftjun-hover-border);
+    box-shadow: var(--leftjun-hover-shadow);
+  }
+
+  .portfolio-project-card[hidden] {
+    display: none;
+  }
+
+  .portfolio-project-card__media {
+    display: block;
+    flex: 0 0 auto;
+    overflow: hidden;
+    background: var(--leftjun-surface-muted);
+    aspect-ratio: 16 / 9;
+  }
+
+  .portfolio-project-card__media :global(picture),
+  .portfolio-project-card__media :global(img),
+  .portfolio-project-card__media :global(video) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .portfolio-project-card__media :global(img),
+  .portfolio-project-card__media :global(video) {
+    object-fit: cover;
+    transition: transform 220ms ease;
+  }
+
+  .portfolio-project-card:hover .portfolio-project-card__media :global(img),
+  .portfolio-project-card:hover .portfolio-project-card__media :global(video),
+  .portfolio-project-card:focus-within .portfolio-project-card__media :global(img),
+  .portfolio-project-card:focus-within .portfolio-project-card__media :global(video) {
+    transform: scale(1.015);
+  }
+
+  .portfolio-project-card__content {
+    display: flex;
+    min-width: 0;
+    flex: 1;
+    flex-direction: column;
+    padding: 20px;
+  }
+
+  .portfolio-project-card--core .portfolio-project-card__content {
+    padding: clamp(18px, 1.8vw, 24px);
+  }
+
+  .portfolio-project-card__labels {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .portfolio-project-card__labels span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 5px 9px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 10px;
+    background: var(--leftjun-surface-muted);
+    color: var(--card-text-color-secondary);
+    font-size: 12px;
+    font-weight: 760;
+    line-height: 1.2;
+  }
+
+  .portfolio-project-card__labels .portfolio-project-card__type--game {
+    border-color: color-mix(in srgb, #2f72b8 34%, var(--card-separator-color));
+    background: color-mix(in srgb, #2f72b8 11%, var(--leftjun-surface-strong));
+    color: var(--leftjun-primary-deep);
+  }
+
+  .portfolio-project-card__labels .portfolio-project-card__type--embedded {
+    border-color: color-mix(in srgb, #0f766e 34%, var(--card-separator-color));
+    background: color-mix(in srgb, #0f766e 10%, var(--leftjun-surface-strong));
+    color: #0f766e;
+  }
+
+  .portfolio-project-card__labels .portfolio-project-card__type--web {
+    border-color: color-mix(in srgb, #c2634a 32%, var(--card-separator-color));
+    background: color-mix(in srgb, #c2634a 9%, var(--leftjun-surface-strong));
+    color: #98472f;
+  }
+
+  .portfolio-project-card h3 {
+    margin: 13px 0 0;
+    color: var(--card-text-color-main);
+    font-size: 24px;
+    line-height: 1.2;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .portfolio-project-card--archive h3 {
+    font-size: 22px;
+  }
+
+  .portfolio-project-card h3 a:hover,
+  .portfolio-project-card h3 a:focus-visible {
+    color: var(--leftjun-primary);
+  }
+
+  .portfolio-project-card__statement {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 9px;
+    margin: 12px 0 0;
+    color: var(--card-text-color-secondary);
+    font-size: 14px;
+    line-height: 1.55;
+  }
+
+  .portfolio-project-card__statement + .portfolio-project-card__statement {
+    margin-top: 7px;
+  }
+
+  .portfolio-project-card__statement strong {
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    font-weight: 760;
+  }
+
+  .portfolio-project-card__statement--result span {
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .portfolio-project-card__facts {
+    display: grid;
+    gap: 7px;
+    margin: 16px 0 0;
+    padding-top: 14px;
+    border-top: 1px solid var(--card-separator-color);
+  }
+
+  .portfolio-project-card__facts > div {
+    display: grid;
+    grid-template-columns: 46px minmax(0, 1fr);
+    gap: 9px;
+  }
+
+  .portfolio-project-card__facts dt,
+  .portfolio-project-card__facts dd {
+    margin: 0;
+    font-size: 12px;
+    line-height: 1.45;
+  }
+
+  .portfolio-project-card__facts dt {
+    color: var(--card-text-color-tertiary);
+    font-weight: 760;
+  }
+
+  .portfolio-project-card__facts dd {
+    color: var(--card-text-color-secondary);
+  }
+
+  .portfolio-project-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 9px;
+    margin-top: auto;
+    padding-top: 18px;
+  }
+
+  .portfolio-project-card__actions a {
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    padding: 8px 11px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 10px;
+    font-size: 13px;
+    font-weight: 780;
+    line-height: 1.2;
+  }
+
+  .portfolio-project-card__case-link {
+    border-color: transparent !important;
+    background: linear-gradient(135deg, #17365f, #2f72b8);
+    color: #fff;
+  }
+
+  .portfolio-project-card__evidence-link {
+    max-width: 100%;
+    background: var(--leftjun-surface-strong);
+    color: var(--card-text-color-secondary);
+  }
+
+  .portfolio-project-card__evidence-link span:nth-child(2) {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .portfolio-project-card__actions a:hover,
+  .portfolio-project-card__actions a:focus-visible {
+    transform: translateY(-1px);
+    border-color: var(--leftjun-hover-border);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+  }
+
+  .portfolio-project-card__actions :global(.inline-icon) {
+    width: 16px;
+    height: 16px;
+    flex: 0 0 auto;
+  }
+
+  :root[data-scheme="dark"] .portfolio-project-card__labels .portfolio-project-card__type--embedded {
+    color: #a8eee0;
+  }
+
+  :root[data-scheme="dark"] .portfolio-project-card__labels .portfolio-project-card__type--web {
+    color: #ffb49e;
+  }
+
+  @media (min-width: 768px) and (max-width: 1180px) {
+    .portfolio-project-card h3,
+    .portfolio-project-card--archive h3 {
+      font-size: 21px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .portfolio-project-card,
+    .portfolio-project-card--core {
+      border-radius: 16px;
+    }
+
+    .portfolio-project-card__content,
+    .portfolio-project-card--core .portfolio-project-card__content {
+      padding: 16px;
+    }
+
+    .portfolio-project-card h3,
+    .portfolio-project-card--archive h3 {
+      margin-top: 10px;
+      font-size: 21px;
+    }
+
+    .portfolio-project-card__statement {
+      margin-top: 9px;
+      font-size: 13px;
+    }
+
+    .portfolio-project-card__facts {
+      margin-top: 13px;
+      padding-top: 11px;
+    }
+
+    .portfolio-project-card__actions {
+      padding-top: 14px;
+    }
+
+    .portfolio-project-card__actions a {
+      min-height: 44px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .portfolio-project-card,
+    .portfolio-project-card__media :global(img),
+    .portfolio-project-card__media :global(video) {
+      transition: none;
+    }
+
+    .portfolio-project-card:hover,
+    .portfolio-project-card:focus-within,
+    .portfolio-project-card:hover .portfolio-project-card__media :global(img),
+    .portfolio-project-card:hover .portfolio-project-card__media :global(video),
+    .portfolio-project-card:focus-within .portfolio-project-card__media :global(img),
+    .portfolio-project-card:focus-within .portfolio-project-card__media :global(video) {
+      transform: none;
+    }
+  }
+</style>

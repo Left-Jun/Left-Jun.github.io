@@ -1,7 +1,12 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { isKnownPostColumnId, isSafeProjectLink, isStablePortfolioType } from "@left-jun/content-model";
+import {
+  PROJECT_LINK_KINDS,
+  isKnownPostColumnId,
+  isSafeProjectLink,
+  isStablePortfolioType
+} from "@left-jun/content-model";
 
 const contentStatusSchema = z.enum(["planned", "in-progress", "completed", "paused", "archived"]);
 const updateKindSchema = z.enum(["project", "event", "award", "training", "research", "release", "article"]);
@@ -28,7 +33,8 @@ const projectLinkSchema = z.strictObject({
   url: z.string().min(1).refine(isSafeProjectLink, {
     message: "Project links must use a site-relative, http, or https URL"
   }),
-  icon: z.string().optional()
+  icon: z.string().optional(),
+  kind: z.enum(PROJECT_LINK_KINDS).optional()
 });
 
 const baseSchema = z.looseObject({

@@ -1,0 +1,312 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import CoverMedia from "./CoverMedia.astro";
+import Icon from "./Icon.astro";
+import RelatedCard from "./RelatedCard.astro";
+import { getResponsiveMedia, mediaSrcset, optimizedPoster } from "../lib/media";
+import {
+  getEntryBySlug,
+  relatedEntries,
+  siteText,
+  taxonomyTermUrl
+} from "../lib/content.js";
+import type { ProjectLink, SiteEntry, SiteLanguage } from "../lib/content.js";
+
+interface Props {
+  entry: SiteEntry;
+  lang?: SiteLanguage;
+}
+
+const props = Astro.props as Props;
+const { entry, lang = entry.lang } = props;
+const text = siteText(lang);
+const facts = entry.data.projectFacts || {};
+const projectLinks: ProjectLink[] = entry.data.projectLinks || [];
+const primaryLink = projectLinks[0] || null;
+const secondaryLinks = projectLinks.slice(1);
+const tocItems = entry.toc || [];
+const related = await relatedEntries(entry);
+const projectRecords = related.filter((item) => item.section === "retrospectives" || item.section === "plans");
+const relatedReading = related.filter((item) => item.section !== "retrospectives" && item.section !== "plans");
+
+const imageUrl = entry.data.image ? entry.asset(entry.data.image) : "";
+const videoUrl = entry.data.coverVideo ? entry.asset(entry.data.coverVideo) : "";
+const optimizedImageUrl = imageUrl ? optimizedPoster(imageUrl) : "";
+const responsiveImage = imageUrl ? getResponsiveMedia(imageUrl) : null;
+const priorityVariants = videoUrl
+  ? []
+  : (responsiveImage?.avif?.length ? responsiveImage.avif : responsiveImage?.webp || []);
+const priorityImageUrl = videoUrl
+  ? optimizedImageUrl
+  : (priorityVariants.findLast((variant) => variant.width <= 960)?.src || priorityVariants.at(-1)?.src || imageUrl);
+const priorityImageSrcset = priorityVariants.length > 0 ? mediaSrcset(priorityVariants) : "";
+const priorityImageType = priorityVariants.length > 0
+  ? (responsiveImage?.avif?.length ? "image/avif" : "image/webp")
+  : "";
+const priorityImageSizes = "(max-width: 767px) calc(100vw - 32px), (max-width: 1535px) min(920px, calc(100vw - 128px)), 920px";
+const imagePosition = entry.data.imagePosition || "center";
+
+const alternateLang = text.isEn ? "zh-cn" : "en";
+const alternateEntry = await getEntryBySlug("projects", entry.slug, alternateLang);
+const alternateUrl = alternateEntry?.url;
+const alternateLabel = text.isEn ? "中文" : "English";
+const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
+const projectsLabel = text.isEn ? "Project Portfolio" : "项目&作品集";
+const portfolioPdfUrl = "/files/left-jun-portfolio.pdf";
+
+const statusText = entry.data.status ? ({
+  planned: text.isEn ? "Planned" : "计划中",
+  "in-progress": text.isEn ? "In progress" : "进行中",
+  completed: text.isEn ? "Completed" : "已完成",
+  paused: text.isEn ? "Paused" : "已暂停",
+  archived: text.isEn ? "Archived" : "已归档"
+}[entry.data.status] || entry.data.status) : "";
+const updatedAtText = entry.data.updatedAt
+  ? new Intl.DateTimeFormat(text.isEn ? "en-US" : "zh-CN", {
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit"
+  }).format(entry.data.updatedAt)
+  : "";
+const roleText = String(facts.role || "");
+const inferredTeam = text.isEn
+  ? (roleText.toLowerCase().includes("solo") ? "Solo" : "Team project")
+  : (roleText.includes("独立") || roleText.includes("单人") ? "独立开发" : "团队项目");
+const eventText = facts.event || facts.competition || "";
+const factItems = [
+  { icon: "clock", label: text.isEn ? "Status" : "状态", value: statusText },
+  { icon: "clock", label: text.isEn ? "Duration" : "周期", value: facts.duration || facts.developmentTime },
+  { icon: "users", label: text.isEn ? "Team" : "团队", value: facts.team || inferredTeam },
+  { icon: "code", label: text.isEn ? "Tools" : "技术", value: facts.tools },
+  { icon: "display", label: text.isEn ? "Platform" : "平台", value: facts.platform },
+  { icon: "trophy", label: text.isEn ? "Event" : "活动 / 赛事", value: eventText }
+].filter((item) => item.value);
+const sidebarItems = [
+  { label: text.isEn ? "Status" : "项目状态", value: statusText },
+  { label: text.isEn ? "Duration" : "项目周期", value: facts.duration || facts.developmentTime },
+  { label: text.isEn ? "Team" : "团队规模", value: facts.team || inferredTeam },
+  { label: text.isEn ? "Updated" : "更新时间", value: updatedAtText }
+].filter((item) => item.value);
+const pills = [...new Set([...(entry.data.roleTags || []), ...(entry.data.tags || [])].filter(Boolean))].slice(0, 6);
+const tagLinks = (entry.data.tags || []).filter(Boolean).map((tag) => ({
+  name: tag,
+  url: taxonomyTermUrl("tags", tag, lang)
+}));
+const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sidebarItems.length > 0;
+---
+<BaseLayout
+  lang={lang}
+  title={entry.data.title}
+  description={entry.data.description}
+  image={optimizedImageUrl || undefined}
+  imageAlt={entry.data.title}
+  priorityImage={priorityImageUrl || undefined}
+  priorityImageSrcset={priorityImageSrcset || undefined}
+  priorityImageSizes={priorityImageSrcset ? priorityImageSizes : undefined}
+  priorityImageType={priorityImageType || undefined}
+  active="projects"
+  bodyClass="article-page project-detail-page project-case-page"
+  alternateUrl={alternateUrl}
+  alternateLang={alternateEntry?.lang}
+  ogType="website"
+  creativeWork={{
+    type: entry.data.portfolioType === "game" ? "VideoGame" : "SoftwareApplication",
+    name: entry.data.title,
+    description: entry.data.description,
+    url: entry.url,
+    image: optimizedImageUrl || undefined,
+    datePublished: entry.data.date,
+    dateModified: entry.data.updatedAt || entry.data.date,
+    keywords: [...(entry.data.tags || []), ...(entry.data.roleTags || [])]
+  }}
+  breadcrumbs={[
+    { name: text.isEn ? "Home" : "首页", url: text.isEn ? "/en/" : "/" },
+    { name: projectsLabel, url: projectsUrl },
+    { name: entry.data.title, url: entry.url }
+  ]}
+>
+  <article class="main-article project-case" style={`--leftjun-language-transition-name: lj-article-projects-${entry.slug};`}>
+    <header class="project-case__hero">
+      {(imageUrl || videoUrl) && (
+        <div class="project-case__media">
+          <CoverMedia
+            imageSrc={imageUrl}
+            videoSrc={videoUrl}
+            alt={entry.data.title}
+            class="project-case__cover"
+            sizes={priorityImageSizes}
+            loading="eager"
+            fetchpriority="high"
+            style={`object-position: ${imagePosition};`}
+          />
+        </div>
+      )}
+
+      <div class="project-case__intro">
+        <p class="project-case__kicker">{text.isEn ? "Project Case" : "项目案例"}</p>
+        <h1>{entry.data.title}</h1>
+
+        {facts.role && (
+          <p class="project-case__role">
+            <span>{text.isEn ? "My role" : "我的角色"}</span>
+            <strong>{facts.role}</strong>
+          </p>
+        )}
+
+        {facts.result && (
+          <div class="project-case__result">
+            <span>{text.isEn ? "Delivered outcome" : "完成结果"}</span>
+            <p>{facts.result}</p>
+          </div>
+        )}
+
+        {entry.data.description && <p class="project-case__description">{entry.data.description}</p>}
+
+        <div class="project-case__actions" aria-label={text.isEn ? "Project evidence and utilities" : "项目证据与辅助入口"}>
+          {primaryLink && (
+            <a class="project-case__primary-action" href={primaryLink.url} target="_blank" rel="noopener noreferrer">
+              <Icon name={primaryLink.icon || "link"} />
+              <span>{primaryLink.label}</span>
+              <Icon name="chevron-right" />
+            </a>
+          )}
+          <a class="project-case__utility-action" href={portfolioPdfUrl} target="_blank" rel="noopener noreferrer">
+            <Icon name="briefcase" />
+            <span>{text.isEn ? "Portfolio PDF" : "作品集 PDF"}</span>
+          </a>
+          {alternateUrl && (
+            <a class="project-case__utility-action" href={alternateUrl} data-language-transition>
+              <Icon name="language" />
+              <span>{alternateLabel}</span>
+            </a>
+          )}
+        </div>
+
+        {secondaryLinks.length > 0 && (
+          <nav class="project-case__secondary-links" aria-label={text.isEn ? "More project evidence" : "更多项目证据"}>
+            {secondaryLinks.map((link) => (
+              <a href={link.url} target="_blank" rel="noopener noreferrer">
+                <Icon name={link.icon || "link"} />
+                <span>{link.label}</span>
+              </a>
+            ))}
+          </nav>
+        )}
+
+        {pills.length > 0 && (
+          <div class="project-case__pills" aria-label={text.isEn ? "Project tags" : "项目标签"}>
+            {pills.map((pill) => <span>{pill}</span>)}
+          </div>
+        )}
+      </div>
+    </header>
+
+    {factItems.length > 0 && (
+      <section class="project-case__facts" aria-label={text.projectProfile}>
+        <dl>
+          {factItems.map((item) => (
+            <div>
+              <dt><Icon name={item.icon} /><span>{item.label}</span></dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
+
+    {projectRecords.length > 0 && (
+      <nav class="project-case__records" aria-label={text.relatedRecords}>
+        {projectRecords.map((item) => {
+          const isRetrospective = item.section === "retrospectives";
+          return (
+            <a class:list={[isRetrospective ? "is-retrospective" : "is-plan"]} href={item.url}>
+              <Icon name={isRetrospective ? "infinity" : "clock"} />
+              <span>{isRetrospective ? text.viewRetrospective : text.viewPlan}</span>
+            </a>
+          );
+        })}
+      </nav>
+    )}
+
+    {tocItems.length > 0 && (
+      <aside class="article-toc project-case__mobile-toc">
+        <details>
+          <summary>
+            <span>{text.toc}</span>
+            <Icon name="chevron-right" />
+          </summary>
+          <nav class="toc-nav">
+            {tocItems.map((item) => (
+              <a href={`#${item.id}`} style={`--toc-indent:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
+            ))}
+          </nav>
+        </details>
+      </aside>
+    )}
+
+    <section class="article-content project-case__content" set:html={entry.html}></section>
+
+    {tagLinks.length > 0 && (
+      <footer class="article-footer project-case__footer">
+        <section class="article-tags" aria-label={text.isEn ? "Keywords" : "关键词"}>
+          {tagLinks.map((tag) => <a href={tag.url}>{tag.name}</a>)}
+        </section>
+      </footer>
+    )}
+  </article>
+
+  {relatedReading.length > 0 && (
+    <aside class="related-content--wrapper" aria-label={text.relatedReading}>
+      <h2 class="section-title">{text.relatedReading}</h2>
+      <div class="related-content">
+        <div class="related-grid">
+          {relatedReading.map((item) => <RelatedCard entry={item} />)}
+        </div>
+      </div>
+    </aside>
+  )}
+
+  {hasRightSidebar && (
+    <Fragment slot="right-sidebar">
+      <aside class="sidebar right-sidebar sticky project-case-sidebar">
+        {tocItems.length > 0 && (
+          <section class="widget widget--toc">
+            <h2 class="widget-title">{text.toc}</h2>
+            <nav class="toc-nav">
+              {tocItems.map((item) => (
+                <a href={`#${item.id}`} style={`--toc-indent:${Math.max(0, item.depth - 2) * 12}px`}>{item.text}</a>
+              ))}
+            </nav>
+          </section>
+        )}
+        {projectLinks.length > 0 && (
+          <section class="widget project-download-widget">
+            <h2 class="widget-title">{text.isEn ? "Evidence" : "项目证据"}</h2>
+            <div class="project-download-list">
+              {projectLinks.map((link) => (
+                <a href={link.url} target="_blank" rel="noopener noreferrer">
+                  <Icon name={link.icon || "link"} />
+                  <span>{link.label}</span>
+                  <Icon name="chevron-right" />
+                </a>
+              ))}
+            </div>
+          </section>
+        )}
+        {sidebarItems.length > 0 && (
+          <section class="widget project-summary-widget">
+            <h2 class="widget-title">{text.isEn ? "Project Info" : "项目信息"}</h2>
+            <dl>
+              {sidebarItems.map((item) => (
+                <div>
+                  <dt>{item.label}</dt>
+                  <dd>{item.value}</dd>
+                </div>
+              ))}
+            </dl>
+          </section>
+        )}
+      </aside>
+    </Fragment>
+  )}
+</BaseLayout>

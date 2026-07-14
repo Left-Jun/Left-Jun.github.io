@@ -6,7 +6,7 @@ slug: "ue5-coop-training-range"
 description: "第一次使用 Unreal Engine 5 完成的多人 PVE Demo。基于 Blueprint、Replication 与 Listen Server，实现服务器权威射击、敌人 AI、死亡重生、协作计分和胜利同步。"
 image: "cover.webp"
 imagePosition: "center"
-featured: false
+featured: true
 featuredWeight: 30
 homeHeroWeight: 30
 pinWeight: 30
@@ -29,15 +29,19 @@ projectLinks:
   - label: "GitHub 仓库"
     url: "https://github.com/Left-Jun/Left_Jun-Unreal-Afterclasswork_Tencent2026"
     icon: "brand-github"
+    kind: "source"
   - label: "可执行版本"
     url: "https://pan.quark.cn/s/1529aa6d5da7"
     icon: "display"
+    kind: "playable"
   - label: "技术说明 PDF"
     url: "/content-assets/projects/ue5-coop-training-range/technical-report.pdf"
     icon: "link"
+    kind: "report"
   - label: "提交简述 PDF"
     url: "/content-assets/projects/ue5-coop-training-range/submission-brief.pdf"
     icon: "link"
+    kind: "report"
 tags:
   - "Unreal Engine 5"
   - "Blueprint"
