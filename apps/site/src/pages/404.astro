@@ -1,14 +1,183 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "../components/Icon.astro";
+import { buildNotFoundBootstrap, NOT_FOUND_COPY } from "../lib/not-found.js";
+
+const initialCopy = NOT_FOUND_COPY["zh-cn"];
+const bootstrap = buildNotFoundBootstrap();
 ---
-<BaseLayout title="Page not found">
-  <section class="section-hero glass">
-    <p class="eyebrow">404</p>
-    <h1>页面没有找到</h1>
-    <p>这个页面可能已经移动。可以从项目页或记录页重新进入。</p>
-    <div class="action-row">
-      <a class="action-button primary" href="/">返回首页</a>
-      <a class="action-button" href="/projects/">查看项目</a>
-    </div>
-  </section>
+<BaseLayout
+  lang="zh-cn"
+  title={initialCopy.title}
+  description={initialCopy.description}
+  active="not-found"
+  bodyClass="not-found-page-body"
+>
+  <script is:inline set:html={bootstrap}></script>
+  <div class="not-found-page" data-not-found-page>
+    {Object.values(NOT_FOUND_COPY).map((copy) => (
+      <section
+        class:list={["not-found-panel", `not-found-panel--${copy.lang}`]}
+        data-not-found-locale={copy.lang}
+        aria-labelledby={`not-found-title-${copy.lang}`}
+      >
+        <p class="not-found-code">404</p>
+        <h1 id={`not-found-title-${copy.lang}`}>{copy.title}</h1>
+        <p class="not-found-description">{copy.description}</p>
+        <div class="not-found-actions">
+          <a class="not-found-action not-found-action--primary" href={copy.homeUrl}>
+            <Icon name="home" label="" />
+            <span>{copy.homeLabel}</span>
+          </a>
+          <a class="not-found-action" href={copy.projectsUrl}>
+            <Icon name="briefcase" label="" />
+            <span>{copy.projectsLabel}</span>
+          </a>
+          <button class="not-found-action" type="button" data-not-found-back data-home-url={copy.homeUrl}>
+            <Icon name="arrow-back" label="" />
+            <span>{copy.backLabel}</span>
+          </button>
+        </div>
+      </section>
+    ))}
+  </div>
 </BaseLayout>
+
+<script>
+  document.querySelectorAll("[data-not-found-back]").forEach((element) => {
+    if (!(element instanceof HTMLButtonElement)) return;
+    element.addEventListener("click", () => {
+      if (window.history.length > 1) window.history.back();
+      else window.location.assign(element.dataset.homeUrl || "/");
+    });
+  });
+</script>
+
+<style>
+  .not-found-page {
+    display: grid;
+    min-height: clamp(420px, 62vh, 660px);
+    place-items: center;
+    padding: 32px 0;
+  }
+
+  .not-found-panel {
+    width: min(100%, 720px);
+    padding: 44px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: var(--leftjun-radius-lg);
+    background: var(--leftjun-reading-surface);
+    box-shadow: var(--leftjun-surface-shadow);
+  }
+
+  .not-found-panel--en {
+    display: none;
+  }
+
+  :global(html[data-not-found-language="en"]) .not-found-panel--zh-cn {
+    display: none;
+  }
+
+  :global(html[data-not-found-language="en"]) .not-found-panel--en {
+    display: block;
+  }
+
+  .not-found-code {
+    margin: 0 0 12px;
+    color: var(--leftjun-primary);
+    font-size: 15px;
+    font-weight: 850;
+  }
+
+  .not-found-panel h1 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 40px;
+    line-height: 1.18;
+    letter-spacing: 0;
+  }
+
+  .not-found-description {
+    max-width: 570px;
+    margin: 18px 0 0;
+    color: var(--card-text-color-secondary);
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .not-found-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 28px;
+  }
+
+  .not-found-action {
+    display: inline-flex;
+    min-height: 44px;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: var(--leftjun-radius-sm);
+    background: var(--leftjun-surface-strong);
+    color: var(--card-text-color-main);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 750;
+    text-decoration: none;
+    cursor: pointer;
+    transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
+  }
+
+  .not-found-action--primary {
+    border-color: transparent;
+    background: var(--leftjun-primary);
+    color: #fff;
+  }
+
+  .not-found-action:hover,
+  .not-found-action:focus-visible {
+    border-color: var(--leftjun-hover-border);
+    box-shadow: var(--leftjun-hover-shadow);
+    transform: translateY(var(--leftjun-hover-lift));
+  }
+
+  .not-found-action:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--leftjun-primary) 35%, transparent);
+    outline-offset: 3px;
+  }
+
+  @media (max-width: 767px) {
+    .not-found-page {
+      min-height: 0;
+      place-items: start stretch;
+      padding: 0 0 82px;
+    }
+
+    .not-found-panel {
+      padding: 26px 20px;
+      border-radius: var(--leftjun-radius-lg);
+    }
+
+    .not-found-panel h1 {
+      font-size: 28px;
+    }
+
+    .not-found-description {
+      font-size: 15px;
+    }
+
+    .not-found-actions {
+      display: grid;
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .not-found-action {
+      transition: none;
+    }
+  }
+</style>

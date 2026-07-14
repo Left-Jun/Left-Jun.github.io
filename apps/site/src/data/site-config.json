@@ -19,6 +19,9 @@
     "UE5 多人 PVE Demo"
   ],
   "favicon": "/favicon.ico",
+  "contact": {
+    "email": "limenaut0@gmail.com"
+  },
   "footer": {
     "since": 2026,
     "customText": "Built with Astro"

@@ -1,0 +1,526 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "./Icon.astro";
+import { config, getEntryBySlug, siteText } from "../lib/content.js";
+import type { SiteEntry } from "../lib/content.js";
+
+interface Props {
+  entry: SiteEntry;
+}
+
+const { entry } = Astro.props as Props;
+const lang = entry.lang;
+const text = siteText(lang);
+const isEn = text.isEn;
+const email = String(config.contact?.email || "").trim();
+const alternateEntry = await getEntryBySlug("pages", "contact", isEn ? "zh-cn" : "en");
+const status = text.sidebar.status;
+const socialLinks = [...(text.menus.social || [])].sort((a, b) => (a.weight || 0) - (b.weight || 0));
+const topics = isEn
+  ? ["Implementation discussions", "Playtest feedback", "Collaboration", "Internship opportunities", "Portfolio material"]
+  : ["项目实现", "试玩反馈", "合作", "实习机会", "作品集材料"];
+const copy = isEn ? {
+  eyebrow: "Direct contact",
+  intro: "For project conversations, feedback, collaboration, or recruiting, email is the most direct way to reach me.",
+  emailLabel: "Primary email",
+  emailAction: "Write an email",
+  copyAction: "Copy email",
+  copied: "Email copied",
+  copyFailed: "Copy failed. Select the address above instead.",
+  currentStatus: "Current status",
+  topics: "Good topics to discuss",
+  portfolio: "Portfolio and profiles",
+  portfolioDescription: "Open the PDF portfolio or continue through my existing public profiles.",
+  openPortfolio: "Open portfolio PDF",
+  downloadPortfolio: "Download PDF",
+  opensNewTab: "opens in a new tab"
+} : {
+  eyebrow: "直接联系",
+  intro: "如果你想交流项目、提供反馈、讨论合作或招聘机会，邮件是联系我的最直接方式。",
+  emailLabel: "主要邮箱",
+  emailAction: "发送邮件",
+  copyAction: "复制邮箱",
+  copied: "邮箱已复制",
+  copyFailed: "复制失败，请直接选择上方邮箱地址。",
+  currentStatus: "当前状态",
+  topics: "适合交流的话题",
+  portfolio: "作品集与公开主页",
+  portfolioDescription: "可以查看 PDF 作品集，或从已有公开主页继续了解我的工作。",
+  openPortfolio: "打开作品集 PDF",
+  downloadPortfolio: "下载 PDF",
+  opensNewTab: "将在新标签页打开"
+};
+---
+<BaseLayout
+  lang={lang}
+  title={entry.data.title}
+  description={entry.data.description}
+  active="contact"
+  bodyClass="contact-page-body"
+  canonicalUrl={entry.url}
+  alternateUrl={alternateEntry?.url}
+>
+  <article class="contact-page" data-contact-page data-contact-email={email}>
+    <header class="contact-hero">
+      <p class="contact-eyebrow">{copy.eyebrow}</p>
+      <h1>{entry.data.title}</h1>
+      {entry.data.description && <p class="contact-lead">{entry.data.description}</p>}
+      <p class="contact-intro">{copy.intro}</p>
+    </header>
+
+    <section class="contact-email" aria-labelledby="contact-email-title">
+      <div class="contact-email__address">
+        <span id="contact-email-title">{copy.emailLabel}</span>
+        <a href={`mailto:${email}`}>{email}</a>
+      </div>
+      <div class="contact-email__actions">
+        <a class="contact-command contact-command--primary" href={`mailto:${email}`}>
+          <Icon name="messages" label="" />
+          <span>{copy.emailAction}</span>
+        </a>
+        <button
+          class="contact-command"
+          type="button"
+          data-copy-email
+          data-email={email}
+          data-idle-label={copy.copyAction}
+          data-success-label={copy.copied}
+          data-failure-label={copy.copyFailed}
+        >
+          <Icon name="link" label="" />
+          <span data-copy-email-label>{copy.copyAction}</span>
+        </button>
+      </div>
+      <p class="contact-copy-status" aria-live="polite" data-copy-email-status></p>
+    </section>
+
+    <section class="contact-status" aria-labelledby="contact-status-title">
+      <div class="contact-section-heading">
+        <span class="contact-section-icon" aria-hidden="true">{status.emoji}</span>
+        <div>
+          <p>{copy.currentStatus}</p>
+          <h2 id="contact-status-title">{status.title}</h2>
+        </div>
+      </div>
+      <p>{status.description}</p>
+    </section>
+
+    <section class="contact-topics" aria-labelledby="contact-topics-title">
+      <div class="contact-section-copy">
+        <h2 id="contact-topics-title">{copy.topics}</h2>
+      </div>
+      <ul>
+        {topics.map((topic) => <li><span aria-hidden="true"></span>{topic}</li>)}
+      </ul>
+    </section>
+
+    <section class="contact-resources" aria-labelledby="contact-resources-title">
+      <div class="contact-section-copy">
+        <h2 id="contact-resources-title">{copy.portfolio}</h2>
+        <p>{copy.portfolioDescription}</p>
+      </div>
+      <div class="contact-resource-links">
+        <a class="contact-resource contact-resource--portfolio" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer" aria-label={`${copy.openPortfolio} (${copy.opensNewTab})`}>
+          <Icon name="briefcase" label="" />
+          <span>{copy.openPortfolio}</span>
+        </a>
+        <a class="contact-resource contact-resource--download" href="/files/left-jun-portfolio.pdf" download>
+          <Icon name="arrow-back" label="" />
+          <span>{copy.downloadPortfolio}</span>
+        </a>
+        {socialLinks.map((item) => (
+          <a class="contact-resource" href={item.url} target="_blank" rel="noopener noreferrer" aria-label={`${item.name} (${copy.opensNewTab})`}>
+            <Icon name={item.params?.icon || "link"} label="" />
+            <span>{item.name}</span>
+          </a>
+        ))}
+      </div>
+    </section>
+  </article>
+</BaseLayout>
+
+<script>
+  const initializeEmailCopy = () => {
+    const copyButton = document.querySelector("[data-copy-email]");
+    if (!(copyButton instanceof HTMLButtonElement) || copyButton.dataset.copyReady === "true") return;
+    copyButton.dataset.copyReady = "true";
+
+    const label = copyButton.querySelector("[data-copy-email-label]");
+    const status = document.querySelector("[data-copy-email-status]");
+    let resetTimer = 0;
+
+    const setState = (state: "idle" | "success" | "failure") => {
+      const key = state === "success" ? "successLabel" : state === "failure" ? "failureLabel" : "idleLabel";
+      const message = copyButton.dataset[key] || "";
+      copyButton.dataset.copyState = state;
+      if (label) label.textContent = state === "failure" ? copyButton.dataset.idleLabel || "" : message;
+      if (status) status.textContent = state === "idle" ? "" : message;
+      copyButton.setAttribute("aria-label", state === "failure" ? message : (label?.textContent || message));
+      window.clearTimeout(resetTimer);
+      if (state !== "idle") resetTimer = window.setTimeout(() => setState("idle"), 5000);
+    };
+
+    const fallbackCopy = (value: string) => {
+      const textarea = document.createElement("textarea");
+      textarea.value = value;
+      textarea.setAttribute("readonly", "");
+      textarea.style.position = "fixed";
+      textarea.style.opacity = "0";
+      textarea.style.pointerEvents = "none";
+      document.body.append(textarea);
+      textarea.select();
+      const commandDocument = document as unknown as { execCommand(commandId: string): boolean };
+      const copied = commandDocument.execCommand("copy");
+      textarea.remove();
+      return copied;
+    };
+
+    copyButton.addEventListener("click", async () => {
+      const email = copyButton.dataset.email || "";
+      try {
+        if (navigator.clipboard?.writeText) await navigator.clipboard.writeText(email);
+        else if (!fallbackCopy(email)) throw new Error("Clipboard unavailable");
+        setState("success");
+      } catch {
+        try {
+          setState(fallbackCopy(email) ? "success" : "failure");
+        } catch {
+          setState("failure");
+        }
+      }
+    });
+  };
+
+  initializeEmailCopy();
+  document.addEventListener("astro:page-load", initializeEmailCopy);
+</script>
+
+<style>
+  .contact-page {
+    display: grid;
+    gap: 44px;
+    padding: 4px 0 28px;
+    color: var(--card-text-color-secondary);
+  }
+
+  .contact-hero {
+    max-width: 780px;
+  }
+
+  .contact-eyebrow,
+  .contact-section-heading p {
+    margin: 0 0 8px;
+    color: var(--leftjun-primary);
+    font-size: 12px;
+    font-weight: 800;
+    letter-spacing: 0;
+    text-transform: uppercase;
+  }
+
+  .contact-hero h1 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 40px;
+    line-height: 1.18;
+    letter-spacing: 0;
+  }
+
+  .contact-lead,
+  .contact-intro {
+    max-width: 720px;
+    margin: 16px 0 0;
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  .contact-intro {
+    margin-top: 8px;
+    color: var(--card-text-color-tertiary);
+  }
+
+  .contact-email {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 20px 28px;
+    padding: 28px;
+    border: 1px solid color-mix(in srgb, var(--leftjun-primary) 24%, var(--card-separator-color));
+    border-radius: var(--leftjun-radius-lg);
+    background: color-mix(in srgb, var(--leftjun-primary) 7%, var(--leftjun-reading-surface));
+    box-shadow: var(--leftjun-surface-shadow);
+  }
+
+  .contact-email__address {
+    min-width: 0;
+  }
+
+  .contact-email__address span {
+    display: block;
+    margin-bottom: 7px;
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .contact-email__address a {
+    color: var(--card-text-color-main);
+    font-size: 24px;
+    font-weight: 800;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    text-decoration-color: color-mix(in srgb, var(--leftjun-primary) 42%, transparent);
+    text-underline-offset: 5px;
+  }
+
+  .contact-email__actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+  }
+
+  .contact-command,
+  .contact-resource {
+    min-height: 44px;
+    border: 1px solid var(--card-separator-color);
+    color: var(--card-text-color-main);
+    font: inherit;
+    font-size: 14px;
+    font-weight: 750;
+    text-decoration: none;
+  }
+
+  .contact-command {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 10px 15px;
+    border-radius: var(--leftjun-radius-sm);
+    background: var(--leftjun-surface-strong);
+    cursor: pointer;
+  }
+
+  .contact-command--primary {
+    border-color: transparent;
+    background: var(--leftjun-primary);
+    color: #fff;
+  }
+
+  .contact-command:hover,
+  .contact-command:focus-visible,
+  .contact-resource:hover,
+  .contact-resource:focus-visible {
+    border-color: var(--leftjun-hover-border);
+    box-shadow: var(--leftjun-hover-shadow);
+    transform: translateY(var(--leftjun-hover-lift));
+  }
+
+  .contact-command:focus-visible,
+  .contact-resource:focus-visible,
+  .contact-email__address a:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--leftjun-primary) 35%, transparent);
+    outline-offset: 3px;
+  }
+
+  .contact-copy-status {
+    grid-column: 1 / -1;
+    min-height: 17px;
+    margin: -10px 0 -8px;
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+  }
+
+  .contact-status,
+  .contact-topics,
+  .contact-resources {
+    border-top: 1px solid var(--card-separator-color);
+    padding-top: 28px;
+  }
+
+  .contact-status {
+    display: grid;
+    grid-template-columns: minmax(210px, 0.68fr) minmax(0, 1.32fr);
+    align-items: center;
+    gap: 28px;
+  }
+
+  .contact-section-heading {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .contact-section-icon {
+    display: grid;
+    width: 44px;
+    height: 44px;
+    place-items: center;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--leftjun-primary-soft);
+    font-size: 20px;
+  }
+
+  .contact-section-heading h2,
+  .contact-section-copy h2 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 24px;
+    line-height: 1.25;
+    letter-spacing: 0;
+  }
+
+  .contact-status > p,
+  .contact-section-copy p {
+    margin: 0;
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .contact-topics,
+  .contact-resources {
+    display: grid;
+    grid-template-columns: minmax(210px, 0.68fr) minmax(0, 1.32fr);
+    align-items: start;
+    gap: 28px;
+  }
+
+  .contact-section-copy p {
+    margin-top: 9px;
+  }
+
+  .contact-topics ul {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 20px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .contact-topics li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 38px;
+    color: var(--card-text-color-main);
+    font-size: 15px;
+    font-weight: 650;
+  }
+
+  .contact-topics li > span {
+    width: 8px;
+    height: 8px;
+    flex: 0 0 auto;
+    border-radius: 50%;
+    background: var(--leftjun-primary);
+    box-shadow: 0 0 0 5px var(--leftjun-primary-soft);
+  }
+
+  .contact-resource-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .contact-resource {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    align-items: center;
+    gap: 4px 11px;
+    padding: 13px 15px;
+    border-radius: var(--leftjun-radius-md);
+    background: var(--leftjun-surface-strong);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+    transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
+  }
+
+  .contact-resource--portfolio {
+    border-color: color-mix(in srgb, var(--leftjun-primary) 30%, var(--card-separator-color));
+    background: color-mix(in srgb, var(--leftjun-primary) 8%, var(--leftjun-surface-strong));
+  }
+
+  .contact-resource--download :global(.inline-icon) {
+    transform: rotate(-90deg);
+  }
+
+  @media (max-width: 1000px) {
+    .contact-page {
+      gap: 36px;
+    }
+
+    .contact-hero h1 {
+      font-size: 34px;
+    }
+
+    .contact-email,
+    .contact-status,
+    .contact-topics,
+    .contact-resources {
+      grid-template-columns: 1fr;
+    }
+
+    .contact-email__actions {
+      justify-content: flex-start;
+    }
+
+  }
+
+  @media (max-width: 767px) {
+    .contact-page {
+      gap: 28px;
+      padding-top: 0;
+      padding-bottom: 82px;
+    }
+
+    .contact-hero h1 {
+      font-size: 28px;
+    }
+
+    .contact-lead,
+    .contact-intro {
+      font-size: 15px;
+    }
+
+    .contact-email {
+      gap: 18px;
+      padding: 22px 18px;
+      border-radius: var(--leftjun-radius-lg);
+    }
+
+    .contact-email__address a {
+      font-size: 20px;
+    }
+
+    .contact-email__actions {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .contact-status,
+    .contact-topics,
+    .contact-resources {
+      gap: 20px;
+      padding-top: 22px;
+    }
+
+    .contact-section-heading h2,
+    .contact-section-copy h2 {
+      font-size: 20px;
+    }
+
+    .contact-topics ul,
+    .contact-resource-links {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .contact-command,
+    .contact-resource {
+      transition: none;
+    }
+  }
+</style>
