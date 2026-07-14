@@ -179,7 +179,13 @@ const articleBodyClass = isProject
   ]}
 >
   <article class:list={["main-article", cover && "has-image", isPost && "post-detail-article", isRecord && "record-detail-article"]} style={`--leftjun-language-transition-name: lj-article-${entry.section}-${entry.slug};`}>
-    <header class:list={["article-header", isProject && "project-detail-hero", isPost && "post-detail-hero", isRecord && "record-detail-hero"]}>
+    <header class:list={[
+      "article-header",
+      isProject && "project-detail-hero",
+      isPost && "post-detail-hero",
+      isRecord && "record-detail-hero",
+      (isPost || isRecord) && entry.data.coverVideo && "content-detail-hero--video"
+    ]}>
       {cover && (
         <div class="article-image">
           <CoverMedia
