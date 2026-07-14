@@ -1,0 +1,426 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectPortfolioCard from "./ProjectPortfolioCard.astro";
+import {
+  PROJECT_PORTFOLIO_FILTERS,
+  buildProjectTypeCounts,
+  splitProjectPortfolio
+} from "../lib/project-portfolio.js";
+import type { SectionPage, SiteEntry, SiteLanguage } from "../lib/content.js";
+import type { ProjectPortfolioFilter } from "../lib/project-portfolio.js";
+
+interface Props {
+  lang: SiteLanguage;
+  section: SiteEntry | SectionPage;
+  projects: SiteEntry[];
+  alternatePath: string;
+}
+
+const { lang, section, projects, alternatePath } = Astro.props as Props;
+const isEn = lang === "en";
+const { core, archive } = splitProjectPortfolio(projects);
+const counts = buildProjectTypeCounts(projects);
+const latestProject = [...projects].sort((left, right) => {
+  const leftDate = left.data.updatedAt || left.data.date;
+  const rightDate = right.data.updatedAt || right.data.date;
+  return (rightDate?.getTime?.() || 0) - (leftDate?.getTime?.() || 0);
+})[0];
+const latestDateValue = latestProject?.data.updatedAt || latestProject?.data.date;
+const latestDate = latestDateValue
+  ? new Intl.DateTimeFormat(isEn ? "en-US" : "zh-CN", {
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      timeZone: "Asia/Shanghai"
+    }).format(latestDateValue)
+  : "";
+const labels = {
+  eyebrow: isEn ? "Gameplay & client portfolio" : "Gameplay / 游戏客户端作品集",
+  projectCount: isEn ? (projects.length === 1 ? "project" : "projects") : "个项目",
+  gameCount: isEn ? "games" : "个游戏项目",
+  latest: isEn ? "Latest" : "最近项目",
+  showing: isEn ? "Showing" : "当前显示",
+  filterAria: isEn ? "Filter projects by type" : "按项目类型筛选",
+  filters: {
+    all: isEn ? "All" : "全部",
+    game: isEn ? "Game" : "游戏",
+    embedded: isEn ? "Embedded" : "嵌入式",
+    web: "Web"
+  },
+  coreEyebrow: isEn ? "Selected case studies" : "优先了解",
+  coreTitle: isEn ? "Core cases" : "核心案例",
+  coreHint: isEn
+    ? "Three projects that best show gameplay ownership, delivery, and engineering range."
+    : "优先呈现玩法负责范围、交付结果与工程能力的三个案例。",
+  archiveEyebrow: isEn ? "Complete portfolio" : "完整记录",
+  archiveTitle: isEn ? "Complete works" : "完整作品",
+  archiveHint: isEn
+    ? "Additional game prototypes, embedded work, and web products without repeating the core cases."
+    : "其余游戏原型、嵌入式实践与 Web 产品，核心案例不在此重复。",
+  empty: isEn ? "No projects match this filter." : "当前分类下没有项目。"
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={section.data.title}
+  description={section.data.description}
+  alternatePath={alternatePath}
+  active="projects"
+  bodyClass="list-page projects-portfolio-page"
+>
+  <div class="projects-portfolio" data-project-portfolio>
+    <header class="projects-portfolio__header">
+      <div class="projects-portfolio__header-copy">
+        <p class="projects-portfolio__eyebrow">{labels.eyebrow}</p>
+        <h1>{section.data.title}</h1>
+        {section.data.description && <p class="projects-portfolio__description">{section.data.description}</p>}
+      </div>
+      <div class="projects-portfolio__meta" aria-live="polite">
+        <span><strong>{projects.length}</strong> {labels.projectCount} · <strong>{counts.game}</strong> {labels.gameCount}</span>
+        <span>{labels.showing} <strong data-project-visible-count>{projects.length}</strong> / {projects.length}</span>
+        {latestDate && <span class="projects-portfolio__latest">{labels.latest} · {latestDate}</span>}
+      </div>
+      <div class="projects-portfolio__filters" role="group" aria-label={labels.filterAria}>
+        {PROJECT_PORTFOLIO_FILTERS.map((filter) => (
+          <button
+            class:list={["projects-portfolio__filter", filter === "all" && "is-active"]}
+            type="button"
+            data-project-filter={filter}
+            aria-pressed={filter === "all" ? "true" : "false"}
+          >
+            <span>{labels.filters[filter as ProjectPortfolioFilter]}</span>
+            <strong>{counts[filter]}</strong>
+          </button>
+        ))}
+      </div>
+    </header>
+
+    <section class="projects-portfolio__section" data-project-section="core" data-project-section-root aria-labelledby="projects-core-title">
+      <div class="projects-portfolio__section-heading">
+        <div>
+          <p>{labels.coreEyebrow}</p>
+          <h2 id="projects-core-title">{labels.coreTitle}</h2>
+        </div>
+        <span>{labels.coreHint}</span>
+      </div>
+      <div class="projects-portfolio__core-grid">
+        {core.map((entry, index) => <ProjectPortfolioCard entry={entry} lang={lang} variant="core" priority={index === 0} />)}
+      </div>
+    </section>
+
+    <section class="projects-portfolio__section" data-project-section="archive" data-project-section-root aria-labelledby="projects-archive-title">
+      <div class="projects-portfolio__section-heading">
+        <div>
+          <p>{labels.archiveEyebrow}</p>
+          <h2 id="projects-archive-title">{labels.archiveTitle}</h2>
+        </div>
+        <span>{labels.archiveHint}</span>
+      </div>
+      <div class="projects-portfolio__archive-grid">
+        {archive.map((entry) => <ProjectPortfolioCard entry={entry} lang={lang} variant="archive" />)}
+      </div>
+    </section>
+
+    <p class="projects-portfolio__empty" data-project-filter-empty hidden>{labels.empty}</p>
+  </div>
+</BaseLayout>
+
+<script>
+  import { initProjectFilters } from "../scripts/projects-filter-client.js";
+
+  initProjectFilters();
+  document.addEventListener("astro:page-load", () => initProjectFilters());
+</script>
+
+<style>
+  .projects-portfolio__header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px 32px;
+    margin-bottom: clamp(36px, 4.5vw, 58px);
+    padding: clamp(8px, 2vw, 18px) 0 20px;
+    border-bottom: 1px solid var(--card-separator-color);
+  }
+
+  .projects-portfolio__header-copy {
+    min-width: 0;
+  }
+
+  .projects-portfolio__eyebrow,
+  .projects-portfolio__section-heading p {
+    margin: 0 0 6px;
+    color: var(--leftjun-primary);
+    font-size: 12px;
+    font-weight: 820;
+    line-height: 1.4;
+  }
+
+  .projects-portfolio__header h1 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 40px;
+    line-height: 1.1;
+    letter-spacing: 0;
+  }
+
+  .projects-portfolio__description {
+    max-width: 900px;
+    margin: 12px 0 0;
+    color: var(--card-text-color-secondary);
+    font-size: 16px;
+    line-height: 1.68;
+  }
+
+  .projects-portfolio__meta {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 5px;
+    padding-bottom: 2px;
+    color: var(--card-text-color-tertiary);
+    font-size: 13px;
+    line-height: 1.4;
+    white-space: nowrap;
+  }
+
+  .projects-portfolio__meta strong {
+    color: var(--card-text-color-main);
+    font-size: 18px;
+  }
+
+  .projects-portfolio__filters {
+    display: flex;
+    grid-column: 1 / -1;
+    flex-wrap: wrap;
+    gap: 9px;
+    padding-top: 2px;
+  }
+
+  .projects-portfolio__filter {
+    appearance: none;
+    display: inline-flex;
+    min-height: 42px;
+    align-items: center;
+    gap: 9px;
+    padding: 8px 12px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 10px;
+    background: var(--leftjun-surface-strong);
+    color: var(--card-text-color-secondary);
+    cursor: pointer;
+    font: inherit;
+    font-size: 13px;
+    font-weight: 740;
+    line-height: 1.2;
+    transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
+  }
+
+  .projects-portfolio__filter strong {
+    display: inline-grid;
+    min-width: 24px;
+    min-height: 24px;
+    place-items: center;
+    padding: 2px 6px;
+    border-radius: 8px;
+    background: var(--leftjun-surface-muted);
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+  }
+
+  .projects-portfolio__filter:hover,
+  .projects-portfolio__filter:focus-visible {
+    transform: translateY(-1px);
+    border-color: var(--leftjun-hover-border);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+  }
+
+  .projects-portfolio__filter.is-active {
+    border-color: transparent;
+    background: linear-gradient(135deg, #17365f, #2f72b8);
+    color: #fff;
+    box-shadow: 0 9px 22px rgba(23, 54, 95, 0.2);
+  }
+
+  .projects-portfolio__filter.is-active strong {
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+  }
+
+  .projects-portfolio__section + .projects-portfolio__section {
+    margin-top: clamp(44px, 5vw, 70px);
+  }
+
+  .projects-portfolio__section[hidden] {
+    display: none;
+  }
+
+  .projects-portfolio__section-heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 18px;
+    padding-bottom: 13px;
+    border-bottom: 1px solid var(--card-separator-color);
+  }
+
+  .projects-portfolio__section-heading h2 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 26px;
+    line-height: 1.22;
+    letter-spacing: 0;
+  }
+
+  .projects-portfolio__section-heading > span {
+    max-width: 560px;
+    color: var(--card-text-color-tertiary);
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: right;
+  }
+
+  .projects-portfolio__core-grid,
+  .projects-portfolio__archive-grid {
+    display: grid;
+    align-items: stretch;
+    gap: 16px;
+  }
+
+  .projects-portfolio__core-grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .projects-portfolio__archive-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .projects-portfolio__empty {
+    margin: 18px 0 0;
+    padding: 20px;
+    border: 1px dashed var(--card-separator-color);
+    border-radius: 16px;
+    color: var(--card-text-color-secondary);
+    font-size: 15px;
+    line-height: 1.5;
+    text-align: center;
+  }
+
+  @media (min-width: 768px) and (max-width: 1120px) {
+    .projects-portfolio__header h1 {
+      font-size: 34px;
+    }
+
+    .projects-portfolio__description {
+      font-size: 15px;
+    }
+
+    .projects-portfolio__section-heading h2 {
+      font-size: 24px;
+    }
+
+    .projects-portfolio__core-grid,
+    .projects-portfolio__archive-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (min-width: 1001px) and (max-width: 1180px) {
+    :global(body.projects-portfolio-page .home-topbar__search) {
+      display: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .projects-portfolio__header {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin-bottom: 10px;
+      padding: 0 0 6px;
+    }
+
+    .projects-portfolio__eyebrow,
+    .projects-portfolio__description,
+    .projects-portfolio__latest,
+    .projects-portfolio__section-heading > span {
+      display: none;
+    }
+
+    .projects-portfolio__header h1 {
+      font-size: 28px;
+      line-height: 1.12;
+    }
+
+    .projects-portfolio__meta {
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      gap: 4px 10px;
+      padding: 0;
+      font-size: 12px;
+      white-space: normal;
+    }
+
+    .projects-portfolio__meta strong {
+      font-size: 16px;
+    }
+
+    .projects-portfolio__filters {
+      width: calc(100% + 16px);
+      flex-wrap: nowrap;
+      gap: 7px;
+      margin-top: 3px;
+      padding: 3px 16px 3px 0;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scrollbar-width: none;
+    }
+
+    .projects-portfolio__filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .projects-portfolio__filter {
+      min-height: 44px;
+      flex: 0 0 auto;
+      padding: 8px 10px;
+    }
+
+    .projects-portfolio__section + .projects-portfolio__section {
+      margin-top: 32px;
+    }
+
+    .projects-portfolio__section-heading {
+      margin-bottom: 7px;
+      padding-bottom: 8px;
+    }
+
+    .projects-portfolio__section-heading p {
+      display: none;
+    }
+
+    .projects-portfolio__section-heading h2 {
+      font-size: 20px;
+    }
+
+    .projects-portfolio__core-grid,
+    .projects-portfolio__archive-grid {
+      grid-template-columns: 1fr;
+      gap: 14px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .projects-portfolio__filter {
+      transition: none;
+    }
+
+    .projects-portfolio__filter:hover,
+    .projects-portfolio__filter:focus-visible {
+      transform: none;
+    }
+  }
+</style>
