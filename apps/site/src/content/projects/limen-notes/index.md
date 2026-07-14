@@ -27,9 +27,11 @@ projectLinks:
   - label: "在线站点"
     url: "https://notes.leftjun.com"
     icon: "link"
+    kind: "site"
   - label: "GitHub 仓库"
     url: "https://github.com/Left-Jun/notes"
     icon: "brand-github"
+    kind: "source"
 tags:
   - "Web Development"
   - "Next.js"

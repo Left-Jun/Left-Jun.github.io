@@ -33,6 +33,7 @@ projectLinks:
   - label: "可执行版本"
     url: "https://pan.quark.cn/s/efcee623b3f4?pwd=TQCA"
     icon: "link"
+    kind: "playable"
 tags:
   - "Unity"
   - "团队项目"

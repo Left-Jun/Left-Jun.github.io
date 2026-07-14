@@ -41,7 +41,7 @@ export function sectionFieldPolicy(section) {
     detailsHint: isUpdate
       ? "资源按钮会自动填入封面字段；证据链接可填写演示、源码、视频或报告。"
       : isProject
-        ? "资源按钮会自动填入封面字段；JSON 字段主要给项目页补充团队、周期、链接等细节。"
+        ? "资源按钮会自动填入封面字段；链接 kind 可使用 playable / store / video / source / report / site / evidence。"
         : "资源按钮会自动填入封面字段。"
   };
 }

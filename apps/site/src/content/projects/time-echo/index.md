@@ -21,9 +21,11 @@ projectLinks:
   - label: "B站演示视频"
     url: "https://www.bilibili.com/video/BV1wUSmBfEnQ/"
     icon: "brand-bilibili"
+    kind: "video"
   - label: "可执行版本"
     url: "https://pan.quark.cn/s/7800338109ee?pwd=k8XM"
     icon: "link"
+    kind: "playable"
 tags:
   - "Narrative"
   - "Puzzle"

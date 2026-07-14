@@ -9,6 +9,7 @@ export const CONTENT_SECTIONS = ["projects", "posts", "retrospectives", "plans",
 export const LIST_SECTIONS = ["projects", "posts", "retrospectives", "plans", "updates"];
 export const CONTENT_STATUSES = ["planned", "in-progress", "completed", "paused", "archived"];
 export const UPDATE_KINDS = ["project", "event", "award", "training", "research", "release", "article"];
+export const PROJECT_LINK_KINDS = ["playable", "store", "video", "source", "report", "site", "evidence"];
 export const PORTFOLIO_TYPE_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const COLUMN_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const POST_COLUMN_IDS = ["technical"];
@@ -50,6 +51,10 @@ export function isKnownPostColumnId(value) {
   return POST_COLUMN_IDS.includes(String(value || ""));
 }
 
+export function isKnownProjectLinkKind(value) {
+  return PROJECT_LINK_KINDS.includes(String(value || ""));
+}
+
 export function isSafeProjectLink(value) {
   const candidate = String(value || "");
   if (!candidate || candidate !== candidate.trim() || /[\u0000-\u0020\u007f\\]/.test(candidate)) return false;
@@ -80,7 +85,8 @@ export const projectLinkSchema = z.strictObject({
   url: z.string().min(1).refine(isSafeProjectLink, {
     message: "Project links must use a site-relative, http, or https URL"
   }),
-  icon: z.string().optional()
+  icon: z.string().optional(),
+  kind: z.enum(PROJECT_LINK_KINDS).optional()
 });
 
 export const contentFrontMatterSchema = z.looseObject({
@@ -559,7 +565,9 @@ export async function validateContentRoot(contentRoot) {
             });
           }
         }
+      }
 
+      if (translations[0]?.section === "updates" || translations[0]?.section === "projects") {
         const evidenceLinks = translations.map((entry) => (
           Array.isArray(entry.frontMatter.projectLinks) ? entry.frontMatter.projectLinks : []
         ));
@@ -572,7 +580,7 @@ export async function validateContentRoot(contentRoot) {
         } else {
           const linkCount = linkCounts[0] || 0;
           for (let index = 0; index < linkCount; index += 1) {
-            for (const key of ["url", "icon"]) {
+            for (const key of ["url", "icon", "kind"]) {
               const values = evidenceLinks.map((links) => String(links[index]?.[key] || "").trim());
               if (new Set(values).size > 1) {
                 errors.push({

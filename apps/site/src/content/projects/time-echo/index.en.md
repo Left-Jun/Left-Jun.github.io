@@ -21,9 +21,11 @@ projectLinks:
   - label: "Bilibili demo video"
     url: "https://www.bilibili.com/video/BV1wUSmBfEnQ/"
     icon: "brand-bilibili"
+    kind: "video"
   - label: "Playable build"
     url: "https://pan.quark.cn/s/7800338109ee?pwd=k8XM"
     icon: "link"
+    kind: "playable"
 tags:
   - "Narrative"
   - "Puzzle"
