@@ -7,7 +7,9 @@ import test from "node:test";
 import {
   assetUrl,
   entryUrl,
+  isKnownPostColumnId,
   isSafeProjectLink,
+  isStableColumnId,
   isStablePortfolioType,
   languageFromPath,
   markdownToHtml,
@@ -79,6 +81,35 @@ test("update front matter accepts recruitment evidence and featured metadata", (
   assert.deepEqual(update.projectLinks, [
     { label: "Demo", url: "https://example.com/demo", icon: "display" }
   ]);
+});
+
+test("post front matter accepts explicit columns and featured metadata", () => {
+  const post = validateFrontMatter({
+    title: "Technical note",
+    columnIds: ["technical"],
+    featured: true,
+    featuredWeight: 4
+  }, { section: "posts" });
+
+  assert.deepEqual(post.columnIds, ["technical"]);
+  assert.equal(post.featured, true);
+  assert.equal(post.featuredWeight, 4);
+  assert.equal(isStableColumnId("gameplay-notes"), true);
+  assert.equal(isStableColumnId("Gameplay Notes"), false);
+  assert.equal(isKnownPostColumnId("technical"), true);
+  assert.equal(isKnownPostColumnId("gameplay-notes"), false);
+  assert.throws(() => validateFrontMatter({
+    title: "Invalid column",
+    columnIds: ["Technical"]
+  }, { section: "posts" }), /column IDs.*kebab-case/i);
+  assert.throws(() => validateFrontMatter({
+    title: "Unknown column",
+    columnIds: ["gameplay-notes"]
+  }, { section: "posts" }), /shared registry/i);
+  assert.throws(() => validateFrontMatter({
+    title: "Duplicate column",
+    columnIds: ["technical", "technical"]
+  }, { section: "posts" }), /must not contain duplicates/i);
 });
 
 test("project links reject executable and non-web URL schemes", () => {
@@ -299,6 +330,41 @@ test("update translations align featured metadata and evidence structure", async
   });
   assert.equal(changedIcon.ok, false);
   assert.match(changedIcon.errors.map((error) => error.message).join("\n"), /evidence link mismatch.*projectLinks\[1\]\.icon/i);
+});
+
+test("post translations align column and featured metadata", async (t) => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "leftjun-post-columns-"));
+  t.after(() => fs.rm(root, { recursive: true, force: true }));
+  const postDir = path.join(root, "posts", "technical-note");
+  await fs.mkdir(postDir, { recursive: true });
+
+  const zh = {
+    title: "技术笔记",
+    slug: "technical-note",
+    date: "2026-07-14",
+    columnIds: ["technical"],
+    featured: true,
+    featuredWeight: 3
+  };
+  const en = { ...zh, title: "Technical note" };
+  await fs.writeFile(path.join(postDir, "index.md"), stringifyMarkdown(zh, ""));
+  const enPath = path.join(postDir, "index.en.md");
+
+  async function validateEnglish(frontMatter) {
+    await fs.writeFile(enPath, stringifyMarkdown(frontMatter, ""));
+    return validateContentRoot(root);
+  }
+
+  assert.equal((await validateEnglish(en)).ok, true);
+  for (const [key, value] of [
+    ["columnIds", []],
+    ["featured", false],
+    ["featuredWeight", 8]
+  ]) {
+    const result = await validateEnglish({ ...en, [key]: value });
+    assert.equal(result.ok, false);
+    assert.match(result.errors.map((error) => error.message).join("\n"), new RegExp(`metadata mismatch.*${key}`, "i"));
+  }
 });
 
 test("content validation keeps bilingual cover video configuration in sync", async (t) => {

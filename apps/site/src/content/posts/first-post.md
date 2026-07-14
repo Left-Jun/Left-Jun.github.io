@@ -9,6 +9,8 @@ categories:
 tags:
   - "Astro"
   - "建站"
+columnIds:
+  - "technical"
 relatedPages:
   - "projects/emotion-mask"
   - "projects/ashe-lament"

@@ -23,8 +23,31 @@ test("editor labels and visibility follow the selected section", () => {
   const post = sectionFieldPolicy("posts");
   assert.equal(post.isProject, false);
   assert.equal(post.isUpdate, false);
-  assert.equal(post.showFeatured, false);
+  assert.equal(post.isPost, true);
+  assert.equal(post.showFeatured, true);
+  assert.equal(post.featuredLabel, "精选文章");
+  assert.equal(post.featuredWeightLabel, "精选文章权重");
   assert.equal(post.showLinks, false);
+});
+
+test("editor writes explicit post columns and featured metadata", () => {
+  const result = applySectionMetadata({
+    title: "Post",
+    kind: "article",
+    portfolioType: "game",
+    columnIds: ["stale-column"]
+  }, "posts", {
+    columnIds: [" technical ", "technical"],
+    featured: true,
+    featuredWeight: 2
+  });
+
+  assert.deepEqual(result, {
+    title: "Post",
+    columnIds: ["technical"],
+    featured: true,
+    featuredWeight: 2
+  });
 });
 
 test("editor keeps existing project metadata behavior", () => {

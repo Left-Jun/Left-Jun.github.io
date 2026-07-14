@@ -9,6 +9,8 @@ categories:
 tags:
   - "Astro"
   - "Site Building"
+columnIds:
+  - "technical"
 relatedPages:
   - "projects/emotion-mask"
   - "projects/ashe-lament"

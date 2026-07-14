@@ -45,6 +45,7 @@ export interface SiteEntryData {
   tags: string[];
   relatedPages: string[];
   roleTags: string[];
+  columnIds: string[];
   portfolioType?: string;
   projectFacts?: ProjectFacts;
   projectLinks?: ProjectLink[];

@@ -10,6 +10,8 @@ export const LIST_SECTIONS = ["projects", "posts", "retrospectives", "plans", "u
 export const CONTENT_STATUSES = ["planned", "in-progress", "completed", "paused", "archived"];
 export const UPDATE_KINDS = ["project", "event", "award", "training", "research", "release", "article"];
 export const PORTFOLIO_TYPE_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+export const COLUMN_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
+export const POST_COLUMN_IDS = ["technical"];
 export const SECTION_LABELS = {
   projects: { zh: "项目&作品集", en: "Projects & Portfolio" },
   posts: { zh: "文章", en: "Posts" },
@@ -38,6 +40,14 @@ export const projectFactsSchema = z.strictObject({
 
 export function isStablePortfolioType(value) {
   return PORTFOLIO_TYPE_PATTERN.test(String(value || ""));
+}
+
+export function isStableColumnId(value) {
+  return COLUMN_ID_PATTERN.test(String(value || ""));
+}
+
+export function isKnownPostColumnId(value) {
+  return POST_COLUMN_IDS.includes(String(value || ""));
 }
 
 export function isSafeProjectLink(value) {
@@ -108,6 +118,18 @@ export const contentFrontMatterSchema = z.looseObject({
   }
 });
 
+export const postFrontMatterSchema = contentFrontMatterSchema.safeExtend({
+  columnIds: z.array(z.string().refine(isStableColumnId, {
+    message: "Post column IDs must use lowercase kebab-case tokens"
+  }).refine(isKnownPostColumnId, {
+    message: "Post column IDs must reference the shared registry"
+  })).refine((values) => new Set(values).size === values.length, {
+    message: "Post column IDs must not contain duplicates"
+  }).optional().default([]),
+  featured: z.boolean().optional(),
+  featuredWeight: z.number().optional()
+});
+
 export const updateFrontMatterSchema = contentFrontMatterSchema.safeExtend({
   date: z.union([z.string(), z.date()]),
   description: z.string().min(1),
@@ -166,7 +188,7 @@ export function normalizeArray(value) {
 
 export function normalizeFrontMatter(input = {}) {
   const copy = { ...input };
-  for (const key of ["categories", "tags", "roleTags", "relatedPages"]) {
+  for (const key of ["categories", "tags", "roleTags", "relatedPages", "columnIds"]) {
     copy[key] = normalizeArray(copy[key]);
   }
   if (copy.projectFacts && typeof copy.projectFacts === "string") {
@@ -193,6 +215,8 @@ export function validateFrontMatter(frontMatter, { section = "posts", isSectionI
       ? projectFrontMatterSchema
       : section === "updates"
         ? updateFrontMatterSchema
+        : section === "posts"
+          ? postFrontMatterSchema
         : contentFrontMatterSchema;
   const result = schema.safeParse(normalizeFrontMatter(frontMatter));
   if (!result.success) {
@@ -497,6 +521,9 @@ export async function validateContentRoot(contentRoot) {
     }
     if (translations[0]?.section === "updates") {
       invariantKeys.push("kind", "featured", "featuredWeight");
+    }
+    if (translations[0]?.section === "posts") {
+      invariantKeys.push("columnIds", "featured", "featuredWeight");
     }
 
     if (translations.length === PUBLIC_LANGUAGES.length) {
