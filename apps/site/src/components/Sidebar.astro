@@ -3,7 +3,7 @@ import BrandLogo from "./BrandLogo.astro";
 import Icon from "./Icon.astro";
 import { config, siteText } from "../lib/content.js";
 
-const { lang = "zh-cn", active = "home" } = Astro.props;
+const { lang = "zh-cn", active = "", switchUrl = "" } = Astro.props;
 const isEn = lang === "en";
 const text = siteText(lang);
 const sidebar = text.sidebar;
@@ -59,6 +59,22 @@ const mobileMenuCopy = isEn
       open: "打开导航菜单",
       close: "关闭导航菜单"
     };
+const collapseCopy = isEn
+  ? {
+      collapseAria: "Collapse sidebar",
+      expandAria: "Expand sidebar",
+      collapse: "Collapse",
+      expand: "Expand"
+    }
+  : {
+      collapseAria: "收起侧栏",
+      expandAria: "展开侧栏",
+      collapse: "收起",
+      expand: "展开"
+    };
+const avatarAlt = isEn ? "Portrait of Left Jun" : "Left Jun 的个人头像";
+const socialLabel = isEn ? "Social links" : "社交链接";
+const languageSwitchUrl = switchUrl || text.switchUrl;
 const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
 ---
 <aside class="sidebar left-sidebar sticky is-expanded" id="site-sidebar">
@@ -82,7 +98,7 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
     <header>
       <figure class="site-avatar">
         <a href={text.homeUrl}>
-          <img class="site-logo" src={avatar} alt="Avatar" width="120" height="120" loading="eager" />
+          <img class="site-logo" src={avatar} alt={avatarAlt} width="120" height="120" loading="eager" />
         </a>
         <span class="emoji status-emoji" tabindex="0" aria-label={statusLabel || undefined}>
           {statusEmoji}
@@ -122,7 +138,7 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
     </header>
 
     {social.length > 0 && (
-      <ol class="menu-social" aria-label="social links">
+      <ol class="menu-social" aria-label={socialLabel}>
         {social.map((item) => (
           <li>
             <a href={item.url} target={item.newTab ? "_blank" : undefined} rel={item.newTab ? "me noopener noreferrer" : "me"} title={item.name}>
@@ -131,7 +147,7 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
           </li>
         ))}
         <li class="mobile-social-language">
-          <a href={text.switchUrl} title={text.switchLabel} aria-label={text.switchLabel} data-language-transition>
+          <a href={languageSwitchUrl} title={text.switchLabel} aria-label={text.switchLabel} data-language-transition>
             <Icon name="language" label="" />
             <span>{text.switchLabel}</span>
           </a>
@@ -179,7 +195,12 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
   <ol class="menu" id="main-menu">
     {menu.map((item) => (
       <li class:list={[activeMenu === item.identifier && "current"]}>
-        <a href={item.url} target={item.newTab ? "_blank" : undefined} rel={item.newTab ? "noopener noreferrer" : undefined}>
+        <a
+          href={item.url}
+          target={item.newTab ? "_blank" : undefined}
+          rel={item.newTab ? "noopener noreferrer" : undefined}
+          aria-current={activeMenu === item.identifier ? "page" : undefined}
+        >
           <span class="menu-icon" aria-hidden="true"><Icon name={item.icon} label="" /></span>
           <span class="menu-label">{item.name}</span>
         </a>
@@ -188,7 +209,7 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
   </ol>
 
   <div class="sidebar-bottom-actions">
-    <a id="i18n-switch" href={text.switchUrl} data-language-transition>
+    <a id="i18n-switch" href={languageSwitchUrl} data-language-transition>
       <span class="menu-icon" aria-hidden="true"><Icon name="language" label="" /></span>
       <span class="menu-label">{text.switchLabel}</span>
     </a>
@@ -208,13 +229,15 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
     <button
       id="sidebar-collapse-toggle"
       type="button"
-      data-expanded-label="收起侧栏"
-      data-collapsed-label="展开侧栏"
-      aria-label="收起侧栏"
+      data-expanded-label={collapseCopy.collapseAria}
+      data-collapsed-label={collapseCopy.expandAria}
+      data-expanded-short-label={collapseCopy.collapse}
+      data-collapsed-short-label={collapseCopy.expand}
+      aria-label={collapseCopy.collapseAria}
       aria-expanded="true"
     >
       <span class="menu-icon" aria-hidden="true"><Icon name="chevron-left" label="" /></span>
-      <span class="sidebar-collapse-toggle__label">收起</span>
+      <span class="sidebar-collapse-toggle__label">{collapseCopy.collapse}</span>
     </button>
   </div>
 </aside>
@@ -239,6 +262,7 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
     const applyTheme = (scheme) => {
       const isDark = scheme === "dark";
       root.dataset.scheme = scheme;
+      document.querySelector("#theme-color")?.setAttribute("content", isDark ? "#171b1a" : "#ebf5fc");
       themeButton?.setAttribute("data-scheme-state", scheme);
       if (themeLabel && themeButton) {
         themeLabel.textContent = isDark ? themeButton.dataset.lightLabel || "Light Mode" : themeButton.dataset.darkLabel || "Dark Mode";
@@ -271,11 +295,15 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
     const updateCollapseButton = (collapsed) => {
       if (!collapseButton) return;
       const label = collapsed
-        ? collapseButton.dataset.collapsedLabel || "展开侧栏"
-        : collapseButton.dataset.expandedLabel || "收起侧栏";
+        ? collapseButton.dataset.collapsedLabel || "Expand sidebar"
+        : collapseButton.dataset.expandedLabel || "Collapse sidebar";
       collapseButton.setAttribute("aria-label", label);
       collapseButton.setAttribute("aria-expanded", collapsed ? "false" : "true");
-      if (collapseLabel) collapseLabel.textContent = collapsed ? "展开" : "收起";
+      if (collapseLabel) {
+        collapseLabel.textContent = collapsed
+          ? collapseButton.dataset.collapsedShortLabel || "Expand"
+          : collapseButton.dataset.expandedShortLabel || "Collapse";
+      }
     };
 
     const setSidebarCollapsed = (collapsed, persist = true) => {

@@ -1,0 +1,86 @@
+/* Focus and legibility corrections for the persistent site shell. */
+.skip-link {
+  position: fixed;
+  top: 12px;
+  left: 12px;
+  z-index: 1000;
+  min-height: 44px;
+  display: inline-flex;
+  align-items: center;
+  padding: 0 16px;
+  border: 2px solid var(--leftjun-primary);
+  border-radius: 10px;
+  background: var(--leftjun-surface-strong);
+  box-shadow: var(--leftjun-surface-shadow);
+  color: var(--card-text-color-main);
+  font-size: 14px;
+  font-weight: 800;
+  transform: translateY(calc(-100% - 18px));
+  transition: transform 0.16s ease;
+}
+
+.skip-link:focus-visible {
+  outline: 3px solid color-mix(in srgb, var(--leftjun-primary) 45%, transparent);
+  outline-offset: 3px;
+  transform: translateY(0);
+}
+
+#main-content:focus {
+  outline: none;
+}
+
+.site-role-pill,
+.site-identity,
+.sidebar-portfolio-pdf a {
+  font-size: 12px;
+}
+
+.home-topbar__nav a,
+.home-topbar__search,
+.home-topbar__theme,
+.home-topbar__github,
+.home-topbar__portfolio-pdf {
+  min-height: 44px;
+}
+
+.home-topbar__theme,
+.home-topbar__github {
+  width: 44px;
+  height: 44px;
+}
+
+.home-topbar__nav a,
+.home-topbar__search input,
+.home-topbar__portfolio-pdf,
+.home-topbar__result-section,
+.home-topbar__result small,
+.home-topbar__result em,
+.home-topbar__empty {
+  font-size: 12px;
+}
+
+@media (max-width: 767px) {
+  .mobile-sidebar-search__field,
+  .mobile-sidebar-search__theme {
+    min-height: 44px;
+  }
+
+  .mobile-sidebar-search__theme {
+    width: 44px;
+    height: 44px;
+  }
+
+  .mobile-sidebar-search__result-section,
+  .mobile-sidebar-search__result-description,
+  .mobile-sidebar-search__result-tags,
+  .mobile-sidebar-search__empty,
+  .mobile-bottom-nav a {
+    font-size: 12px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skip-link {
+    transition: none;
+  }
+}

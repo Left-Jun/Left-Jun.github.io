@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Sidebar from "../components/Sidebar.astro";
 import SiteTopChrome from "../components/SiteTopChrome.astro";
 import { config, siteText } from "../lib/content.js";
+import { resolveLanguageSwitchUrl } from "../lib/navigation.js";
 import {
   buildAlternateLinks,
   buildStructuredData,
@@ -48,7 +49,7 @@ const {
   priorityImageSrcset = "",
   priorityImageSizes = "",
   priorityImageType = "",
-  active = "home",
+  active = "",
   bodyClass = "",
   canonicalUrl = "",
   alternateUrl = "",
@@ -98,12 +99,33 @@ const structuredDataJson = serializeJsonLd(structuredData);
 const rssUrl = lang === "en" ? "/en/feed.xml" : "/feed.xml";
 const footerText = text.isEn ? "Built with Astro" : "";
 const hasRightSidebar = Astro.slots.has("right-sidebar");
+const languageSwitchUrl = resolveLanguageSwitchUrl({
+  lang,
+  active,
+  alternateUrl,
+  alternatePath
+});
+const skipLinkLabel = text.isEn ? "Skip to main content" : "跳到主要内容";
 ---
 <!doctype html>
 <html lang={lang === "en" ? "en" : "zh-CN"}>
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta id="theme-color" name="theme-color" content="#ebf5fc" />
+    <script is:inline>
+      (() => {
+        const root = document.documentElement;
+        const preferred = matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+        let scheme = preferred;
+        try {
+          const saved = localStorage.getItem("LeftJunColorScheme") || localStorage.getItem("LeftJunAstroColorScheme");
+          if (saved === "dark" || saved === "light") scheme = saved;
+        } catch {}
+        root.dataset.scheme = scheme;
+        document.querySelector("#theme-color")?.setAttribute("content", scheme === "dark" ? "#171b1a" : "#ebf5fc");
+      })();
+    </script>
     <title>{pageTitle}</title>
     <meta name="description" content={pageDescription} />
     <meta name="keywords" content={(config.keywords || []).join(", ")} />
@@ -129,8 +151,6 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
     <meta name="twitter:image" content={pageImageUrl} />
     <meta name="twitter:image:alt" content={imageAlt} />
     <script type="application/ld+json" is:inline set:html={structuredDataJson}></script>
-    <meta name="theme-color" content="#ebf5fc" media="(prefers-color-scheme: light)" />
-    <meta name="theme-color" content="#171b1a" media="(prefers-color-scheme: dark)" />
     <script is:inline>
       (() => {
         try {
@@ -156,10 +176,11 @@ const hasRightSidebar = Astro.slots.has("right-sidebar");
     )}
   </head>
   <body class={bodyClass}>
+    <a class="skip-link" href="#main-content">{skipLinkLabel}</a>
     <div class="container main-container flex on-phone--column extended site-shell">
-      <Sidebar lang={lang} active={active} />
+      <Sidebar lang={lang} active={active} switchUrl={languageSwitchUrl} />
       <div class:list={["site-content-layout", hasRightSidebar && "has-right-sidebar"]}>
-        <main class="main full-width main-column">
+        <main class="main full-width main-column" id="main-content" tabindex="-1">
           <SiteTopChrome lang={lang} active={active} />
           <slot />
           <footer class="site-footer">
