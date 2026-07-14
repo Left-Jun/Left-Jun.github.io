@@ -12,8 +12,12 @@ const bootstrap = buildNotFoundBootstrap();
   description={initialCopy.description}
   active="not-found"
   bodyClass="not-found-page-body"
+  shellMode="minimal"
 >
-  <script is:inline set:html={bootstrap}></script>
+  <Fragment slot="head">
+    <meta name="robots" content="noindex, follow" />
+    <script is:inline set:html={bootstrap}></script>
+  </Fragment>
   <div class="not-found-page" data-not-found-page>
     {Object.values(NOT_FOUND_COPY).map((copy) => (
       <section
@@ -54,6 +58,10 @@ const bootstrap = buildNotFoundBootstrap();
 </script>
 
 <style>
+  :global(html body.not-found-page-body) {
+    padding-bottom: 0;
+  }
+
   .not-found-page {
     display: grid;
     min-height: clamp(420px, 62vh, 660px);

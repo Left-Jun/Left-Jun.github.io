@@ -8,10 +8,11 @@ import {
   notFoundLanguage
 } from "../src/lib/not-found.js";
 
-const [configSource, contactPage, notFoundPage, contactZh, contactEn] = await Promise.all([
+const [configSource, contactPage, notFoundPage, baseLayout, contactZh, contactEn] = await Promise.all([
   fs.readFile(new URL("../src/data/site-config.json", import.meta.url), "utf8"),
   fs.readFile(new URL("../src/components/ContactPage.astro", import.meta.url), "utf8"),
   fs.readFile(new URL("../src/pages/404.astro", import.meta.url), "utf8"),
+  fs.readFile(new URL("../src/layouts/BaseLayout.astro", import.meta.url), "utf8"),
   fs.readFile(new URL("../src/content/pages/contact.md", import.meta.url), "utf8"),
   fs.readFile(new URL("../src/content/pages/contact.en.md", import.meta.url), "utf8")
 ]);
@@ -51,9 +52,23 @@ test("404 bootstraps language and title before rendering localized panels", () =
   assert.match(bootstrap, /window\.location\.pathname/);
   assert.match(bootstrap, /root\.lang = copy\.htmlLang/);
   assert.match(bootstrap, /document\.title = copy\.documentTitle/);
+  assert.match(bootstrap, /meta\[name="description"\]/);
+  assert.match(bootstrap, /skipLink\.textContent = copy\.skipLabel/);
+  assert.match(notFoundPage, /<Fragment slot="head">/);
+  assert.match(notFoundPage, /<meta name="robots" content="noindex, follow" \/>/);
   assert.match(notFoundPage, /<script is:inline set:html=\{bootstrap\}><\/script>/);
+  assert.match(notFoundPage, /shellMode="minimal"/);
   assert.match(notFoundPage, /active="not-found"/);
   assert.match(notFoundPage, /data-not-found-back/);
   assert.match(notFoundPage, /copy\.homeUrl/);
   assert.match(notFoundPage, /copy\.projectsUrl/);
+  assert.match(baseLayout, /shellMode\?: "full" \| "minimal"/);
+  assert.match(baseLayout, /shellMode === "minimal"/);
+  assert.match(baseLayout, /<slot name="head" \/>/);
+});
+
+test("mobile contact prioritizes the email action above repeated supporting copy", () => {
+  assert.match(contactPage, /@media \(max-width: 767px\)[\s\S]*?\.contact-intro \{\s*display: none;/);
+  assert.match(contactPage, /@media \(max-width: 767px\)[\s\S]*?\.contact-eyebrow \{\s*display: none;/);
+  assert.match(contactPage, /@media \(max-width: 767px\)[\s\S]*?padding-bottom: 0;/);
 });

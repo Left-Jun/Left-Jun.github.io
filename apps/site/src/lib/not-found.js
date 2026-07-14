@@ -8,6 +8,7 @@ export const NOT_FOUND_COPY = Object.freeze({
     homeLabel: "返回首页",
     projectsLabel: "查看项目",
     backLabel: "返回上一页",
+    skipLabel: "跳到主要内容",
     homeUrl: "/",
     projectsUrl: "/projects/"
   }),
@@ -20,6 +21,7 @@ export const NOT_FOUND_COPY = Object.freeze({
     homeLabel: "Back home",
     projectsLabel: "View projects",
     backLabel: "Go back",
+    skipLabel: "Skip to main content",
     homeUrl: "/en/",
     projectsUrl: "/en/projects/"
   })
@@ -43,5 +45,14 @@ export function buildNotFoundBootstrap() {
     root.lang = copy.htmlLang;
     root.dataset.notFoundLanguage = language;
     document.title = copy.documentTitle;
+    document.querySelector('meta[name="description"]')?.setAttribute("content", copy.description);
+    document.querySelector('meta[property="og:title"]')?.setAttribute("content", copy.documentTitle);
+    document.querySelector('meta[property="og:description"]')?.setAttribute("content", copy.description);
+    const localizeSkipLink = () => {
+      const skipLink = document.querySelector(".skip-link");
+      if (skipLink) skipLink.textContent = copy.skipLabel;
+    };
+    if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", localizeSkipLink, { once: true });
+    else localizeSkipLink();
   })();`;
 }

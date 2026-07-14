@@ -37,6 +37,7 @@ interface Props {
   ogType?: OpenGraphType;
   creativeWork?: CreativeWorkInput;
   breadcrumbs?: BreadcrumbInput[];
+  shellMode?: "full" | "minimal";
 }
 
 const {
@@ -57,7 +58,8 @@ const {
   alternateLang,
   ogType,
   creativeWork,
-  breadcrumbs = []
+  breadcrumbs = [],
+  shellMode = "full"
 } = Astro.props as Props;
 
 const text = siteText(lang);
@@ -174,24 +176,33 @@ const skipLinkLabel = text.isEn ? "Skip to main content" : "跳到主要内容";
         fetchpriority="high"
       />
     )}
+    <slot name="head" />
   </head>
   <body class={bodyClass}>
     <a class="skip-link" href="#main-content">{skipLinkLabel}</a>
-    <div class="container main-container flex on-phone--column extended site-shell">
-      <Sidebar lang={lang} active={active} switchUrl={languageSwitchUrl} />
-      <div class:list={["site-content-layout", hasRightSidebar && "has-right-sidebar"]}>
-        <main class="main full-width main-column" id="main-content" tabindex="-1">
-          <SiteTopChrome lang={lang} active={active} />
+    {shellMode === "minimal" ? (
+      <div class="container main-container standalone-shell">
+        <main class="main full-width main-column standalone-main" id="main-content" tabindex="-1">
           <slot />
-          <footer class="site-footer">
-            <section class="copyright footer-single-line">
-              &copy; {new Date().getFullYear()} {config.title}{footerText && <span> · {footerText}</span>}
-            </section>
-          </footer>
         </main>
-        {hasRightSidebar && <slot name="right-sidebar" />}
       </div>
-    </div>
+    ) : (
+      <div class="container main-container flex on-phone--column extended site-shell">
+        <Sidebar lang={lang} active={active} switchUrl={languageSwitchUrl} />
+        <div class:list={["site-content-layout", hasRightSidebar && "has-right-sidebar"]}>
+          <main class="main full-width main-column" id="main-content" tabindex="-1">
+            <SiteTopChrome lang={lang} active={active} />
+            <slot />
+            <footer class="site-footer">
+              <section class="copyright footer-single-line">
+                &copy; {new Date().getFullYear()} {config.title}{footerText && <span> · {footerText}</span>}
+              </section>
+            </footer>
+          </main>
+          {hasRightSidebar && <slot name="right-sidebar" />}
+        </div>
+      </div>
+    )}
     <script is:inline>
       (() => {
         const root = document.documentElement;

@@ -19,6 +19,7 @@
   transition: transform 0.16s ease;
 }
 
+.skip-link:focus,
 .skip-link:focus-visible {
   outline: 3px solid color-mix(in srgb, var(--leftjun-primary) 45%, transparent);
   outline-offset: 3px;
@@ -27,6 +28,18 @@
 
 #main-content:focus {
   outline: none;
+}
+
+.standalone-shell {
+  --standalone-shell-padding: clamp(24px, 5vw, 64px);
+  display: grid;
+  min-height: 100vh;
+  padding: var(--standalone-shell-padding) 15px;
+}
+
+.standalone-shell > .standalone-main {
+  min-height: calc(100vh - (2 * var(--standalone-shell-padding)));
+  justify-content: center;
 }
 
 .site-role-pill,
