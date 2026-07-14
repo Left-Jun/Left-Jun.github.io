@@ -32,6 +32,8 @@ export interface SiteEntryData {
   updatedAt?: Date;
   status?: ContentStatus;
   kind?: UpdateKind;
+  contribution?: string;
+  result?: string;
   draft?: boolean;
   slug?: string;
   description?: string;
@@ -87,6 +89,19 @@ export interface SiteEntry {
   readingMinutes: number;
   formattedDate: string;
   [key: string]: unknown;
+}
+
+export type TimelineSource = "updates" | "projects" | "posts" | "retrospectives" | "plans";
+export type TimelineKind = UpdateKind | "retrospective" | "plan";
+export type TimelineFilterGroup = "project-progress" | "events-awards" | "learning-research" | "publishing-writing";
+
+export interface TimelineEntry extends SiteEntry {
+  timelineKind: TimelineKind;
+  source: TimelineSource;
+  monthKey: string;
+  year: string;
+  filterGroup: TimelineFilterGroup;
+  timelineRelatedEntries: SiteEntry[];
 }
 
 export interface SectionPage {
@@ -174,7 +189,7 @@ export function isEnglish(lang?: string | null): boolean;
 export function pageLanguage(entry: Pick<SiteEntry, "id">): SiteLanguage;
 export function getEntries(section: ContentSection, options?: EntryOptions): Promise<SiteEntry[]>;
 export function getAllEntries(options?: EntryOptions): Promise<SiteEntry[]>;
-export function getTimelineEntries(lang?: SiteLanguage): Promise<SiteEntry[]>;
+export function getTimelineEntries(lang?: SiteLanguage): Promise<TimelineEntry[]>;
 export function getEntryBySlug(section: ContentSection, slug: string, lang?: SiteLanguage): Promise<SiteEntry | undefined>;
 export function getPageBySlug(slug: string, lang?: SiteLanguage): Promise<SiteEntry | undefined>;
 export function getSectionPage(section: ContentSection, lang?: SiteLanguage): Promise<SiteEntry | SectionPage>;
