@@ -28,6 +28,7 @@ const facts = entry.data.projectFacts || {};
 const projectLinks: ProjectLink[] = entry.data.projectLinks || [];
 const tocItems: Array<{ depth: number; text: string; id: string }> = entry.toc || [];
 const isProject = entry.section === "projects";
+const isPost = entry.section === "posts";
 const isAboutPage = entry.section === "pages" && entry.slug === "about";
 const contactEntry = isAboutPage ? await getEntryBySlug("pages", "contact", lang) : null;
 const contactCardCta = text.isEn ? "Open contact page" : "查看完整联系页";
@@ -119,6 +120,11 @@ const projectSummaryItems = isProject ? [
   { label: text.isEn ? "Event" : "比赛", value: facts.event || facts.competition || String(facts.developmentTime || "").match(/（(.+?)）/)?.[1] },
   { label: text.isEn ? "Updated" : "更新时间", value: updatedAtText }
 ].filter((item) => item.value) : [];
+const articleBodyClass = isProject
+  ? "article-page project-detail-page"
+  : isPost
+    ? "article-page post-detail-page"
+    : "article-page";
 ---
 <BaseLayout
   lang={lang}
@@ -131,7 +137,7 @@ const projectSummaryItems = isProject ? [
   priorityImageSizes={priorityImageSrcset ? priorityImageSizes : undefined}
   priorityImageType={priorityImageType || undefined}
   active={active}
-  bodyClass={isProject ? "article-page project-detail-page" : "article-page"}
+  bodyClass={articleBodyClass}
   alternateUrl={alternateUrl}
   alternateLang={alternateEntry?.lang}
   ogType={isProject ? "website" : "article"}
@@ -151,8 +157,8 @@ const projectSummaryItems = isProject ? [
     { name: entry.data.title, url: entry.url }
   ]}
 >
-  <article class:list={["main-article", cover && "has-image"]} style={`--leftjun-language-transition-name: lj-article-${entry.section}-${entry.slug};`}>
-    <header class:list={["article-header", isProject && "project-detail-hero"]}>
+  <article class:list={["main-article", cover && "has-image", isPost && "post-detail-article"]} style={`--leftjun-language-transition-name: lj-article-${entry.section}-${entry.slug};`}>
+    <header class:list={["article-header", isProject && "project-detail-hero", isPost && "post-detail-hero"]}>
       {cover && (
         <div class="article-image">
           <CoverMedia
@@ -166,8 +172,9 @@ const projectSummaryItems = isProject ? [
           />
         </div>
       )}
-      <div class:list={["article-details", isProject && "project-detail-hero__details"]}>
+      <div class:list={["article-details", isProject && "project-detail-hero__details", isPost && "post-detail-hero__details"]}>
         {isProject && <p class="project-detail-kicker">{text.isEn ? "Project Case" : "项目案例"}</p>}
+        {isPost && <p class="content-detail-kicker">{sectionLabel}</p>}
         <h1 class="article-title">{entry.data.title}</h1>
         {entry.data.description && <h2 class="article-subtitle">{entry.data.description}</h2>}
         {isProject && projectPills.length > 0 && (

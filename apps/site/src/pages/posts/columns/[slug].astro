@@ -1,9 +1,7 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PostCard from "../../../components/PostCard.astro";
-import RightSidebar from "../../../components/RightSidebar.astro";
+import PostColumnPage from "../../../components/PostColumnPage.astro";
 import { getEntries, getSectionPage } from "../../../lib/content.js";
-import { getPostColumnBadgesBySlug, getPostColumns } from "../../../lib/post-columns.js";
+import { getPostColumns } from "../../../lib/post-columns.js";
 
 const lang = "zh-cn";
 
@@ -12,44 +10,17 @@ export async function getStaticPaths() {
   const posts = await getEntries("posts", { lang: pathLang });
   return getPostColumns(posts, pathLang).map((column) => ({
     params: { slug: column.id },
-    props: { column, posts }
+    props: { column }
   }));
 }
 
-const { column, posts } = Astro.props;
+const { column } = Astro.props;
 const section = await getSectionPage("posts", lang);
-const columnBadgesBySlug = getPostColumnBadgesBySlug(posts, [column]);
-const postColumnBadges = (entry: (typeof posts)[number]) => columnBadgesBySlug.get(entry.slug) || [];
-const pageTitle = `${column.pageTitle} - ${section.data.title}`;
 ---
-<BaseLayout lang={lang} title={pageTitle} description={column.description} alternatePath={`/en/posts/columns/${column.id}/`} active="posts" bodyClass="list-page posts-index-page posts-column-detail-page">
-  <header>
-    <h3 class="section-title">{column.backLabel}</h3>
-    <section class:list={["section-card", "posts-section-card", "posts-column-detail-hero", `posts-column-detail-hero--${column.accent}`]}>
-      <div class="section-details">
-        <a class="posts-column-detail-back" href="/posts/">{column.backLabel}</a>
-        <h3 class="section-count">{column.entries.length} {column.countSuffix}</h3>
-        <h1 class="section-term">{column.pageTitle}</h1>
-        <h2 class="section-description">{column.pageSubtitle}</h2>
-        <p class="posts-column-detail-description">{column.description}</p>
-      </div>
-    </section>
-  </header>
 
-  <section class="records-section posts-column-detail-list" aria-labelledby="column-posts-title">
-    <div class="records-section__header">
-      <div>
-        <p class="records-section__eyebrow">{column.eyebrow}</p>
-        <h2 id="column-posts-title">{column.allArticlesTitle}</h2>
-      </div>
-      <span>{column.entries.length}</span>
-    </div>
-    <div class="article-list--compact" id="posts-list" data-local-filter-list>
-      {column.entries.map((entry: (typeof posts)[number]) => <PostCard entry={entry} columnBadges={postColumnBadges(entry)} />)}
-    </div>
-  </section>
-
-  <Fragment slot="right-sidebar">
-    <RightSidebar lang={lang} entries={column.entries} />
-  </Fragment>
-</BaseLayout>
+<PostColumnPage
+  lang={lang}
+  section={section}
+  column={column}
+  alternatePath={`/en/posts/columns/${column.id}/`}
+/>
