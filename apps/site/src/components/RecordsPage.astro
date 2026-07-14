@@ -1,0 +1,209 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import ProjectRecordThread from "./ProjectRecordThread.astro";
+import RecordsControls from "./RecordsControls.astro";
+import {
+  buildProjectRecordThreads,
+  recordThreadStats,
+  recordViewCounts
+} from "../lib/project-records.js";
+import type { RecordView } from "../lib/project-records.js";
+import type { SiteEntry, SiteLanguage } from "../lib/content.js";
+
+interface Props {
+  lang: SiteLanguage;
+  title: string;
+  description: string;
+  alternatePath: string;
+  active?: "retrospectives" | "plans";
+  initialView?: RecordView;
+  projects?: SiteEntry[];
+  retrospectives?: SiteEntry[];
+  plans?: SiteEntry[];
+}
+
+const {
+  lang,
+  title,
+  description,
+  alternatePath,
+  active = "retrospectives",
+  initialView = "all",
+  projects = [],
+  retrospectives = [],
+  plans = []
+} = Astro.props as Props;
+const isEn = lang === "en";
+const threads = buildProjectRecordThreads({ projects, retrospectives, plans });
+const stats = recordThreadStats(threads);
+const counts = recordViewCounts(threads);
+const labels = {
+  eyebrow: initialView === "plans"
+    ? (isEn ? "Next validation" : "下一步验证")
+    : (isEn ? "Project learning" : "项目迭代档案"),
+  threads: isEn ? "project threads" : "个项目线程",
+  retrospectives: isEn ? "retrospectives" : "篇复盘",
+  plans: isEn ? "plans" : "份计划",
+  complete: isEn ? "complete loops" : "个完整闭环",
+  showing: isEn ? "Showing" : "当前显示",
+  empty: isEn ? "No project threads match this view." : "没有符合当前查看方式的项目线程。"
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={title}
+  description={description}
+  alternatePath={alternatePath}
+  active={active}
+  bodyClass={`list-page records-page records-page--${initialView}`}
+>
+  <header class="records-page-header">
+    <div class="records-page-header__copy">
+      <p class="records-page-header__eyebrow">{labels.eyebrow}</p>
+      <h1>{title}</h1>
+      <p class="records-page-header__description">{description}</p>
+    </div>
+    <div class="records-page-header__meta" aria-live="polite">
+      <span><strong>{stats.threads}</strong> {labels.threads}</span>
+      <span>{stats.retrospectives} {labels.retrospectives} · {stats.plans} {labels.plans}</span>
+      <span>{stats.complete} {labels.complete} · {labels.showing} <strong data-records-visible-count>{counts[initialView]}</strong></span>
+    </div>
+    <RecordsControls threads={threads} counts={counts} lang={lang} initialView={initialView} variant="inline" />
+  </header>
+
+  <div class="records-thread-list" data-records-root data-records-initial-view={initialView}>
+    {threads.map((thread) => <ProjectRecordThread thread={thread} lang={lang} initialView={initialView} />)}
+    <p class="records-page-empty" data-records-empty hidden={counts[initialView] > 0}>{labels.empty}</p>
+  </div>
+
+  {threads.length > 0 && (
+    <Fragment slot="right-sidebar">
+      <RecordsControls threads={threads} counts={counts} lang={lang} initialView={initialView} variant="sidebar" />
+    </Fragment>
+  )}
+</BaseLayout>
+
+<script>
+  import { initRecordsFilters } from "../scripts/records-filter-client.js";
+
+  initRecordsFilters();
+  document.addEventListener("astro:page-load", () => initRecordsFilters());
+</script>
+
+<style>
+  .records-page-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px 32px;
+    margin-bottom: 36px;
+    padding: 10px 0 20px;
+    border-bottom: 1px solid var(--card-separator-color);
+  }
+
+  .records-page-header__copy {
+    min-width: 0;
+  }
+
+  .records-page-header__eyebrow {
+    margin: 0 0 6px;
+    color: var(--leftjun-primary);
+    font-size: 13px;
+    font-weight: 820;
+    text-transform: uppercase;
+  }
+
+  .records-page-header h1 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 40px;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .records-page-header__description {
+    max-width: 928px;
+    margin: 12px 0 0;
+    color: var(--card-text-color-secondary);
+    font-size: 16px;
+    line-height: 1.68;
+  }
+
+  .records-page-header__meta {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 5px;
+    padding-bottom: 2px;
+    color: var(--card-text-color-tertiary);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .records-page-header__meta strong {
+    color: var(--card-text-color-main);
+    font-size: 18px;
+  }
+
+  .records-page-header :global(.records-inline-controls) {
+    grid-column: 1 / -1;
+  }
+
+  .records-thread-list {
+    display: grid;
+    gap: 40px;
+  }
+
+  .records-page-empty {
+    margin: 0;
+    padding: 20px;
+    border: 1px dashed var(--card-separator-color);
+    border-radius: 16px;
+    background: var(--leftjun-surface-muted);
+    color: var(--card-text-color-secondary);
+    font-size: 15px;
+    text-align: center;
+  }
+
+  @media (max-width: 1120px) {
+    .records-page-header h1 {
+      font-size: 34px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .records-page-header {
+      grid-template-columns: 1fr;
+      gap: 9px;
+      margin-bottom: 26px;
+      padding: 2px 0 13px;
+    }
+
+    .records-page-header h1 {
+      font-size: 28px;
+    }
+
+    .records-page-header__description {
+      display: -webkit-box;
+      margin-top: 8px;
+      overflow: hidden;
+      font-size: 15px;
+      line-height: 1.52;
+      -webkit-box-orient: vertical;
+      -webkit-line-clamp: 2;
+    }
+
+    .records-page-header__meta {
+      align-items: center;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      white-space: normal;
+    }
+
+    .records-page-header__meta span:nth-child(2) {
+      display: none;
+    }
+  }
+</style>

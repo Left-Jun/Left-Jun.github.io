@@ -1,31 +1,23 @@
 ---
-import BaseLayout from "../../../layouts/BaseLayout.astro";
-import PostCard from "../../../components/PostCard.astro";
-import RightSidebar from "../../../components/RightSidebar.astro";
+import RecordsPage from "../../../components/RecordsPage.astro";
 import { getEntries, getSectionPage } from "../../../lib/content.js";
-
-type ListingEntry = { [key: string]: unknown };
 
 const lang = "en";
 const section = await getSectionPage("plans", lang);
-const entries = await getEntries("plans", { lang }) as ListingEntry[];
+const [projects, retrospectives, plans] = await Promise.all([
+  getEntries("projects", { lang }),
+  getEntries("retrospectives", { lang }),
+  getEntries("plans", { lang })
+]);
 ---
-<BaseLayout lang={lang} title={section.data.title} description={section.data.description} alternatePath="/plans/" active="plans" bodyClass="list-page">
-  <header>
-    <h3 class="section-title">Development Plans</h3>
-    <section class="section-card">
-      <div class="section-details">
-        <h3 class="section-count">{entries.length} plans</h3>
-        <h1 class="section-term">{section.data.title}</h1>
-        <h2 class="section-description">{section.data.description}</h2>
-      </div>
-    </section>
-  </header>
-
-  <section class="article-list--compact" id="plans-list">
-    {entries.map((entry) => <PostCard entry={entry} />)}
-  </section>
-  <Fragment slot="right-sidebar">
-    <RightSidebar lang={lang} entries={entries} />
-  </Fragment>
-</BaseLayout>
+<RecordsPage
+  lang={lang}
+  title={section.data.title}
+  description={section.data.description || "Version plans, playtest feedback, risks, and the next validation goals."}
+  alternatePath="/plans/"
+  active="plans"
+  initialView="plans"
+  projects={projects}
+  retrospectives={retrospectives}
+  plans={plans}
+/>

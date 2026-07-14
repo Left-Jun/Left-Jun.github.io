@@ -1,0 +1,336 @@
+---
+import CoverMedia from "./CoverMedia.astro";
+import Icon from "./Icon.astro";
+import RecordPhaseCard from "./RecordPhaseCard.astro";
+import { recordThreadMatchesView, visibleRecordPhases } from "../lib/project-records.js";
+import type { ProjectRecordThread, RecordView } from "../lib/project-records.js";
+
+interface Props {
+  thread: ProjectRecordThread;
+  lang?: "zh-cn" | "en";
+  initialView?: RecordView;
+}
+
+const { thread, lang = "zh-cn", initialView = "all" } = Astro.props as Props;
+const isEn = lang === "en";
+const project = thread.project;
+const coverEntry = project?.data.image ? project : thread.fallbackEntry;
+const image = coverEntry?.data.image || "";
+const imageUrl = image ? coverEntry?.asset(image) || "" : "";
+const coverVideoUrl = coverEntry?.data.coverVideo ? coverEntry.asset(coverEntry.data.coverVideo) : "";
+const imagePosition = String(coverEntry?.data.imagePosition || "center");
+const facts = project?.data.projectFacts || {};
+const roles = project?.data.roleTags || [];
+const evidence = project?.data.projectLinks?.[0] || null;
+const phaseVisibility = visibleRecordPhases(thread, initialView);
+const threadVisible = recordThreadMatchesView(thread, initialView);
+const labels = {
+  eyebrow: isEn ? "Project thread" : "项目线程",
+  project: isEn ? "View project" : "查看项目",
+  evidence: isEn ? "Open evidence" : "查看成果证据",
+  unlinked: isEn ? "Independent record" : "独立记录",
+  duration: isEn ? "Duration" : "周期",
+  team: isEn ? "Team" : "团队",
+  tools: isEn ? "Tools" : "工具"
+};
+const projectFacts = [
+  { label: labels.duration, value: facts.duration || facts.developmentTime },
+  { label: labels.team, value: facts.team },
+  { label: labels.tools, value: facts.tools }
+].filter((item) => item.value);
+---
+
+<section
+  class:list={["record-thread", thread.isComplete && "record-thread--complete", !thread.project && "record-thread--unlinked"]}
+  id={thread.anchorId}
+  data-record-thread
+  data-has-retrospective={String(thread.hasRetrospective)}
+  data-has-plan={String(thread.hasPlan)}
+  hidden={!threadVisible}
+>
+  <header class:list={["record-thread__project", image && "record-thread__project--has-media"]}>
+    {image && (
+      <a class="record-thread__media" href={project?.url || thread.fallbackEntry?.url} aria-label={thread.title} tabindex="-1">
+        <CoverMedia
+          imageSrc={imageUrl}
+          videoSrc={coverVideoUrl}
+          alt=""
+          sizes="(max-width: 767px) 112px, 240px"
+          loading="lazy"
+          style={`object-position: ${imagePosition};`}
+        />
+      </a>
+    )}
+    <div class="record-thread__summary">
+      <p class="record-thread__eyebrow">{project ? labels.eyebrow : labels.unlinked}</p>
+      <h2>{project ? <a href={project.url}>{thread.title}</a> : thread.title}</h2>
+      {roles.length > 0 && (
+        <div class="record-thread__roles" aria-label={isEn ? "Roles" : "项目角色"}>
+          {roles.slice(0, 3).map((role) => <span>{role}</span>)}
+        </div>
+      )}
+      {projectFacts.length > 0 && (
+        <dl class="record-thread__facts" aria-label={isEn ? "Project facts" : "项目事实"}>
+          {projectFacts.map((item) => (
+            <div>
+              <dt>{item.label}</dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      )}
+      {facts.result && <p class="record-thread__result">{facts.result}</p>}
+      {(project || evidence) && (
+        <div class="record-thread__actions">
+          {project && <a href={project.url}><Icon name="briefcase" />{labels.project}</a>}
+          {evidence && (
+            <a href={evidence.url} target="_blank" rel="noopener noreferrer">
+              <Icon name={evidence.icon || "link"} />{evidence.label || labels.evidence}<span aria-hidden="true">↗</span>
+            </a>
+          )}
+        </div>
+      )}
+    </div>
+  </header>
+
+  <div class:list={["record-thread__phases", thread.retrospectives.length + thread.plans.length === 1 && "record-thread__phases--single"]}>
+    {thread.retrospectives.map((entry) => (
+      <RecordPhaseCard entry={entry} phase="retrospectives" lang={lang} hidden={!phaseVisibility.retrospectives} />
+    ))}
+    {thread.plans.map((entry) => (
+      <RecordPhaseCard entry={entry} phase="plans" lang={lang} hidden={!phaseVisibility.plans} />
+    ))}
+  </div>
+</section>
+
+<style>
+  .record-thread {
+    display: grid;
+    gap: 18px;
+    scroll-margin-top: calc(var(--main-top-padding) + 16px);
+  }
+
+  .record-thread + .record-thread {
+    padding-top: 40px;
+    border-top: 1px solid var(--card-separator-color);
+  }
+
+  .record-thread__project {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 18px;
+    align-items: center;
+  }
+
+  .record-thread__project--has-media {
+    grid-template-columns: minmax(180px, 240px) minmax(0, 1fr);
+  }
+
+  .record-thread__media {
+    display: block;
+    overflow: hidden;
+    border-radius: 16px;
+    background: var(--leftjun-surface-muted);
+    aspect-ratio: 16 / 10;
+    box-shadow: var(--shadow-l1);
+  }
+
+  .record-thread__media :global(picture),
+  .record-thread__media :global(img),
+  .record-thread__media :global(video) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .record-thread__media :global(img),
+  .record-thread__media :global(video) {
+    object-fit: cover;
+  }
+
+  .record-thread__summary {
+    min-width: 0;
+  }
+
+  .record-thread__eyebrow {
+    margin: 0 0 5px;
+    color: var(--leftjun-primary);
+    font-size: 13px;
+    font-weight: 800;
+    text-transform: uppercase;
+  }
+
+  .record-thread h2 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 30px;
+    line-height: 1.16;
+    letter-spacing: 0;
+  }
+
+  .record-thread h2 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .record-thread h2 a:hover,
+  .record-thread h2 a:focus-visible {
+    color: var(--leftjun-primary);
+  }
+
+  .record-thread__roles {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 10px;
+  }
+
+  .record-thread__roles span {
+    padding: 5px 9px;
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--leftjun-primary) 10%, var(--leftjun-surface-muted));
+    color: var(--leftjun-primary);
+    font-size: 12px;
+    font-weight: 720;
+  }
+
+  .record-thread__result {
+    display: -webkit-box;
+    max-width: 928px;
+    margin: 11px 0 0;
+    overflow: hidden;
+    color: var(--card-text-color-secondary);
+    font-size: 15px;
+    line-height: 1.58;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .record-thread__facts {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 16px;
+    margin: 11px 0 0;
+    padding: 0;
+  }
+
+  .record-thread__facts div {
+    display: inline-flex;
+    min-width: 0;
+    align-items: baseline;
+    gap: 6px;
+  }
+
+  .record-thread__facts dt {
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    font-weight: 720;
+  }
+
+  .record-thread__facts dd {
+    margin: 0;
+    color: var(--card-text-color-secondary);
+    font-size: 14px;
+    font-weight: 650;
+    line-height: 1.4;
+  }
+
+  .record-thread__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 9px;
+    margin-top: 13px;
+  }
+
+  .record-thread__actions a {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 36px;
+    padding: 7px 11px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 10px;
+    background: var(--leftjun-surface-strong);
+    color: var(--card-text-color-secondary);
+    font-size: 13px;
+    font-weight: 720;
+    text-decoration: none;
+  }
+
+  .record-thread__actions a:hover,
+  .record-thread__actions a:focus-visible {
+    border-color: var(--leftjun-hover-border);
+    background: var(--leftjun-hover-surface);
+    color: var(--leftjun-primary);
+  }
+
+  .record-thread__actions :global(.inline-icon) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .record-thread__phases {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .record-thread__phases--single {
+    grid-template-columns: minmax(0, 0.72fr);
+  }
+
+  @media (max-width: 900px) {
+    .record-thread__phases,
+    .record-thread__phases--single {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 1120px) and (min-width: 768px) {
+    .record-thread h2 {
+      font-size: 26px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .record-thread {
+      gap: 14px;
+    }
+
+    .record-thread + .record-thread {
+      padding-top: 27px;
+    }
+
+    .record-thread__project--has-media {
+      grid-template-columns: 112px minmax(0, 1fr);
+      gap: 13px;
+      align-items: start;
+    }
+
+    .record-thread h2 {
+      font-size: 22px;
+    }
+
+    .record-thread__result {
+      font-size: 14px;
+      -webkit-line-clamp: 2;
+    }
+
+    .record-thread__facts {
+      gap: 5px 12px;
+      margin-top: 9px;
+    }
+
+    .record-thread__facts dd {
+      font-size: 13px;
+    }
+
+    .record-thread__roles span:nth-child(n + 3) {
+      display: none;
+    }
+
+    .record-thread__actions {
+      grid-column: 1 / -1;
+    }
+  }
+</style>
