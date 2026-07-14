@@ -1,0 +1,317 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import PostColumnCard from "./PostColumnCard.astro";
+import PostEntryCard from "./PostEntryCard.astro";
+import PostFilters from "./PostFilters.astro";
+import {
+  buildPostFilterOptions,
+  getPostColumnLinksBySlug,
+  shouldShowPostFilters,
+  splitPostsForIndex
+} from "../lib/post-columns.js";
+import type { SectionPage, SiteEntry, SiteLanguage } from "../lib/content.js";
+
+interface Props {
+  lang: SiteLanguage;
+  section: SiteEntry | SectionPage;
+  posts: SiteEntry[];
+  alternatePath: string;
+}
+
+const { lang, section, posts, alternatePath } = Astro.props as Props;
+const isEn = lang === "en";
+const { spotlight, columns, archive } = splitPostsForIndex(posts, lang);
+const columnLinksBySlug = getPostColumnLinksBySlug(posts, columns);
+const filterOptions = buildPostFilterOptions(archive, lang);
+const showFilters = shouldShowPostFilters(archive, filterOptions);
+const latest = posts[0];
+const labels = {
+  eyebrow: isEn ? "Writing archive" : "写作档案",
+  articles: isEn ? (posts.length === 1 ? "article" : "articles") : "篇文章",
+  columns: isEn ? (columns.length === 1 ? "column" : "columns") : "个专栏",
+  latest: isEn ? "Latest" : "最近更新",
+  spotlightEyebrow: isEn ? "Start here" : "优先阅读",
+  spotlight: isEn ? "Featured article" : "精选文章",
+  spotlightHint: isEn ? "A substantial recent note with direct project context" : "优先了解的近期长文与项目记录",
+  columnsEyebrow: isEn ? "Writing paths" : "持续主题",
+  columnsTitle: isEn ? "Columns" : "专栏",
+  columnsHint: isEn ? "Focused collections that grow over time" : "按长期主题持续积累的文章集合",
+  archiveEyebrow: isEn ? "Chronology" : "按时间阅读",
+  archiveTitle: isEn ? "Article archive" : "文章归档",
+  archiveHint: isEn ? "All remaining writing, newest first" : "其余文章按发布时间从新到旧排列",
+  showing: isEn ? "Showing" : "当前显示",
+  empty: isEn ? "No articles match these archive filters." : "没有符合当前筛选条件的文章。",
+  initialEmpty: isEn ? "New writing is being prepared." : "新的文章正在整理中。"
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={section.data.title}
+  description={section.data.description}
+  alternatePath={alternatePath}
+  active="posts"
+  bodyClass="list-page posts-index-page posts-refresh-page"
+>
+  <header class="posts-page-header">
+    <div>
+      <p class="posts-page-header__eyebrow">{labels.eyebrow}</p>
+      <h1>{section.data.title}</h1>
+      {section.data.description && <p class="posts-page-header__description">{section.data.description}</p>}
+    </div>
+    <div class="posts-page-header__meta">
+      <span><strong>{posts.length}</strong> {labels.articles} · <strong>{columns.length}</strong> {labels.columns}</span>
+      {latest?.formattedDate && <span>{labels.latest} · {latest.formattedDate}</span>}
+    </div>
+  </header>
+
+  {spotlight && (
+    <section class="posts-block posts-spotlight" aria-labelledby="posts-spotlight-title">
+      <div class="posts-block__heading">
+        <div>
+          <p>{labels.spotlightEyebrow}</p>
+          <h2 id="posts-spotlight-title">{labels.spotlight}</h2>
+        </div>
+        <span>{labels.spotlightHint}</span>
+      </div>
+      <PostEntryCard
+        entry={spotlight}
+        lang={lang}
+        variant="spotlight"
+        columnLinks={columnLinksBySlug.get(spotlight.slug) || []}
+      />
+    </section>
+  )}
+
+  {columns.length > 0 && (
+    <section class="posts-block posts-columns" aria-labelledby="posts-columns-title">
+      <div class="posts-block__heading">
+        <div>
+          <p>{labels.columnsEyebrow}</p>
+          <h2 id="posts-columns-title">{labels.columnsTitle}</h2>
+        </div>
+        <span>{labels.columnsHint}</span>
+      </div>
+      <div class="posts-columns__grid">
+        {columns.map((column) => <PostColumnCard column={column} lang={lang} />)}
+      </div>
+    </section>
+  )}
+
+  {archive.length > 0 ? (
+    <section class="posts-block posts-archive" data-posts-archive-root aria-labelledby="posts-archive-title">
+      <div class="posts-block__heading posts-archive__heading">
+        <div>
+          <p>{labels.archiveEyebrow}</p>
+          <h2 id="posts-archive-title">{labels.archiveTitle}</h2>
+        </div>
+        <span>{labels.archiveHint}</span>
+        <strong class="posts-archive__count"><span data-post-filter-visible-count>{archive.length}</span> / {archive.length}</strong>
+      </div>
+      {showFilters && <PostFilters columns={filterOptions.columns} years={filterOptions.years} lang={lang} total={archive.length} variant="inline" />}
+      <div class="posts-archive__list">
+        {archive.map((entry) => (
+          <PostEntryCard
+            entry={entry}
+            lang={lang}
+            columnLinks={columnLinksBySlug.get(entry.slug) || []}
+          />
+        ))}
+      </div>
+      <p class="posts-archive__empty" data-post-filter-empty hidden>{labels.empty}</p>
+    </section>
+  ) : !spotlight ? (
+    <p class="posts-archive__empty">{labels.initialEmpty}</p>
+  ) : null}
+
+  {showFilters && (
+    <Fragment slot="right-sidebar">
+      <PostFilters columns={filterOptions.columns} years={filterOptions.years} lang={lang} total={archive.length} variant="sidebar" />
+    </Fragment>
+  )}
+</BaseLayout>
+
+<script>
+  import { initPostFilters } from "../scripts/posts-filter-client.js";
+
+  initPostFilters();
+  document.addEventListener("astro:page-load", () => initPostFilters());
+</script>
+
+<style>
+  .posts-page-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 16px 32px;
+    margin-bottom: clamp(38px, 5vw, 64px);
+    padding: clamp(8px, 2vw, 19px) 0 22px;
+    border-bottom: 1px solid var(--card-separator-color);
+  }
+
+  .posts-page-header__eyebrow {
+    margin: 0 0 7px;
+    color: var(--leftjun-primary);
+    font-size: 13px;
+    font-weight: 820;
+  }
+
+  .posts-page-header h1 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 40px;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .posts-page-header__description {
+    max-width: 928px;
+    margin: 13px 0 0;
+    color: var(--card-text-color-secondary);
+    line-height: 1.7;
+  }
+
+  .posts-page-header__meta {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    padding-bottom: 2px;
+    color: var(--card-text-color-tertiary);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .posts-page-header__meta strong {
+    color: var(--card-text-color-main);
+    font-size: 20px;
+  }
+
+  .posts-block + .posts-block {
+    margin-top: clamp(42px, 5vw, 72px);
+  }
+
+  .posts-block__heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 20px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid var(--card-separator-color);
+  }
+
+  .posts-block__heading p {
+    margin: 0 0 5px;
+    color: var(--leftjun-primary);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .posts-block__heading h2 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 26px;
+    line-height: 1.25;
+    letter-spacing: 0;
+  }
+
+  .posts-block__heading > span {
+    max-width: 496px;
+    color: var(--card-text-color-tertiary);
+    font-size: 13px;
+    line-height: 1.5;
+    text-align: right;
+  }
+
+  .posts-columns__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+    gap: 16px;
+  }
+
+  .posts-columns__grid > :only-child {
+    max-width: 720px;
+  }
+
+  .posts-archive__heading {
+    position: relative;
+    padding-right: 72px;
+  }
+
+  .posts-archive__count {
+    position: absolute;
+    right: 0;
+    bottom: 14px;
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+  }
+
+  .posts-archive__list {
+    display: grid;
+    gap: 16px;
+    margin-top: 16px;
+  }
+
+  .posts-archive__empty {
+    margin: 16px 0 0;
+    padding: 19px;
+    border: 1px dashed var(--card-separator-color);
+    border-radius: 16px;
+    color: var(--card-text-color-secondary);
+    text-align: center;
+  }
+
+  @media (min-width: 768px) and (max-width: 1180px) {
+    .posts-page-header h1 {
+      font-size: 34px;
+    }
+
+    .posts-block__heading h2 {
+      font-size: 24px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .posts-page-header {
+      grid-template-columns: 1fr;
+      gap: 5px;
+      margin-bottom: 14px;
+      padding: 0 0 7px;
+    }
+
+    .posts-page-header__eyebrow,
+    .posts-page-header__description,
+    .posts-page-header__meta > span:last-child,
+    .posts-block__heading > span {
+      display: none;
+    }
+
+    .posts-page-header h1 {
+      font-size: 28px;
+    }
+
+    .posts-page-header__meta {
+      align-items: flex-start;
+      font-size: 12px;
+      white-space: normal;
+    }
+
+    .posts-page-header__meta strong {
+      font-size: 16px;
+    }
+
+    .posts-block + .posts-block {
+      margin-top: 32px;
+    }
+
+    .posts-block__heading {
+      margin-bottom: 12px;
+      padding-bottom: 9px;
+    }
+
+    .posts-block__heading h2 {
+      font-size: 20px;
+    }
+  }
+</style>

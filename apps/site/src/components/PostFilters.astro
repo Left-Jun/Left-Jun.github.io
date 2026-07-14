@@ -1,0 +1,243 @@
+---
+import Icon from "./Icon.astro";
+import type { PostFilterOption } from "../lib/post-columns.js";
+
+interface Props {
+  columns?: PostFilterOption[];
+  years?: PostFilterOption[];
+  lang?: "zh-cn" | "en";
+  variant?: "inline" | "sidebar";
+  total?: number;
+}
+
+const {
+  columns = [],
+  years = [],
+  lang = "zh-cn",
+  variant = "inline",
+  total = 0
+} = Astro.props as Props;
+const isEn = lang === "en";
+const showColumns = columns.length > 1;
+const showYears = years.length > 1;
+const labels = {
+  column: isEn ? "Column" : "专栏",
+  year: isEn ? "Year" : "年份",
+  allColumns: isEn ? "All writing" : "全部文章",
+  allYears: isEn ? "All years" : "全部年份",
+  columnAria: isEn ? "Filter the article archive by column" : "按专栏筛选文章归档",
+  yearAria: isEn ? "Filter the article archive by year" : "按年份筛选文章归档"
+};
+---
+
+{variant === "sidebar" ? (
+  <aside class="sidebar right-sidebar sticky posts-filter-sidebar" data-post-filter-controls>
+    {showColumns && (
+      <section class="widget posts-filter-widget">
+        <div class="widget-icon" aria-hidden="true"><Icon name="categories" label="" /></div>
+        <h2 class="widget-title section-title">{labels.column}</h2>
+        <div class="posts-filter-list" role="group" aria-label={labels.columnAria}>
+          <button class="posts-filter-button is-active" type="button" data-post-filter-axis="column" data-post-filter-value="all" aria-pressed="true">
+            <span>{labels.allColumns}</span><small>{total}</small>
+          </button>
+          {columns.map((option) => (
+            <button class="posts-filter-button" type="button" data-post-filter-axis="column" data-post-filter-value={option.value} aria-pressed="false">
+              <span>{option.label}</span><small>{option.count}</small>
+            </button>
+          ))}
+        </div>
+      </section>
+    )}
+    {showYears && (
+      <section class="widget posts-filter-widget">
+        <div class="widget-icon" aria-hidden="true"><Icon name="date" label="" /></div>
+        <h2 class="widget-title section-title">{labels.year}</h2>
+        <div class="posts-filter-list" role="group" aria-label={labels.yearAria}>
+          <button class="posts-filter-button is-active" type="button" data-post-filter-axis="year" data-post-filter-value="all" aria-pressed="true">
+            <span>{labels.allYears}</span><small>{total}</small>
+          </button>
+          {years.map((option) => (
+            <button class="posts-filter-button" type="button" data-post-filter-axis="year" data-post-filter-value={option.value} aria-pressed="false">
+              <span>{option.label}</span><small>{option.count}</small>
+            </button>
+          ))}
+        </div>
+      </section>
+    )}
+  </aside>
+) : (
+  <div class="posts-inline-filters" data-post-filter-controls>
+    {showColumns && (
+      <div class="posts-inline-filter-group" role="group" aria-label={labels.columnAria}>
+        <span class="posts-inline-filter-label">{labels.column}</span>
+        <button class="posts-filter-chip is-active" type="button" data-post-filter-axis="column" data-post-filter-value="all" aria-pressed="true">{labels.allColumns}<small>{total}</small></button>
+        {columns.map((option) => (
+          <button class="posts-filter-chip" type="button" data-post-filter-axis="column" data-post-filter-value={option.value} aria-pressed="false">{option.label}<small>{option.count}</small></button>
+        ))}
+      </div>
+    )}
+    {showYears && (
+      <div class="posts-inline-filter-group" role="group" aria-label={labels.yearAria}>
+        <span class="posts-inline-filter-label">{labels.year}</span>
+        <button class="posts-filter-chip is-active" type="button" data-post-filter-axis="year" data-post-filter-value="all" aria-pressed="true">{labels.allYears}<small>{total}</small></button>
+        {years.map((option) => (
+          <button class="posts-filter-chip" type="button" data-post-filter-axis="year" data-post-filter-value={option.value} aria-pressed="false">{option.label}<small>{option.count}</small></button>
+        ))}
+      </div>
+    )}
+  </div>
+)}
+
+<style>
+  .posts-inline-filters {
+    display: none;
+    gap: 11px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px solid var(--card-separator-color);
+  }
+
+  .posts-inline-filter-group {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .posts-inline-filter-label {
+    min-width: 51px;
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    font-weight: 760;
+  }
+
+  .posts-filter-chip,
+  .posts-filter-button {
+    appearance: none;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 10px;
+    background: var(--leftjun-surface-strong);
+    color: var(--card-text-color-secondary);
+    cursor: pointer;
+    font: inherit;
+    transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
+  }
+
+  .posts-filter-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 13px;
+    flex: 0 0 auto;
+  }
+
+  .posts-filter-chip small,
+  .posts-filter-button small {
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .posts-filter-chip:hover,
+  .posts-filter-chip:focus-visible,
+  .posts-filter-button:hover,
+  .posts-filter-button:focus-visible {
+    transform: translateY(var(--leftjun-hover-lift));
+    border-color: var(--leftjun-hover-border);
+    background: var(--leftjun-hover-surface);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+    color: var(--leftjun-hover-accent);
+  }
+
+  .posts-filter-chip:focus-visible,
+  .posts-filter-button:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--leftjun-primary) 28%, transparent);
+    outline-offset: 2px;
+  }
+
+  .posts-filter-chip.is-active,
+  .posts-filter-button.is-active {
+    border-color: color-mix(in srgb, var(--leftjun-primary) 48%, var(--card-separator-color));
+    background: color-mix(in srgb, var(--leftjun-primary) 13%, var(--leftjun-surface-strong));
+    color: var(--leftjun-primary);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--leftjun-primary) 10%, transparent);
+    font-weight: 760;
+  }
+
+  .posts-filter-sidebar {
+    overflow: visible;
+  }
+
+  .posts-filter-widget {
+    overflow: visible;
+    border-radius: 22px;
+  }
+
+  .posts-filter-list {
+    display: grid;
+    gap: 6px;
+  }
+
+  .posts-filter-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    min-height: 48px;
+    padding: 11px 12px;
+    text-align: left;
+  }
+
+  @media (max-width: 1360px) {
+    .posts-inline-filters {
+      display: grid;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .posts-inline-filters {
+      display: flex;
+      gap: 16px;
+      margin-top: 7px;
+      padding: 9px 2px 2px;
+      overflow-x: auto;
+      overscroll-behavior-inline: contain;
+      scrollbar-width: none;
+    }
+
+    .posts-inline-filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .posts-inline-filter-group {
+      flex: 0 0 auto;
+      flex-wrap: nowrap;
+      min-height: 40px;
+      gap: 6px;
+    }
+
+    .posts-inline-filter-label {
+      flex: 0 0 auto;
+      min-width: auto;
+      min-height: 40px;
+      padding: 10px 2px 9px 0;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .posts-filter-chip,
+    .posts-filter-button {
+      transition: none;
+    }
+
+    .posts-filter-chip:hover,
+    .posts-filter-chip:focus-visible,
+    .posts-filter-button:hover,
+    .posts-filter-button:focus-visible {
+      transform: none;
+    }
+  }
+</style>

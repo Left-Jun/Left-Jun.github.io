@@ -109,6 +109,7 @@ function updateSectionFields(section) {
     ["contributionGroup", policy.isUpdate],
     ["resultGroup", policy.isUpdate],
     ["portfolioTypeGroup", policy.isProject],
+    ["columnIdsGroup", policy.isPost],
     ["featuredGroup", policy.showFeatured],
     ["featuredWeightGroup", policy.showFeatured],
     ["homeHeroWeightGroup", policy.isProject],
@@ -343,6 +344,7 @@ function fillForm(entry) {
   $("#imageField").value = fm.image || "";
   $("#coverVideoField").value = fm.coverVideo || "";
   $("#portfolioTypeField").value = fm.portfolioType || "";
+  $("#columnIdsField").value = listToText(fm.columnIds);
   $("#featuredField").checked = !!fm.featured;
   $("#featuredWeightField").value = Number.isFinite(fm.featuredWeight) ? fm.featuredWeight : "";
   $("#homeHeroWeightField").value = Number.isFinite(fm.homeHeroWeight) ? fm.homeHeroWeight : "";
@@ -395,6 +397,7 @@ function readForm() {
     contribution: $("#contributionField").value,
     result: $("#resultField").value,
     portfolioType: $("#portfolioTypeField").value,
+    columnIds: textToList($("#columnIdsField").value),
     featured: $("#featuredField").checked,
     featuredWeight: numberValue("#featuredWeightField"),
     homeHeroWeight: numberValue("#homeHeroWeightField"),

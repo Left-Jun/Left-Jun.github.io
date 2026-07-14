@@ -1,0 +1,206 @@
+---
+import Icon from "./Icon.astro";
+import type { SiteEntry } from "../lib/content.js";
+
+interface Props {
+  entry: SiteEntry;
+  phase: "retrospectives" | "plans";
+  lang?: "zh-cn" | "en";
+  hidden?: boolean;
+}
+
+const { entry, phase, lang = "zh-cn", hidden = false } = Astro.props as Props;
+const isEn = lang === "en";
+const isRetrospective = phase === "retrospectives";
+const labels = {
+  phase: isRetrospective
+    ? (isEn ? "Retrospective" : "项目复盘")
+    : (isEn ? "Development plan" : "开发计划"),
+  cta: isRetrospective
+    ? (isEn ? "Read retrospective" : "阅读复盘")
+    : (isEn ? "View plan" : "查看计划"),
+  focus: isEn ? "Inside" : "内容重点"
+};
+const terms = [...(entry.data.categories || []), ...(entry.data.tags || [])].filter(Boolean).slice(0, 2);
+const toc = (entry.toc || []).slice(0, 3);
+---
+
+<article
+  class:list={["record-phase-card", `record-phase-card--${phase}`]}
+  data-record-phase={phase}
+  hidden={hidden}
+>
+  <div class="record-phase-card__meta">
+    <span class="record-phase-card__phase"><Icon name={isRetrospective ? "infinity" : "clock"} />{labels.phase}</span>
+    {entry.formattedDate && <time datetime={entry.data.date?.toISOString?.()}>{entry.formattedDate}</time>}
+  </div>
+  <h3><a href={entry.url}>{entry.data.title}</a></h3>
+  {entry.data.description && <p>{entry.data.description}</p>}
+
+  {toc.length > 0 && (
+    <div class="record-phase-card__focus" aria-label={labels.focus}>
+      {toc.map((item) => <span>{item.text}</span>)}
+    </div>
+  )}
+
+  <footer>
+    {terms.length > 0 && (
+      <div class="record-phase-card__terms">
+        {terms.map((term) => <span>{term}</span>)}
+      </div>
+    )}
+    <a class="record-phase-card__cta" href={entry.url}>{labels.cta}<span aria-hidden="true">→</span></a>
+  </footer>
+</article>
+
+<style>
+  .record-phase-card {
+    --phase-accent: #168477;
+    display: flex;
+    min-width: 0;
+    min-height: 100%;
+    flex-direction: column;
+    padding: 20px;
+    border: 1px solid color-mix(in srgb, var(--phase-accent) 24%, var(--card-separator-color));
+    border-radius: 16px;
+    background:
+      linear-gradient(145deg, color-mix(in srgb, var(--phase-accent) 6%, transparent), transparent 52%),
+      var(--leftjun-reading-surface);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+    transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
+  }
+
+  .record-phase-card--plans {
+    --phase-accent: #a66c32;
+  }
+
+  .record-phase-card:hover,
+  .record-phase-card:focus-within {
+    transform: translateY(var(--leftjun-hover-lift));
+    border-color: color-mix(in srgb, var(--phase-accent) 46%, var(--card-separator-color));
+    box-shadow: var(--leftjun-hover-shadow);
+  }
+
+  .record-phase-card__meta {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+  }
+
+  .record-phase-card__phase {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    min-height: 28px;
+    padding: 5px 9px;
+    border: 1px solid color-mix(in srgb, var(--phase-accent) 32%, var(--card-separator-color));
+    border-radius: 10px;
+    background: color-mix(in srgb, var(--phase-accent) 9%, var(--leftjun-surface-strong));
+    color: color-mix(in srgb, var(--phase-accent) 86%, var(--card-text-color-main));
+    font-weight: 760;
+  }
+
+  .record-phase-card__phase :global(.inline-icon) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .record-phase-card h3 {
+    margin: 12px 0 0;
+    font-size: 22px;
+    line-height: 1.28;
+    letter-spacing: 0;
+  }
+
+  .record-phase-card h3 a {
+    color: var(--card-text-color-main);
+    text-decoration: none;
+  }
+
+  .record-phase-card h3 a:hover,
+  .record-phase-card h3 a:focus-visible,
+  .record-phase-card__cta:hover,
+  .record-phase-card__cta:focus-visible {
+    color: var(--phase-accent);
+  }
+
+  .record-phase-card > p {
+    display: -webkit-box;
+    margin: 9px 0 0;
+    overflow: hidden;
+    color: var(--card-text-color-secondary);
+    font-size: 15px;
+    line-height: 1.58;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 3;
+  }
+
+  .record-phase-card__focus {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 7px;
+    margin-top: 14px;
+  }
+
+  .record-phase-card__focus span,
+  .record-phase-card__terms span {
+    padding: 5px 9px;
+    border-radius: 10px;
+    background: var(--leftjun-surface-muted);
+    color: var(--card-text-color-secondary);
+    font-size: 12px;
+    line-height: 1.3;
+  }
+
+  .record-phase-card footer {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+    margin-top: auto;
+    padding-top: 16px;
+  }
+
+  .record-phase-card__terms {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+
+  .record-phase-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-left: auto;
+    color: color-mix(in srgb, var(--phase-accent) 86%, var(--card-text-color-main));
+    font-size: 13px;
+    font-weight: 760;
+    text-decoration: none;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .record-phase-card {
+      transition: none;
+    }
+
+    .record-phase-card:hover,
+    .record-phase-card:focus-within {
+      transform: none;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .record-phase-card {
+      padding: 16px;
+    }
+
+    .record-phase-card h3 {
+      font-size: 20px;
+    }
+  }
+</style>

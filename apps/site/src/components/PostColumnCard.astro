@@ -1,0 +1,189 @@
+---
+import Icon from "./Icon.astro";
+import type { PostColumn } from "../lib/post-columns.js";
+
+interface Props {
+  column: PostColumn;
+  lang?: "zh-cn" | "en";
+}
+
+const { column } = Astro.props as Props;
+---
+
+<article class:list={["post-column-card", `post-column-card--${column.accent}`]}>
+  <div class="post-column-card__heading">
+    <p>{column.eyebrow}</p>
+    <span>{column.entries.length} {column.countSuffix}</span>
+  </div>
+  <h3><a href={column.url}>{column.title}</a></h3>
+  <p class="post-column-card__description">{column.description}</p>
+  {column.latestEntry && (
+    <div class="post-column-card__latest">
+      <span>{column.latestLabel}</span>
+      <a href={column.latestEntry.url}>{column.latestEntry.data.title}</a>
+      {column.latestEntry.formattedDate && <time datetime={column.latestEntry.data.date?.toISOString?.()}>{column.latestEntry.formattedDate}</time>}
+    </div>
+  )}
+  <a class="post-column-card__cta" href={column.url} aria-label={`${column.viewAll}: ${column.title}`}>
+    <span>{column.viewAll}</span>
+    <Icon name="chevron-right" label="" />
+  </a>
+</article>
+
+<style>
+  .post-column-card {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    gap: 12px;
+    overflow: hidden;
+    padding: clamp(18px, 2.4vw, 24px);
+    border: 1px solid color-mix(in srgb, var(--leftjun-primary) 24%, var(--card-separator-color));
+    border-radius: 22px;
+    background: var(--leftjun-surface);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+    transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
+  }
+
+  .post-column-card::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    background: var(--leftjun-primary);
+    content: "";
+  }
+
+  .post-column-card:hover,
+  .post-column-card:focus-within {
+    transform: translateY(var(--leftjun-hover-lift));
+    border-color: var(--leftjun-hover-border);
+    box-shadow: var(--leftjun-hover-shadow);
+  }
+
+  .post-column-card__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .post-column-card__heading p,
+  .post-column-card__heading span {
+    margin: 0;
+    color: var(--leftjun-primary);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .post-column-card__heading span {
+    color: var(--card-text-color-tertiary);
+    font-weight: 700;
+  }
+
+  .post-column-card h3 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  .post-column-card h3 a {
+    color: inherit;
+  }
+
+  .post-column-card h3 a:hover,
+  .post-column-card h3 a:focus-visible,
+  .post-column-card__cta:hover,
+  .post-column-card__cta:focus-visible {
+    color: var(--leftjun-primary);
+  }
+
+  .post-column-card__description {
+    max-width: 60ch;
+    margin: 0;
+    color: var(--card-text-color-secondary);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .post-column-card__latest {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--card-separator-color);
+  }
+
+  .post-column-card__latest > span {
+    grid-column: 1 / -1;
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    font-weight: 750;
+  }
+
+  .post-column-card__latest a {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--card-text-color-main);
+    font-size: 15px;
+    font-weight: 760;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .post-column-card__latest time {
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .post-column-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: max-content;
+    color: var(--leftjun-primary-deep);
+    font-size: 14px;
+    font-weight: 780;
+  }
+
+  .post-column-card__cta :global(.inline-icon) {
+    width: 16px;
+    height: 16px;
+  }
+
+  @media (min-width: 768px) and (max-width: 1180px) {
+    .post-column-card h3 {
+      font-size: 20px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .post-column-card {
+      padding: 18px;
+    }
+
+    .post-column-card h3 {
+      font-size: 18px;
+    }
+
+    .post-column-card__description {
+      font-size: 15px;
+    }
+
+    .post-column-card__latest {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-column-card {
+      transition: none;
+    }
+
+    .post-column-card:hover,
+    .post-column-card:focus-within {
+      transform: none;
+    }
+  }
+</style>

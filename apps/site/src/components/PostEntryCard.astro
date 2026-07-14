@@ -1,0 +1,352 @@
+---
+import CoverMedia from "./CoverMedia.astro";
+import Icon from "./Icon.astro";
+import type { SiteEntry, SiteLanguage } from "../lib/content.js";
+import type { PostColumnLink } from "../lib/post-columns.js";
+
+interface Props {
+  entry: SiteEntry;
+  lang?: SiteLanguage;
+  variant?: "spotlight" | "archive";
+  columnLinks?: PostColumnLink[];
+}
+
+const {
+  entry,
+  lang = entry.lang,
+  variant = "archive",
+  columnLinks = []
+} = Astro.props as Props;
+const isEn = lang === "en";
+const image = entry.data.image;
+const imageUrl = image ? entry.asset(image) : "";
+const videoUrl = entry.data.coverVideo ? entry.asset(entry.data.coverVideo) : "";
+const imagePosition = entry.data.imagePosition || "center";
+const category = entry.data.categories?.[0] || "";
+const terms = (entry.data.tags || []).filter(Boolean).slice(0, 2);
+const authoredColumnIds = (entry.data.columnIds || []).filter(Boolean);
+const filterColumnIds = authoredColumnIds.length > 0 ? authoredColumnIds : ["standalone"];
+const date = entry.data.date;
+const year = date
+  ? new Intl.DateTimeFormat("en", { year: "numeric", timeZone: "Asia/Shanghai" }).format(date)
+  : "";
+const titleId = `post-card-${variant}-${entry.slug}`;
+---
+
+<article
+  id={`post-${entry.slug}`}
+  class:list={["post-entry-card", `post-entry-card--${variant}`, image && "post-entry-card--has-media"]}
+  aria-labelledby={titleId}
+  data-post-item={variant === "archive" ? "" : undefined}
+  data-post-columns={filterColumnIds.join(" ")}
+  data-post-year={year}
+  style={`--leftjun-language-transition-name: lj-entry-posts-${entry.slug};`}
+>
+  {image && (
+    <a class="post-entry-card__media" href={entry.url} aria-label={entry.data.title} tabindex="-1">
+      <CoverMedia
+        imageSrc={imageUrl}
+        videoSrc={videoUrl}
+        alt=""
+        sizes={variant === "spotlight" ? "(max-width: 767px) 92vw, 520px" : "(max-width: 767px) 92vw, 280px"}
+        loading={variant === "spotlight" ? "eager" : "lazy"}
+        fetchpriority={variant === "spotlight" ? "high" : "auto"}
+        style={`object-position: ${imagePosition};`}
+      />
+    </a>
+  )}
+
+  <div class="post-entry-card__content">
+    <div class="post-entry-card__labels">
+      {columnLinks.map((column) => <a href={column.url}>{column.label}</a>)}
+      {category && <span>{category}</span>}
+    </div>
+    <div class="post-entry-card__meta">
+      {entry.formattedDate && <time datetime={date?.toISOString?.()}>{entry.formattedDate}</time>}
+      <span>{entry.readingMinutes} {isEn ? "min read" : "分钟阅读"}</span>
+    </div>
+    <h3 id={titleId}><a href={entry.url}>{entry.data.title}</a></h3>
+    {entry.data.description && <p>{entry.data.description}</p>}
+    {terms.length > 0 && (
+      <div class="post-entry-card__terms" aria-label={isEn ? "Topics" : "主题"}>
+        {terms.map((term) => <span>{term}</span>)}
+      </div>
+    )}
+    <a class="post-entry-card__cta" href={entry.url}>
+      <span>{isEn ? "Read article" : "阅读文章"}</span>
+      <Icon name="chevron-right" label="" />
+    </a>
+  </div>
+</article>
+
+<style>
+  .post-entry-card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(190px, 280px);
+    overflow: hidden;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 16px;
+    background: var(--leftjun-reading-surface);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+    transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease;
+  }
+
+  .post-entry-card::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    z-index: 1;
+    width: 4px;
+    border-radius: 16px 0 0 16px;
+    background: var(--leftjun-primary);
+    content: "";
+  }
+
+  .post-entry-card:hover,
+  .post-entry-card:focus-within {
+    transform: translateY(var(--leftjun-hover-lift));
+    border-color: var(--leftjun-hover-border);
+    box-shadow: var(--leftjun-hover-shadow);
+  }
+
+  .post-entry-card__content {
+    grid-column: 1;
+    grid-row: 1;
+    min-width: 0;
+    align-self: center;
+    padding: clamp(18px, 2vw, 24px);
+  }
+
+  .post-entry-card__media {
+    grid-column: 2;
+    grid-row: 1;
+    align-self: center;
+    overflow: hidden;
+    margin: 12px 12px 12px 0;
+    border-radius: 10px;
+    background: var(--leftjun-surface-muted);
+    aspect-ratio: 16 / 10;
+  }
+
+  .post-entry-card__media :global(picture),
+  .post-entry-card__media :global(img),
+  .post-entry-card__media :global(video) {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .post-entry-card__media :global(img),
+  .post-entry-card__media :global(video) {
+    object-fit: cover;
+  }
+
+  .post-entry-card__labels,
+  .post-entry-card__meta,
+  .post-entry-card__terms {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .post-entry-card__labels a,
+  .post-entry-card__labels span,
+  .post-entry-card__terms span {
+    display: inline-flex;
+    align-items: center;
+    min-height: 28px;
+    padding: 5px 9px;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 10px;
+    background: var(--leftjun-surface-muted);
+    color: var(--card-text-color-secondary);
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .post-entry-card__labels a {
+    border-color: color-mix(in srgb, var(--leftjun-primary) 32%, var(--card-separator-color));
+    background: color-mix(in srgb, var(--leftjun-primary) 9%, var(--leftjun-surface-strong));
+    color: var(--leftjun-primary);
+  }
+
+  .post-entry-card__labels a:hover,
+  .post-entry-card__labels a:focus-visible {
+    border-color: var(--leftjun-hover-border);
+    color: var(--leftjun-hover-accent);
+  }
+
+  .post-entry-card__meta {
+    margin-top: 12px;
+    color: var(--card-text-color-tertiary);
+    font-size: 13px;
+    font-weight: 650;
+  }
+
+  .post-entry-card__meta > * + *::before {
+    margin-right: 7px;
+    color: var(--card-separator-color);
+    content: "/";
+  }
+
+  .post-entry-card h3 {
+    margin: 10px 0 0;
+    color: var(--card-text-color-main);
+    font-size: 22px;
+    line-height: 1.25;
+    letter-spacing: 0;
+    text-wrap: balance;
+  }
+
+  .post-entry-card h3 a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .post-entry-card h3 a:hover,
+  .post-entry-card h3 a:focus-visible,
+  .post-entry-card__cta:hover,
+  .post-entry-card__cta:focus-visible {
+    color: var(--leftjun-primary);
+  }
+
+  .post-entry-card p {
+    display: -webkit-box;
+    margin: 10px 0 0;
+    overflow: hidden;
+    color: var(--card-text-color-secondary);
+    font-size: 15px;
+    line-height: 1.62;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+  }
+
+  .post-entry-card__terms {
+    margin-top: 12px;
+  }
+
+  .post-entry-card__terms span {
+    min-height: 26px;
+    padding: 4px 8px;
+    border-color: transparent;
+    font-size: 12px;
+    font-weight: 620;
+  }
+
+  .post-entry-card__cta {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    color: var(--leftjun-primary-deep);
+    font-size: 14px;
+    font-weight: 780;
+  }
+
+  .post-entry-card__cta :global(.inline-icon) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .post-entry-card:not(.post-entry-card--has-media) {
+    grid-template-columns: 1fr;
+  }
+
+  .post-entry-card--spotlight {
+    grid-template-columns: minmax(260px, 0.95fr) minmax(0, 1.05fr);
+    min-height: 300px;
+    border-radius: 22px;
+    box-shadow: var(--leftjun-surface-shadow);
+  }
+
+  .post-entry-card--spotlight::before {
+    border-radius: 22px 0 0 22px;
+  }
+
+  .post-entry-card--spotlight .post-entry-card__media {
+    grid-column: 1;
+    margin: 12px 0 12px 12px;
+    border-radius: 16px;
+  }
+
+  .post-entry-card--spotlight .post-entry-card__content {
+    grid-column: 2;
+    padding: clamp(22px, 3vw, 32px);
+  }
+
+  .post-entry-card--spotlight h3 {
+    font-size: 32px;
+  }
+
+  .post-entry-card--spotlight p {
+    font-size: 16px;
+    -webkit-line-clamp: 3;
+  }
+
+  .post-entry-card--spotlight:not(.post-entry-card--has-media) {
+    grid-template-columns: 1fr;
+    min-height: 0;
+  }
+
+  .post-entry-card--spotlight:not(.post-entry-card--has-media) .post-entry-card__content {
+    grid-column: 1;
+  }
+
+  @media (min-width: 768px) and (max-width: 1180px) {
+    .post-entry-card h3 {
+      font-size: 20px;
+    }
+
+    .post-entry-card--spotlight h3 {
+      font-size: 28px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .post-entry-card,
+    .post-entry-card--spotlight {
+      display: flex;
+      min-height: 0;
+      flex-direction: column;
+    }
+
+    .post-entry-card__media,
+    .post-entry-card--spotlight .post-entry-card__media {
+      width: auto;
+      margin: 10px 10px 0;
+      border-radius: 10px;
+    }
+
+    .post-entry-card__content,
+    .post-entry-card--spotlight .post-entry-card__content {
+      padding: 16px;
+    }
+
+    .post-entry-card h3,
+    .post-entry-card--spotlight h3 {
+      font-size: 18px;
+    }
+
+    .post-entry-card--spotlight h3 {
+      font-size: 22px;
+    }
+
+    .post-entry-card p,
+    .post-entry-card--spotlight p {
+      font-size: 15px;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .post-entry-card {
+      transition: none;
+    }
+
+    .post-entry-card:hover,
+    .post-entry-card:focus-within {
+      transform: none;
+    }
+  }
+</style>

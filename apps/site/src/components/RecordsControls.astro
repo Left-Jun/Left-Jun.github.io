@@ -1,0 +1,243 @@
+---
+import Icon from "./Icon.astro";
+import type { ProjectRecordThread, RecordView } from "../lib/project-records.js";
+
+interface Props {
+  threads: ProjectRecordThread[];
+  counts: Record<RecordView, number>;
+  lang?: "zh-cn" | "en";
+  initialView?: RecordView;
+  variant?: "inline" | "sidebar";
+}
+
+const {
+  threads,
+  counts,
+  lang = "zh-cn",
+  initialView = "all",
+  variant = "inline"
+} = Astro.props as Props;
+const isEn = lang === "en";
+const options: Array<{ value: RecordView; label: string }> = [
+  { value: "all", label: isEn ? "All" : "全部" },
+  { value: "retrospectives", label: isEn ? "Retrospectives" : "项目复盘" },
+  { value: "plans", label: isEn ? "Plans" : "开发计划" },
+  { value: "complete", label: isEn ? "Complete loops" : "完整闭环" }
+];
+const labels = {
+  view: isEn ? "View" : "查看方式",
+  viewAria: isEn ? "Filter project record threads" : "筛选项目记录线程",
+  index: isEn ? "Project threads" : "项目线程",
+  complete: isEn ? "Complete" : "闭环",
+  retrospective: isEn ? "Retrospective" : "复盘",
+  plan: isEn ? "Plan" : "计划"
+};
+const visibleInitially = (thread: ProjectRecordThread) => (
+  initialView === "all"
+  || (initialView === "retrospectives" && thread.hasRetrospective)
+  || (initialView === "plans" && thread.hasPlan)
+  || (initialView === "complete" && thread.isComplete)
+);
+---
+
+{variant === "sidebar" ? (
+  <aside class="sidebar right-sidebar sticky records-controls-sidebar">
+    <section class="widget records-controls-widget">
+      <div class="widget-icon" aria-hidden="true"><Icon name="infinity" /></div>
+      <h2 class="widget-title section-title">{labels.view}</h2>
+      <div class="records-control-list" role="group" aria-label={labels.viewAria}>
+        {options.map((option) => (
+          <button
+            class:list={["records-control-button", initialView === option.value && "is-active"]}
+            type="button"
+            data-records-filter={option.value}
+            aria-pressed={initialView === option.value ? "true" : "false"}
+          >
+            <span>{option.label}</span><small>{counts[option.value]}</small>
+          </button>
+        ))}
+      </div>
+    </section>
+
+    <section class="widget records-controls-widget">
+      <div class="widget-icon" aria-hidden="true"><Icon name="link" /></div>
+      <h2 class="widget-title section-title">{labels.index}</h2>
+      <ol class="records-thread-index">
+        {threads.map((thread) => (
+          <li data-record-index-item={thread.anchorId} hidden={!visibleInitially(thread)}>
+            <a href={`#${thread.anchorId}`}>
+              <span>{thread.title}</span>
+              <small>{thread.isComplete ? labels.complete : thread.hasPlan ? labels.plan : labels.retrospective}</small>
+            </a>
+          </li>
+        ))}
+      </ol>
+    </section>
+  </aside>
+) : (
+  <div class="records-inline-controls" role="group" aria-label={labels.viewAria}>
+    {options.map((option) => (
+      <button
+        class:list={["records-control-chip", initialView === option.value && "is-active"]}
+        type="button"
+        data-records-filter={option.value}
+        aria-pressed={initialView === option.value ? "true" : "false"}
+      >
+        <span>{option.label}</span><small>{counts[option.value]}</small>
+      </button>
+    ))}
+  </div>
+)}
+
+<style>
+  .records-inline-controls {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    margin-top: 14px;
+    padding-top: 14px;
+    border-top: 1px solid var(--card-separator-color);
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scroll-padding-inline: 6px;
+  }
+
+  .records-control-chip,
+  .records-control-button {
+    appearance: none;
+    border: 1px solid var(--card-separator-color);
+    border-radius: 10px;
+    background: var(--leftjun-surface-strong);
+    color: var(--card-text-color-secondary);
+    cursor: pointer;
+    font: inherit;
+    transition: transform var(--leftjun-hover-duration) ease, border-color var(--leftjun-hover-duration) ease, background-color var(--leftjun-hover-duration) ease, box-shadow var(--leftjun-hover-duration) ease, color var(--leftjun-hover-duration) ease;
+  }
+
+  .records-control-chip {
+    display: inline-flex;
+    flex: 0 0 auto;
+    align-items: center;
+    gap: 7px;
+    min-height: 40px;
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+
+  .records-control-chip small,
+  .records-control-button small {
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    font-weight: 720;
+  }
+
+  .records-control-chip:hover,
+  .records-control-chip:focus-visible,
+  .records-control-button:hover,
+  .records-control-button:focus-visible {
+    transform: translateY(var(--leftjun-hover-lift));
+    border-color: var(--leftjun-hover-border);
+    background: var(--leftjun-hover-surface);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+    color: var(--leftjun-hover-accent);
+  }
+
+  .records-control-chip:focus-visible,
+  .records-control-button:focus-visible {
+    outline: 3px solid color-mix(in srgb, var(--leftjun-primary) 28%, transparent);
+    outline-offset: 2px;
+  }
+
+  .records-control-chip.is-active,
+  .records-control-button.is-active {
+    border-color: color-mix(in srgb, var(--leftjun-primary) 48%, var(--card-separator-color));
+    background: color-mix(in srgb, var(--leftjun-primary) 13%, var(--leftjun-surface-strong));
+    color: var(--leftjun-primary);
+    box-shadow: inset 0 0 0 1px color-mix(in srgb, var(--leftjun-primary) 10%, transparent);
+    font-weight: 780;
+  }
+
+  .records-controls-widget {
+    border: 1px solid var(--card-separator-color);
+    border-radius: 22px;
+  }
+
+  .records-control-list {
+    display: grid;
+    gap: 6px;
+  }
+
+  .records-control-button {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    width: 100%;
+    min-height: 44px;
+    padding: 11px 12px;
+    text-align: left;
+  }
+
+  .records-thread-index {
+    display: grid;
+    gap: 7px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .records-thread-index a {
+    display: grid;
+    gap: 3px;
+    padding: 11px 12px;
+    border-left: 3px solid transparent;
+    border-radius: 10px;
+    color: var(--card-text-color-secondary);
+    text-decoration: none;
+  }
+
+  .records-thread-index a:hover,
+  .records-thread-index a:focus-visible {
+    border-left-color: var(--leftjun-primary);
+    background: var(--leftjun-hover-surface);
+    color: var(--leftjun-primary);
+  }
+
+  .records-thread-index span {
+    font-weight: 720;
+  }
+
+  .records-thread-index small {
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+  }
+
+  @media (max-width: 1360px) {
+    .records-inline-controls {
+      display: flex;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .records-inline-controls {
+      min-height: 48px;
+      margin-top: 10px;
+      padding: 6px 5px 0;
+      scrollbar-width: thin;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .records-control-chip,
+    .records-control-button {
+      transition: none;
+    }
+
+    .records-control-chip:hover,
+    .records-control-chip:focus-visible,
+    .records-control-button:hover,
+    .records-control-button:focus-visible {
+      transform: none;
+    }
+  }
+</style>

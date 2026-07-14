@@ -1,7 +1,7 @@
 import { defineCollection } from "astro:content";
 import { glob } from "astro/loaders";
 import { z } from "astro/zod";
-import { isSafeProjectLink, isStablePortfolioType } from "@left-jun/content-model";
+import { isKnownPostColumnId, isSafeProjectLink, isStablePortfolioType } from "@left-jun/content-model";
 
 const contentStatusSchema = z.enum(["planned", "in-progress", "completed", "paused", "archived"]);
 const updateKindSchema = z.enum(["project", "event", "award", "training", "research", "release", "article"]);
@@ -45,6 +45,9 @@ const baseSchema = z.looseObject({
   tags: z.array(z.string()).optional().default([]),
   relatedPages: z.array(z.string()).optional().default([]),
   roleTags: z.array(z.string()).optional().default([]),
+  columnIds: z.array(z.string().refine(isKnownPostColumnId, {
+    message: "Post column IDs must reference the shared registry"
+  })).optional().default([]),
   portfolioType: z.union([
     z.literal(""),
     z.string().refine(isStablePortfolioType, {

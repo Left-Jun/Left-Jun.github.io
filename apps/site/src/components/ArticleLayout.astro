@@ -21,13 +21,21 @@ interface Props {
 const props = Astro.props as Props;
 const { entry, active = props.entry.section, lang = props.entry.lang } = props;
 const text = siteText(lang);
+const isProject = entry.section === "projects";
+const isPost = entry.section === "posts";
+const isRecord = entry.section === "retrospectives" || entry.section === "plans";
 const related = await relatedEntries(entry);
 const projectRecords = related.filter((item) => item.section === "retrospectives" || item.section === "plans");
-const relatedReading = related.filter((item) => item.section !== "retrospectives" && item.section !== "plans");
+const linkedProject = isRecord ? related.find((item) => item.section === "projects") || null : null;
+const pairedRecords = isRecord ? projectRecords.filter((item) => item.ref !== entry.ref) : [];
+const relatedReading = related.filter((item) => (
+  item.section !== "retrospectives"
+  && item.section !== "plans"
+  && (!isRecord || item.ref !== linkedProject?.ref)
+));
 const facts = entry.data.projectFacts || {};
 const projectLinks: ProjectLink[] = entry.data.projectLinks || [];
 const tocItems: Array<{ depth: number; text: string; id: string }> = entry.toc || [];
-const isProject = entry.section === "projects";
 const isAboutPage = entry.section === "pages" && entry.slug === "about";
 const contactEntry = isAboutPage ? await getEntryBySlug("pages", "contact", lang) : null;
 const contactCardCta = text.isEn ? "Open contact page" : "查看完整联系页";
@@ -119,6 +127,25 @@ const projectSummaryItems = isProject ? [
   { label: text.isEn ? "Event" : "比赛", value: facts.event || facts.competition || String(facts.developmentTime || "").match(/（(.+?)）/)?.[1] },
   { label: text.isEn ? "Updated" : "更新时间", value: updatedAtText }
 ].filter((item) => item.value) : [];
+const linkedProjectFacts = linkedProject?.data.projectFacts || {};
+const recordFactItems = isRecord ? [
+  { label: text.isEn ? "Role" : "我的角色", value: linkedProjectFacts.role },
+  { label: text.isEn ? "Duration" : "项目周期", value: linkedProjectFacts.duration || linkedProjectFacts.developmentTime },
+  { label: text.isEn ? "Team" : "团队规模", value: linkedProjectFacts.team },
+  { label: text.isEn ? "Tools" : "使用技术", value: linkedProjectFacts.tools }
+].filter((item) => item.value) : [];
+const recordTypeLabel = entry.section === "plans"
+  ? (text.isEn ? "Development plan" : "开发计划")
+  : (text.isEn ? "Project retrospective" : "项目复盘");
+const recordProjectLabel = text.isEn ? "View project" : "查看项目";
+const recordLinksLabel = text.isEn ? "Project and paired records" : "项目与配对记录";
+const articleBodyClass = isProject
+  ? "article-page project-detail-page"
+  : isPost
+    ? "article-page post-detail-page"
+    : isRecord
+      ? `article-page record-detail-page record-detail-page--${entry.section}`
+      : "article-page";
 ---
 <BaseLayout
   lang={lang}
@@ -131,7 +158,7 @@ const projectSummaryItems = isProject ? [
   priorityImageSizes={priorityImageSrcset ? priorityImageSizes : undefined}
   priorityImageType={priorityImageType || undefined}
   active={active}
-  bodyClass={isProject ? "article-page project-detail-page" : "article-page"}
+  bodyClass={articleBodyClass}
   alternateUrl={alternateUrl}
   alternateLang={alternateEntry?.lang}
   ogType={isProject ? "website" : "article"}
@@ -151,8 +178,14 @@ const projectSummaryItems = isProject ? [
     { name: entry.data.title, url: entry.url }
   ]}
 >
-  <article class:list={["main-article", cover && "has-image"]} style={`--leftjun-language-transition-name: lj-article-${entry.section}-${entry.slug};`}>
-    <header class:list={["article-header", isProject && "project-detail-hero"]}>
+  <article class:list={["main-article", cover && "has-image", isPost && "post-detail-article", isRecord && "record-detail-article"]} style={`--leftjun-language-transition-name: lj-article-${entry.section}-${entry.slug};`}>
+    <header class:list={[
+      "article-header",
+      isProject && "project-detail-hero",
+      isPost && "post-detail-hero",
+      isRecord && "record-detail-hero",
+      (isPost || isRecord) && entry.data.coverVideo && "content-detail-hero--video"
+    ]}>
       {cover && (
         <div class="article-image">
           <CoverMedia
@@ -166,8 +199,10 @@ const projectSummaryItems = isProject ? [
           />
         </div>
       )}
-      <div class:list={["article-details", isProject && "project-detail-hero__details"]}>
+      <div class:list={["article-details", isProject && "project-detail-hero__details", isPost && "post-detail-hero__details", isRecord && "record-detail-hero__details"]}>
         {isProject && <p class="project-detail-kicker">{text.isEn ? "Project Case" : "项目案例"}</p>}
+        {isPost && <p class="content-detail-kicker">{sectionLabel}</p>}
+        {isRecord && <p class="content-detail-kicker">{recordTypeLabel}</p>}
         <h1 class="article-title">{entry.data.title}</h1>
         {entry.data.description && <h2 class="article-subtitle">{entry.data.description}</h2>}
         {isProject && projectPills.length > 0 && (
@@ -217,6 +252,46 @@ const projectSummaryItems = isProject ? [
         )}
       </div>
     </header>
+
+    {isRecord && linkedProject && (
+      <section class="record-detail-context" aria-labelledby="record-detail-project-title">
+        <div class="record-detail-context__heading">
+          <p>{text.isEn ? "Related project" : "关联项目"}</p>
+          <h2 id="record-detail-project-title"><a href={linkedProject.url}>{linkedProject.data.title}</a></h2>
+          {linkedProjectFacts.result && <span>{linkedProjectFacts.result}</span>}
+        </div>
+        {recordFactItems.length > 0 && (
+          <dl class="record-detail-context__facts">
+            {recordFactItems.map((item) => (
+              <div>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
+      </section>
+    )}
+
+    {isRecord && (linkedProject || pairedRecords.length > 0) && (
+      <nav class="record-detail-links" aria-label={recordLinksLabel}>
+        {linkedProject && (
+          <a class="record-detail-link record-detail-link--project" href={linkedProject.url}>
+            <Icon name="briefcase" />
+            <span>{recordProjectLabel}</span>
+          </a>
+        )}
+        {pairedRecords.map((item) => {
+          const isRetrospective = item.section === "retrospectives";
+          return (
+            <a class:list={["record-detail-link", isRetrospective ? "record-detail-link--retrospective" : "record-detail-link--plan"]} href={item.url}>
+              <Icon name={isRetrospective ? "infinity" : "clock"} />
+              <span>{isRetrospective ? (text.isEn ? "Read retrospective" : "查看项目复盘") : (text.isEn ? "View development plan" : "查看开发计划")}</span>
+            </a>
+          );
+        })}
+      </nav>
+    )}
 
     {isProject && projectInfoItems.length > 0 && (
       <section class="project-info-strip" aria-label={text.projectProfile}>

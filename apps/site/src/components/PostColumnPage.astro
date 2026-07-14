@@ -1,0 +1,245 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "./Icon.astro";
+import PostEntryCard from "./PostEntryCard.astro";
+import PostFilters from "./PostFilters.astro";
+import {
+  buildPostFilterOptions,
+  getPostColumnLinksBySlug,
+  shouldShowPostFilters
+} from "../lib/post-columns.js";
+import type { SectionPage, SiteEntry, SiteLanguage } from "../lib/content.js";
+import type { PostColumn } from "../lib/post-columns.js";
+
+interface Props {
+  lang: SiteLanguage;
+  section: SiteEntry | SectionPage;
+  column: PostColumn;
+  alternatePath: string;
+}
+
+const { lang, section, column, alternatePath } = Astro.props as Props;
+const isEn = lang === "en";
+const filterOptions = buildPostFilterOptions(column.entries, lang);
+const showFilters = shouldShowPostFilters(column.entries, filterOptions);
+const columnLinksBySlug = getPostColumnLinksBySlug(column.entries, [column]);
+const latest = column.entries[0];
+const labels = {
+  latest: isEn ? "Latest" : "最近更新",
+  showing: isEn ? "Showing" : "当前显示",
+  empty: isEn ? "No articles match these filters." : "没有符合当前筛选条件的文章。"
+};
+---
+
+<BaseLayout
+  lang={lang}
+  title={`${column.pageTitle} - ${section.data.title}`}
+  description={column.description}
+  alternatePath={alternatePath}
+  active="posts"
+  bodyClass="list-page posts-index-page posts-column-detail-page posts-refresh-page"
+>
+  <header class="post-column-header">
+    <a class="post-column-header__back" href={isEn ? "/en/posts/" : "/posts/"}>
+      <Icon name="chevron-left" label="" />
+      <span>{column.backLabel}</span>
+    </a>
+    <div class="post-column-header__copy">
+      <p>{column.eyebrow}</p>
+      <h1>{column.pageTitle}</h1>
+      <p class="post-column-header__description">{column.description}</p>
+    </div>
+    <div class="post-column-header__meta">
+      <span><strong>{column.entries.length}</strong> {column.countSuffix}</span>
+      {latest?.formattedDate && <span>{labels.latest} · {latest.formattedDate}</span>}
+    </div>
+    {showFilters && <PostFilters columns={filterOptions.columns} years={filterOptions.years} lang={lang} total={column.entries.length} variant="inline" />}
+  </header>
+
+  <section class="post-column-archive" data-posts-archive-root aria-labelledby="post-column-archive-title">
+    <div class="post-column-archive__heading">
+      <div>
+        <p>{column.pageSubtitle}</p>
+        <h2 id="post-column-archive-title">{column.allArticlesTitle}</h2>
+      </div>
+      <span>{labels.showing} <strong data-post-filter-visible-count>{column.entries.length}</strong></span>
+    </div>
+    <div class="post-column-archive__list">
+      {column.entries.map((entry) => (
+        <PostEntryCard entry={entry} lang={lang} columnLinks={columnLinksBySlug.get(entry.slug) || []} />
+      ))}
+    </div>
+    <p class="post-column-archive__empty" data-post-filter-empty hidden>{labels.empty}</p>
+  </section>
+
+  {showFilters && (
+    <Fragment slot="right-sidebar">
+      <PostFilters columns={filterOptions.columns} years={filterOptions.years} lang={lang} total={column.entries.length} variant="sidebar" />
+    </Fragment>
+  )}
+</BaseLayout>
+
+<script>
+  import { initPostFilters } from "../scripts/posts-filter-client.js";
+
+  initPostFilters();
+  document.addEventListener("astro:page-load", () => initPostFilters());
+</script>
+
+<style>
+  .post-column-header {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 14px 32px;
+    margin-bottom: clamp(35px, 4vw, 56px);
+    padding: clamp(6px, 1.5vw, 16px) 0 20px;
+    border-bottom: 1px solid var(--card-separator-color);
+  }
+
+  .post-column-header__back {
+    grid-column: 1 / -1;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    width: max-content;
+    color: var(--leftjun-primary);
+    font-size: 13px;
+    font-weight: 760;
+  }
+
+  .post-column-header__back :global(.inline-icon) {
+    width: 16px;
+    height: 16px;
+  }
+
+  .post-column-header__copy > p:first-child {
+    margin: 0 0 6px;
+    color: var(--leftjun-primary);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .post-column-header h1 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 40px;
+    line-height: 1.08;
+    letter-spacing: 0;
+  }
+
+  .post-column-header__description {
+    max-width: 928px;
+    margin: 13px 0 0;
+    color: var(--card-text-color-secondary);
+    line-height: 1.7;
+  }
+
+  .post-column-header__meta {
+    display: flex;
+    align-items: flex-end;
+    flex-direction: column;
+    justify-content: flex-end;
+    gap: 6px;
+    color: var(--card-text-color-tertiary);
+    font-size: 13px;
+    white-space: nowrap;
+  }
+
+  .post-column-header__meta strong {
+    color: var(--card-text-color-main);
+    font-size: 20px;
+  }
+
+  .post-column-header :global(.posts-inline-filters) {
+    grid-column: 1 / -1;
+  }
+
+  .post-column-archive__heading {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 24px;
+    margin-bottom: 16px;
+    padding-bottom: 13px;
+    border-bottom: 1px solid var(--card-separator-color);
+  }
+
+  .post-column-archive__heading p,
+  .post-column-archive__heading h2 {
+    margin: 0;
+  }
+
+  .post-column-archive__heading p {
+    margin-bottom: 5px;
+    color: var(--leftjun-primary);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .post-column-archive__heading h2 {
+    color: var(--card-text-color-main);
+    font-size: 26px;
+    line-height: 1.25;
+  }
+
+  .post-column-archive__heading > span {
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+  }
+
+  .post-column-archive__list {
+    display: grid;
+    gap: 16px;
+  }
+
+  .post-column-archive__empty {
+    margin: 16px 0 0;
+    padding: 19px;
+    border: 1px dashed var(--card-separator-color);
+    border-radius: 16px;
+    color: var(--card-text-color-secondary);
+    text-align: center;
+  }
+
+  @media (min-width: 768px) and (max-width: 1180px) {
+    .post-column-header h1 {
+      font-size: 34px;
+    }
+
+    .post-column-archive__heading h2 {
+      font-size: 24px;
+    }
+  }
+
+  @media (max-width: 767px) {
+    .post-column-header {
+      grid-template-columns: 1fr;
+      gap: 6px;
+      margin-bottom: 16px;
+      padding: 0 0 9px;
+    }
+
+    .post-column-header__copy > p:first-child,
+    .post-column-header__description,
+    .post-column-header__meta > span:last-child {
+      display: none;
+    }
+
+    .post-column-header h1 {
+      font-size: 28px;
+    }
+
+    .post-column-header__meta {
+      align-items: flex-start;
+      font-size: 12px;
+    }
+
+    .post-column-header__meta strong {
+      font-size: 16px;
+    }
+
+    .post-column-archive__heading h2 {
+      font-size: 20px;
+    }
+  }
+</style>
