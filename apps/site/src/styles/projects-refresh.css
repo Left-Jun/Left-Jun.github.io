@@ -39,18 +39,9 @@
   gap: 12px;
 }
 
-@container project-case (min-width: 880px) and (max-width: 959.98px) {
+@container project-case (min-width: 880px) {
   .project-case__hero.has-media {
-    grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
     grid-template-areas: "media intro";
-    column-gap: 24px;
-  }
-
-  .project-case__hero.has-media.has-result {
-    grid-template-areas:
-      "media intro"
-      "result intro";
-    row-gap: 14px;
   }
 
   .project-case__hero.has-media .project-case__media {
@@ -61,8 +52,18 @@
     grid-area: intro;
   }
 
-  .project-case__hero.has-media .project-case__result {
-    grid-area: result;
+  .project-case__hero.has-media.has-result .project-case__result {
+    grid-area: media;
+    width: 100%;
+    align-self: start;
+    margin-top: calc(56.25% + 14px);
+  }
+}
+
+@container project-case (min-width: 880px) and (max-width: 959.98px) {
+  .project-case__hero.has-media {
+    grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
+    column-gap: 24px;
   }
 
   .project-case__intro h1 {
@@ -73,27 +74,7 @@
 @container project-case (min-width: 960px) {
   .project-case__hero.has-media {
     grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
-    grid-template-areas: "media intro";
     column-gap: clamp(24px, 3cqi, 30px);
-  }
-
-  .project-case__hero.has-media.has-result {
-    grid-template-areas:
-      "media intro"
-      "result intro";
-    row-gap: 14px;
-  }
-
-  .project-case__hero.has-media .project-case__media {
-    grid-area: media;
-  }
-
-  .project-case__hero.has-media .project-case__intro {
-    grid-area: intro;
-  }
-
-  .project-case__hero.has-media .project-case__result {
-    grid-area: result;
   }
 
   .project-case__media {

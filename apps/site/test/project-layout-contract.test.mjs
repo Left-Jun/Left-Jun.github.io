@@ -36,10 +36,11 @@ test("project hero is a media-first responsive split and exposes the first evide
   assert.match(styles, /\.project-case__media \.project-case__cover\s*\{[\s\S]*?object-fit:\s*cover/);
   assert.match(styles, /@container project-case \(min-width:\s*880px\) and \(max-width:\s*959\.98px\)[\s\S]*?\.project-case__hero\.has-media[\s\S]*?grid-template-columns:\s*minmax\(0, 52fr\) minmax\(0, 48fr\)/);
   assert.match(styles, /@container project-case \(min-width:\s*960px\)[\s\S]*?\.project-case__hero\.has-media[\s\S]*?grid-template-columns:\s*minmax\(0, 58fr\) minmax\(0, 42fr\)/);
-  assert.match(styles, /\.project-case__hero\.has-media\.has-result\s*\{[\s\S]*?"media intro"[\s\S]*?"result intro"/);
+  assert.match(styles, /@container project-case \(min-width:\s*880px\)[\s\S]*?grid-template-areas:\s*"media intro"/);
   assert.match(styles, /\.project-case__hero\.has-media \.project-case__media\s*\{\s*grid-area:\s*media/);
   assert.match(styles, /\.project-case__hero\.has-media \.project-case__intro\s*\{\s*grid-area:\s*intro/);
-  assert.match(styles, /\.project-case__hero\.has-media \.project-case__result\s*\{\s*grid-area:\s*result/);
+  assert.match(styles, /\.project-case__hero\.has-media\.has-result \.project-case__result\s*\{[\s\S]*?grid-area:\s*media[\s\S]*?margin-top:\s*calc\(56\.25% \+ 14px\)/);
+  assert.doesNotMatch(styles, /"result intro"/);
 });
 
 test("project hero omits the repeated global portfolio PDF", () => {
