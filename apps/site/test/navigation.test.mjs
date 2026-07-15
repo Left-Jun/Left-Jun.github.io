@@ -1,7 +1,29 @@
 import assert from "node:assert/strict";
+import fs from "node:fs/promises";
 import test from "node:test";
 
-import { resolveLanguageSwitchUrl } from "../src/lib/navigation.js";
+import { resolveAboutUrl, resolveLanguageSwitchUrl } from "../src/lib/navigation.js";
+
+const sidebarSource = await fs.readFile(new URL("../src/components/Sidebar.astro", import.meta.url), "utf8");
+
+test("resolves the current-language About destination from the main menu", () => {
+  assert.equal(resolveAboutUrl([{ identifier: "about", url: "/profile/" }], "zh-cn"), "/profile/");
+  assert.equal(resolveAboutUrl([{ identifier: "about", url: "/en/profile/" }], "en"), "/en/profile/");
+});
+
+test("falls back to bilingual About routes for missing or unsafe menu entries", () => {
+  assert.equal(resolveAboutUrl([], "zh-cn"), "/about/");
+  assert.equal(resolveAboutUrl(undefined, "en"), "/en/about/");
+  assert.equal(resolveAboutUrl([{ identifier: "about", url: "https://example.com/about" }], "en"), "/en/about/");
+  assert.equal(resolveAboutUrl([{ identifier: "about", url: "//example.com/about" }], "zh-cn"), "/about/");
+});
+
+test("sidebar identity links target About while the brand logo remains a home link", () => {
+  assert.match(sidebarSource, /<BrandLogo href=\{text\.homeUrl\} \/>/);
+  assert.match(sidebarSource, /<a href=\{aboutUrl\} aria-label=\{aboutLinkLabel\}>\s*<img class="site-logo"/);
+  assert.match(sidebarSource, /<div class="site-name"><a href=\{aboutUrl\} aria-label=\{aboutLinkLabel\}>\{config\.title\}<\/a><\/div>/);
+  assert.match(sidebarSource, /const aboutLinkLabel = isEn \? "About Left Jun" : "关于 Left Jun";/);
+});
 
 test("prefers an explicit alternate URL over an alternate path", () => {
   assert.equal(resolveLanguageSwitchUrl({

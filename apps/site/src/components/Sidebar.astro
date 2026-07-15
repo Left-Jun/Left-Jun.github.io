@@ -2,6 +2,7 @@
 import BrandLogo from "./BrandLogo.astro";
 import Icon from "./Icon.astro";
 import { config, siteText } from "../lib/content.js";
+import { resolveAboutUrl } from "../lib/navigation.js";
 
 const { lang = "zh-cn", active = "", switchUrl = "" } = Astro.props;
 const isEn = lang === "en";
@@ -15,6 +16,8 @@ const menu = [...(text.menus.main || [])]
     icon: item.params?.icon || "link",
     newTab: Boolean(item.params && "newTab" in item.params && item.params.newTab)
   }));
+const aboutUrl = resolveAboutUrl(menu, lang);
+const aboutLinkLabel = isEn ? "About Left Jun" : "关于 Left Jun";
 const activeMenu = active === "plans" ? "retrospectives" : active;
 const social = [...(text.menus.social || [])]
   .sort((a, b) => (a.weight || 0) - (b.weight || 0))
@@ -97,7 +100,7 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
 
     <header>
       <figure class="site-avatar">
-        <a href={text.homeUrl}>
+        <a href={aboutUrl} aria-label={aboutLinkLabel}>
           <img class="site-logo" src={avatar} alt={avatarAlt} width="120" height="120" loading="eager" />
         </a>
         <span class="emoji status-emoji" tabindex="0" aria-label={statusLabel || undefined}>
@@ -112,7 +115,7 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
       </figure>
 
       <div class="site-meta">
-        <div class="site-name"><a href={text.homeUrl}>{config.title}</a></div>
+        <div class="site-name"><a href={aboutUrl} aria-label={aboutLinkLabel}>{config.title}</a></div>
         <div class="site-role-pill">{rolePill}</div>
         {identityLines.length > 0 && (
           <div class="site-identity">
