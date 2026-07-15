@@ -1544,6 +1544,13 @@ body {
   aspect-ratio: auto;
 }
 
+@media (max-width: 767px) {
+  .home-dashboard .home-project-grid .project-card__image {
+    height: auto;
+    aspect-ratio: 16 / 9;
+  }
+}
+
 .home-dashboard .home-project-grid .project-card__content {
   flex: 1;
   display: flex;
