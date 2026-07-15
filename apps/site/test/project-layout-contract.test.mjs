@@ -18,7 +18,11 @@ test("project routes use the dedicated project layout", () => {
 
 test("project hero is a media-first responsive split and exposes the first evidence link as primary CTA", () => {
   assert.ok(layout.indexOf("project-case__media") < layout.indexOf("project-case__intro"));
-  assert.ok(layout.indexOf("project-case__intro") < layout.indexOf("project-case__facts"));
+  assert.ok(layout.indexOf("project-case__intro") < layout.indexOf("project-case__result"));
+  assert.ok(layout.indexOf("project-case__result") < layout.indexOf("project-case__facts"));
+  assert.match(layout, /const hasHeroMedia = Boolean\(imageUrl \|\| videoUrl\)/);
+  assert.match(layout, /hasHeroMedia && "has-media"/);
+  assert.match(layout, /facts\.result && "has-result"/);
   assert.match(layout, /const primaryLink = projectLinks\[0\]/);
   assert.match(layout, /project-case__primary-action/);
   assert.match(layout, /project-case__status/);
@@ -30,8 +34,17 @@ test("project hero is a media-first responsive split and exposes the first evide
   assert.match(styles, /\.project-case-page \.project-case\s*\{[\s\S]*?max-width:\s*1120px/);
   assert.match(styles, /\.project-case__media\s*\{[\s\S]*?aspect-ratio:\s*16\s*\/\s*9/);
   assert.match(styles, /\.project-case__media \.project-case__cover\s*\{[\s\S]*?object-fit:\s*cover/);
-  assert.match(styles, /@container project-case \(min-width:\s*880px\) and \(max-width:\s*959\.98px\)[\s\S]*?grid-template-columns:\s*minmax\(0, 52fr\) minmax\(0, 48fr\)/);
-  assert.match(styles, /@container project-case \(min-width:\s*960px\)[\s\S]*?grid-template-columns:\s*minmax\(0, 58fr\) minmax\(0, 42fr\)/);
+  assert.match(styles, /@container project-case \(min-width:\s*880px\) and \(max-width:\s*959\.98px\)[\s\S]*?\.project-case__hero\.has-media[\s\S]*?grid-template-columns:\s*minmax\(0, 52fr\) minmax\(0, 48fr\)/);
+  assert.match(styles, /@container project-case \(min-width:\s*960px\)[\s\S]*?\.project-case__hero\.has-media[\s\S]*?grid-template-columns:\s*minmax\(0, 58fr\) minmax\(0, 42fr\)/);
+  assert.match(styles, /\.project-case__hero\.has-media\.has-result\s*\{[\s\S]*?"media intro"[\s\S]*?"result intro"/);
+  assert.match(styles, /\.project-case__hero\.has-media \.project-case__media\s*\{\s*grid-area:\s*media/);
+  assert.match(styles, /\.project-case__hero\.has-media \.project-case__intro\s*\{\s*grid-area:\s*intro/);
+  assert.match(styles, /\.project-case__hero\.has-media \.project-case__result\s*\{\s*grid-area:\s*result/);
+});
+
+test("project hero omits the repeated global portfolio PDF", () => {
+  assert.doesNotMatch(layout, /left-jun-portfolio\.pdf/);
+  assert.doesNotMatch(layout, /Portfolio PDF|作品集 PDF/);
 });
 
 test("project facts omit the result while the narrative summary includes it", () => {
