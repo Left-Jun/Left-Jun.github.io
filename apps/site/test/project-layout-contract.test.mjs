@@ -60,6 +60,8 @@ test("body media stays natural and only the table of contents list scrolls", () 
   assert.match(styles, /\.project-case__content img\s*\{[\s\S]*?object-fit:\s*contain/);
   assert.match(styles, /\.project-case-sidebar\s*\{[\s\S]*?overflow:\s*visible/);
   assert.match(styles, /\.widget--toc \.toc-nav\s*\{[\s\S]*?overflow-y:\s*auto/);
+  assert.match(styles, /\.widget--toc \.toc-nav\s*\{[\s\S]*?grid-auto-rows:\s*max-content/);
+  assert.match(styles, /\.widget--toc \.toc-nav\s*\{[\s\S]*?align-content:\s*start/);
   assert.match(styles, /\.widget--toc \.widget-title\s*\{[\s\S]*?flex:\s*0 0 auto/);
 });
 

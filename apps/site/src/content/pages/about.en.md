@@ -29,7 +29,7 @@ Beyond games, I also keep building web products and STM32 hardware-software proj
 2. **Elegy of Asherah:** a 72-hour cross-school team project where I served as team lead, main programmer, and gameplay systems designer, building spirit-energy resources, form switching, underground safe time, shortcut construction, and multiple endings.
 3. **UE5 Multiplayer PvE Demo:** my first Unreal Engine 5 multiplayer technical demo, covering server-authoritative shooting, enemy AI, respawn, cooperative scoring, and synchronized win state.
 4. **阈限手记:** a personal web product for journals, essays, and personal expression, focused on low-interruption writing, immersive reading, content organization, and a warm paper-like visual direction.
-5. **Wireless-Controlled Wind-Powered Model Boat:** an embedded hardware-software project covering the controller, boat receiver, STM32 drivers, PCB work, and system debugging; reached the finals and ranked ninth among 72 teams.
+5. **Wireless-Controlled Wind-Powered Model Boat:** the only one-person team in the Sichuan University Water Star Model Boat Competition (Spring 2026); I independently completed all hardware-software design, fabrication, and full-system integration, advanced to the final, and placed 9th among 72 professional-division teams.
 6. **Relativity of a Dot:** a 6-hour prototype validating a 2D / 3D switching mechanic.
 7. **Echoes Through Time:** an early team narrative project built around ancient, modern, and future timelines and musical memory.
 

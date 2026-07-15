@@ -3,7 +3,7 @@ title: "Wireless Remote-Control System for a Wind-Powered Smart Boat Model"
 date: 2026-03-28T10:00:00+08:00
 draft: false
 slug: "smart-boat"
-description: "An STM32 software-hardware project based on BOAT02 / CONTROL02, covering ADC joystick sampling, NRF24L01 wireless communication, PWM servo/ESC control, PCB design, and integration debugging."
+description: "My solo entry for the Sichuan University Water Star Model Boat Competition (Spring 2026): I completed the controller, onboard receiver, PCB, fabrication, and full-system integration, then placed 9th among 72 professional-division teams."
 image: "cover.png"
 featured: false
 featuredWeight: 30
@@ -14,19 +14,20 @@ portfolioType: "embedded"
 status: "completed"
 projectFacts:
   developmentTime: "2026.3"
-  duration: "Course / competition cycle"
-  team: "Team project"
-  role: "Team lead / main programmer / hardware designer"
+  duration: "Spring 2026 / competition cycle"
+  team: "1 person / only solo team"
+  event: "Sichuan University Water Star Model Boat Competition (Spring 2026)"
+  role: "Solo hardware-software design / fabrication / integration"
   tools: "STM32F103C8T6 / HAL / JLC EDA"
   platform: "Wireless remote controller + onboard receiver"
-  result: "Completed software-hardware integration and a water-testable version, reaching the final stage."
+  result: "Advanced to the final and placed 9th among 72 professional-division teams; the only solo team."
 tags:
   - "STM32"
   - "Embedded"
   - "Hardware"
 roleTags:
-  - "Team Lead"
-  - "Main Programmer"
+  - "Solo Developer"
+  - "Embedded Developer"
   - "Hardware Designer"
 ---
 
@@ -34,12 +35,14 @@ roleTags:
 
 This is a complete software-hardware project. The formal project scope is `CONTROL02` for the remote controller and `BOAT02` for the onboard receiver. The core goal was to build a wireless control system: the handheld side reads joystick input and sends a compact control packet, while the onboard side decodes that packet and drives steering and ESC throttle, forming a full chain from human input to boat actuation.
 
+I entered the Sichuan University Water Star Model Boat Competition (Spring 2026) as its only one-person team. I independently completed all hardware-software design, fabrication, and full-system integration, advanced to the final, and placed 9th among 72 professional-division teams.
+
 ## My role
 
-- Served as team lead, main programmer, and hardware designer, connecting the remote controller, receiver, PCB, soldering, and integration debugging into a working version.
-- Independently implemented the main code for the `CONTROL02` remote and `BOAT02` onboard receiver, including ADC sampling, packet packing, NRF24L01 communication, PWM servo output, and ESC throttle control.
+- As the competition's only one-person team, independently completed the remote controller, onboard receiver, hardware-software design, PCB, soldering and fabrication, and full-system integration into a water-testable version.
+- Independently implemented all code for the `CONTROL02` remote and `BOAT02` onboard receiver, including ADC sampling, packet packing, NRF24L01 communication, PWM servo output, and ESC throttle control.
 - Designed a 3-byte control protocol: byte 1 stores steering angle, and bytes 2-3 store throttle. The receiver decodes the same format before driving the actuators.
-- Worked through hardware connection and debugging, including 3.3V power, filtering capacitors, crystal oscillator, nRF24L01 module, and external connectors.
+- Independently completed hardware connection and debugging, including 3.3V power, filtering capacitors, crystal oscillator, nRF24L01 module, and external connectors.
 - Added practical handling for joystick center jitter and safe ESC startup, including throttle dead zone, output limiting, LED self-test feedback, and ESC calibration.
 
 ## Technical implementation
@@ -83,4 +86,4 @@ The code side handles ADC sampling, throttle and steering mapping, 3-byte packet
 
 ## Result
 
-- Became one of the few teams to finish the race and reached the final stage.
+- Advanced to the final and placed 9th among 72 professional-division teams as the competition's only one-person team.

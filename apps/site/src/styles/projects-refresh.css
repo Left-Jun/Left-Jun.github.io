@@ -430,6 +430,8 @@
 .project-case-page .project-case-sidebar .widget--toc .toc-nav {
   min-height: 0;
   flex: 1 1 auto;
+  grid-auto-rows: max-content;
+  align-content: start;
   overflow-x: hidden;
   overflow-y: auto;
   overscroll-behavior: contain;
