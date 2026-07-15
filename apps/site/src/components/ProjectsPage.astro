@@ -137,10 +137,14 @@ const labels = {
   .projects-portfolio__header {
     display: grid;
     grid-template-columns: minmax(0, 1fr) auto;
-    gap: 16px 32px;
-    margin-bottom: clamp(36px, 4.5vw, 58px);
-    padding: clamp(8px, 2vw, 18px) 0 20px;
+    gap: 12px 28px;
+    margin-bottom: clamp(26px, 3vw, 40px);
+    padding: clamp(4px, 1vw, 10px) 0 16px;
     border-bottom: 1px solid var(--card-separator-color);
+  }
+
+  .projects-portfolio {
+    container: projects-portfolio / inline-size;
   }
 
   .projects-portfolio__header-copy {
@@ -166,10 +170,10 @@ const labels = {
 
   .projects-portfolio__description {
     max-width: 900px;
-    margin: 12px 0 0;
+    margin: 8px 0 0;
     color: var(--card-text-color-secondary);
     font-size: 16px;
-    line-height: 1.68;
+    line-height: 1.6;
   }
 
   .projects-portfolio__meta {
@@ -194,8 +198,7 @@ const labels = {
     display: flex;
     grid-column: 1 / -1;
     flex-wrap: wrap;
-    gap: 9px;
-    padding-top: 2px;
+    gap: 8px;
   }
 
   .projects-portfolio__filter {
@@ -285,16 +288,15 @@ const labels = {
   .projects-portfolio__core-grid,
   .projects-portfolio__archive-grid {
     display: grid;
+    grid-template-columns: minmax(0, 1fr);
     align-items: stretch;
     gap: 16px;
   }
 
-  .projects-portfolio__core-grid {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
-
-  .projects-portfolio__archive-grid {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
+  @container projects-portfolio (min-width: 960px) {
+    .projects-portfolio__archive-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
   }
 
   .projects-portfolio__empty {
@@ -321,10 +323,6 @@ const labels = {
       font-size: 24px;
     }
 
-    .projects-portfolio__core-grid,
-    .projects-portfolio__archive-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-    }
   }
 
   @media (min-width: 1001px) and (max-width: 1180px) {

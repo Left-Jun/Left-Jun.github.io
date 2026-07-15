@@ -50,16 +50,31 @@ const factsList = [
   { label: labels.team, value: facts.team },
   { label: labels.tools, value: facts.tools }
 ].filter((item) => item.value);
+const archiveDescriptor = role
+  ? { label: labels.role, value: role }
+  : facts.tools
+    ? { label: labels.tools, value: facts.tools }
+    : null;
+const coverSizes = priority
+  ? "(max-width: 767px) calc(100vw - 32px), (max-width: 1010px) calc(100vw - 280px), calc(42vw - 100px)"
+  : variant === "archive"
+    ? "auto, (max-width: 519px) calc(100vw - 32px), 176px"
+    : "auto, (max-width: 719px) calc(100vw - 32px), 42vw";
 const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封面`;
 ---
 
 <article
   id={`project-${entry.slug}`}
-  class:list={["portfolio-project-card", `portfolio-project-card--${variant}`]}
+  class:list={[
+    "portfolio-project-card",
+    `portfolio-project-card--${variant}`,
+    !imageUrl && "portfolio-project-card--no-media"
+  ]}
   aria-labelledby={titleId}
   data-project-item
   data-project-section={variant}
   data-project-type={type}
+  data-project-card-variant={variant}
   style={`--leftjun-language-transition-name: lj-project-${entry.slug};`}
 >
   {imageUrl && (
@@ -68,9 +83,7 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
         imageSrc={imageUrl}
         videoSrc={videoUrl}
         alt={coverAlt}
-        sizes={variant === "core"
-          ? "(max-width: 767px) 92vw, (max-width: 1180px) 46vw, 30vw"
-          : "(max-width: 767px) 92vw, (max-width: 1180px) 46vw, 42vw"}
+        sizes={coverSizes}
         loading={priority ? "eager" : "lazy"}
         fetchpriority={priority ? "high" : "auto"}
         style={`object-position: ${imagePosition};`}
@@ -79,27 +92,34 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
   )}
 
   <div class="portfolio-project-card__content">
-    <div class="portfolio-project-card__labels">
-      <span class:list={["portfolio-project-card__type", `portfolio-project-card__type--${type}`]}>
-        {labels.type[type] || labels.type.other}
-      </span>
-      {status && <span class="portfolio-project-card__status">{status}</span>}
-    </div>
+    {variant === "core" && (
+      <div class="portfolio-project-card__labels">
+        <span class:list={["portfolio-project-card__type", `portfolio-project-card__type--${type}`]}>
+          {labels.type[type] || labels.type.other}
+        </span>
+        {status && <span class="portfolio-project-card__status">{status}</span>}
+      </div>
+    )}
 
     <h3 id={titleId}><a href={entry.url}>{data.title}</a></h3>
 
-    {role && (
+    {variant === "core" && role && (
       <p class="portfolio-project-card__statement portfolio-project-card__statement--role">
         <strong>{labels.role}</strong><span>{role}</span>
       </p>
     )}
+    {variant === "archive" && archiveDescriptor && (
+      <p class="portfolio-project-card__archive-descriptor">
+        <strong>{archiveDescriptor.label}</strong><span>{archiveDescriptor.value}</span>
+      </p>
+    )}
     {result && (
       <p class="portfolio-project-card__statement portfolio-project-card__statement--result">
-        <strong>{labels.result}</strong><span>{result}</span>
+        {variant === "core" && <strong>{labels.result}</strong>}<span>{result}</span>
       </p>
     )}
 
-    {factsList.length > 0 && (
+    {variant === "core" && factsList.length > 0 && (
       <dl class="portfolio-project-card__facts">
         {factsList.map((fact) => (
           <div>
@@ -116,7 +136,7 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
         <span>{labels.view}</span>
         <Icon name="chevron-right" label="" />
       </a>
-      {evidence && (
+      {variant === "core" && evidence && (
         <a
           class="portfolio-project-card__evidence-link"
           href={evidence.url}
@@ -253,7 +273,10 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
   }
 
   .portfolio-project-card--archive h3 {
-    font-size: 22px;
+    margin-top: 0;
+    font-size: 20px;
+    overflow-wrap: anywhere;
+    text-wrap: pretty;
   }
 
   .portfolio-project-card h3 a:hover,
@@ -286,6 +309,33 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
     overflow: hidden;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 3;
+  }
+
+  .portfolio-project-card__archive-descriptor {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: 8px;
+    margin: 9px 0 0;
+    color: var(--card-text-color-secondary);
+    font-size: 13px;
+    line-height: 1.45;
+  }
+
+  .portfolio-project-card__archive-descriptor strong {
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    font-weight: 760;
+  }
+
+  .portfolio-project-card--archive .portfolio-project-card__statement--result {
+    display: block;
+    margin-top: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .portfolio-project-card--archive .portfolio-project-card__statement--result span {
+    -webkit-line-clamp: 2;
   }
 
   .portfolio-project-card__facts {
@@ -372,6 +422,25 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
     flex: 0 0 auto;
   }
 
+  .portfolio-project-card--archive .portfolio-project-card__actions {
+    padding-top: 10px;
+  }
+
+  .portfolio-project-card--archive .portfolio-project-card__case-link {
+    min-height: 40px;
+    justify-content: flex-start;
+    padding: 6px 0;
+    border-color: transparent !important;
+    background: transparent;
+    box-shadow: none;
+    color: var(--leftjun-primary);
+  }
+
+  .portfolio-project-card--archive .portfolio-project-card__case-link:hover,
+  .portfolio-project-card--archive .portfolio-project-card__case-link:focus-visible {
+    box-shadow: none;
+  }
+
   :root[data-scheme="dark"] .portfolio-project-card__labels .portfolio-project-card__type--embedded {
     color: #a8eee0;
   }
@@ -393,6 +462,10 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
       border-radius: 16px;
     }
 
+    .portfolio-project-card--core {
+      border-radius: 22px;
+    }
+
     .portfolio-project-card__content,
     .portfolio-project-card--core .portfolio-project-card__content {
       padding: 16px;
@@ -402,6 +475,11 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
     .portfolio-project-card--archive h3 {
       margin-top: 10px;
       font-size: 21px;
+    }
+
+    .portfolio-project-card--archive h3 {
+      margin-top: 0;
+      font-size: 20px;
     }
 
     .portfolio-project-card__statement {
@@ -420,6 +498,71 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
 
     .portfolio-project-card__actions a {
       min-height: 44px;
+    }
+  }
+
+  @container projects-portfolio (min-width: 520px) {
+    .portfolio-project-card--archive {
+      display: grid;
+      grid-template-columns: 176px minmax(0, 1fr);
+      align-items: center;
+      gap: 16px;
+      padding: 14px;
+    }
+
+    .portfolio-project-card--archive .portfolio-project-card__media {
+      width: 176px;
+      border-radius: 12px;
+    }
+
+    .portfolio-project-card--archive .portfolio-project-card__content {
+      padding: 0;
+    }
+
+    .portfolio-project-card--archive.portfolio-project-card--no-media {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @container projects-portfolio (min-width: 720px) {
+    .portfolio-project-card--core {
+      display: grid;
+      grid-template-columns: minmax(0, 42%) minmax(0, 1fr);
+      align-items: center;
+      gap: clamp(18px, 2.2cqw, 28px);
+      padding: 16px;
+    }
+
+    .portfolio-project-card--core .portfolio-project-card__media {
+      width: 100%;
+      border-radius: 16px;
+    }
+
+    .portfolio-project-card--core .portfolio-project-card__content {
+      padding: 4px clamp(4px, 1cqw, 12px) 4px 0;
+    }
+
+    .portfolio-project-card--core .portfolio-project-card__facts {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 10px;
+    }
+
+    .portfolio-project-card--core .portfolio-project-card__facts > div {
+      display: block;
+    }
+
+    .portfolio-project-card--core .portfolio-project-card__facts dd {
+      margin-top: 3px;
+    }
+
+    .portfolio-project-card--core.portfolio-project-card--no-media {
+      grid-template-columns: minmax(0, 1fr);
+    }
+  }
+
+  @container projects-portfolio (min-width: 960px) {
+    .portfolio-project-card--core h3 {
+      font-size: 24px;
     }
   }
 
