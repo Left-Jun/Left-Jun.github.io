@@ -52,7 +52,7 @@ const alternateUrl = alternateEntry?.url;
 const alternateLabel = text.isEn ? "中文" : "English";
 const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
 const projectsLabel = text.isEn ? "Project Portfolio" : "项目&作品集";
-const portfolioPdfUrl = "/files/left-jun-portfolio.pdf";
+const hasHeroMedia = Boolean(imageUrl || videoUrl);
 
 const statusText = entry.data.status ? ({
   planned: text.isEn ? "Planned" : "计划中",
@@ -125,8 +125,8 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
   ]}
 >
   <article class="main-article project-case" style={`--leftjun-language-transition-name: lj-article-projects-${entry.slug};`}>
-    <header class="project-case__hero">
-      {(imageUrl || videoUrl) && (
+    <header class:list={["project-case__hero", hasHeroMedia && "has-media", facts.result && "has-result"]}>
+      {hasHeroMedia && (
         <div class="project-case__media">
           <CoverMedia
             imageSrc={imageUrl}
@@ -155,16 +155,9 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
           </p>
         )}
 
-        {facts.result && (
-          <div class="project-case__result">
-            <span>{text.isEn ? "Delivered outcome" : "完成结果"}</span>
-            <p>{facts.result}</p>
-          </div>
-        )}
-
         {entry.data.description && <p class="project-case__description">{entry.data.description}</p>}
 
-        <div class="project-case__actions" aria-label={text.isEn ? "Project evidence and utilities" : "项目证据与辅助入口"}>
+        <div class="project-case__actions" aria-label={text.isEn ? "Project evidence and language" : "项目证据与语言入口"}>
           {primaryLink && (
             <a class="project-case__primary-action" href={primaryLink.url} target="_blank" rel="noopener noreferrer">
               <Icon name={primaryLink.icon || "link"} />
@@ -172,10 +165,6 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
               <Icon name="chevron-right" />
             </a>
           )}
-          <a class="project-case__utility-action" href={portfolioPdfUrl} target="_blank" rel="noopener noreferrer">
-            <Icon name="briefcase" />
-            <span>{text.isEn ? "Portfolio PDF" : "作品集 PDF"}</span>
-          </a>
           {alternateUrl && (
             <a class="project-case__utility-action" href={alternateUrl} data-language-transition>
               <Icon name="language" />
@@ -185,6 +174,13 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
         </div>
 
       </div>
+
+      {facts.result && (
+        <div class="project-case__result">
+          <span>{text.isEn ? "Delivered outcome" : "完成结果"}</span>
+          <p>{facts.result}</p>
+        </div>
+      )}
     </header>
 
     {factItems.length > 0 && (
