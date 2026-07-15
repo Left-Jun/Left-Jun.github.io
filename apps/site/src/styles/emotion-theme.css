@@ -1,0 +1,207 @@
+/* Emotion Mask pages use the Steam artwork as a page canvas, with opaque reading surfaces. */
+
+body[data-visual-theme="emotion-mask"] {
+  --emotion-theme-blue: #1764a7;
+  --emotion-theme-gold: #bd8120;
+  --emotion-theme-red: #b6403b;
+  --emotion-theme-reading: rgba(255, 253, 248, 0.95);
+  --emotion-theme-surface: rgba(255, 253, 248, 0.92);
+  --emotion-theme-surface-strong: rgba(255, 255, 252, 0.97);
+  --leftjun-reading-surface: var(--emotion-theme-reading);
+  --leftjun-surface: var(--emotion-theme-surface);
+  --leftjun-surface-strong: var(--emotion-theme-surface-strong);
+  --leftjun-surface-muted: rgba(238, 232, 220, 0.94);
+  position: relative;
+  background: #eee7dc;
+}
+
+:root[data-scheme="dark"] body[data-visual-theme="emotion-mask"] {
+  --emotion-theme-blue: #6fafe8;
+  --emotion-theme-gold: #e3b45c;
+  --emotion-theme-red: #e77870;
+  --emotion-theme-reading: rgba(18, 20, 23, 0.95);
+  --emotion-theme-surface: rgba(22, 24, 27, 0.93);
+  --emotion-theme-surface-strong: rgba(27, 29, 32, 0.97);
+  --leftjun-surface-muted: rgba(35, 36, 38, 0.95);
+  background: #111317;
+}
+
+.visual-theme-backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+  background: #eee7dc;
+}
+
+.visual-theme-backdrop::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(249, 246, 240, 0.58);
+}
+
+.visual-theme-backdrop__picture,
+.visual-theme-backdrop__image {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+.visual-theme-backdrop__image {
+  object-fit: cover;
+}
+
+:root[data-scheme="dark"] .visual-theme-backdrop {
+  background: #111317;
+}
+
+:root[data-scheme="dark"] .visual-theme-backdrop::after {
+  background: rgba(8, 10, 14, 0.78);
+}
+
+body[data-visual-theme="emotion-mask"] > .site-shell,
+body[data-visual-theme="emotion-mask"] > .standalone-shell {
+  position: relative;
+  z-index: 1;
+}
+
+body[data-visual-theme="emotion-mask"] .left-sidebar {
+  border-color: color-mix(in srgb, var(--emotion-theme-blue) 26%, transparent);
+  background: rgba(250, 249, 245, 0.96);
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--emotion-theme-gold) 20%, transparent);
+  backdrop-filter: blur(20px) saturate(1.04);
+}
+
+:root[data-scheme="dark"] body[data-visual-theme="emotion-mask"] .left-sidebar {
+  border-color: color-mix(in srgb, var(--emotion-theme-blue) 24%, transparent);
+  background: rgba(20, 23, 27, 0.96);
+  box-shadow: inset -1px 0 0 color-mix(in srgb, var(--emotion-theme-gold) 24%, transparent);
+}
+
+body[data-visual-theme="emotion-mask"] .left-sidebar a[aria-current="page"] {
+  border-color: color-mix(in srgb, var(--emotion-theme-blue) 34%, transparent);
+  background: color-mix(in srgb, var(--emotion-theme-blue) 10%, var(--emotion-theme-surface-strong));
+  box-shadow: inset 3px 0 0 var(--emotion-theme-blue);
+}
+
+body[data-visual-theme="emotion-mask"] .main-article:not(.project-case),
+body[data-visual-theme="emotion-mask"] .article-header,
+body[data-visual-theme="emotion-mask"] .record-detail-context {
+  background: var(--emotion-theme-reading);
+}
+
+body[data-visual-theme="emotion-mask"] .record-detail-context {
+  border-color: color-mix(in srgb, var(--emotion-theme-gold) 28%, var(--card-separator-color));
+}
+
+body[data-visual-theme="emotion-mask"] .project-case__media,
+body[data-visual-theme="emotion-mask"] .record-detail-hero .article-image {
+  border-color: color-mix(in srgb, var(--emotion-theme-blue) 28%, var(--card-separator-color));
+  box-shadow: 0 22px 48px rgba(27, 43, 55, 0.18);
+}
+
+body[data-visual-theme="emotion-mask"] .project-case__result {
+  border-left-color: var(--emotion-theme-red);
+  background: color-mix(in srgb, var(--emotion-theme-gold) 9%, var(--emotion-theme-surface-strong));
+}
+
+body[data-visual-theme="emotion-mask"] .project-case__facts dl > div {
+  border-inline-start-color: color-mix(in srgb, var(--emotion-theme-gold) 36%, var(--card-separator-color));
+}
+
+body[data-visual-theme="emotion-mask"] .project-case__facts dt .inline-icon,
+body[data-visual-theme="emotion-mask"] .content-detail-kicker {
+  color: var(--emotion-theme-blue);
+}
+
+body[data-visual-theme="emotion-mask"] .right-sidebar {
+  background: transparent;
+  box-shadow: none;
+}
+
+body[data-visual-theme="emotion-mask"] .right-sidebar .widget {
+  border-color: color-mix(in srgb, var(--emotion-theme-blue) 20%, var(--card-separator-color));
+  background: var(--emotion-theme-surface-strong);
+  box-shadow: 0 16px 34px rgba(28, 34, 39, 0.15);
+  backdrop-filter: blur(16px) saturate(1.02);
+}
+
+body[data-visual-theme="emotion-mask"] .right-sidebar .widget--toc {
+  border-left: 3px solid var(--emotion-theme-blue);
+}
+
+body[data-visual-theme="emotion-mask"] .right-sidebar .project-download-widget {
+  border-left: 3px solid var(--emotion-theme-gold);
+}
+
+body[data-visual-theme="emotion-mask"] .right-sidebar .project-summary-widget {
+  border-left: 3px solid var(--emotion-theme-red);
+}
+
+body[data-visual-theme="emotion-mask"] .right-sidebar .toc-nav a:hover,
+body[data-visual-theme="emotion-mask"] .right-sidebar .toc-nav a:focus-visible,
+body[data-visual-theme="emotion-mask"] .right-sidebar .toc-nav a.is-active {
+  color: var(--emotion-theme-blue);
+}
+
+body[data-visual-theme="emotion-mask"] .right-sidebar .toc-nav a:hover::before,
+body[data-visual-theme="emotion-mask"] .right-sidebar .toc-nav a:focus-visible::before,
+body[data-visual-theme="emotion-mask"] .right-sidebar .toc-nav a.is-active::before {
+  background: var(--emotion-theme-red);
+  box-shadow: inset 0 0 0 4px var(--emotion-theme-surface-strong), 0 0 0 3px color-mix(in srgb, var(--emotion-theme-red) 18%, transparent);
+}
+
+@media (min-width: 1536px) {
+  body.article-page[data-visual-theme="emotion-mask"] .site-content-layout.has-right-sidebar > .right-sidebar {
+    height: calc(100vh - var(--right-sidebar-sticky-top) - 24px);
+    max-height: calc(100vh - var(--right-sidebar-sticky-top) - 24px);
+    overflow-x: visible;
+    overflow-y: visible;
+  }
+
+  body[data-visual-theme="emotion-mask"] .right-sidebar .widget {
+    flex: 0 0 auto;
+  }
+
+  body[data-visual-theme="emotion-mask"] .right-sidebar .widget--toc {
+    min-height: 112px;
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  body[data-visual-theme="emotion-mask"] .right-sidebar .widget--toc .widget-title {
+    flex: 0 0 auto;
+  }
+
+  body[data-visual-theme="emotion-mask"] .right-sidebar .widget--toc .toc-nav {
+    min-height: 0;
+    flex: 1 1 auto;
+    grid-auto-rows: max-content;
+    align-content: start;
+    overflow-x: hidden;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+  }
+}
+
+@media (max-width: 767px) {
+  .visual-theme-backdrop::after {
+    background: rgba(249, 246, 240, 0.76);
+  }
+
+  :root[data-scheme="dark"] .visual-theme-backdrop::after {
+    background: rgba(8, 10, 14, 0.86);
+  }
+
+  body[data-visual-theme="emotion-mask"] .left-sidebar,
+  body[data-visual-theme="emotion-mask"] .main-article:not(.project-case),
+  body[data-visual-theme="emotion-mask"] .right-sidebar .widget {
+    background: var(--emotion-theme-surface-strong);
+    backdrop-filter: none;
+  }
+}

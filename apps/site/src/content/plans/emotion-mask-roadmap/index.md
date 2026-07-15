@@ -5,6 +5,7 @@ draft: false
 slug: "emotion-mask-roadmap"
 description: "基于 5.16《蜀光游集》线下试玩反馈整理的《Emotion Mask》后续更新方向。"
 image: "cover.jpg"
+visualTheme: "emotion-mask"
 categories:
   - "开发计划"
 tags:

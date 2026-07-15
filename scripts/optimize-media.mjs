@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 import sharp from "sharp";
-import { collectContentImageSources } from "./media-sources.mjs";
+import { collectResponsiveImageSources } from "./media-sources.mjs";
 
 const repoRoot = path.resolve(import.meta.dirname, "..");
 const contentRoot = path.join(repoRoot, "apps/site/src/content");
@@ -55,7 +55,7 @@ async function optimizeSource(sourcePath) {
 }
 
 sharp.cache(false);
-const sources = await collectContentImageSources({ contentRoot, publicRoot });
+const sources = await collectResponsiveImageSources({ contentRoot, publicRoot });
 const manifest = {};
 
 for (const source of sources) {

@@ -5,6 +5,7 @@ draft: false
 slug: "emotion-mask"
 description: "A 2D platformer-puzzle game built around an emotion state machine, platform visibility, dash-based breaking, shard collection, timer settlement, and public release flow, completed solo within 48 hours and published on TapTap."
 image: "cover.png"
+visualTheme: "emotion-mask"
 featured: true
 featuredWeight: 20
 homeHeroWeight: 20

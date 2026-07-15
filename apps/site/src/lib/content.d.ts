@@ -3,6 +3,7 @@ export type ContentSection = "projects" | "posts" | "retrospectives" | "plans" |
 export type ContentStatus = "planned" | "in-progress" | "completed" | "paused" | "archived";
 export type UpdateKind = "project" | "event" | "award" | "training" | "research" | "release" | "article";
 export type ProjectLinkKind = "playable" | "store" | "video" | "source" | "report" | "site" | "evidence";
+export type VisualTheme = "emotion-mask";
 
 export interface ProjectLink {
   label: string;
@@ -51,6 +52,7 @@ export interface SiteEntryData {
   portfolioType?: string;
   projectFacts?: ProjectFacts;
   projectLinks?: ProjectLink[];
+  visualTheme?: VisualTheme;
   featured?: boolean;
   featuredWeight?: number;
   homeHeroWeight?: number;

@@ -105,6 +105,7 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
   priorityImageType={priorityImageType || undefined}
   active="projects"
   bodyClass="article-page project-detail-page project-case-page"
+  visualTheme={String(entry.data.visualTheme || "")}
   alternateUrl={alternateUrl}
   alternateLang={alternateEntry?.lang}
   ogType="website"

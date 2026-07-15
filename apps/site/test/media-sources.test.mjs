@@ -7,6 +7,7 @@ import test from "node:test";
 import {
   collectContentCoverVideoSources,
   collectContentImageSources,
+  collectResponsiveImageSources,
   validateCoverVideoSources
 } from "../../../scripts/media-sources.mjs";
 
@@ -44,6 +45,24 @@ test("cover videos resolve beside their content assets without entering the imag
     supported: true,
     withinPublicRoot: true
   }]);
+});
+
+test("responsive image collection includes registered theme artwork", async (t) => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "leftjun-theme-media-"));
+  t.after(() => fs.rm(root, { recursive: true, force: true }));
+  const contentRoot = path.join(root, "content");
+  const publicRoot = path.join(root, "public");
+
+  await writeEntry(contentRoot, "projects/example/index.md", {
+    title: "Example",
+    image: "cover.png"
+  });
+
+  const images = await collectResponsiveImageSources({ contentRoot, publicRoot });
+  assert.deepEqual(images, [
+    path.join(publicRoot, "content-assets", "projects", "example", "cover.png"),
+    path.join(publicRoot, "theme-assets", "emotion-mask", "page-background.png")
+  ]);
 });
 
 test("cover video collection supports site paths and webm while exposing invalid local references", async (t) => {

@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import {
   collectContentCoverVideoSources,
-  collectContentImageSources,
+  collectResponsiveImageSources,
   publicMediaUrl,
   validateCoverVideoSources
 } from "./media-sources.mjs";
@@ -15,7 +15,7 @@ const manifest = JSON.parse(await fs.readFile(manifestPath, "utf8"));
 const errors = [];
 let largest = { src: "", bytes: 0 };
 
-const referencedSources = await collectContentImageSources({ contentRoot, publicRoot });
+const referencedSources = await collectResponsiveImageSources({ contentRoot, publicRoot });
 for (const sourcePath of referencedSources) {
   const source = publicMediaUrl(publicRoot, sourcePath);
   if (!manifest[source]) errors.push(`Referenced image missing responsive mapping: ${source}`);

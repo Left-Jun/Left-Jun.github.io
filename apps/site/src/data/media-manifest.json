@@ -1549,5 +1549,38 @@
       }
     ],
     "poster": "/content-assets/retrospectives/time-echo-retrospective/cover-960.webp"
+  },
+  "/theme-assets/emotion-mask/page-background.png": {
+    "width": 1438,
+    "height": 810,
+    "avif": [
+      {
+        "src": "/theme-assets/emotion-mask/page-background-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/theme-assets/emotion-mask/page-background-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/theme-assets/emotion-mask/page-background-1438.avif",
+        "width": 1438
+      }
+    ],
+    "webp": [
+      {
+        "src": "/theme-assets/emotion-mask/page-background-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/theme-assets/emotion-mask/page-background-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/theme-assets/emotion-mask/page-background-1438.webp",
+        "width": 1438
+      }
+    ],
+    "poster": "/theme-assets/emotion-mask/page-background-960.webp"
   }
 }

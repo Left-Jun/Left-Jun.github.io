@@ -5,6 +5,7 @@ draft: false
 slug: "emotion-mask-retrospective"
 description: "复盘《Emotion Mask》从 Game Jam 原型到线下路演展示的开发经历、机制取舍和后续反思。"
 image: "cover.jpg"
+visualTheme: "emotion-mask"
 categories:
   - "项目复盘"
 tags:
