@@ -7,14 +7,18 @@ const source = await fs.readFile(
   "utf8"
 );
 
-test("record project media grows progressively on desktop without changing tablet or mobile frames", () => {
+test("record project media grows to 320px on wide desktop without changing tablet or mobile frames", () => {
   assert.match(
     source,
-    /sizes="\(max-width: 767px\) 112px, \(max-width: 1120px\) 240px, clamp\(240px, 21vw, 288px\)"/
+    /sizes="\(max-width: 767px\) 112px, \(max-width: 1120px\) 240px, clamp\(256px, 23vw, 320px\)"/
   );
   assert.match(
     source,
-    /\.record-thread__project--has-media \{[\s\S]*?grid-template-columns: clamp\(240px, 21vw, 288px\) minmax\(0, 1fr\)/
+    /\.record-thread__project--has-media \{[\s\S]*?grid-template-columns: 240px minmax\(0, 1fr\)/
+  );
+  assert.match(
+    source,
+    /@media \(min-width: 1121px\) \{[\s\S]*?\.record-thread__project--has-media \{[\s\S]*?grid-template-columns: clamp\(256px, 23vw, 320px\) minmax\(0, 1fr\)/
   );
   assert.match(
     source,

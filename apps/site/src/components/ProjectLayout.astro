@@ -43,7 +43,7 @@ const priorityImageSrcset = priorityVariants.length > 0 ? mediaSrcset(priorityVa
 const priorityImageType = priorityVariants.length > 0
   ? (responsiveImage?.avif?.length ? "image/avif" : "image/webp")
   : "";
-const priorityImageSizes = "(max-width: 767px) calc(100vw - 32px), (max-width: 1535px) min(920px, calc(100vw - 128px)), 920px";
+const priorityImageSizes = "(max-width: 767px) calc(100vw - 32px), (max-width: 1206px) calc(100vw - 300px), (max-width: 1286px) calc(52vw - 184px), (max-width: 1535px) min(632px, calc(58vw - 207px)), 620px";
 const imagePosition = entry.data.imagePosition || "center";
 
 const alternateLang = text.isEn ? "zh-cn" : "en";
@@ -74,7 +74,6 @@ const inferredTeam = text.isEn
   : (roleText.includes("独立") || roleText.includes("单人") ? "独立开发" : "团队项目");
 const eventText = facts.event || facts.competition || "";
 const factItems = [
-  { icon: "clock", label: text.isEn ? "Status" : "状态", value: statusText },
   { icon: "clock", label: text.isEn ? "Duration" : "周期", value: facts.duration || facts.developmentTime },
   { icon: "users", label: text.isEn ? "Team" : "团队", value: facts.team || inferredTeam },
   { icon: "code", label: text.isEn ? "Tools" : "技术", value: facts.tools },
@@ -143,7 +142,10 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
       )}
 
       <div class="project-case__intro">
-        <p class="project-case__kicker">{text.isEn ? "Project Case" : "项目案例"}</p>
+        <div class="project-case__eyebrow">
+          {statusText && <span class="project-case__status">{statusText}</span>}
+          <span class="project-case__kicker">{text.isEn ? "Project Case" : "项目案例"}</span>
+        </div>
         <h1>{entry.data.title}</h1>
 
         {facts.role && (
@@ -182,6 +184,24 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
           )}
         </div>
 
+      </div>
+    </header>
+
+    {factItems.length > 0 && (
+      <section class="project-case__facts" aria-label={text.projectProfile}>
+        <dl>
+          {factItems.map((item) => (
+            <div>
+              <dt><Icon name={item.icon} /><span>{item.label}</span></dt>
+              <dd>{item.value}</dd>
+            </div>
+          ))}
+        </dl>
+      </section>
+    )}
+
+    {(secondaryLinks.length > 0 || pills.length > 0) && (
+      <div class="project-case__supporting">
         {secondaryLinks.length > 0 && (
           <nav class="project-case__secondary-links" aria-label={text.isEn ? "More project evidence" : "更多项目证据"}>
             {secondaryLinks.map((link) => (
@@ -199,19 +219,6 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
           </div>
         )}
       </div>
-    </header>
-
-    {factItems.length > 0 && (
-      <section class="project-case__facts" aria-label={text.projectProfile}>
-        <dl>
-          {factItems.map((item) => (
-            <div>
-              <dt><Icon name={item.icon} /><span>{item.label}</span></dt>
-              <dd>{item.value}</dd>
-            </div>
-          ))}
-        </dl>
-      </section>
     )}
 
     {projectRecords.length > 0 && (

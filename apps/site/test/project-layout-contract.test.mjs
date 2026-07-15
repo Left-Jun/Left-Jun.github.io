@@ -16,17 +16,28 @@ test("project routes use the dedicated project layout", () => {
   assert.doesNotMatch(enRoute, /ArticleLayout/);
 });
 
-test("project hero is media-first and exposes the first evidence link as primary CTA", () => {
+test("project hero is a media-first responsive split and exposes the first evidence link as primary CTA", () => {
   assert.ok(layout.indexOf("project-case__media") < layout.indexOf("project-case__intro"));
+  assert.ok(layout.indexOf("project-case__intro") < layout.indexOf("project-case__facts"));
   assert.match(layout, /const primaryLink = projectLinks\[0\]/);
   assert.match(layout, /project-case__primary-action/);
-  assert.match(styles, /\.project-case__media\s*\{[\s\S]*?aspect-ratio:\s*25\s*\/\s*12/);
+  assert.match(layout, /project-case__status/);
+  assert.match(layout, /\(max-width: 1206px\) calc\(100vw - 300px\)/);
+  assert.match(layout, /\(max-width: 1286px\) calc\(52vw - 184px\)/);
+  assert.match(layout, /min\(632px, calc\(58vw - 207px\)\)/);
+  assert.match(layout, /620px/);
+  assert.ok(layout.indexOf("project-case__facts") < layout.indexOf("project-case__supporting"));
+  assert.match(styles, /\.project-case-page \.project-case\s*\{[\s\S]*?max-width:\s*1120px/);
+  assert.match(styles, /\.project-case__media\s*\{[\s\S]*?aspect-ratio:\s*16\s*\/\s*9/);
   assert.match(styles, /\.project-case__media \.project-case__cover\s*\{[\s\S]*?object-fit:\s*cover/);
+  assert.match(styles, /@container project-case \(min-width:\s*880px\) and \(max-width:\s*959\.98px\)[\s\S]*?grid-template-columns:\s*minmax\(0, 52fr\) minmax\(0, 48fr\)/);
+  assert.match(styles, /@container project-case \(min-width:\s*960px\)[\s\S]*?grid-template-columns:\s*minmax\(0, 58fr\) minmax\(0, 42fr\)/);
 });
 
 test("project facts omit the result while the narrative summary includes it", () => {
   const factBlock = layout.match(/const factItems = \[([\s\S]*?)\]\.filter/)?.[1] || "";
   assert.doesNotMatch(factBlock, /facts\.result/);
+  assert.doesNotMatch(factBlock, /Status|状态/);
   assert.match(layout, /project-case__result/);
   assert.match(layout, /facts\.result/);
 });
@@ -39,8 +50,8 @@ test("body media stays natural and only the table of contents list scrolls", () 
   assert.match(styles, /\.widget--toc \.widget-title\s*\{[\s\S]*?flex:\s*0 0 auto/);
 });
 
-test("mobile keeps the media first, hides only the redundant kicker, and keeps the title compact", () => {
-  assert.match(styles, /@media \(max-width: 767\.98px\)[\s\S]*?\.project-case__media\s*\{[\s\S]*?aspect-ratio:\s*2\s*\/\s*1/);
-  assert.match(styles, /@media \(max-width: 767\.98px\)[\s\S]*?\.project-case__kicker\s*\{\s*display:\s*none/);
+test("mobile keeps the media first, hides only the redundant eyebrow, and keeps the title compact", () => {
+  assert.match(styles, /@media \(max-width: 767\.98px\)[\s\S]*?\.project-case__media\s*\{[\s\S]*?aspect-ratio:\s*11\s*\/\s*5/);
+  assert.match(styles, /@media \(max-width: 767\.98px\)[\s\S]*?\.project-case__eyebrow\s*\{\s*display:\s*none/);
   assert.match(styles, /@media \(max-width: 767\.98px\)[\s\S]*?\.project-case__intro h1\s*\{[\s\S]*?font-size:\s*27px/);
 });

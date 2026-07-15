@@ -2,21 +2,23 @@
 
 .project-case-page .project-case {
   width: 100%;
-  max-width: 920px;
+  max-width: 1120px;
   display: grid;
   gap: 0;
   margin-inline: auto;
+  container: project-case / inline-size;
 }
 
 .project-case__hero {
   display: grid;
-  gap: 22px;
+  gap: 18px;
+  align-items: start;
 }
 
 .project-case__media {
   position: relative;
   width: 100%;
-  aspect-ratio: 25 / 12;
+  aspect-ratio: 16 / 9;
   overflow: hidden;
   border: 1px solid color-mix(in srgb, var(--leftjun-primary) 12%, var(--card-separator-color));
   border-radius: 22px;
@@ -32,77 +34,74 @@
 }
 
 .project-case__intro {
+  min-width: 0;
   display: grid;
-  gap: 13px;
+  gap: 12px;
 }
 
-@media (min-width: 1181px) {
-  .project-case__intro {
-    grid-template-columns: minmax(280px, 0.78fr) minmax(0, 1.22fr);
-    grid-template-rows: auto auto auto auto;
-    column-gap: 30px;
-    align-items: start;
-  }
-
-  .project-case__kicker {
-    grid-column: 1;
-    grid-row: 1;
+@container project-case (min-width: 880px) and (max-width: 959.98px) {
+  .project-case__hero {
+    grid-template-columns: minmax(0, 52fr) minmax(0, 48fr);
+    gap: 24px;
   }
 
   .project-case__intro h1 {
-    grid-column: 1;
-    grid-row: 2;
-  }
-
-  .project-case__role {
-    grid-column: 1;
-    grid-row: 3;
-  }
-
-  .project-case__pills {
-    grid-column: 1;
-    grid-row: 4;
-  }
-
-  .project-case__result {
-    grid-column: 2;
-    grid-row: 1;
-  }
-
-  .project-case__description {
-    grid-column: 2;
-    grid-row: 2;
-  }
-
-  .project-case__actions {
-    grid-column: 2;
-    grid-row: 3;
-  }
-
-  .project-case__secondary-links {
-    grid-column: 2;
-    grid-row: 4;
+    font-size: 32px;
   }
 }
 
+@container project-case (min-width: 960px) {
+  .project-case__hero {
+    grid-template-columns: minmax(0, 58fr) minmax(0, 42fr);
+    gap: clamp(24px, 3cqi, 30px);
+  }
+
+  .project-case__media {
+    align-self: start;
+  }
+
+  .project-case__intro h1 {
+    font-size: clamp(32px, 3.8cqi, 36px);
+  }
+}
+
+.project-case__eyebrow {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 7px;
+}
+
+.project-case__status,
 .project-case__kicker {
   width: max-content;
   margin: 0;
   padding: 5px 10px;
   border-radius: 999px;
-  background: var(--leftjun-primary-soft);
-  color: var(--leftjun-primary-deep);
   font-size: 12px;
   font-weight: 750;
+  line-height: 1.3;
+}
+
+.project-case__status {
+  background: var(--leftjun-primary);
+  color: #fff;
+}
+
+.project-case__kicker {
+  border: 1px solid color-mix(in srgb, var(--leftjun-primary) 24%, var(--card-separator-color));
+  background: var(--leftjun-primary-soft);
+  color: var(--leftjun-primary-deep);
 }
 
 .project-case__intro h1 {
   margin: 0;
   color: var(--card-text-color-main);
-  font-size: 42px;
+  font-size: 38px;
   font-weight: 760;
   line-height: 1.12;
   letter-spacing: 0;
+  overflow-wrap: anywhere;
 }
 
 .project-case__role {
@@ -240,9 +239,9 @@
 
 .project-case__facts {
   margin-top: 24px;
-  padding: 20px 22px;
+  padding: 18px 0;
   border-block: 1px solid var(--card-separator-color);
-  background: color-mix(in srgb, var(--leftjun-primary) 3%, var(--leftjun-surface-strong));
+  background: transparent;
 }
 
 .project-case__facts dl {
@@ -254,6 +253,8 @@
 
 .project-case__facts dl > div {
   min-width: 0;
+  padding-inline-start: 14px;
+  border-inline-start: 1px solid color-mix(in srgb, var(--leftjun-primary) 18%, var(--card-separator-color));
 }
 
 .project-case__facts dt {
@@ -278,6 +279,12 @@
   font-weight: 620;
   line-height: 1.55;
   overflow-wrap: anywhere;
+}
+
+.project-case__supporting {
+  display: grid;
+  gap: 10px;
+  margin-top: 12px;
 }
 
 .project-case__records {
@@ -404,7 +411,7 @@
 
 @media (max-width: 1120px) {
   .project-case__intro h1 {
-    font-size: 36px;
+    font-size: 34px;
   }
 
   .project-case__facts dl {
@@ -418,11 +425,11 @@
   }
 
   .project-case__hero {
-    gap: 0;
+    gap: 13px;
   }
 
   .project-case__media {
-    aspect-ratio: 2 / 1;
+    aspect-ratio: 11 / 5;
     border-radius: 16px;
   }
 
@@ -430,7 +437,7 @@
     gap: 10px;
   }
 
-  .project-case__kicker {
+  .project-case__eyebrow {
     display: none;
   }
 

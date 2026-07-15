@@ -55,7 +55,7 @@ const projectFacts = [
           imageSrc={imageUrl}
           videoSrc={coverVideoUrl}
           alt=""
-          sizes="(max-width: 767px) 112px, (max-width: 1120px) 240px, clamp(240px, 21vw, 288px)"
+          sizes="(max-width: 767px) 112px, (max-width: 1120px) 240px, clamp(256px, 23vw, 320px)"
           loading="lazy"
           style={`object-position: ${imagePosition};`}
         />
@@ -123,7 +123,7 @@ const projectFacts = [
   }
 
   .record-thread__project--has-media {
-    grid-template-columns: clamp(240px, 21vw, 288px) minmax(0, 1fr);
+    grid-template-columns: 240px minmax(0, 1fr);
   }
 
   .record-thread__media {
@@ -289,6 +289,12 @@ const projectFacts = [
   @media (max-width: 1120px) and (min-width: 768px) {
     .record-thread h2 {
       font-size: 26px;
+    }
+  }
+
+  @media (min-width: 1121px) {
+    .record-thread__project--has-media {
+      grid-template-columns: clamp(256px, 23vw, 320px) minmax(0, 1fr);
     }
   }
 
