@@ -10,6 +10,7 @@ export const LIST_SECTIONS = ["projects", "posts", "retrospectives", "plans", "u
 export const CONTENT_STATUSES = ["planned", "in-progress", "completed", "paused", "archived"];
 export const UPDATE_KINDS = ["project", "event", "award", "training", "research", "release", "article"];
 export const PROJECT_LINK_KINDS = ["playable", "store", "video", "source", "report", "site", "evidence"];
+export const VISUAL_THEME_IDS = ["emotion-mask"];
 export const PORTFOLIO_TYPE_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const COLUMN_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const POST_COLUMN_IDS = ["technical"];
@@ -53,6 +54,10 @@ export function isKnownPostColumnId(value) {
 
 export function isKnownProjectLinkKind(value) {
   return PROJECT_LINK_KINDS.includes(String(value || ""));
+}
+
+export function isKnownVisualTheme(value) {
+  return VISUAL_THEME_IDS.includes(String(value || ""));
 }
 
 export function isSafeProjectLink(value) {
@@ -111,6 +116,7 @@ export const contentFrontMatterSchema = z.looseObject({
   ]).optional().default(""),
   projectFacts: projectFactsSchema.optional(),
   projectLinks: z.array(projectLinkSchema).optional(),
+  visualTheme: z.enum(VISUAL_THEME_IDS).optional(),
   featured: z.boolean().optional(),
   featuredWeight: z.number().optional(),
   homeHeroWeight: z.number().optional()
@@ -159,6 +165,7 @@ export const sectionPageSchema = z.looseObject({
   slug: z.string().optional().default(""),
   description: z.string().optional().default(""),
   image: z.string().optional().default(""),
+  visualTheme: z.enum(VISUAL_THEME_IDS).optional(),
   typeTitle: z.string().optional(),
   typeToggleAll: z.string().optional(),
   typeGame: z.string().optional(),
@@ -521,7 +528,7 @@ export async function validateContentRoot(contentRoot) {
       errors.push({ path: pathForError, message: `Translation slug mismatch for ${ref}: ${[...slugs].join(", ")}` });
     }
 
-    const invariantKeys = ["date", "updatedAt", "status", "draft", "relatedPages", "coverVideo"];
+    const invariantKeys = ["date", "updatedAt", "status", "draft", "relatedPages", "coverVideo", "visualTheme"];
     if (translations[0]?.section === "projects") {
       invariantKeys.push("portfolioType", "featured", "featuredWeight", "homeHeroWeight", "pinWeight", "weight");
     }

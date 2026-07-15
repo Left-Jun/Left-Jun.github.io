@@ -12,9 +12,21 @@ const sectionOnlyKeys = [
   "columnIds"
 ];
 
+export const visualThemeOptions = Object.freeze([
+  { value: "", label: "默认站点主题" },
+  { value: "emotion-mask", label: "Emotion Mask 主题" }
+]);
+
 function setOptional(next, key, value) {
   if (value === undefined || value === null || value === "") return;
   next[key] = value;
+}
+
+export function applyVisualThemeMetadata(frontMatter = {}, value = "") {
+  const next = { ...frontMatter };
+  delete next.visualTheme;
+  setOptional(next, "visualTheme", String(value || "").trim());
+  return next;
 }
 
 export function sectionFieldPolicy(section) {

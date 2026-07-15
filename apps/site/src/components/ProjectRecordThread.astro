@@ -55,7 +55,7 @@ const projectFacts = [
           imageSrc={imageUrl}
           videoSrc={coverVideoUrl}
           alt=""
-          sizes="(max-width: 767px) 112px, (max-width: 1120px) 240px, clamp(256px, 23vw, 320px)"
+          sizes="(max-width: 767px) clamp(140px, 44vw, 176px), (max-width: 1120px) 240px, clamp(256px, 23vw, 320px)"
           loading="lazy"
           style={`object-position: ${imagePosition};`}
         />
@@ -308,7 +308,7 @@ const projectFacts = [
     }
 
     .record-thread__project--has-media {
-      grid-template-columns: 112px minmax(0, 1fr);
+      grid-template-columns: clamp(140px, 44vw, 176px) minmax(0, 1fr);
       gap: 13px;
       align-items: start;
     }

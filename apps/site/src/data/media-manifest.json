@@ -462,20 +462,16 @@
     "poster": "/content-assets/projects/ashe-lament/screenshot-underground-960.webp"
   },
   "/content-assets/projects/emotion-mask/cover.png": {
-    "width": 1232,
-    "height": 706,
+    "width": 920,
+    "height": 430,
     "avif": [
       {
         "src": "/content-assets/projects/emotion-mask/cover-480.avif",
         "width": 480
       },
       {
-        "src": "/content-assets/projects/emotion-mask/cover-960.avif",
-        "width": 960
-      },
-      {
-        "src": "/content-assets/projects/emotion-mask/cover-1232.avif",
-        "width": 1232
+        "src": "/content-assets/projects/emotion-mask/cover-920.avif",
+        "width": 920
       }
     ],
     "webp": [
@@ -484,15 +480,11 @@
         "width": 480
       },
       {
-        "src": "/content-assets/projects/emotion-mask/cover-960.webp",
-        "width": 960
-      },
-      {
-        "src": "/content-assets/projects/emotion-mask/cover-1232.webp",
-        "width": 1232
+        "src": "/content-assets/projects/emotion-mask/cover-920.webp",
+        "width": 920
       }
     ],
-    "poster": "/content-assets/projects/emotion-mask/cover-960.webp"
+    "poster": "/content-assets/projects/emotion-mask/cover-920.webp"
   },
   "/content-assets/projects/emotion-mask/screenshot-happy-platform.png": {
     "width": 1269,
@@ -1549,5 +1541,38 @@
       }
     ],
     "poster": "/content-assets/retrospectives/time-echo-retrospective/cover-960.webp"
+  },
+  "/theme-assets/emotion-mask/page-background.png": {
+    "width": 1438,
+    "height": 810,
+    "avif": [
+      {
+        "src": "/theme-assets/emotion-mask/page-background-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/theme-assets/emotion-mask/page-background-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/theme-assets/emotion-mask/page-background-1438.avif",
+        "width": 1438
+      }
+    ],
+    "webp": [
+      {
+        "src": "/theme-assets/emotion-mask/page-background-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/theme-assets/emotion-mask/page-background-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/theme-assets/emotion-mask/page-background-1438.webp",
+        "width": 1438
+      }
+    ],
+    "poster": "/theme-assets/emotion-mask/page-background-960.webp"
   }
 }

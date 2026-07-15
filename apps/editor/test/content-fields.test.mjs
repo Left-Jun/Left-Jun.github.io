@@ -3,8 +3,21 @@ import test from "node:test";
 
 import {
   applySectionMetadata,
-  sectionFieldPolicy
+  applyVisualThemeMetadata,
+  sectionFieldPolicy,
+  visualThemeOptions
 } from "../public/content-fields.js";
+
+test("editor exposes and serializes the supported visual themes", () => {
+  assert.deepEqual(visualThemeOptions, [
+    { value: "", label: "默认站点主题" },
+    { value: "emotion-mask", label: "Emotion Mask 主题" }
+  ]);
+
+  const themed = applyVisualThemeMetadata({ title: "Project" }, " emotion-mask ");
+  assert.deepEqual(themed, { title: "Project", visualTheme: "emotion-mask" });
+  assert.deepEqual(applyVisualThemeMetadata(themed, ""), { title: "Project" });
+});
 
 test("editor labels and visibility follow the selected section", () => {
   const project = sectionFieldPolicy("projects");

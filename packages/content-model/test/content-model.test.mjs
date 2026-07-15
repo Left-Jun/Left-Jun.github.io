@@ -6,10 +6,12 @@ import test from "node:test";
 
 import {
   PROJECT_LINK_KINDS,
+  VISUAL_THEME_IDS,
   assetUrl,
   entryUrl,
   isKnownPostColumnId,
   isKnownProjectLinkKind,
+  isKnownVisualTheme,
   isSafeProjectLink,
   isStableColumnId,
   isStablePortfolioType,
@@ -20,6 +22,48 @@ import {
   validateContentRoot,
   validateFrontMatter
 } from "../src/index.js";
+
+test("visual themes use the shared explicit registry", () => {
+  assert.deepEqual(VISUAL_THEME_IDS, ["emotion-mask"]);
+  assert.equal(isKnownVisualTheme("emotion-mask"), true);
+  assert.equal(isKnownVisualTheme("Emotion Mask"), false);
+
+  const themed = validateFrontMatter({
+    title: "Emotion Mask",
+    portfolioType: "game",
+    visualTheme: "emotion-mask"
+  }, { section: "projects" });
+  assert.equal(themed.visualTheme, "emotion-mask");
+
+  assert.throws(() => validateFrontMatter({
+    title: "Unknown theme",
+    visualTheme: "emotion-mask-deluxe"
+  }, { section: "posts" }), /visualTheme/i);
+});
+
+test("visual themes must stay aligned across translations", async (t) => {
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "leftjun-visual-theme-"));
+  t.after(() => fs.rm(root, { recursive: true, force: true }));
+  const projectDir = path.join(root, "projects", "emotion-mask");
+  await fs.mkdir(projectDir, { recursive: true });
+
+  const frontMatter = {
+    title: "Emotion Mask",
+    slug: "emotion-mask",
+    portfolioType: "game",
+    visualTheme: "emotion-mask"
+  };
+  await fs.writeFile(path.join(projectDir, "index.md"), stringifyMarkdown(frontMatter, ""));
+  await fs.writeFile(path.join(projectDir, "index.en.md"), stringifyMarkdown(frontMatter, ""));
+  assert.equal((await validateContentRoot(root)).ok, true);
+
+  const withoutTheme = { ...frontMatter };
+  delete withoutTheme.visualTheme;
+  await fs.writeFile(path.join(projectDir, "index.en.md"), stringifyMarkdown(withoutTheme, ""));
+  const drifted = await validateContentRoot(root);
+  assert.equal(drifted.ok, false);
+  assert.match(drifted.errors.map((error) => error.message).join("\n"), /metadata mismatch.*visualTheme/i);
+});
 
 test("front matter round-trips through the maintained parser", () => {
   const source = "---\ntitle: Example\ntags:\n  - Astro\n---\n\nHello world.\n";

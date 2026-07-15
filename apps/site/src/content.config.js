@@ -3,6 +3,7 @@ import { glob } from "astro/loaders";
 import { z } from "astro/zod";
 import {
   PROJECT_LINK_KINDS,
+  VISUAL_THEME_IDS,
   isKnownPostColumnId,
   isSafeProjectLink,
   isStablePortfolioType
@@ -62,6 +63,7 @@ const baseSchema = z.looseObject({
   ]).optional().default(""),
   projectFacts: projectFactsSchema.optional(),
   projectLinks: z.array(projectLinkSchema).optional(),
+  visualTheme: z.enum(VISUAL_THEME_IDS).optional(),
   featured: z.boolean().optional().default(false),
   featuredWeight: z.number().optional().default(999),
   homeHeroWeight: z.number().optional()

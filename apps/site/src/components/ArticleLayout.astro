@@ -159,6 +159,7 @@ const articleBodyClass = isProject
   priorityImageType={priorityImageType || undefined}
   active={active}
   bodyClass={articleBodyClass}
+  visualTheme={String(entry.data.visualTheme || "")}
   alternateUrl={alternateUrl}
   alternateLang={alternateEntry?.lang}
   ogType={isProject ? "website" : "article"}

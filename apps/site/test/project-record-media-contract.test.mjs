@@ -7,10 +7,10 @@ const source = await fs.readFile(
   "utf8"
 );
 
-test("record project media grows to 320px on wide desktop without changing tablet or mobile frames", () => {
+test("record project media grows across mobile and wide desktop without changing the tablet frame", () => {
   assert.match(
     source,
-    /sizes="\(max-width: 767px\) 112px, \(max-width: 1120px\) 240px, clamp\(256px, 23vw, 320px\)"/
+    /sizes="\(max-width: 767px\) clamp\(140px, 44vw, 176px\), \(max-width: 1120px\) 240px, clamp\(256px, 23vw, 320px\)"/
   );
   assert.match(
     source,
@@ -26,7 +26,7 @@ test("record project media grows to 320px on wide desktop without changing table
   );
   assert.match(
     source,
-    /@media \(max-width: 767px\)[\s\S]*?\.record-thread__project--has-media \{[\s\S]*?grid-template-columns: 112px minmax\(0, 1fr\)/
+    /@media \(max-width: 767px\)[\s\S]*?\.record-thread__project--has-media \{[\s\S]*?grid-template-columns: clamp\(140px, 44vw, 176px\) minmax\(0, 1fr\)/
   );
 });
 

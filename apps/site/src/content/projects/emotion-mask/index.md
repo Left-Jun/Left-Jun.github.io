@@ -5,6 +5,7 @@ draft: false
 slug: "emotion-mask"
 description: "一款围绕情绪状态机、平台显隐、冲刺破坏、碎片收集和计时结算展开的 2D 平台跳跃解谜游戏，48 小时内独立完成并上线 TapTap。"
 image: "cover.png"
+visualTheme: "emotion-mask"
 featured: true
 featuredWeight: 20
 homeHeroWeight: 20

@@ -6,6 +6,9 @@ import { baseEntryId, isExternalUrl, listContentFiles } from "../packages/conten
 
 const supportedExtensions = new Set([".jpg", ".jpeg", ".png", ".webp"]);
 const supportedCoverVideoExtensions = new Set([".mp4", ".webm"]);
+const responsiveThemeImages = [
+  "theme-assets/emotion-mask/page-background.png"
+];
 
 export function publicMediaUrl(publicRoot, sourcePath) {
   return `/${path.relative(publicRoot, sourcePath).split(path.sep).join("/")}`;
@@ -46,6 +49,12 @@ export async function collectContentImageSources({ contentRoot, publicRoot }) {
   }
 
   return [...sources].sort();
+}
+
+export async function collectResponsiveImageSources({ contentRoot, publicRoot }) {
+  const contentImages = await collectContentImageSources({ contentRoot, publicRoot });
+  const themeImages = responsiveThemeImages.map((relativePath) => path.resolve(publicRoot, relativePath));
+  return [...new Set([...contentImages, ...themeImages])].sort();
 }
 
 export async function collectContentCoverVideoSources({ contentRoot, publicRoot }) {

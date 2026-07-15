@@ -5,6 +5,7 @@ draft: false
 slug: "emotion-mask-roadmap"
 description: "A follow-up update plan for Emotion Mask based on feedback from the May 16 Shuguang Youji offline playtest."
 image: "cover.jpg"
+visualTheme: "emotion-mask"
 categories:
   - "Development Plan"
 tags:

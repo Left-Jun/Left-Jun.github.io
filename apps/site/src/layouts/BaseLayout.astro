@@ -2,8 +2,10 @@
 import "../styles/global.css";
 import Sidebar from "../components/Sidebar.astro";
 import SiteTopChrome from "../components/SiteTopChrome.astro";
+import ResponsiveImage from "../components/ResponsiveImage.astro";
 import { config, siteText } from "../lib/content.js";
 import { resolveLanguageSwitchUrl } from "../lib/navigation.js";
+import { resolveVisualTheme } from "../lib/visual-themes";
 import {
   buildAlternateLinks,
   buildStructuredData,
@@ -38,6 +40,7 @@ interface Props {
   creativeWork?: CreativeWorkInput;
   breadcrumbs?: BreadcrumbInput[];
   shellMode?: "full" | "minimal";
+  visualTheme?: string;
 }
 
 const {
@@ -59,7 +62,8 @@ const {
   ogType,
   creativeWork,
   breadcrumbs = [],
-  shellMode = "full"
+  shellMode = "full",
+  visualTheme = ""
 } = Astro.props as Props;
 
 const text = siteText(lang);
@@ -108,6 +112,7 @@ const languageSwitchUrl = resolveLanguageSwitchUrl({
   alternatePath
 });
 const skipLinkLabel = text.isEn ? "Skip to main content" : "跳到主要内容";
+const resolvedVisualTheme = resolveVisualTheme(visualTheme);
 ---
 <!doctype html>
 <html lang={lang === "en" ? "en" : "zh-CN"}>
@@ -178,7 +183,21 @@ const skipLinkLabel = text.isEn ? "Skip to main content" : "跳到主要内容";
     )}
     <slot name="head" />
   </head>
-  <body class={bodyClass}>
+  <body class={bodyClass} data-visual-theme={resolvedVisualTheme?.id}>
+    {resolvedVisualTheme && (
+      <div class="visual-theme-backdrop" aria-hidden="true" data-visual-theme-backdrop>
+        <ResponsiveImage
+          src={resolvedVisualTheme.background}
+          alt=""
+          class="visual-theme-backdrop__image"
+          pictureClass="visual-theme-backdrop__picture"
+          sizes="100vw"
+          loading="eager"
+          fetchpriority="low"
+          style={`object-position: ${resolvedVisualTheme.backgroundPosition};`}
+        />
+      </div>
+    )}
     <a class="skip-link" href="#main-content">{skipLinkLabel}</a>
     {shellMode === "minimal" ? (
       <div class="container main-container standalone-shell">

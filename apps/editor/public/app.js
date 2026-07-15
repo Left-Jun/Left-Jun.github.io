@@ -1,4 +1,9 @@
-import { applySectionMetadata, sectionFieldPolicy } from "./content-fields.js";
+import {
+  applySectionMetadata,
+  applyVisualThemeMetadata,
+  sectionFieldPolicy,
+  visualThemeOptions
+} from "./content-fields.js";
 
 const state = {
   entries: [],
@@ -145,6 +150,17 @@ function fillSectionOptions() {
       select.append(option);
     }
     if (current) select.value = current;
+  }
+}
+
+function fillVisualThemeOptions() {
+  const select = $("#visualThemeField");
+  select.replaceChildren();
+  for (const item of visualThemeOptions) {
+    const option = document.createElement("option");
+    option.value = item.value;
+    option.textContent = item.label;
+    select.append(option);
   }
 }
 
@@ -343,6 +359,7 @@ function fillForm(entry) {
   $("#descriptionField").value = fm.description || "";
   $("#imageField").value = fm.image || "";
   $("#coverVideoField").value = fm.coverVideo || "";
+  $("#visualThemeField").value = fm.visualTheme || "";
   $("#portfolioTypeField").value = fm.portfolioType || "";
   $("#columnIdsField").value = listToText(fm.columnIds);
   $("#featuredField").checked = !!fm.featured;
@@ -405,6 +422,7 @@ function readForm() {
     projectFacts: section === "projects" && facts ? JSON.parse(facts) : undefined,
     projectLinks: (section === "projects" || section === "updates") && links ? JSON.parse(links) : undefined
   });
+  frontMatter = applyVisualThemeMetadata(frontMatter, $("#visualThemeField").value);
   return {
     section,
     lang: $("#langField").value,
@@ -516,6 +534,7 @@ async function saveConfig() {
 
 function bind() {
   fillSectionOptions();
+  fillVisualThemeOptions();
   $("#sectionFilter").value = "projects";
   for (const tab of document.querySelectorAll(".page-tab")) {
     tab.addEventListener("click", () => switchPage(tab.dataset.pageTarget));

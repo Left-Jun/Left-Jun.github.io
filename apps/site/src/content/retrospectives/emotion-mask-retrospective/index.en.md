@@ -5,6 +5,7 @@ draft: false
 slug: "emotion-mask-retrospective"
 description: "A retrospective on Emotion Mask, from a Global Game Jam prototype to an offline roadshow demo, covering development choices, mechanic tradeoffs, and follow-up direction."
 image: "cover.jpg"
+visualTheme: "emotion-mask"
 categories:
   - "Project Retrospective"
 tags:

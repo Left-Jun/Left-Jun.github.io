@@ -29,6 +29,18 @@ function sectionLanding(active, targetLanguage) {
 }
 
 /**
+ * Resolves the profile destination from the current language's main menu.
+ * Invalid or missing menu configuration falls back to the matching About page.
+ */
+export function resolveAboutUrl(menu = [], lang = "zh-cn") {
+  const fallback = lang === "en" ? "/en/about/" : "/about/";
+  if (!Array.isArray(menu)) return fallback;
+
+  const candidate = String(menu.find((item) => item?.identifier === "about")?.url || "").trim();
+  return candidate.startsWith("/") && !candidate.startsWith("//") ? candidate : fallback;
+}
+
+/**
  * Resolves the sidebar language target without guessing a detail-page slug.
  * Explicit paired URLs win; otherwise the link returns to the matching section.
  */
