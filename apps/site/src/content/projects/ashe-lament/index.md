@@ -10,7 +10,7 @@ imagePosition: "62% center"
 pinned: true
 pinWeight: 10
 featured: true
-featuredWeight: 10
+featuredWeight: 20
 homeHeroWeight: 10
 weight: 10
 portfolioType: "game"

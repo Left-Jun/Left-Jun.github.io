@@ -7,7 +7,7 @@ description: "My first Unreal Engine 5 multiplayer PVE demo: a Blueprint and Rep
 image: "cover.webp"
 imagePosition: "center"
 featured: true
-featuredWeight: 30
+featuredWeight: 40
 homeHeroWeight: 30
 pinWeight: 30
 weight: 30

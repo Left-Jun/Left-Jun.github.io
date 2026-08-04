@@ -3,24 +3,28 @@ title: "Emotion Mask"
 date: 2026-01-25T10:00:00+08:00
 draft: false
 slug: "emotion-mask"
-description: "A 2D platformer-puzzle game built around an emotion state machine, platform visibility, dash-based breaking, shard collection, timer settlement, and public release flow, completed solo within 48 hours and published on TapTap."
+description: "A 2D emotion-driven platformer-puzzle game growing from a solo 48-hour Global Game Jam prototype toward Steam release and market validation."
 image: "cover.png"
 visualTheme: "emotion-mask"
 featured: true
-featuredWeight: 20
+featuredWeight: 10
 homeHeroWeight: 20
 pinWeight: 20
 weight: 20
 portfolioType: "game"
-status: "completed"
+status: "in-progress"
+statusTags:
+  - "In active development"
+  - "Steam release preparation"
 projectFacts:
+  projectType: "Independent game / product development"
   developmentTime: "2026.1, Global Game Jam 2026 Changsha site"
-  duration: "48 hours"
+  duration: "48-hour prototype, ongoing development"
   team: "Solo"
-  role: "Solo full-stack developer / designer / programmer / pixel artist / music"
+  role: "Solo developer / designer / programmer / pixel artist / AI-assisted music integration"
   tools: "Unity / C#"
-  platform: "Windows / TapTap"
-  result: "Completed solo and published on TapTap, with a 9.4 store rating."
+  platform: "Windows / TapTap / submitted to Steam"
+  result: "9.4 TapTap rating and nearly 100 in-person plays; both the Steam main game and standalone demo have been submitted for review."
 projectLinks:
   - label: "TapTap page"
     url: "https://www.taptap.cn/app/868040?os=pc"
@@ -55,9 +59,18 @@ relatedPages:
 
 ## Overview
 
-Emotion Mask is a 2D platformer-puzzle game centered on emotion switching. It was my solo entry for Global Game Jam 2026, responding to the theme "Mask." The player controls a boy wearing a blank mask and switches between three emotional states: Calm, Joy, and Anger. Each state changes how the character moves, reads the world, and interacts with obstacles.
+Emotion Mask is a 2D platformer-puzzle game centered on emotion switching and a long-term project I have continued from a solo 48-hour Global Game Jam 2026 prototype. The player controls a boy wearing a blank mask and switches between Calm, Joy, and Anger. Each state changes movement, world readability, and obstacle interaction.
 
-The project was later published on TapTap. For me, it was not only a game jam prototype, but also my first complete practice of turning a small game into a public-facing portfolio piece with a store page, screenshots, tags, platform information, and a playable build. The public result here refers to the jam build, TapTap page, Global Game Jam page, and demo video; future plans around feel, tutorial flow, and additional masks are still iteration targets.
+The project was published on TapTap with a 9.4 rating and received nearly one hundred in-person plays at the Shuguang Youji roadshow in Chengdu. I have continued work on character 3C, content, controller adaptation, and release configuration, and submitted both the Steam Early Access main game and a standalone demo for review. Submission is reported as submission, not as a completed Steam launch.
+
+## Timeline
+
+- Global Game Jam 2026: completed the core mechanic, level, and playable prototype in 48 hours.
+- TapTap: prepared the page and build and published the game; the current store rating is 9.4.
+- Shuguang Youji, Chengdu: ran nearly one hundred in-person plays and observed tutorial, control, and comprehension issues.
+- Continued development: improved character 3C, content, controller prompts, gamepad support, and level tools.
+- Steam review: submitted both the Early Access main game and standalone demo and handled store assets, launch configuration, and review feedback.
+- Platform systems: cloud saves, controller support, and Workshop work have local implementation or test evidence, while production Steam end-to-end verification remains a separate milestone.
 
 ## Core Gameplay
 
@@ -87,6 +100,14 @@ The level combines spikes, walls, moving platforms, and mask states so the playe
 
 The tutorial area explains the three mask abilities: Calm reveals moving platforms, Joy is faster, and Anger can destroy obstacles.
 
+![Ongoing build with minimap and controller prompts](/content-assets/projects/emotion-mask/screenshot-controller-minimap.png)
+
+The ongoing build includes a minimap, controller prompts, and multi-level flow. This image demonstrates the local build state, not complete production verification of every Steam platform feature.
+
+![Emotion Mask level editor](/content-assets/projects/emotion-mask/screenshot-level-editor.png)
+
+The level editor organizes reusable scenes and level data so later content work requires less repeated setup.
+
 ## Theme
 
 The game explores the idea that emotions are not mistakes to be removed, but different ways of responding to the world. Calm, Joy, and Anger each have value: observation, movement, and breakthrough.
@@ -95,7 +116,8 @@ In that sense, the mask is both a mechanic and a metaphor. It turns inner emotio
 
 ## My Role
 
-- Independently handled game design, programming, level design, pixel-art integration, audio integration, build release, and store-page preparation.
+- Independently handled game design, programming, level design, pixel-character and animation-frame drawing, audio integration, build release, and store-page preparation.
+- Used AI-assisted music generation, then personally selected, adjusted, and integrated the material rather than presenting it as fully human-composed music.
 - Designed three emotional mask states and connected state switching to movement speed, jumping, air jumps, wall jumps, dash count, character visuals, backgrounds, and music.
 - Built the core rule that each state changes how the level is read: Calm reveals hidden platforms, Joy improves mobility, and Anger enables dash-based obstacle breaking.
 - Completed the full 48-hour loop: start menu, level flow, checkpoints, death and respawn, shard collection, timer settlement, and victory screen.
@@ -133,6 +155,6 @@ The main engineering tradeoff was reliability over spectacle. Before hidden plat
 
 ## Release
 
-Emotion Mask was published on TapTap and submitted to Global Game Jam 2026. The TapTap page presents the game description, platform requirements, developer note, and player rating, while the GGJ page records the jam year, theme, site, platform, tools, and project links.
+Emotion Mask was published on TapTap and submitted to Global Game Jam 2026. Both the Steam Early Access main game and standalone demo have also been submitted for review. TapTap and GGJ are public evidence; the Steam state is described as submitted rather than launched.
 
 This project helped me understand that finishing a prototype is only one part of showing a game. Screenshots, cover art, tags, store copy, download links, and external pages all affect how the work is perceived. The later local multi-level flow, leaderboard, and UI support systems are iteration foundations, but they still need manual Play Mode and build verification before being described as part of a public release.

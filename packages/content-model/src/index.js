@@ -24,6 +24,7 @@ export const SECTION_LABELS = {
 };
 
 export const projectFactsSchema = z.strictObject({
+  projectType: z.string().optional(),
   developmentTime: z.string().optional(),
   duration: z.string().optional(),
   team: z.string().optional(),
@@ -38,6 +39,18 @@ export const projectFactsSchema = z.strictObject({
   finishedAt: z.string().optional(),
   trailerDuration: z.string().optional(),
   result: z.string().optional()
+});
+
+export const projectAttachmentSchema = z.strictObject({
+  title: z.string().min(1),
+  type: z.string().min(1),
+  description: z.string().min(1),
+  thumbnail: z.string().optional(),
+  previewUrl: z.string().refine(isSafeProjectLink).optional(),
+  downloadUrl: z.string().refine(isSafeProjectLink).optional(),
+  externalUrl: z.string().refine(isSafeProjectLink).optional(),
+  fileSize: z.string().optional(),
+  pageCount: z.number().int().positive().optional()
 });
 
 export function isStablePortfolioType(value) {
@@ -108,6 +121,8 @@ export const contentFrontMatterSchema = z.looseObject({
   tags: z.array(z.string()).optional().default([]),
   relatedPages: z.array(z.string()).optional().default([]),
   roleTags: z.array(z.string()).optional().default([]),
+  statusTags: z.array(z.string()).optional().default([]),
+  program: z.string().optional().default(""),
   portfolioType: z.union([
     z.literal(""),
     z.string().refine(isStablePortfolioType, {
@@ -116,6 +131,7 @@ export const contentFrontMatterSchema = z.looseObject({
   ]).optional().default(""),
   projectFacts: projectFactsSchema.optional(),
   projectLinks: z.array(projectLinkSchema).optional(),
+  attachments: z.array(projectAttachmentSchema).optional().default([]),
   visualTheme: z.enum(VISUAL_THEME_IDS).optional(),
   featured: z.boolean().optional(),
   featuredWeight: z.number().optional(),
@@ -201,7 +217,7 @@ export function normalizeArray(value) {
 
 export function normalizeFrontMatter(input = {}) {
   const copy = { ...input };
-  for (const key of ["categories", "tags", "roleTags", "relatedPages", "columnIds"]) {
+  for (const key of ["categories", "tags", "roleTags", "statusTags", "relatedPages", "columnIds"]) {
     copy[key] = normalizeArray(copy[key]);
   }
   if (copy.projectFacts && typeof copy.projectFacts === "string") {
@@ -216,6 +232,13 @@ export function normalizeFrontMatter(input = {}) {
       copy.projectLinks = JSON.parse(copy.projectLinks);
     } catch {
       copy.projectLinks = [];
+    }
+  }
+  if (copy.attachments && typeof copy.attachments === "string") {
+    try {
+      copy.attachments = JSON.parse(copy.attachments);
+    } catch {
+      copy.attachments = [];
     }
   }
   return copy;
@@ -530,7 +553,7 @@ export async function validateContentRoot(contentRoot) {
 
     const invariantKeys = ["date", "updatedAt", "status", "draft", "relatedPages", "coverVideo", "visualTheme"];
     if (translations[0]?.section === "projects") {
-      invariantKeys.push("portfolioType", "featured", "featuredWeight", "homeHeroWeight", "pinWeight", "weight");
+      invariantKeys.push("portfolioType", "program", "featured", "featuredWeight", "homeHeroWeight", "pinWeight", "weight");
     }
     if (translations[0]?.section === "updates") {
       invariantKeys.push("kind", "featured", "featuredWeight");
@@ -593,6 +616,41 @@ export async function validateContentRoot(contentRoot) {
                 errors.push({
                   path: translations[0]?.path || ref,
                   message: `Translation evidence link mismatch for ${ref}: projectLinks[${index}].${key}`
+                });
+              }
+            }
+          }
+        }
+      }
+
+      if (translations[0]?.section === "projects") {
+        const statusTagCounts = translations.map((entry) => (
+          Array.isArray(entry.frontMatter.statusTags) ? entry.frontMatter.statusTags.length : 0
+        ));
+        if (new Set(statusTagCounts).size > 1) {
+          errors.push({
+            path: translations[0]?.path || ref,
+            message: `Translation status tag count mismatch for ${ref}: statusTags`
+          });
+        }
+
+        const attachmentSets = translations.map((entry) => (
+          Array.isArray(entry.frontMatter.attachments) ? entry.frontMatter.attachments : []
+        ));
+        const attachmentCounts = attachmentSets.map((attachments) => attachments.length);
+        if (new Set(attachmentCounts).size > 1) {
+          errors.push({
+            path: translations[0]?.path || ref,
+            message: `Translation attachment count mismatch for ${ref}: attachments`
+          });
+        } else {
+          for (let index = 0; index < (attachmentCounts[0] || 0); index += 1) {
+            for (const key of ["type", "thumbnail", "previewUrl", "downloadUrl", "externalUrl", "fileSize", "pageCount"]) {
+              const values = attachmentSets.map((attachments) => JSON.stringify(attachments[index]?.[key] ?? null));
+              if (new Set(values).size > 1) {
+                errors.push({
+                  path: translations[0]?.path || ref,
+                  message: `Translation attachment mismatch for ${ref}: attachments[${index}].${key}`
                 });
               }
             }

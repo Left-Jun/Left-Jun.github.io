@@ -33,11 +33,12 @@ test("core projects use featured weight order and never repeat in the archive", 
   assert.deepEqual(selectCoreProjects(projects).map((entry) => entry.slug), [
     "ashe-lament",
     "emotion-mask",
-    "ue5-coop-training-range"
+    "ue5-coop-training-range",
+    "smart-boat"
   ]);
 
   const split = splitProjectPortfolio(projects);
-  assert.deepEqual(split.archive.map((entry) => entry.slug), ["smart-boat"]);
+  assert.deepEqual(split.archive.map((entry) => entry.slug), []);
   assert.equal(split.archive.some((entry) => split.core.includes(entry)), false);
 });
 
@@ -52,7 +53,8 @@ test("core selection fills missing featured slots by pin weight", () => {
   assert.deepEqual(selectCoreProjects(projects).map((entry) => entry.slug), [
     "featured-first",
     "featured-second",
-    "fallback-first"
+    "fallback-first",
+    "fallback-late"
   ]);
 });
 

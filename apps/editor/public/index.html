@@ -104,6 +104,7 @@
               <label><span>封面视频</span><input id="coverVideoField" placeholder="cover.mp4"></label>
               <label><span>视觉主题</span><select id="visualThemeField" aria-label="视觉主题"></select></label>
               <label id="portfolioTypeGroup"><span>项目类型</span><input id="portfolioTypeField" placeholder="game / embedded"></label>
+              <label id="programGroup"><span>专题归属</span><input id="programField" placeholder="guanghe-campus-co-creation"></label>
               <label id="columnIdsGroup"><span>专栏 ID</span><textarea id="columnIdsField" rows="2" placeholder="technical&#10;一行一个，使用英文 kebab-case"></textarea></label>
               <label id="featuredGroup" class="checkbox"><input id="featuredField" type="checkbox"><span id="featuredLabel">首页代表项目</span></label>
               <label id="featuredWeightGroup"><span id="featuredWeightLabel">代表项目权重</span><input id="featuredWeightField" type="number" min="0" step="1" placeholder="数字越小越靠前"></label>
@@ -112,6 +113,7 @@
               <label><span>分类</span><textarea id="categoriesField" rows="3" placeholder="一行一个，或用逗号分隔"></textarea></label>
               <label><span>标签</span><textarea id="tagsField" rows="3" placeholder="Unity&#10;C#&#10;STM32"></textarea></label>
               <label><span>职责标签</span><textarea id="roleTagsField" rows="3" placeholder="Gameplay Programmer&#10;Technical Artist"></textarea></label>
+              <label><span>状态标签</span><textarea id="statusTagsField" rows="3" placeholder="持续开发&#10;Steam 发行准备"></textarea></label>
             </div>
           </section>
 
@@ -125,6 +127,7 @@
             <div id="assetPicker" class="asset-picker"></div>
             <label id="projectFactsGroup"><span>项目事实 JSON</span><textarea id="projectFactsField" rows="8" spellcheck="false" placeholder='例如：{"duration":"4 周","team":"Solo","tools":"Unity / C#"}'></textarea></label>
             <label id="projectLinksGroup"><span id="projectLinksLabel">项目链接 JSON</span><textarea id="projectLinksField" rows="8" spellcheck="false" placeholder='例如：[{"label":"可执行版本","url":"https://...","icon":"display","kind":"playable"}]'></textarea></label>
+            <label id="attachmentsGroup"><span>项目附件 JSON</span><textarea id="attachmentsField" rows="10" spellcheck="false" placeholder='例如：[{"title":"研究报告","type":"PDF","description":"公开版报告","previewUrl":"/files/report.pdf","downloadUrl":"/files/report.pdf"}]'></textarea></label>
           </section>
         </div>
 

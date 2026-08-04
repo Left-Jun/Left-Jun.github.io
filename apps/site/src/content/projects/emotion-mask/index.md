@@ -3,24 +3,28 @@ title: "Emotion Mask"
 date: 2026-01-25T10:00:00+08:00
 draft: false
 slug: "emotion-mask"
-description: "一款围绕情绪状态机、平台显隐、冲刺破坏、碎片收集和计时结算展开的 2D 平台跳跃解谜游戏，48 小时内独立完成并上线 TapTap。"
+description: "从 Global Game Jam 48 小时独立原型持续推进为面向 Steam 发行与市场验证的 2D 情绪平台跳跃解谜游戏。"
 image: "cover.png"
 visualTheme: "emotion-mask"
 featured: true
-featuredWeight: 20
+featuredWeight: 10
 homeHeroWeight: 20
 pinWeight: 20
 weight: 20
 portfolioType: "game"
-status: "completed"
+status: "in-progress"
+statusTags:
+  - "持续开发"
+  - "Steam 发行准备"
 projectFacts:
+  projectType: "独立游戏 / 产品化推进"
   developmentTime: "2026.1（Global Game Jam 2026 长沙线下站）"
-  duration: "48h"
+  duration: "48h 原型，持续开发中"
   team: "独立开发"
-  role: "独立全栈开发 / 策划 / 程序 / 像素美术 / 音乐"
+  role: "独立开发 / 策划 / 程序 / 像素美术 / AI 辅助音乐整合"
   tools: "Unity / C#"
-  platform: "Windows / TapTap"
-  result: "单人完成并上架 TapTap，商店评分 9.4。"
+  platform: "Windows / TapTap / Steam 送审"
+  result: "TapTap 评分 9.4，完成近百人次线下路演；Steam 本体与独立 Demo 均已提交审核。"
 projectLinks:
   - label: "TapTap 页面"
     url: "https://www.taptap.cn/app/868040?os=pc"
@@ -55,9 +59,18 @@ relatedPages:
 
 ## 项目简介
 
-《Emotion Mask》是一款以“情绪切换”为核心机制的 2D 平台跳跃解谜游戏，也是我在 Global Game Jam 2026 中独立完成的作品。游戏围绕当年主题“Mask”展开：玩家操控一位戴着空白面具的少年，在破碎的内心世界中切换“平静”“快乐”“愤怒”三种情绪状态，用不同能力观察道路、跨越障碍、粉碎阻挡，并收集散落的情绪碎片。
+《Emotion Mask》是一款以“情绪切换”为核心机制的 2D 平台跳跃解谜游戏，也是我从 Global Game Jam 2026 的 48 小时独立原型持续推进的长期项目。玩家操控一位戴着空白面具的少年，在破碎的内心世界中切换“平静”“快乐”“愤怒”三种情绪状态，用不同能力观察道路、跨越障碍、粉碎阻挡，并收集散落的情绪碎片。
 
-这个项目后来发布到了 TapTap。它对我来说不只是一次 Game Jam 练习，也是第一次把一个从概念、玩法、关卡到发布页面都完整走完的小型公开展示流程。当前公开成果以 Jam 版本、TapTap 页面、Global Game Jam 页面和演示视频为准；后续计划里的手感、教学和新面具内容仍然是下一阶段验证目标。
+项目后来发布到 TapTap 并获得 9.4 分，在成都“蜀光游集”完成近百人次线下路演。此后我继续调整角色 3C、关卡内容、手柄适配和发行配置，并将 Steam 抢先体验本体与独立 Demo 提交审核。当前定位已经从一次限时原型转为面向 Steam 发行与市场验证的独立游戏，但尚未把送审等同于正式上线。
+
+## 项目时间线
+
+- Global Game Jam 2026：在 48 小时内完成核心玩法、关卡和可执行原型。
+- TapTap：完成页面、构建与发布，当前商店评分为 9.4。
+- 成都“蜀光游集”：进行近百人次线下路演，观察陌生玩家的教学、操作和理解问题。
+- 持续开发：调整角色 3C、内容、控制器提示、手柄适配和关卡工具。
+- Steam 送审：抢先体验本体与独立 Demo 均已提交审核，并处理商店资产、启动配置和审核反馈。
+- 发行能力：云存档、手柄支持和创意工坊已有本地实现或测试材料，但 Steam 生产环境端到端验证仍单独记录。
 
 ## 核心玩法
 
@@ -87,6 +100,14 @@ relatedPages:
 
 教学区域用大字提示三种面具的能力差异：平静可看见移动平台，快乐速度更快，愤怒可以破坏障碍。
 
+![带小地图与手柄提示的持续开发版本](/content-assets/projects/emotion-mask/screenshot-controller-minimap.png)
+
+持续开发版本补充了小地图、控制器提示和多关卡流程。截图证明这些界面已经进入本地构建，不单独证明所有 Steam 平台能力已经通过生产环境验证。
+
+![Emotion Mask 关卡编辑器](/content-assets/projects/emotion-mask/screenshot-level-editor.png)
+
+关卡编辑器用于整理可复用场景与关卡数据，减少后续内容迭代时的重复搭建工作。
+
 ## 主题表达
 
 《Emotion Mask》的叙事核心是“接纳不同情绪，才可能靠近完整的自我”。平静、快乐和愤怒都不是绝对正确或错误的状态，它们分别承担观察、行动和突破的功能。玩家在不断切换面具的过程中，也是在重新理解自己与世界的关系。
@@ -95,7 +116,8 @@ relatedPages:
 
 ## 我负责的部分
 
-- 独立完成玩法策划、程序开发、关卡设计、像素美术整合、音频整合、构建发布和商店页整理。
+- 独立完成玩法策划、程序开发、关卡设计、像素角色与动作帧绘制、音频整合、构建发布和商店页整理。
+- 背景音乐使用 AI 辅助制作，由我筛选、调整并接入游戏，不将生成过程表述为完全人工作曲。
 - 设计三种情绪面具的能力差异，并把状态切换接入移动速度、跳跃、二段跳、贴墙跳、冲刺次数、角色外观、背景和音乐。
 - 实现“状态改变关卡读法”的核心链路：平静显示隐藏平台，快乐强化机动性，愤怒允许冲刺破坏障碍。
 - 在 48 小时限制内完成开始菜单、关卡推进、检查点、死亡复活、碎片收集、计时结算和胜利画面。
@@ -133,6 +155,6 @@ relatedPages:
 
 ## 发布与反馈
 
-《Emotion Mask》已发布到 TapTap，并同步提交到 Global Game Jam 2026。TapTap 页面展示了游戏简介、平台配置、开发者说明和玩家评分；GGJ 页面记录了项目的 Jam 年份、主题、站点、平台和开发工具。
+《Emotion Mask》已发布到 TapTap，并同步提交到 Global Game Jam 2026；Steam 抢先体验本体与独立 Demo 均已提交审核。TapTap 与 GGJ 页面构成已公开证据，Steam 状态则按“已提交审核”描述，不提前写成已经上线。
 
 这次发布让我第一次完整经历了“原型完成之后如何被别人看到”的过程：不仅要做出能玩的版本，还要思考封面、简介、标签、配置说明和下载入口如何共同呈现作品。后续本地工程里出现的多关卡流、排行榜和 UI 辅助系统会继续作为迭代基础，但是否进入公开版本仍需要后续手动 Play Mode 与打包验证。

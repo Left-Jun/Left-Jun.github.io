@@ -93,6 +93,40 @@ test("editor keeps existing project metadata behavior", () => {
   });
 });
 
+test("editor writes project program, status tags, and attachments", () => {
+  const result = applySectionMetadata({ title: "Study" }, "projects", {
+    portfolioType: "game",
+    program: "guanghe-campus-co-creation",
+    statusTags: [" Completed ", "Completed", "Public report"],
+    attachments: [{
+      title: "Report",
+      type: "PDF",
+      description: "Public report",
+      previewUrl: "/files/report.pdf",
+      downloadUrl: "/files/report.pdf",
+      fileSize: "1 MB",
+      pageCount: 12
+    }]
+  });
+
+  assert.deepEqual(result, {
+    title: "Study",
+    portfolioType: "game",
+    program: "guanghe-campus-co-creation",
+    statusTags: ["Completed", "Public report"],
+    featured: false,
+    attachments: [{
+      title: "Report",
+      type: "PDF",
+      description: "Public report",
+      previewUrl: "/files/report.pdf",
+      downloadUrl: "/files/report.pdf",
+      fileSize: "1 MB",
+      pageCount: 12
+    }]
+  });
+});
+
 test("editor writes update evidence and clears project-only metadata", () => {
   const result = applySectionMetadata({
     title: "Update",

@@ -1,6 +1,6 @@
 export const PROJECT_PORTFOLIO_TYPES = ["game", "embedded", "web"];
 export const PROJECT_PORTFOLIO_FILTERS = ["all", ...PROJECT_PORTFOLIO_TYPES];
-export const DEFAULT_CORE_PROJECT_COUNT = 3;
+export const DEFAULT_CORE_PROJECT_COUNT = 4;
 
 function finiteRank(value) {
   return Number.isFinite(value) ? value : Number.POSITIVE_INFINITY;

@@ -27,6 +27,12 @@ const heroProjects = projects
 const featured = projects
   .filter((entry) => entry.data.featured)
   .sort((a, b) => Number(a.data.featuredWeight ?? 999) - Number(b.data.featuredWeight ?? 999));
+const portfolioProjects = projects.filter((entry) => entry.data.program !== "guanghe-campus-co-creation");
+const programProjects = (await Promise.all([
+  "ai-game-project-management",
+  "ai-game-creation-research",
+  "action-game-ip-design"
+].map((slug) => getEntryBySlug("projects", slug, lang)))).filter((entry): entry is SiteEntry => Boolean(entry));
 const posts = (await getEntries("posts", { lang })).slice(0, 3);
 const plans = (await getEntries("plans", { lang })).slice(0, 3);
 const projectKind = (entry: SiteEntry) => ({
@@ -62,14 +68,14 @@ const techStack = [
   href: availableTagSlugs.has(taxonomySlug(item.term)) ? taxonomyTermUrl("tags", item.term, lang) : ""
 }));
 const homeStats = (config.languages[lang]?.homeStats || []).map((stat) => ({
-  value: stat.key === "projects" ? String(projects.length) : stat.value,
+  value: stat.key === "projects" ? String(portfolioProjects.length) : stat.value,
   label: stat.label
 }));
 ---
 <BaseLayout
   lang={lang}
-  title="Left Jun - Gameplay Programmer & Game Client Developer"
-  description="左涵俊（Left Jun）的个人作品集，聚焦 Unity / C#、Unreal Engine 5、Gameplay 系统、Game Jam 原型、Web 产品与 STM32 软硬件实践。"
+  title="Left Jun - 游戏项目管理、AI 应用与独立游戏开发"
+  description="左涵俊（Left Jun）的个人作品集：以游戏项目管理、AI 工作流和独立游戏产品化为当前重点，保留 Gameplay、客户端、Web 与嵌入式研发实践。"
   alternatePath="/en/"
   active="home"
   bodyClass="home-page"
@@ -78,11 +84,14 @@ const homeStats = (config.languages[lang]?.homeStats || []).map((stat) => ({
     <div class="home-hero__content">
       <p class="home-hero__eyebrow">四川大学 · 电子信息类 · 2029届</p>
       <h1 class="home-hero__title">Left Jun</h1>
-      <p class="home-hero__role">游戏客户端 / Gameplay 开发</p>
-      <p class="home-hero__subtitle">持续制作可玩的游戏原型、Gameplay 系统与交互产品。当前主要使用 Unity / C# 与 Unreal Engine 5，并保留 C/C++、STM32 软硬件和 Web 开发实践。</p>
+      <p class="home-hero__role">游戏项目管理 × AI 应用与研发协作</p>
+      <p class="home-hero__subtitle">四川大学通信工程本科生，具备游戏研发、团队统筹与 AI 工作流实践，持续参与独立游戏开发、跨校 Game Jam、用户研究及产品发行。</p>
+      <div class="home-hero__identity-tags" aria-label="当前方向">
+        <span>游戏项目管理</span><span>AI 工作流</span><span>Gameplay 研发</span><span>独立游戏开发</span>
+      </div>
       <div class="home-hero__actions">
         <a class="home-action home-action--primary" href="/projects/"><Icon name="link" /><span>查看项目</span></a>
-        <a class="home-action" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer"><Icon name="briefcase" /><span>作品集 PDF</span></a>
+        <a class="home-action" href="/files/left-jun-ai-game-project-management.pdf" target="_blank" rel="noopener noreferrer"><Icon name="briefcase" /><span>简历 PDF</span></a>
         <a class="home-action" href="/about/"><Icon name="user" /><span>关于我</span></a>
       </div>
       <div class="home-hero__stats" aria-label="作品集数据">
@@ -139,13 +148,33 @@ const homeStats = (config.languages[lang]?.homeStats || []).map((stat) => ({
       </div>
     </div>
 
-    <a class="home-hero__scroll" href="#home-featured-work">
+    <a class="home-hero__scroll" href="#home-introduction">
       <span>查看项目</span>
       <Icon name="chevron-right" />
     </a>
   </section>
 
+  <section class="home-introduction" id="home-introduction" aria-labelledby="home-introduction-title">
+    <p class="home-section__eyebrow">当前定位</p>
+    <h2 id="home-introduction-title">从亲自研发，到让多人协作能够按目标交付</h2>
+    <p>曾统筹 14 人团队完成 AI 游戏创作工具用户研究，并独立完成 AI 赋能游戏项目管理课题；同时持续推进《Emotion Mask》从 48 小时原型、线下路演到 Steam 发行准备。我能够理解策划、程序、美术、测试和平台发行的协作需求，并承担任务拆解、风险跟进、版本整合与成果交付。Left Jun / Limenauts 仍是我持续制作独立游戏、Gameplay 系统和个人产品的创作身份。</p>
+  </section>
+
   <section class="home-dashboard" id="home-featured-work">
+    <section class="home-section home-guanghe-program">
+      <div class="home-section__header home-section__header--with-link">
+        <div>
+          <p class="home-section__eyebrow">AI / PM / Combat Design</p>
+          <h2>光核高校共创营</h2>
+          <p class="home-section__description">围绕 AI 项目管理、AI 游戏创作工具用户研究与动作游戏 IP 玩法转译完成的三项课题实践。</p>
+        </div>
+        <div class="home-section__side"><a class="home-section__link" href="/projects/"><span>查看全部项目</span><Icon name="chevron-right" /></a></div>
+      </div>
+      <div class="home-project-grid home-project-grid--program">
+        {programProjects.map((entry) => <ProjectCard entry={entry} compact />)}
+      </div>
+    </section>
+
     <section class="home-section home-featured-projects">
       <div class="home-section__header home-section__header--with-link">
         <div>

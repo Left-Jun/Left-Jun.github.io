@@ -5,6 +5,8 @@ draft: false
 slug: "time-echo"
 description: "Limenauts 早期团队项目，一款围绕古代、现代、未来三重时间线、时间切换、乐器收集和叙事关卡推进的 2D 解谜平台游戏。"
 image: "cover.png"
+featured: true
+featuredWeight: 30
 pinWeight: 60
 weight: 60
 portfolioType: "game"

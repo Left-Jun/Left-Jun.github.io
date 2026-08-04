@@ -1,64 +1,61 @@
 ---
-title: "About"
-date: 2026-04-22T10:30:00+08:00
-draft: false
+title: "About Left Jun"
 slug: "about"
-description: "Left Jun is an undergraduate student in Electronic Information at Sichuan University and the founder of Limenauts. His current focus is game client and gameplay development, with project experience across Unity, Unreal Engine 5, web products, and embedded systems."
+draft: false
+description: "Left Jun's project portfolio, currently prioritizing game project management, AI workflows, and independent-game delivery while retaining hands-on gameplay, web, and embedded engineering experience."
 ---
 
-I publish work as Left Jun. In formal resumes, competition materials, and recruiting contexts, I use my legal name, Zuo Hanjun.
+I publish work as Left Jun. In resumes, competition material, and recruiting contexts, I use my legal name, Zuo Hanjun.
 
-Limenauts is the personal and team creation brand I initiated and continue to use. It carries the game jams, playable prototypes, team projects, and long-term development records that I lead. It is not a separate organization detached from me, but a creative banner for organizing collaboration, finishing work, and exploring game expression through implementation.
+Limenauts is the personal and team creation brand I initiated and continue to use. It carries game jams, playable prototypes, team projects, and long-term development records. It is not a separate organization detached from me, but my creator identity for organizing collaboration, finishing work, and exploring game expression through implementation.
 
-I am currently an Electronic Information undergraduate at Sichuan University, expected to graduate in June 2029. My current focus is game client and gameplay development. Unity / C# remains my main foundation, while I am strengthening Unreal Engine 5, Blueprint, multiplayer networking, and C/C++ engineering ability.
+I study Communication Engineering at Sichuan University and expect to graduate in June 2029. For current recruiting and interview contexts, I place game project management, AI applications, and development collaboration earlier in the reading order. This does not replace gameplay or engineering ownership; it connects hands-on development, team coordination, user research, and product release into one clearer path.
 
-Beyond games, I also keep building web products and STM32 hardware-software projects. This site is not a general blog; it is a living project archive that records playable works, systems I personally owned, public feedback, and the path from short prototypes toward more complete delivery.
+## Current Positioning
+
+I am interested in game project-management and AI-application work that requires both development context and cross-discipline delivery. I can discuss task boundaries with design, programming, art, QA, and platform-release contributors while owning requirement breakdown, owner alignment, version integration, risk follow-up, and delivery.
+
+This positioning comes from work rather than a job title. I have independently built Unity games and pixel art, led cross-university game-jam teams, and coordinated a 14-person research group. Engineering experience helps me identify dependencies and testing risk, while independent-game work keeps scope, completion quality, and public release concrete.
+
+## Guanghe Campus Co-creation Program
+
+### AI-Assisted Game Project Management
+
+Using my own notes and project experience, I completed a 48-hour takeover SOP, three conflict decisions, a launch review, and a three-month roadmap, receiving an S grade. This was a simulated commercial assignment rather than live-project employment. The Codex risk-monitoring section is a proposed workflow, not a production deployment.
+
+### User Research on AI Game-Creation Tools
+
+I coordinated a 14-person team and owned research alignment, sample definitions, the H5 product and backend flow, report integration, and the final presentation. The study exported 117 records, retained 115 usable responses, used 69 university-student samples as the primary analysis scope, and completed five interviews. Public material includes only aggregate results and methodological limits, not the backend, raw responses, or transcripts.
+
+### Action-Game Combat and IP Gameplay Translation
+
+I organized a methodology covering action PVP, resource exchange, attack-defense transitions, balance, long-term operation, and IP behavior translation. The public result retains the completed first three chapters. A specific character answer that lacked sufficient source review and gameplay validation is not presented as final work.
+
+## Emotion Mask: From Prototype to Release Preparation
+
+Emotion Mask began as a solo 48-hour Global Game Jam prototype, was later published on TapTap with a 9.4 rating, and reached nearly one hundred in-person plays at the Shuguang Youji roadshow in Chengdu. I am continuing work on character 3C, content, controller adaptation, store assets, and review feedback. Both the main game and a standalone demo have been submitted for Steam review.
+
+I drew the pixel characters and animation frames myself. The background music used AI-assisted generation, after which I selected, adjusted, and integrated the material. Cloud saves, controller support, and Workshop work are described according to the distinction between local implementation, submitted content, and production Steam verification.
+
+## Project Management and Collaboration
+
+- Confirm the goal, user, and non-removable core experience before breaking down tasks, owners, dependencies, and acceptance conditions.
+- Reduce non-core scope in time-boxed work so the playable loop, test milestone, and delivery remain protected.
+- Use AI for structure, implementation support, checks, and material processing while retaining human constraints, testing, selection, and responsibility.
+- Keep data, feature state, and contribution boundaries clear instead of presenting plans, local implementations, or team outcomes as publicly validated individual results.
+
+## Technical Background
+
+- Unity / C#: character control, state machines, level interaction, UI, saves, tooling, builds, and release work.
+- Unreal Engine 5: Blueprint, Replication, Listen Server, UMG, basic AI, and multiplayer gameplay flow.
+- C / C++ and Qt: object-oriented design, local desktop applications, JSON storage, and build scripts.
+- STM32: sensors, wireless communication, servo and motor control, and hardware-software integration.
+- Web: Astro, Next.js, responsive interfaces, content systems, and static-site deployment.
+
+At the Sichuan University Water Star Model Boat Competition (Spring 2026), I entered as the only solo team, independently completed the STM32 controller, onboard receiver, PCB, fabrication, and full-system integration, and placed 9th among 72 professional-division teams. It remains concrete evidence of hands-on dependency management, testing, and delivery across hardware and software.
+
+These skills are the basis for understanding development collaboration and solving implementation problems directly. I continue writing code, designing gameplay, drawing pixel animation, and maintaining personal products rather than rewriting technical work as process management alone.
 
 ## Current Focus
 
-- Game client development: character control, state machines, enemy interaction, level logic, UI feedback, scoring, scene flow, and basic multiplayer synchronization.
-- Gameplay design and implementation: breaking down themes and experience goals into mechanics, player flow, tunable parameters, feedback, and working systems.
-- Rapid prototyping and delivery: multiple 48-72 hour development cycles, with practice in scope control, task breakdown, asset integration, and demonstrable builds.
-- Cross-domain development: web products, C/C++, STM32, PCB work, wireless communication, and hardware-software integration.
-- Team execution: repeatedly serving as team lead or main developer, responsible for task planning, build integration, communication, and presentation.
-- Research and collaboration: participating in a Tencent Photon youth training camp research group under confidentiality requirements, supporting game-related research planning, team collaboration, and technical work without disclosing topic details.
-
-## Representative Projects
-
-1. **Emotion Mask:** a solo 48-hour Global Game Jam 2026 Changsha project that connects three emotion states with character abilities, scene interaction, and audio-visual feedback; published on TapTap.
-2. **Elegy of Asherah:** a 72-hour cross-school team project where I served as team lead, main programmer, and gameplay systems designer, building spirit-energy resources, form switching, underground safe time, shortcut construction, and multiple endings.
-3. **UE5 Multiplayer PvE Demo:** my first Unreal Engine 5 multiplayer technical demo, covering server-authoritative shooting, enemy AI, respawn, cooperative scoring, and synchronized win state.
-4. **阈限手记:** a personal web product for journals, essays, and personal expression, focused on low-interruption writing, immersive reading, content organization, and a warm paper-like visual direction.
-5. **Wireless-Controlled Wind-Powered Model Boat:** the only one-person team in the Sichuan University Water Star Model Boat Competition (Spring 2026); I independently completed all hardware-software design, fabrication, and full-system integration, advanced to the final, and placed 9th among 72 professional-division teams.
-6. **Relativity of a Dot:** a 6-hour prototype validating a 2D / 3D switching mechanic.
-7. **Echoes Through Time:** an early team narrative project built around ancient, modern, and future timelines and musical memory.
-
-## 2026 In Progress
-
-- **Tencent Afterclass Client Direction:** completed a UE5 multiplayer PvE demo, demo video, and technical report, adding hands-on Unreal Engine 5 and multiplayer practice.
-- **Tencent Photon Youth Training Camp Research Group Member:** participating in game-related research planning, team collaboration, and technical support; specific topics and stage results follow confidentiality requirements and are not publicly shown.
-- **阈限手记:** continuing product structure, writing and reading experience, responsive pages, and content feature development.
-
-## Skills and Tools
-
-- Languages: C#, C, and C++.
-- Game engines: Unity and Unreal Engine 5, with collaborative project experience in Godot.
-- Gameplay: movement, jump / dash / wall detection, state switching, resource systems, damage and health, enemy AI, checkpoints, scoring, multiple endings, and basic multiplayer synchronization.
-- UE5: Blueprint, Replication, Listen Server, UMG, basic AI, and multiplayer gameplay flow.
-- Web: Astro, Next.js, responsive layout, component-based pages, static-site maintenance and deployment; the technical stack of 阈限手记 is described according to its actual repository.
-- Embedded and hardware: STM32F103C8T6, HAL, SPI, ADC, PWM, nRF24L01, JLC EDA, soldering, and integration debugging.
-- Development tools: Git, Visual Studio, VS Code, STM32CubeIDE / Keil.
-- AI-assisted development: I use Codex, Claude Code, DeepSeek, and similar tools for requirement breakdown, code review, log analysis, error diagnosis, and documentation; generated content must be understood, debugged, and verified by me before entering a project.
-
-## What I Care About
-
-I am especially interested in these questions:
-
-- How can a gameplay mechanic be validated as a playable loop in a short time?
-- How do character control, state switching, enemy behavior, and feedback rhythm combine into game feel?
-- How can rules, level structure, and narrative expression support each other?
-- In multiplayer contexts, which gameplay states should be server-authoritative and how should they synchronize to clients?
-- How can small teams and solo projects keep engineering clear, control scope, and still deliver?
-- What common structures exist across input, state, feedback, and reliability in game development, web products, and hardware-software practice?
-
-If you want a quick picture of me, start with [Projects](/en/projects/).
+I am continuing Steam release preparation for Emotion Mask, publishing sanitized Guanghe study material, and strengthening UE5 multiplayer, gameplay engineering, and AI-assisted production workflows. This site remains the long-term Left Jun / Limenauts project archive, recording what is complete, who owned it, and what still needs validation.

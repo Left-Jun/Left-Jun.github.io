@@ -7,7 +7,7 @@ description: "第一次使用 Unreal Engine 5 完成的多人 PVE Demo。基于 
 image: "cover.webp"
 imagePosition: "center"
 featured: true
-featuredWeight: 30
+featuredWeight: 40
 homeHeroWeight: 30
 pinWeight: 30
 weight: 30

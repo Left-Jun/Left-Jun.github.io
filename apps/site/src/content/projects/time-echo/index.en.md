@@ -5,6 +5,8 @@ draft: false
 slug: "time-echo"
 description: "An early Limenauts team project: a 2D narrative puzzle-platformer built around ancient, modern, and future timelines, timeline switching, instrument collection, and music-driven level progression."
 image: "cover.png"
+featured: true
+featuredWeight: 30
 pinWeight: 60
 weight: 60
 portfolioType: "game"

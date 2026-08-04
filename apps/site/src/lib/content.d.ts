@@ -13,6 +13,7 @@ export interface ProjectLink {
 }
 
 export interface ProjectFacts {
+  projectType?: string;
   developmentTime?: string;
   duration?: string;
   team?: string;
@@ -27,6 +28,18 @@ export interface ProjectFacts {
   finishedAt?: string;
   trailerDuration?: string;
   result?: string;
+}
+
+export interface ProjectAttachment {
+  title: string;
+  type: string;
+  description: string;
+  thumbnail?: string;
+  previewUrl?: string;
+  downloadUrl?: string;
+  externalUrl?: string;
+  fileSize?: string;
+  pageCount?: number;
 }
 
 export interface SiteEntryData {
@@ -48,10 +61,13 @@ export interface SiteEntryData {
   tags: string[];
   relatedPages: string[];
   roleTags: string[];
+  statusTags: string[];
+  program?: string;
   columnIds: string[];
   portfolioType?: string;
   projectFacts?: ProjectFacts;
   projectLinks?: ProjectLink[];
+  attachments?: ProjectAttachment[];
   visualTheme?: VisualTheme;
   featured?: boolean;
   featuredWeight?: number;

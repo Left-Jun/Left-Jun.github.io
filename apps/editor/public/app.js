@@ -114,13 +114,15 @@ function updateSectionFields(section) {
     ["contributionGroup", policy.isUpdate],
     ["resultGroup", policy.isUpdate],
     ["portfolioTypeGroup", policy.isProject],
+    ["programGroup", policy.isProject],
     ["columnIdsGroup", policy.isPost],
     ["featuredGroup", policy.showFeatured],
     ["featuredWeightGroup", policy.showFeatured],
     ["homeHeroWeightGroup", policy.isProject],
     ["pinWeightGroup", policy.isProject],
     ["projectFactsGroup", policy.isProject],
-    ["projectLinksGroup", policy.showLinks]
+    ["projectLinksGroup", policy.showLinks],
+    ["attachmentsGroup", policy.isProject]
   ]) {
     const element = $(`#${id}`);
     if (element) element.hidden = !visible;
@@ -361,6 +363,7 @@ function fillForm(entry) {
   $("#coverVideoField").value = fm.coverVideo || "";
   $("#visualThemeField").value = fm.visualTheme || "";
   $("#portfolioTypeField").value = fm.portfolioType || "";
+  $("#programField").value = fm.program || "";
   $("#columnIdsField").value = listToText(fm.columnIds);
   $("#featuredField").checked = !!fm.featured;
   $("#featuredWeightField").value = Number.isFinite(fm.featuredWeight) ? fm.featuredWeight : "";
@@ -369,8 +372,10 @@ function fillForm(entry) {
   $("#categoriesField").value = listToText(fm.categories);
   $("#tagsField").value = listToText(fm.tags);
   $("#roleTagsField").value = listToText(fm.roleTags);
+  $("#statusTagsField").value = listToText(fm.statusTags);
   $("#projectFactsField").value = JSON.stringify(fm.projectFacts || {}, null, 2);
   $("#projectLinksField").value = JSON.stringify(fm.projectLinks || [], null, 2);
+  $("#attachmentsField").value = JSON.stringify(fm.attachments || [], null, 2);
   $("#bodyField").value = entry.body || "";
   $("#previewLink").href = entry.previewUrl || "#";
   updateSectionFields($("#sectionField").value);
@@ -385,6 +390,7 @@ function readForm() {
   if (!title) throw new Error("保存前需要填写标题。");
   const facts = $("#projectFactsField").value.trim();
   const links = $("#projectLinksField").value.trim();
+  const attachments = $("#attachmentsField").value.trim();
   const section = $("#sectionField").value;
   const numberValue = (selector) => {
     const value = $(selector).value.trim();
@@ -404,6 +410,7 @@ function readForm() {
     categories: textToList($("#categoriesField").value),
     tags: textToList($("#tagsField").value),
     roleTags: textToList($("#roleTagsField").value),
+    statusTags: textToList($("#statusTagsField").value),
     relatedPages: [...document.querySelectorAll("#relatedPicker input:checked")].map((input) => input.value)
   };
   for (const key of ["date", "updatedAt", "status"]) {
@@ -414,13 +421,15 @@ function readForm() {
     contribution: $("#contributionField").value,
     result: $("#resultField").value,
     portfolioType: $("#portfolioTypeField").value,
+    program: $("#programField").value,
     columnIds: textToList($("#columnIdsField").value),
     featured: $("#featuredField").checked,
     featuredWeight: numberValue("#featuredWeightField"),
     homeHeroWeight: numberValue("#homeHeroWeightField"),
     pinWeight: numberValue("#pinWeightField"),
     projectFacts: section === "projects" && facts ? JSON.parse(facts) : undefined,
-    projectLinks: (section === "projects" || section === "updates") && links ? JSON.parse(links) : undefined
+    projectLinks: (section === "projects" || section === "updates") && links ? JSON.parse(links) : undefined,
+    attachments: section === "projects" && attachments ? JSON.parse(attachments) : undefined
   });
   frontMatter = applyVisualThemeMetadata(frontMatter, $("#visualThemeField").value);
   return {

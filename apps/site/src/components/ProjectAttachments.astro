@@ -1,0 +1,119 @@
+---
+import Icon from "./Icon.astro";
+import ResponsiveImage from "./ResponsiveImage.astro";
+import type { ProjectAttachment, SiteEntry, SiteLanguage } from "../lib/content.js";
+
+interface Props {
+  entry: SiteEntry;
+  lang: SiteLanguage;
+  attachments: ProjectAttachment[];
+}
+
+const { entry, lang, attachments } = Astro.props as Props;
+const isEn = lang === "en";
+const [primary, ...secondary] = attachments;
+const resolveAsset = (value = "") => value && !/^(?:https?:)?\/\//i.test(value) && !value.startsWith("/")
+  ? entry.asset(value)
+  : value;
+const linkProps = (url = "") => /^(?:https?:)?\/\//i.test(url)
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
+const actionUrl = (attachment: ProjectAttachment) => attachment.previewUrl || attachment.externalUrl || attachment.downloadUrl || "";
+const labels = {
+  eyebrow: isEn ? "Public deliverables" : "公开成果",
+  title: isEn ? "Materials and attachments" : "成果资料与附件",
+  primary: isEn ? "Primary outcome" : "主要成果",
+  preview: isEn ? "Preview" : "站内预览",
+  download: isEn ? "Download" : "下载资料",
+  visit: isEn ? "Open external result" : "访问外部成果",
+  pages: isEn ? "pages" : "页"
+};
+---
+
+{primary && (
+  <section class="project-attachments" aria-labelledby="project-attachments-title">
+    <header class="project-attachments__heading">
+      <p>{labels.eyebrow}</p>
+      <h2 id="project-attachments-title">{labels.title}</h2>
+    </header>
+
+    <article class="project-attachment project-attachment--primary">
+      {primary.thumbnail && (
+        <div class="project-attachment__media">
+          <ResponsiveImage src={resolveAsset(primary.thumbnail)} alt={primary.title} sizes="(max-width: 767px) 100vw, 360px" loading="lazy" />
+        </div>
+      )}
+      <div class="project-attachment__body">
+        <span class="project-attachment__type">{labels.primary} · {primary.type}</span>
+        <h3>{primary.title}</h3>
+        <p>{primary.description}</p>
+        {(primary.fileSize || primary.pageCount) && (
+          <div class="project-attachment__meta">
+            {primary.fileSize && <span>{primary.fileSize}</span>}
+            {primary.pageCount && <span>{primary.pageCount} {labels.pages}</span>}
+          </div>
+        )}
+        <div class="project-attachment__actions">
+          {primary.previewUrl && <a href={primary.previewUrl} {...linkProps(primary.previewUrl)}><Icon name="display" /><span>{labels.preview}</span></a>}
+          {primary.downloadUrl && <a href={primary.downloadUrl} download><Icon name="briefcase" /><span>{labels.download}</span></a>}
+          {primary.externalUrl && <a href={primary.externalUrl} {...linkProps(primary.externalUrl)}><Icon name="link" /><span>{labels.visit}</span></a>}
+        </div>
+      </div>
+    </article>
+
+    {secondary.length > 0 && (
+      <div class="project-attachments__grid">
+        {secondary.map((attachment) => (
+          <article class="project-attachment">
+            {attachment.thumbnail && (
+              <a class="project-attachment__media" href={actionUrl(attachment)} {...linkProps(actionUrl(attachment))} tabindex="-1">
+                <ResponsiveImage src={resolveAsset(attachment.thumbnail)} alt="" sizes="(max-width: 767px) 100vw, 300px" loading="lazy" />
+              </a>
+            )}
+            <div class="project-attachment__body">
+              <span class="project-attachment__type">{attachment.type}</span>
+              <h3>{attachment.title}</h3>
+              <p>{attachment.description}</p>
+              {(attachment.fileSize || attachment.pageCount) && (
+                <div class="project-attachment__meta">
+                  {attachment.fileSize && <span>{attachment.fileSize}</span>}
+                  {attachment.pageCount && <span>{attachment.pageCount} {labels.pages}</span>}
+                </div>
+              )}
+              <div class="project-attachment__actions">
+                {attachment.previewUrl && <a href={attachment.previewUrl} {...linkProps(attachment.previewUrl)}><Icon name="display" /><span>{labels.preview}</span></a>}
+                {attachment.downloadUrl && <a href={attachment.downloadUrl} download><Icon name="briefcase" /><span>{labels.download}</span></a>}
+                {attachment.externalUrl && <a href={attachment.externalUrl} {...linkProps(attachment.externalUrl)}><Icon name="link" /><span>{labels.visit}</span></a>}
+              </div>
+            </div>
+          </article>
+        ))}
+      </div>
+    )}
+  </section>
+)}
+
+<style>
+  .project-attachments { margin-top: 38px; padding-top: 30px; border-top: 1px solid var(--card-separator-color); }
+  .project-attachments__heading p { margin: 0 0 5px; color: var(--leftjun-primary); font-size: 12px; font-weight: 800; }
+  .project-attachments__heading h2 { margin: 0 0 18px; font-size: 26px; letter-spacing: 0; }
+  .project-attachment { display: flex; min-width: 0; overflow: hidden; border: 1px solid var(--card-separator-color); border-radius: 8px; background: var(--leftjun-neutral-card-background); }
+  .project-attachment--primary { display: grid; grid-template-columns: minmax(240px, .82fr) minmax(0, 1.18fr); }
+  .project-attachment__media { display: block; min-height: 170px; overflow: hidden; background: var(--leftjun-surface-muted); }
+  .project-attachment__media :global(picture), .project-attachment__media :global(img) { display: block; width: 100%; height: 100%; }
+  .project-attachment__media :global(img) { object-fit: cover; }
+  .project-attachment__body { display: flex; min-width: 0; flex: 1; flex-direction: column; padding: 20px; }
+  .project-attachment__type { color: var(--leftjun-primary); font-size: 12px; font-weight: 800; }
+  .project-attachment h3 { margin: 7px 0 0; color: var(--card-text-color-main); font-size: 20px; line-height: 1.25; letter-spacing: 0; overflow-wrap: anywhere; }
+  .project-attachment p { margin: 9px 0 0; color: var(--card-text-color-secondary); font-size: 14px; line-height: 1.65; }
+  .project-attachment__meta { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 12px; color: var(--card-text-color-tertiary); font-size: 12px; }
+  .project-attachment__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 18px; }
+  .project-attachment__actions a { display: inline-flex; min-height: 38px; align-items: center; gap: 6px; padding: 7px 10px; border: 1px solid var(--card-separator-color); border-radius: 8px; background: var(--leftjun-surface-strong); color: var(--leftjun-primary); font-size: 13px; font-weight: 760; }
+  .project-attachment__actions :global(.inline-icon) { width: 15px; height: 15px; }
+  .project-attachments__grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: 14px; }
+  .project-attachments__grid .project-attachment { flex-direction: column; }
+  @media (max-width: 767px) {
+    .project-attachment--primary, .project-attachments__grid { grid-template-columns: 1fr; }
+    .project-attachment--primary .project-attachment__media { aspect-ratio: 16 / 9; }
+  }
+</style>

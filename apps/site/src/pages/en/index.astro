@@ -26,6 +26,11 @@ const heroProjects = projects
 const featured = projects
   .filter((entry) => entry.data.featured)
   .sort((a, b) => Number(a.data.featuredWeight ?? 999) - Number(b.data.featuredWeight ?? 999));
+const programProjects = (await Promise.all([
+  "ai-game-project-management",
+  "ai-game-creation-research",
+  "action-game-ip-design"
+].map((slug) => getEntryBySlug("projects", slug, lang)))).filter((entry): entry is SiteEntry => Boolean(entry));
 const posts = (await getEntries("posts", { lang })).slice(0, 3);
 const plans = (await getEntries("plans", { lang })).slice(0, 3);
 const projectKind = (entry: SiteEntry) => ({
@@ -59,8 +64,8 @@ const techStack = [
 ---
 <BaseLayout
   lang={lang}
-  title="Left Jun - Gameplay Programmer & Game Client Developer"
-  description="Portfolio of Left Jun, a gameplay programmer and game client developer working with Unity, Unreal Engine 5, web products, and embedded systems."
+  title="Left Jun - Game Project Management, AI Workflows, and Independent Games"
+  description="Portfolio of Left Jun, currently prioritizing game project management, AI-assisted production, and independent-game delivery while retaining hands-on gameplay and engineering work."
   alternatePath="/"
   active="home"
   bodyClass="home-page"
@@ -69,11 +74,14 @@ const techStack = [
     <div class="home-hero__content">
       <p class="home-hero__eyebrow">Sichuan University · Electronic Information · Class of 2029</p>
       <h1 class="home-hero__title">Left Jun</h1>
-      <p class="home-hero__role">Game Client / Gameplay Development</p>
-      <p class="home-hero__subtitle">I build playable prototypes, gameplay systems, and interactive products, primarily with Unity / C# and Unreal Engine 5, alongside hands-on experience in C/C++, STM32, and web development.</p>
+      <p class="home-hero__role">Game Project Management × AI-Assisted Production</p>
+      <p class="home-hero__subtitle">A Communication Engineering undergraduate at Sichuan University with hands-on game development, team coordination, and AI workflow experience across independent games, cross-university game jams, user research, and product release.</p>
+      <div class="home-hero__identity-tags" aria-label="Current focus">
+        <span>Game Project Management</span><span>AI Workflows</span><span>Gameplay Development</span><span>Independent Games</span>
+      </div>
       <div class="home-hero__actions">
         <a class="home-action home-action--primary" href="/en/projects/"><Icon name="link" /><span>View Projects</span></a>
-        <a class="home-action" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer"><Icon name="briefcase" /><span>Portfolio PDF</span></a>
+        <a class="home-action" href="/files/left-jun-ai-game-project-management.pdf" target="_blank" rel="noopener noreferrer"><Icon name="briefcase" /><span>Resume PDF</span></a>
         <a class="home-action" href="/en/about/"><Icon name="user" /><span>About</span></a>
       </div>
 
@@ -135,13 +143,33 @@ const techStack = [
       </div>
     </div>
 
-    <a class="home-hero__scroll" href="#home-featured-work">
+    <a class="home-hero__scroll" href="#home-introduction">
       <span>Scroll down</span>
       <Icon name="chevron-right" />
     </a>
   </section>
 
+  <section class="home-introduction" id="home-introduction" aria-labelledby="home-introduction-title">
+    <p class="home-section__eyebrow">Current Positioning</p>
+    <h2 id="home-introduction-title">From hands-on development to coordinated delivery</h2>
+    <p>I coordinated a 14-person study of AI game-creation tools and independently completed an AI-assisted game-project-management study. In parallel, I continue moving Emotion Mask from a 48-hour prototype through public roadshows toward Steam release preparation. I can work across design, programming, art, QA, and platform-release needs while owning task breakdown, risk follow-up, version integration, and delivery. Left Jun / Limenauts remains my creator identity for independent games, gameplay systems, and personal products.</p>
+  </section>
+
   <section class="home-dashboard" id="home-featured-work">
+    <section class="home-section home-guanghe-program">
+      <div class="home-section__header home-section__header--with-link">
+        <div>
+          <p class="home-section__eyebrow">AI / PM / Combat Design</p>
+          <h2>Guanghe Campus Co-creation Program</h2>
+          <p class="home-section__description">Three studies on AI-assisted project management, AI game-creation-tool research, and action-game IP gameplay translation.</p>
+        </div>
+        <div class="home-section__side"><a class="home-section__link" href="/en/projects/"><span>All projects</span><Icon name="chevron-right" /></a></div>
+      </div>
+      <div class="home-project-grid home-project-grid--program">
+        {programProjects.map((entry) => <ProjectCard entry={entry} compact />)}
+      </div>
+    </section>
+
     <section class="home-section home-featured-projects">
       <div class="home-section__header home-section__header--with-link">
         <div>

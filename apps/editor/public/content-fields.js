@@ -3,12 +3,15 @@ const sectionOnlyKeys = [
   "contribution",
   "result",
   "portfolioType",
+  "program",
   "featured",
   "featuredWeight",
   "homeHeroWeight",
   "pinWeight",
   "projectFacts",
   "projectLinks",
+  "attachments",
+  "statusTags",
   "columnIds"
 ];
 
@@ -64,12 +67,18 @@ export function applySectionMetadata(frontMatter = {}, section, values = {}) {
 
   if (section === "projects") {
     next.portfolioType = String(values.portfolioType || "").trim();
+    const statusTags = Array.isArray(values.statusTags)
+      ? [...new Set(values.statusTags.map((value) => String(value).trim()).filter(Boolean))]
+      : [];
+    if (statusTags.length > 0) next.statusTags = statusTags;
+    setOptional(next, "program", String(values.program || "").trim());
     next.featured = Boolean(values.featured);
     setOptional(next, "featuredWeight", values.featuredWeight);
     setOptional(next, "homeHeroWeight", values.homeHeroWeight);
     setOptional(next, "pinWeight", values.pinWeight);
     setOptional(next, "projectFacts", values.projectFacts);
     setOptional(next, "projectLinks", values.projectLinks);
+    setOptional(next, "attachments", values.attachments);
   } else if (section === "updates") {
     next.kind = String(values.kind || "").trim();
     setOptional(next, "contribution", String(values.contribution || "").trim());

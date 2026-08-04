@@ -164,6 +164,105 @@
     ],
     "poster": "/content-assets/posts/shuguang-youji-roadshow/group-photo-960.webp"
   },
+  "/content-assets/projects/action-game-ip-design/cover.png": {
+    "width": 1600,
+    "height": 900,
+    "avif": [
+      {
+        "src": "/content-assets/projects/action-game-ip-design/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/action-game-ip-design/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/action-game-ip-design/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/action-game-ip-design/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/action-game-ip-design/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/action-game-ip-design/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/action-game-ip-design/cover-960.webp"
+  },
+  "/content-assets/projects/ai-game-creation-research/cover.png": {
+    "width": 1600,
+    "height": 900,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ai-game-creation-research/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ai-game-creation-research/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ai-game-creation-research/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ai-game-creation-research/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ai-game-creation-research/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ai-game-creation-research/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ai-game-creation-research/cover-960.webp"
+  },
+  "/content-assets/projects/ai-game-project-management/cover.png": {
+    "width": 1600,
+    "height": 900,
+    "avif": [
+      {
+        "src": "/content-assets/projects/ai-game-project-management/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ai-game-project-management/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ai-game-project-management/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/ai-game-project-management/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/ai-game-project-management/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/ai-game-project-management/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/ai-game-project-management/cover-960.webp"
+  },
   "/content-assets/projects/ashe-lament/cover.png": {
     "width": 2560,
     "height": 1440,
@@ -486,6 +585,39 @@
     ],
     "poster": "/content-assets/projects/emotion-mask/cover-920.webp"
   },
+  "/content-assets/projects/emotion-mask/screenshot-controller-minimap.png": {
+    "width": 2559,
+    "height": 1599,
+    "avif": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-controller-minimap-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-controller-minimap-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-controller-minimap-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-controller-minimap-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-controller-minimap-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-controller-minimap-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/emotion-mask/screenshot-controller-minimap-960.webp"
+  },
   "/content-assets/projects/emotion-mask/screenshot-happy-platform.png": {
     "width": 1269,
     "height": 541,
@@ -518,6 +650,39 @@
       }
     ],
     "poster": "/content-assets/projects/emotion-mask/screenshot-happy-platform-960.webp"
+  },
+  "/content-assets/projects/emotion-mask/screenshot-level-editor.png": {
+    "width": 2559,
+    "height": 1599,
+    "avif": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-editor-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-editor-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-editor-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-editor-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-editor-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/emotion-mask/screenshot-level-editor-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/emotion-mask/screenshot-level-editor-960.webp"
   },
   "/content-assets/projects/emotion-mask/screenshot-level.png": {
     "width": 2559,
@@ -650,6 +815,39 @@
       }
     ],
     "poster": "/content-assets/projects/limen-notes/cover-960.webp"
+  },
+  "/content-assets/projects/mood-diary/cover.png": {
+    "width": 1600,
+    "height": 900,
+    "avif": [
+      {
+        "src": "/content-assets/projects/mood-diary/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/mood-diary/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/mood-diary/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/mood-diary/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/mood-diary/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/mood-diary/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/mood-diary/cover-960.webp"
   },
   "/content-assets/projects/relativity-of-a-dot/cover.png": {
     "width": 2200,

@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import CoverMedia from "./CoverMedia.astro";
 import Icon from "./Icon.astro";
 import RelatedCard from "./RelatedCard.astro";
+import ProjectAttachments from "./ProjectAttachments.astro";
 import { getResponsiveMedia, mediaSrcset, optimizedPoster } from "../lib/media";
 import {
   getEntryBySlug,
@@ -10,7 +11,7 @@ import {
   siteText,
   taxonomyTermUrl
 } from "../lib/content.js";
-import type { ProjectLink, SiteEntry, SiteLanguage } from "../lib/content.js";
+import type { ProjectAttachment, ProjectLink, SiteEntry, SiteLanguage } from "../lib/content.js";
 
 interface Props {
   entry: SiteEntry;
@@ -22,6 +23,8 @@ const { entry, lang = entry.lang } = props;
 const text = siteText(lang);
 const facts = entry.data.projectFacts || {};
 const projectLinks: ProjectLink[] = entry.data.projectLinks || [];
+const attachments: ProjectAttachment[] = entry.data.attachments || [];
+const primaryAttachment = attachments[0] || null;
 const primaryLink = projectLinks[0] || null;
 const secondaryLinks = projectLinks.slice(1);
 const tocItems = entry.toc || [];
@@ -74,6 +77,7 @@ const inferredTeam = text.isEn
   : (roleText.includes("独立") || roleText.includes("单人") ? "独立开发" : "团队项目");
 const eventText = facts.event || facts.competition || "";
 const factItems = [
+  { icon: "briefcase", label: text.isEn ? "Project type" : "项目类型", value: facts.projectType },
   { icon: "clock", label: text.isEn ? "Duration" : "周期", value: facts.duration || facts.developmentTime },
   { icon: "users", label: text.isEn ? "Team" : "团队", value: facts.team || inferredTeam },
   { icon: "code", label: text.isEn ? "Tools" : "技术", value: facts.tools },
@@ -87,6 +91,7 @@ const sidebarItems = [
   { label: text.isEn ? "Updated" : "更新时间", value: updatedAtText }
 ].filter((item) => item.value);
 const pills = [...new Set([...(entry.data.roleTags || []), ...(entry.data.tags || [])].filter(Boolean))].slice(0, 6);
+const statusTags = entry.data.statusTags || [];
 const tagLinks = (entry.data.tags || []).filter(Boolean).map((tag) => ({
   name: tag,
   url: taxonomyTermUrl("tags", tag, lang)
@@ -145,6 +150,7 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
       <div class="project-case__intro">
         <div class="project-case__eyebrow">
           {statusText && <span class="project-case__status">{statusText}</span>}
+          {statusTags.map((tag) => <span class="project-case__status">{tag}</span>)}
           <span class="project-case__kicker">{text.isEn ? "Project Case" : "项目案例"}</span>
         </div>
         <h1>{entry.data.title}</h1>
@@ -159,7 +165,20 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
         {entry.data.description && <p class="project-case__description">{entry.data.description}</p>}
 
         <div class="project-case__actions" aria-label={text.isEn ? "Project evidence and language" : "项目证据与语言入口"}>
-          {primaryLink && (
+          {primaryAttachment?.previewUrl && (
+            <a class="project-case__primary-action" href={primaryAttachment.previewUrl} target="_blank" rel="noopener noreferrer">
+              <Icon name="display" />
+              <span>{text.isEn ? "Preview main outcome" : "预览主要成果"}</span>
+              <Icon name="chevron-right" />
+            </a>
+          )}
+          {primaryAttachment?.downloadUrl && (
+            <a class="project-case__utility-action" href={primaryAttachment.downloadUrl} download>
+              <Icon name="briefcase" />
+              <span>{text.isEn ? "Download" : "下载完整资料"}</span>
+            </a>
+          )}
+          {!primaryAttachment && primaryLink && (
             <a class="project-case__primary-action" href={primaryLink.url} target="_blank" rel="noopener noreferrer">
               <Icon name={primaryLink.icon || "link"} />
               <span>{primaryLink.label}</span>
@@ -249,6 +268,8 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
     )}
 
     <section class="article-content project-case__content" set:html={entry.html}></section>
+
+    {attachments.length > 0 && <ProjectAttachments entry={entry} lang={lang} attachments={attachments} />}
 
     {tagLinks.length > 0 && (
       <footer class="article-footer project-case__footer">

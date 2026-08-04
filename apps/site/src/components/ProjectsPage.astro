@@ -18,9 +18,11 @@ interface Props {
 
 const { lang, section, projects, alternatePath } = Astro.props as Props;
 const isEn = lang === "en";
-const { core, archive } = splitProjectPortfolio(projects);
-const counts = buildProjectTypeCounts(projects);
-const latestProject = [...projects].sort((left, right) => {
+const programProjects = projects.filter((entry) => entry.data.program === "guanghe-campus-co-creation");
+const portfolioProjects = projects.filter((entry) => entry.data.program !== "guanghe-campus-co-creation");
+const { core, archive } = splitProjectPortfolio(portfolioProjects);
+const counts = buildProjectTypeCounts(portfolioProjects);
+const latestProject = [...portfolioProjects].sort((left, right) => {
   const leftDate = left.data.updatedAt || left.data.date;
   const rightDate = right.data.updatedAt || right.data.date;
   return (rightDate?.getTime?.() || 0) - (leftDate?.getTime?.() || 0);
@@ -36,7 +38,12 @@ const latestDate = latestDateValue
   : "";
 const labels = {
   eyebrow: isEn ? "Gameplay & client portfolio" : "Gameplay / 游戏客户端作品集",
-  projectCount: isEn ? (projects.length === 1 ? "project" : "projects") : "个项目",
+  programEyebrow: isEn ? "Guanghe campus co-creation" : "光核高校共创营",
+  programTitle: isEn ? "AI, production, and game design studies" : "AI、项目管理与游戏设计课题",
+  programHint: isEn
+    ? "Three studies covering AI-assisted project management, game-creation-tool research, and action-game IP translation."
+    : "围绕 AI 项目管理、AI 游戏创作工具用户研究与动作游戏 IP 玩法转译完成的三项课题实践。",
+  projectCount: isEn ? (portfolioProjects.length === 1 ? "project" : "projects") : "个项目",
   gameCount: isEn ? "games" : "个游戏项目",
   latest: isEn ? "Latest" : "最近项目",
   showing: isEn ? "Showing" : "当前显示",
@@ -50,8 +57,8 @@ const labels = {
   coreEyebrow: isEn ? "Selected case studies" : "优先了解",
   coreTitle: isEn ? "Core cases" : "核心案例",
   coreHint: isEn
-    ? "Three projects that best show gameplay ownership, delivery, and engineering range."
-    : "优先呈现玩法负责范围、交付结果与工程能力的三个案例。",
+    ? "Four projects that show independent production, gameplay ownership, team delivery, and engineering range."
+    : "优先呈现独立产品化、玩法负责范围、团队交付与工程能力的四个案例。",
   archiveEyebrow: isEn ? "Complete portfolio" : "完整记录",
   archiveTitle: isEn ? "Complete works" : "完整作品",
   archiveHint: isEn
@@ -69,6 +76,21 @@ const labels = {
   active="projects"
   bodyClass="list-page projects-portfolio-page"
 >
+  {programProjects.length > 0 && (
+    <section class="projects-program" aria-labelledby="projects-program-title">
+      <div class="projects-portfolio__section-heading">
+        <div>
+          <p>{labels.programEyebrow}</p>
+          <h2 id="projects-program-title">{labels.programTitle}</h2>
+        </div>
+        <span>{labels.programHint}</span>
+      </div>
+      <div class="projects-program__grid">
+        {programProjects.map((entry) => <ProjectPortfolioCard entry={entry} lang={lang} variant="core" />)}
+      </div>
+    </section>
+  )}
+
   <div class="projects-portfolio" data-project-portfolio>
     <header class="projects-portfolio__header">
       <div class="projects-portfolio__header-copy">
@@ -77,8 +99,8 @@ const labels = {
         {section.data.description && <p class="projects-portfolio__description">{section.data.description}</p>}
       </div>
       <div class="projects-portfolio__meta" aria-live="polite">
-        <span><strong>{projects.length}</strong> {labels.projectCount} · <strong>{counts.game}</strong> {labels.gameCount}</span>
-        <span>{labels.showing} <strong data-project-visible-count>{projects.length}</strong> / {projects.length}</span>
+        <span><strong>{portfolioProjects.length}</strong> {labels.projectCount} · <strong>{counts.game}</strong> {labels.gameCount}</span>
+        <span>{labels.showing} <strong data-project-visible-count>{portfolioProjects.length}</strong> / {portfolioProjects.length}</span>
         {latestDate && <span class="projects-portfolio__latest">{labels.latest} · {latestDate}</span>}
       </div>
       <div class="projects-portfolio__filters" role="group" aria-label={labels.filterAria}>
@@ -145,6 +167,14 @@ const labels = {
 
   .projects-portfolio {
     container: projects-portfolio / inline-size;
+  }
+
+  .projects-program { margin-bottom: clamp(36px, 5vw, 64px); }
+
+  .projects-program__grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
   }
 
   .projects-portfolio__header-copy {
@@ -332,6 +362,7 @@ const labels = {
   }
 
   @media (max-width: 767px) {
+    .projects-program__grid { grid-template-columns: 1fr; }
     .projects-portfolio__header {
       grid-template-columns: 1fr;
       gap: 6px;

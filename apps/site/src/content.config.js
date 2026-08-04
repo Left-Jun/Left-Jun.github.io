@@ -13,6 +13,7 @@ const contentStatusSchema = z.enum(["planned", "in-progress", "completed", "paus
 const updateKindSchema = z.enum(["project", "event", "award", "training", "research", "release", "article"]);
 
 const projectFactsSchema = z.strictObject({
+  projectType: z.string().optional(),
   developmentTime: z.string().optional(),
   duration: z.string().optional(),
   team: z.string().optional(),
@@ -27,6 +28,18 @@ const projectFactsSchema = z.strictObject({
   finishedAt: z.string().optional(),
   trailerDuration: z.string().optional(),
   result: z.string().optional()
+});
+
+const projectAttachmentSchema = z.strictObject({
+  title: z.string().min(1),
+  type: z.string().min(1),
+  description: z.string().min(1),
+  thumbnail: z.string().optional(),
+  previewUrl: z.string().refine(isSafeProjectLink).optional(),
+  downloadUrl: z.string().refine(isSafeProjectLink).optional(),
+  externalUrl: z.string().refine(isSafeProjectLink).optional(),
+  fileSize: z.string().optional(),
+  pageCount: z.number().int().positive().optional()
 });
 
 const projectLinkSchema = z.strictObject({
@@ -52,6 +65,8 @@ const baseSchema = z.looseObject({
   tags: z.array(z.string()).optional().default([]),
   relatedPages: z.array(z.string()).optional().default([]),
   roleTags: z.array(z.string()).optional().default([]),
+  statusTags: z.array(z.string()).optional().default([]),
+  program: z.string().optional().default(""),
   columnIds: z.array(z.string().refine(isKnownPostColumnId, {
     message: "Post column IDs must reference the shared registry"
   })).optional().default([]),
@@ -63,6 +78,7 @@ const baseSchema = z.looseObject({
   ]).optional().default(""),
   projectFacts: projectFactsSchema.optional(),
   projectLinks: z.array(projectLinkSchema).optional(),
+  attachments: z.array(projectAttachmentSchema).optional().default([]),
   visualTheme: z.enum(VISUAL_THEME_IDS).optional(),
   featured: z.boolean().optional().default(false),
   featuredWeight: z.number().optional().default(999),
