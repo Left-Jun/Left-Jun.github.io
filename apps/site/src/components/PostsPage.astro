@@ -3,6 +3,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 import PostColumnCard from "./PostColumnCard.astro";
 import PostEntryCard from "./PostEntryCard.astro";
 import PostFilters from "./PostFilters.astro";
+import GuangheProgramFeature from "./GuangheProgramFeature.astro";
 import {
   buildPostFilterOptions,
   getPostColumnLinksBySlug,
@@ -15,10 +16,11 @@ interface Props {
   lang: SiteLanguage;
   section: SiteEntry | SectionPage;
   posts: SiteEntry[];
+  programProjects: SiteEntry[];
   alternatePath: string;
 }
 
-const { lang, section, posts, alternatePath } = Astro.props as Props;
+const { lang, section, posts, programProjects, alternatePath } = Astro.props as Props;
 const isEn = lang === "en";
 const { spotlight, columns, archive } = splitPostsForIndex(posts, lang);
 const columnLinksBySlug = getPostColumnLinksBySlug(posts, columns);
@@ -36,6 +38,9 @@ const labels = {
   columnsEyebrow: isEn ? "Writing paths" : "持续主题",
   columnsTitle: isEn ? "Columns" : "专栏",
   columnsHint: isEn ? "Focused collections that grow over time" : "按长期主题持续积累的文章集合",
+  programEyebrow: isEn ? "Applied studies" : "课题实践",
+  programTitle: isEn ? "Guanghe Campus Co-creation Program" : "光核高校共创营",
+  programHint: isEn ? "Three connected studies with direct project deliverables" : "三项相互关联并提供完整交付物的课题实践",
   archiveEyebrow: isEn ? "Chronology" : "按时间阅读",
   archiveTitle: isEn ? "Article archive" : "文章归档",
   archiveHint: isEn ? "All remaining writing, newest first" : "其余文章按发布时间从新到旧排列",
@@ -80,6 +85,19 @@ const labels = {
         variant="spotlight"
         columnLinks={columnLinksBySlug.get(spotlight.slug) || []}
       />
+    </section>
+  )}
+
+  {programProjects.length > 0 && (
+    <section class="posts-block posts-guanghe-program" aria-labelledby="posts-guanghe-title">
+      <div class="posts-block__heading">
+        <div>
+          <p>{labels.programEyebrow}</p>
+          <h2 id="posts-guanghe-title">{labels.programTitle}</h2>
+        </div>
+        <span>{labels.programHint}</span>
+      </div>
+      <GuangheProgramFeature projects={programProjects} lang={lang} />
     </section>
   )}
 

@@ -97,6 +97,18 @@ test("cover videos require an image poster", () => {
   }, { section: "projects" }));
 });
 
+test("project front matter accepts mentor feedback", () => {
+  const project = validateFrontMatter({
+    title: "Mentored study",
+    portfolioType: "web",
+    projectFacts: { result: "Grade S" },
+    mentorFeedback: "Strong independent thinking."
+  }, { section: "projects" });
+
+  assert.equal(project.projectFacts.result, "Grade S");
+  assert.equal(project.mentorFeedback, "Strong independent thinking.");
+});
+
 test("update front matter requires a dated update kind", () => {
   assert.throws(() => validateFrontMatter({
     title: "Milestone",

@@ -1,10 +1,16 @@
 ---
 import PostsPage from "../../components/PostsPage.astro";
-import { getEntries, getSectionPage } from "../../lib/content.js";
+import { getEntries, getEntryBySlug, getSectionPage } from "../../lib/content.js";
+import type { SiteEntry } from "../../lib/content.js";
 
 const lang = "zh-cn";
 const section = await getSectionPage("posts", lang);
 const posts = await getEntries("posts", { lang });
+const programProjects = (await Promise.all([
+  "ai-game-project-management",
+  "ai-game-creation-research",
+  "action-game-ip-design"
+].map((slug) => getEntryBySlug("projects", slug, lang)))).filter((entry): entry is SiteEntry => Boolean(entry));
 ---
 
-<PostsPage lang={lang} section={section} posts={posts} alternatePath="/en/posts/" />
+<PostsPage lang={lang} section={section} posts={posts} programProjects={programProjects} alternatePath="/en/posts/" />

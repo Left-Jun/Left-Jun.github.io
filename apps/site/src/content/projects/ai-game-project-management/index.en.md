@@ -6,6 +6,10 @@ slug: "ai-game-project-management"
 description: "An individual study covering a new PM's first 48 hours, conflict decisions, launch review, and a three-month roadmap, developed from personal working notes."
 program: "guanghe-campus-co-creation"
 portfolioType: "web"
+projectFacts:
+  result: "Grade S"
+mentorFeedback: >-
+  This study showed the strongest understanding of its category and stood out because it was grounded in prior practice. The appendix used personal development data and design-document screenshots to build an evidence chain, while the Category B conflict response established a reusable change-review mechanism—an awareness beyond the average intern level. Its weaknesses were excessive length and a Codex proposal that remained too conceptual. The work demonstrated extremely strong independent thinking; the next step is to practise greater concision.
 attachmentGroups:
   - title: "Root directory"
     path: "."

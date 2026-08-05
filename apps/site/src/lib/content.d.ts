@@ -70,6 +70,7 @@ export interface SiteEntryData {
   roleTags: string[];
   statusTags: string[];
   program?: string;
+  mentorFeedback?: string;
   columnIds: string[];
   portfolioType?: string;
   projectFacts?: ProjectFacts;

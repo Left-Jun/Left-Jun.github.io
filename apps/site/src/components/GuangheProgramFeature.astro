@@ -1,0 +1,208 @@
+---
+import Icon from "./Icon.astro";
+import { formatProjectMonth } from "../lib/project-date.js";
+import type { SiteEntry, SiteLanguage } from "../lib/content.js";
+
+interface Props {
+  projects: SiteEntry[];
+  lang: SiteLanguage;
+}
+
+const { projects, lang } = Astro.props as Props;
+const isEn = lang === "en";
+const latest = projects.find((entry) => entry.slug === "ai-game-project-management") || projects[0];
+const latestMonth = latest ? formatProjectMonth(latest.data.date) : "";
+const labels = {
+  eyebrow: isEn ? "Campus co-creation studies" : "高校共创课题",
+  count: isEn ? `${projects.length} studies` : `${projects.length} 个课题`,
+  title: isEn ? "Three applied studies" : "三项课题实践",
+  description: isEn
+    ? "AI-assisted project management, research on AI game-creation tools, and action-game IP gameplay design."
+    : "围绕 AI 项目管理、AI 游戏创作工具用户研究与动作游戏 IP 玩法研究完成的三项课题。",
+  latest: isEn ? "Latest entry" : "最近收录",
+  topics: isEn ? "Study links" : "课题入口"
+};
+---
+
+<article class="guanghe-program-feature">
+  <div class="guanghe-program-feature__heading">
+    <p>{labels.eyebrow}</p>
+    <span>{labels.count}</span>
+  </div>
+  <h3>{labels.title}</h3>
+  <p class="guanghe-program-feature__description">{labels.description}</p>
+  {latest && (
+    <div class="guanghe-program-feature__latest">
+      <span>{labels.latest}</span>
+      <a href={latest.url}>{latest.data.title}</a>
+      {latestMonth && <time datetime={latest.data.date?.toISOString?.()}>{latestMonth}</time>}
+    </div>
+  )}
+  <nav class="guanghe-program-feature__topics" aria-label={labels.topics}>
+    {projects.map((entry, index) => (
+      <a href={entry.url}>
+        <span class="guanghe-program-feature__topic-index">{String(index + 1).padStart(2, "0")}</span>
+        <strong>{entry.data.title}</strong>
+        <Icon name="chevron-right" label="" />
+      </a>
+    ))}
+  </nav>
+</article>
+
+<style>
+  .guanghe-program-feature {
+    position: relative;
+    display: grid;
+    min-width: 0;
+    gap: 12px;
+    overflow: hidden;
+    padding: clamp(18px, 2.4vw, 24px);
+    border: 1px solid color-mix(in srgb, var(--leftjun-primary) 24%, var(--card-separator-color));
+    border-radius: 22px;
+    background: var(--leftjun-surface);
+    box-shadow: var(--leftjun-surface-shadow-soft);
+  }
+
+  .guanghe-program-feature::before {
+    position: absolute;
+    inset: 0 auto 0 0;
+    width: 5px;
+    background: var(--leftjun-primary);
+    content: "";
+  }
+
+  .guanghe-program-feature__heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  .guanghe-program-feature__heading p,
+  .guanghe-program-feature__heading span {
+    margin: 0;
+    color: var(--leftjun-primary);
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .guanghe-program-feature__heading span {
+    color: var(--card-text-color-tertiary);
+    font-weight: 700;
+  }
+
+  .guanghe-program-feature h3 {
+    margin: 0;
+    color: var(--card-text-color-main);
+    font-size: 22px;
+    line-height: 1.2;
+  }
+
+  .guanghe-program-feature__description {
+    max-width: 72ch;
+    margin: 0;
+    color: var(--card-text-color-secondary);
+    font-size: 16px;
+    line-height: 1.65;
+  }
+
+  .guanghe-program-feature__latest {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 4px 16px;
+    padding-top: 12px;
+    border-top: 1px solid var(--card-separator-color);
+  }
+
+  .guanghe-program-feature__latest > span {
+    grid-column: 1 / -1;
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    font-weight: 750;
+  }
+
+  .guanghe-program-feature__latest a {
+    min-width: 0;
+    overflow: hidden;
+    color: var(--card-text-color-main);
+    font-size: 15px;
+    font-weight: 760;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .guanghe-program-feature__latest a:hover,
+  .guanghe-program-feature__latest a:focus-visible,
+  .guanghe-program-feature__topics a:hover strong,
+  .guanghe-program-feature__topics a:focus-visible strong {
+    color: var(--leftjun-primary);
+  }
+
+  .guanghe-program-feature__latest time {
+    color: var(--card-text-color-tertiary);
+    font-size: 12px;
+    white-space: nowrap;
+  }
+
+  .guanghe-program-feature__topics {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    margin-top: 2px;
+    border-top: 1px solid var(--card-separator-color);
+  }
+
+  .guanghe-program-feature__topics a {
+    display: grid;
+    min-width: 0;
+    min-height: 74px;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 9px;
+    padding: 13px 14px;
+    color: inherit;
+  }
+
+  .guanghe-program-feature__topics a + a {
+    border-left: 1px solid var(--card-separator-color);
+  }
+
+  .guanghe-program-feature__topic-index {
+    color: var(--leftjun-primary);
+    font-size: 11px;
+    font-weight: 800;
+  }
+
+  .guanghe-program-feature__topics strong {
+    min-width: 0;
+    color: var(--card-text-color-main);
+    font-size: 13px;
+    line-height: 1.4;
+    overflow-wrap: anywhere;
+    transition: color var(--leftjun-hover-duration) ease;
+  }
+
+  .guanghe-program-feature__topics :global(.inline-icon) {
+    width: 16px;
+    height: 16px;
+    color: var(--leftjun-primary);
+  }
+
+  @media (min-width: 768px) and (max-width: 1180px) {
+    .guanghe-program-feature h3 { font-size: 20px; }
+    .guanghe-program-feature__topics a { padding-inline: 10px; }
+  }
+
+  @media (max-width: 767px) {
+    .guanghe-program-feature { padding: 18px; }
+    .guanghe-program-feature h3 { font-size: 18px; }
+    .guanghe-program-feature__description { font-size: 15px; }
+    .guanghe-program-feature__latest { grid-template-columns: 1fr; }
+    .guanghe-program-feature__topics { grid-template-columns: 1fr; }
+    .guanghe-program-feature__topics a { min-height: 58px; padding: 11px 4px; }
+    .guanghe-program-feature__topics a + a { border-top: 1px solid var(--card-separator-color); border-left: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .guanghe-program-feature__topics strong { transition: none; }
+  }
+</style>

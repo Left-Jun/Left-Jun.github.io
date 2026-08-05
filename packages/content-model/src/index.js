@@ -130,6 +130,7 @@ export const contentFrontMatterSchema = z.looseObject({
   roleTags: z.array(z.string()).optional().default([]),
   statusTags: z.array(z.string()).optional().default([]),
   program: z.string().optional().default(""),
+  mentorFeedback: z.string().optional().default(""),
   portfolioType: z.union([
     z.literal(""),
     z.string().refine(isStablePortfolioType, {

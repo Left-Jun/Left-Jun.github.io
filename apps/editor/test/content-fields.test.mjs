@@ -77,6 +77,7 @@ test("editor keeps existing project metadata behavior", () => {
     homeHeroWeight: 30,
     pinWeight: 10,
     projectFacts: { duration: "48 hours" },
+    mentorFeedback: "Strong independent thinking.",
     projectLinks: [{ label: "Demo", url: "https://example.com/demo", kind: "playable" }]
   });
 
@@ -89,6 +90,7 @@ test("editor keeps existing project metadata behavior", () => {
     homeHeroWeight: 30,
     pinWeight: 10,
     projectFacts: { duration: "48 hours" },
+    mentorFeedback: "Strong independent thinking.",
     projectLinks: [{ label: "Demo", url: "https://example.com/demo", kind: "playable" }]
   });
 });

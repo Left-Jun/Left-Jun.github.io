@@ -9,6 +9,7 @@ const sectionOnlyKeys = [
   "homeHeroWeight",
   "pinWeight",
   "projectFacts",
+  "mentorFeedback",
   "projectLinks",
   "attachments",
   "attachmentGroups",
@@ -78,6 +79,7 @@ export function applySectionMetadata(frontMatter = {}, section, values = {}) {
     setOptional(next, "homeHeroWeight", values.homeHeroWeight);
     setOptional(next, "pinWeight", values.pinWeight);
     setOptional(next, "projectFacts", values.projectFacts);
+    setOptional(next, "mentorFeedback", String(values.mentorFeedback || "").trim());
     setOptional(next, "projectLinks", values.projectLinks);
     setOptional(next, "attachments", values.attachments);
     setOptional(next, "attachmentGroups", values.attachmentGroups);

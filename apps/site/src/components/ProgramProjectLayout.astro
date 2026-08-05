@@ -15,6 +15,8 @@ const { entry, lang = entry.lang } = Astro.props as Props;
 const text = siteText(lang);
 const groups: ProjectAttachmentGroup[] = entry.data.attachmentGroups || [];
 const facts = entry.data.projectFacts || {};
+const mentorFeedback = String(entry.data.mentorFeedback || "").trim();
+const hasMentorEvaluation = Boolean(facts.result || mentorFeedback);
 const recordMonth = formatProjectMonth(entry.data.date);
 const metadata = [
   { label: "", value: recordMonth },
@@ -57,6 +59,15 @@ const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
           </dl>
         )}
         {entry.data.description && <p>{entry.data.description}</p>}
+        {hasMentorEvaluation && (
+          <aside class="program-project-detail__mentor" aria-label={text.isEn ? "Mentor evaluation" : "导师评价"}>
+            <div class="program-project-detail__mentor-heading">
+              <span>{text.isEn ? "Mentor grade" : "导师评分"}</span>
+              {facts.result && <strong>{facts.result}</strong>}
+            </div>
+            {mentorFeedback && <blockquote>{mentorFeedback}</blockquote>}
+          </aside>
+        )}
       </div>
       {alternateEntry && (
         <a href={alternateEntry.url} data-language-transition>
@@ -80,12 +91,18 @@ const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
   .program-project-detail__meta dt { font-weight: 760; }
   .program-project-detail__meta dd { min-width: 0; margin: 0; color: var(--card-text-color-secondary); overflow-wrap: anywhere; }
   .program-project-detail__header p { max-width: 900px; margin: 10px 0 0; color: var(--card-text-color-secondary); font-size: 15px; line-height: 1.65; }
+  .program-project-detail__mentor { max-width: 900px; margin-top: 14px; padding: 13px 15px; border-left: 3px solid var(--leftjun-primary); border-radius: 0 10px 10px 0; background: color-mix(in srgb, var(--leftjun-primary) 7%, var(--leftjun-surface)); }
+  .program-project-detail__mentor-heading { display: flex; align-items: center; gap: 9px; color: var(--card-text-color-tertiary); font-size: 12px; font-weight: 760; }
+  .program-project-detail__mentor-heading strong { display: inline-flex; min-height: 24px; align-items: center; padding: 3px 8px; border-radius: 7px; background: color-mix(in srgb, var(--leftjun-primary) 13%, transparent); color: var(--leftjun-primary-deep); font-size: 13px; }
+  .program-project-detail__mentor blockquote { margin: 8px 0 0; color: var(--card-text-color-secondary); font-size: 13px; line-height: 1.65; }
   .program-project-detail__header > a { display: inline-flex; min-height: 38px; flex: 0 0 auto; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid var(--card-separator-color); border-radius: 8px; background: var(--leftjun-surface-strong); color: var(--leftjun-primary); font-size: 13px; font-weight: 760; }
   .program-project-detail__header > a :global(.inline-icon) { width: 16px; height: 16px; }
   @media (max-width: 767px) {
     .program-project-detail__header { gap: 12px; padding-top: 0; }
     .program-project-detail__header h1 { font-size: 28px; }
     .program-project-detail__header p { margin-top: 8px; font-size: 14px; }
+    .program-project-detail__mentor { margin-top: 11px; padding: 11px 12px; }
+    .program-project-detail__mentor blockquote { font-size: 12.5px; }
     .program-project-detail__header > a { width: 38px; height: 38px; min-height: 38px; justify-content: center; padding: 0; }
     .program-project-detail__header > a span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
   }

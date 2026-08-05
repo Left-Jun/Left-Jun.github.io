@@ -6,6 +6,10 @@ slug: "ai-game-project-management"
 description: "从个人手稿出发，围绕新人 PM 48 小时接手、冲突决策、上线复盘和三个月 Roadmap 完成个人课题。"
 program: "guanghe-campus-co-creation"
 portfolioType: "web"
+projectFacts:
+  result: "S 档"
+mentorFeedback: >-
+  品类认知最深的一个，赢在"有根基"。附录里放了个人实战数据和设计文档截图作为证据链，B类冲突建立了通用变更评审机制——这个意识超越了实习生平均水平。不足在篇幅偏长、CODEX方案偏概念化。独立思考力极强，下一步要练"精简化"。
 attachmentGroups:
   - title: "根目录"
     path: "."

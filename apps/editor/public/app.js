@@ -121,6 +121,7 @@ function updateSectionFields(section) {
     ["homeHeroWeightGroup", policy.isProject],
     ["pinWeightGroup", policy.isProject],
     ["projectFactsGroup", policy.isProject],
+    ["mentorFeedbackGroup", policy.isProject],
     ["projectLinksGroup", policy.showLinks],
     ["attachmentsGroup", policy.isProject],
     ["attachmentGroupsGroup", policy.isProject]
@@ -375,6 +376,7 @@ function fillForm(entry) {
   $("#roleTagsField").value = listToText(fm.roleTags);
   $("#statusTagsField").value = listToText(fm.statusTags);
   $("#projectFactsField").value = JSON.stringify(fm.projectFacts || {}, null, 2);
+  $("#mentorFeedbackField").value = fm.mentorFeedback || "";
   $("#projectLinksField").value = JSON.stringify(fm.projectLinks || [], null, 2);
   $("#attachmentsField").value = JSON.stringify(fm.attachments || [], null, 2);
   $("#attachmentGroupsField").value = JSON.stringify(fm.attachmentGroups || [], null, 2);
@@ -431,6 +433,7 @@ function readForm() {
     homeHeroWeight: numberValue("#homeHeroWeightField"),
     pinWeight: numberValue("#pinWeightField"),
     projectFacts: section === "projects" && facts ? JSON.parse(facts) : undefined,
+    mentorFeedback: section === "projects" ? $("#mentorFeedbackField").value : undefined,
     projectLinks: (section === "projects" || section === "updates") && links ? JSON.parse(links) : undefined,
     attachments: section === "projects" && attachments ? JSON.parse(attachments) : undefined,
     attachmentGroups: section === "projects" && attachmentGroups ? JSON.parse(attachmentGroups) : undefined
