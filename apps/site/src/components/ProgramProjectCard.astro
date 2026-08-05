@@ -14,7 +14,7 @@ const isEn = lang === "en";
 const facts = data.projectFacts || {};
 const recordMonth = formatProjectMonth(data.date);
 const scheduleMeta = [
-  recordMonth && `${isEn ? "Record date" : "记录日期"} ${recordMonth}`,
+  recordMonth,
   facts.developmentTime && `${isEn ? "Development" : "开发时间"} ${facts.developmentTime}`,
   facts.duration && `${isEn ? "Cycle" : "周期"} ${facts.duration}`
 ].filter(Boolean).map(String);

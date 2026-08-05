@@ -17,7 +17,7 @@ const projectFacts = entry.data.projectFacts || {};
 const isEn = entry.lang === "en";
 const recordMonth = formatProjectMonth(entry.data.date);
 const scheduleMeta = [
-  recordMonth && `${isEn ? "Record date" : "记录日期"} ${recordMonth}`,
+  recordMonth,
   projectFacts.developmentTime && `${isEn ? "Development" : "开发时间"} ${projectFacts.developmentTime}`
 ].filter(Boolean).map(String);
 const cardMeta = compact

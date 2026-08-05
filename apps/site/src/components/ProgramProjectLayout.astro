@@ -17,7 +17,7 @@ const groups: ProjectAttachmentGroup[] = entry.data.attachmentGroups || [];
 const facts = entry.data.projectFacts || {};
 const recordMonth = formatProjectMonth(entry.data.date);
 const metadata = [
-  { label: text.isEn ? "Record date" : "记录日期", value: recordMonth },
+  { label: "", value: recordMonth },
   { label: text.isEn ? "Development" : "开发时间", value: facts.developmentTime },
   { label: text.isEn ? "Cycle" : "周期", value: facts.duration },
   { label: text.isEn ? "Team" : "团队", value: facts.team },
@@ -50,8 +50,8 @@ const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
           <dl class="program-project-detail__meta">
             {metadata.map((item) => (
               <div>
-                <dt>{item.label}</dt>
-                <dd>{item.value}</dd>
+                <dt>{item.label || item.value}</dt>
+                {item.label && <dd>{item.value}</dd>}
               </div>
             ))}
           </dl>

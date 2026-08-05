@@ -21,11 +21,10 @@ test("project dates use a stable year-month format", () => {
   assert.equal(formatProjectMonth("not-a-date"), "");
 });
 
-test("all project cards and layouts show record date separately", () => {
+test("all project cards and layouts show the date without a record-date label", () => {
   for (const source of components) {
     assert.match(source, /formatProjectMonth/);
-    assert.match(source, /Record date/);
-    assert.match(source, /记录日期/);
+    assert.doesNotMatch(source, /Record date|记录日期/);
   }
 });
 

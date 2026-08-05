@@ -76,7 +76,7 @@ const recordMonth = formatProjectMonth(entry.data.date);
 const eventText = facts.event || facts.competition || "";
 const factItems = [
   { icon: "briefcase", label: text.isEn ? "Project type" : "项目类型", value: facts.projectType },
-  { icon: "clock", label: text.isEn ? "Record date" : "记录日期", value: recordMonth },
+  { icon: "clock", label: "", value: recordMonth },
   { icon: "clock", label: text.isEn ? "Development" : "开发时间", value: facts.developmentTime },
   { icon: "clock", label: text.isEn ? "Cycle" : "周期", value: facts.duration },
   { icon: "users", label: text.isEn ? "Team" : "团队", value: facts.team },
@@ -86,7 +86,7 @@ const factItems = [
 ].filter((item) => item.value);
 const sidebarItems = [
   { label: text.isEn ? "Status" : "项目状态", value: statusText },
-  { label: text.isEn ? "Record date" : "记录日期", value: recordMonth },
+  { label: "", value: recordMonth },
   { label: text.isEn ? "Development" : "开发时间", value: facts.developmentTime },
   { label: text.isEn ? "Cycle" : "项目周期", value: facts.duration },
   { label: text.isEn ? "Team" : "团队规模", value: facts.team },
@@ -210,8 +210,8 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
         <dl>
           {factItems.map((item) => (
             <div>
-              <dt><Icon name={item.icon} /><span>{item.label}</span></dt>
-              <dd>{item.value}</dd>
+              <dt><Icon name={item.icon} /><span>{item.label || item.value}</span></dt>
+              {item.label && <dd>{item.value}</dd>}
             </div>
           ))}
         </dl>
@@ -326,8 +326,8 @@ const hasRightSidebar = tocItems.length > 0 || projectLinks.length > 0 || sideba
             <dl>
               {sidebarItems.map((item) => (
                 <div>
-                  <dt>{item.label}</dt>
-                  <dd>{item.value}</dd>
+                  <dt>{item.label || item.value}</dt>
+                  {item.label && <dd>{item.value}</dd>}
                 </div>
               ))}
             </dl>

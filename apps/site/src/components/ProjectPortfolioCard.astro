@@ -41,7 +41,6 @@ const labels = {
   },
   role: isEn ? "Role" : "职责",
   result: isEn ? "Outcome" : "成果",
-  recordDate: isEn ? "Record date" : "记录日期",
   developmentTime: isEn ? "Development" : "开发时间",
   duration: isEn ? "Cycle" : "周期",
   team: isEn ? "Team" : "团队",
@@ -50,7 +49,7 @@ const labels = {
 };
 const status = data.status ? labels.status[data.status] : "";
 const factsList = [
-  { label: labels.recordDate, value: recordMonth },
+  { label: "", value: recordMonth },
   { label: labels.developmentTime, value: facts.developmentTime },
   { label: labels.duration, value: facts.duration },
   { label: labels.team, value: facts.team },
@@ -115,7 +114,7 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
         {archiveSchedule.map((item, index) => (
           <>
             {index > 0 && <span aria-hidden="true">·</span>}
-            <span><strong>{item.label}</strong> {item.value}</span>
+            <span>{item.label && <strong>{item.label}</strong>} {item.value}</span>
           </>
         ))}
       </p>
@@ -141,8 +140,8 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
       <dl class="portfolio-project-card__facts">
         {factsList.map((fact) => (
           <div>
-            <dt>{fact.label}</dt>
-            <dd>{fact.value}</dd>
+            <dt>{fact.label || fact.value}</dt>
+            {fact.label && <dd>{fact.value}</dd>}
           </div>
         ))}
       </dl>
