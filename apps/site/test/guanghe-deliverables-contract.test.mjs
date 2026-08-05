@@ -24,7 +24,7 @@ test("Guanghe routes use the compact deliverables layout", () => {
     assert.match(route, /entry\.data\.program === "guanghe-campus-co-creation"/);
   }
   assert.match(sources.layout, /ProjectAttachmentFolders/);
-  assert.doesNotMatch(sources.layout, /ProjectLayout|projectFacts|set:html|CoverMedia/);
+  assert.doesNotMatch(sources.layout, /ProjectLayout|set:html|CoverMedia/);
 });
 
 test("research deliverables preserve source folders and exclude raw records", () => {

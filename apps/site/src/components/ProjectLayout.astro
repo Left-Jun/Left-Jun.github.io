@@ -5,6 +5,7 @@ import Icon from "./Icon.astro";
 import RelatedCard from "./RelatedCard.astro";
 import ProjectAttachments from "./ProjectAttachments.astro";
 import { getResponsiveMedia, mediaSrcset, optimizedPoster } from "../lib/media";
+import { formatProjectMonth } from "../lib/project-date.js";
 import {
   getEntryBySlug,
   relatedEntries,
@@ -71,23 +72,24 @@ const updatedAtText = entry.data.updatedAt
     day: "2-digit"
   }).format(entry.data.updatedAt)
   : "";
-const roleText = String(facts.role || "");
-const inferredTeam = text.isEn
-  ? (roleText.toLowerCase().includes("solo") ? "Solo" : "Team project")
-  : (roleText.includes("独立") || roleText.includes("单人") ? "独立开发" : "团队项目");
+const recordMonth = formatProjectMonth(entry.data.date);
 const eventText = facts.event || facts.competition || "";
 const factItems = [
   { icon: "briefcase", label: text.isEn ? "Project type" : "项目类型", value: facts.projectType },
-  { icon: "clock", label: text.isEn ? "Duration" : "周期", value: facts.duration || facts.developmentTime },
-  { icon: "users", label: text.isEn ? "Team" : "团队", value: facts.team || inferredTeam },
+  { icon: "clock", label: text.isEn ? "Record date" : "记录日期", value: recordMonth },
+  { icon: "clock", label: text.isEn ? "Development" : "开发时间", value: facts.developmentTime },
+  { icon: "clock", label: text.isEn ? "Cycle" : "周期", value: facts.duration },
+  { icon: "users", label: text.isEn ? "Team" : "团队", value: facts.team },
   { icon: "code", label: text.isEn ? "Tools" : "技术", value: facts.tools },
   { icon: "display", label: text.isEn ? "Platform" : "平台", value: facts.platform },
   { icon: "trophy", label: text.isEn ? "Event" : "活动 / 赛事", value: eventText }
 ].filter((item) => item.value);
 const sidebarItems = [
   { label: text.isEn ? "Status" : "项目状态", value: statusText },
-  { label: text.isEn ? "Duration" : "项目周期", value: facts.duration || facts.developmentTime },
-  { label: text.isEn ? "Team" : "团队规模", value: facts.team || inferredTeam },
+  { label: text.isEn ? "Record date" : "记录日期", value: recordMonth },
+  { label: text.isEn ? "Development" : "开发时间", value: facts.developmentTime },
+  { label: text.isEn ? "Cycle" : "项目周期", value: facts.duration },
+  { label: text.isEn ? "Team" : "团队规模", value: facts.team },
   { label: text.isEn ? "Updated" : "更新时间", value: updatedAtText }
 ].filter((item) => item.value);
 const pills = [...new Set([...(entry.data.roleTags || []), ...(entry.data.tags || [])].filter(Boolean))].slice(0, 6);

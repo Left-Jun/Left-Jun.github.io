@@ -1576,6 +1576,11 @@ body {
   padding-top: 14px;
 }
 
+.home-dashboard .home-project-grid .project-card__schedule {
+  margin-top: 7px;
+  padding-top: 0;
+}
+
 .home-plan-card__pill::before,
 .project-record-pill::before {
   content: "·";

@@ -2,6 +2,7 @@
 import CoverMedia from "./CoverMedia.astro";
 import Icon from "./Icon.astro";
 import type { SiteEntry, SiteLanguage } from "../lib/content.js";
+import { formatProjectMonth } from "../lib/project-date.js";
 
 interface Props {
   entry: SiteEntry;
@@ -23,6 +24,7 @@ const result = facts.result || "";
 const evidence = data.projectLinks?.[0];
 const evidenceExternal = evidence ? /^https?:\/\//i.test(evidence.url) : false;
 const titleId = `portfolio-project-${variant}-${entry.slug}`;
+const recordMonth = formatProjectMonth(data.date);
 const labels = {
   type: {
     game: isEn ? "Game" : "游戏",
@@ -39,6 +41,8 @@ const labels = {
   },
   role: isEn ? "Role" : "职责",
   result: isEn ? "Outcome" : "成果",
+  recordDate: isEn ? "Record date" : "记录日期",
+  developmentTime: isEn ? "Development" : "开发时间",
   duration: isEn ? "Cycle" : "周期",
   team: isEn ? "Team" : "团队",
   tools: isEn ? "Stack" : "工具",
@@ -46,10 +50,13 @@ const labels = {
 };
 const status = data.status ? labels.status[data.status] : "";
 const factsList = [
-  { label: labels.duration, value: facts.duration || facts.developmentTime },
+  { label: labels.recordDate, value: recordMonth },
+  { label: labels.developmentTime, value: facts.developmentTime },
+  { label: labels.duration, value: facts.duration },
   { label: labels.team, value: facts.team },
   { label: labels.tools, value: facts.tools }
 ].filter((item) => item.value);
+const archiveSchedule = factsList.slice(0, 3);
 const archiveDescriptor = role
   ? { label: labels.role, value: role }
   : facts.tools
@@ -102,6 +109,17 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
     )}
 
     <h3 id={titleId}><a href={entry.url}>{data.title}</a></h3>
+
+    {variant === "archive" && archiveSchedule.length > 0 && (
+      <p class="portfolio-project-card__schedule">
+        {archiveSchedule.map((item, index) => (
+          <>
+            {index > 0 && <span aria-hidden="true">·</span>}
+            <span><strong>{item.label}</strong> {item.value}</span>
+          </>
+        ))}
+      </p>
+    )}
 
     {variant === "core" && role && (
       <p class="portfolio-project-card__statement portfolio-project-card__statement--role">
@@ -319,6 +337,22 @@ const coverAlt = isEn ? `${data.title} project cover` : `${data.title} 项目封
     color: var(--card-text-color-secondary);
     font-size: 13px;
     line-height: 1.45;
+  }
+
+  .portfolio-project-card__schedule {
+    display: flex;
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 4px 7px;
+    margin: 7px 0 0;
+    color: var(--card-text-color-tertiary);
+    font-size: 11px;
+    line-height: 1.4;
+  }
+
+  .portfolio-project-card__schedule strong {
+    color: var(--card-text-color-secondary);
+    font-weight: 760;
   }
 
   .portfolio-project-card__archive-descriptor strong {

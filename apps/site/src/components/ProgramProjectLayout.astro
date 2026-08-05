@@ -4,6 +4,7 @@ import Icon from "./Icon.astro";
 import ProjectAttachmentFolders from "./ProjectAttachmentFolders.astro";
 import { getEntryBySlug, siteText } from "../lib/content.js";
 import type { ProjectAttachmentGroup, SiteEntry, SiteLanguage } from "../lib/content.js";
+import { formatProjectMonth } from "../lib/project-date.js";
 
 interface Props {
   entry: SiteEntry;
@@ -13,6 +14,15 @@ interface Props {
 const { entry, lang = entry.lang } = Astro.props as Props;
 const text = siteText(lang);
 const groups: ProjectAttachmentGroup[] = entry.data.attachmentGroups || [];
+const facts = entry.data.projectFacts || {};
+const recordMonth = formatProjectMonth(entry.data.date);
+const metadata = [
+  { label: text.isEn ? "Record date" : "记录日期", value: recordMonth },
+  { label: text.isEn ? "Development" : "开发时间", value: facts.developmentTime },
+  { label: text.isEn ? "Cycle" : "周期", value: facts.duration },
+  { label: text.isEn ? "Team" : "团队", value: facts.team },
+  { label: text.isEn ? "Tools" : "工具", value: facts.tools }
+].filter((item) => item.value);
 const alternateLang = text.isEn ? "zh-cn" : "en";
 const alternateEntry = await getEntryBySlug("projects", entry.slug, alternateLang);
 const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
@@ -36,6 +46,16 @@ const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
     <header class="program-project-detail__header">
       <div>
         <h1>{entry.data.title}</h1>
+        {metadata.length > 0 && (
+          <dl class="program-project-detail__meta">
+            {metadata.map((item) => (
+              <div>
+                <dt>{item.label}</dt>
+                <dd>{item.value}</dd>
+              </div>
+            ))}
+          </dl>
+        )}
         {entry.data.description && <p>{entry.data.description}</p>}
       </div>
       {alternateEntry && (
@@ -55,6 +75,10 @@ const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
   .program-project-detail__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding: 4px 0 18px; border-bottom: 1px solid var(--card-separator-color); }
   .program-project-detail__header > div { min-width: 0; }
   .program-project-detail__header h1 { margin: 0; color: var(--card-text-color-main); font-size: 44px; line-height: 1.12; letter-spacing: 0; overflow-wrap: anywhere; }
+  .program-project-detail__meta { display: flex; min-width: 0; flex-wrap: wrap; gap: 5px 14px; margin: 10px 0 0; color: var(--card-text-color-tertiary); font-size: 12px; line-height: 1.45; }
+  .program-project-detail__meta > div { display: inline-flex; min-width: 0; gap: 5px; }
+  .program-project-detail__meta dt { font-weight: 760; }
+  .program-project-detail__meta dd { min-width: 0; margin: 0; color: var(--card-text-color-secondary); overflow-wrap: anywhere; }
   .program-project-detail__header p { max-width: 900px; margin: 10px 0 0; color: var(--card-text-color-secondary); font-size: 15px; line-height: 1.65; }
   .program-project-detail__header > a { display: inline-flex; min-height: 38px; flex: 0 0 auto; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid var(--card-separator-color); border-radius: 8px; background: var(--leftjun-surface-strong); color: var(--leftjun-primary); font-size: 13px; font-weight: 760; }
   .program-project-detail__header > a :global(.inline-icon) { width: 16px; height: 16px; }

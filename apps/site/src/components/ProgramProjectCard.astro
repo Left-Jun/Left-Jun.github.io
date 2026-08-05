@@ -1,14 +1,23 @@
 ---
 import Icon from "./Icon.astro";
 import type { SiteEntry, SiteLanguage } from "../lib/content.js";
+import { formatProjectMonth } from "../lib/project-date.js";
 
 interface Props {
   entry: SiteEntry;
   lang: SiteLanguage;
 }
 
-const { entry } = Astro.props as Props;
+const { entry, lang } = Astro.props as Props;
 const data = entry.data;
+const isEn = lang === "en";
+const facts = data.projectFacts || {};
+const recordMonth = formatProjectMonth(data.date);
+const scheduleMeta = [
+  recordMonth && `${isEn ? "Record date" : "记录日期"} ${recordMonth}`,
+  facts.developmentTime && `${isEn ? "Development" : "开发时间"} ${facts.developmentTime}`,
+  facts.duration && `${isEn ? "Cycle" : "周期"} ${facts.duration}`
+].filter(Boolean).map(String);
 const displayTags = [...(data.roleTags || []), ...(data.tags || [])].filter(Boolean).slice(0, 3);
 const titleId = `program-project-${entry.slug}`;
 ---
@@ -17,6 +26,16 @@ const titleId = `program-project-${entry.slug}`;
   <a href={entry.url}>
     <span class="program-project-card__content">
       <strong id={titleId}>{data.title}</strong>
+      {scheduleMeta.length > 0 && (
+        <span class="program-project-card__meta">
+          {scheduleMeta.map((item, index) => (
+            <>
+              {index > 0 && <span aria-hidden="true">·</span>}
+              <span>{item}</span>
+            </>
+          ))}
+        </span>
+      )}
       {data.description && <span class="program-project-card__description">{data.description}</span>}
       <span class="program-project-card__footer">
         {displayTags.length > 0 && (
@@ -83,6 +102,18 @@ const titleId = `program-project-${entry.slug}`;
     line-height: 1.55;
     -webkit-box-orient: vertical;
     -webkit-line-clamp: 2;
+  }
+
+  .program-project-card__meta {
+    display: flex;
+    min-width: 0;
+    flex-wrap: wrap;
+    gap: 4px 6px;
+    margin-top: 6px;
+    color: var(--card-text-color-tertiary);
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 1.35;
   }
 
   .program-project-card__footer {

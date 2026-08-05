@@ -1,5 +1,6 @@
 ---
 import CoverMedia from "./CoverMedia.astro";
+import { formatProjectMonth } from "../lib/project-date.js";
 
 const { entry, compact = false } = Astro.props;
 const image = entry.data.image;
@@ -13,11 +14,17 @@ const visibleTags = compact ? allDisplayTags.slice(0, 3) : tags;
 const projectType = entry.data.portfolioType || "other";
 const imagePosition = entry.data.imagePosition || "center";
 const projectFacts = entry.data.projectFacts || {};
+const isEn = entry.lang === "en";
+const recordMonth = formatProjectMonth(entry.data.date);
+const scheduleMeta = [
+  recordMonth && `${isEn ? "Record date" : "记录日期"} ${recordMonth}`,
+  projectFacts.developmentTime && `${isEn ? "Development" : "开发时间"} ${projectFacts.developmentTime}`
+].filter(Boolean).map(String);
 const cardMeta = compact
   ? [
       projectFacts.duration,
       projectFacts.team || projectFacts.type || entry.data.portfolioType,
-      projectFacts.tools || projectFacts.engine || projectFacts.developmentTime
+      projectFacts.tools || projectFacts.engine
     ].filter(Boolean).slice(0, 3).map(String)
   : [];
 ---
@@ -42,6 +49,16 @@ const cardMeta = compact
     )}
     <div class="project-card__content">
       <h2 class="project-card__title">{entry.data.title}</h2>
+      {scheduleMeta.length > 0 && (
+        <p class="project-card__meta project-card__schedule">
+          {scheduleMeta.map((item, index) => (
+            <>
+              {index > 0 && <span aria-hidden="true">·</span>}
+              <span>{item}</span>
+            </>
+          ))}
+        </p>
+      )}
       {entry.data.description && <p class="project-card__description">{entry.data.description}</p>}
       {visibleRoleTags.length > 0 && (
         <div class="project-card__roles">
