@@ -1,5 +1,4 @@
 ---
-import CoverMedia from "./CoverMedia.astro";
 import Icon from "./Icon.astro";
 import type { SiteEntry, SiteLanguage } from "../lib/content.js";
 
@@ -8,30 +7,14 @@ interface Props {
   lang: SiteLanguage;
 }
 
-const { entry, lang } = Astro.props as Props;
+const { entry } = Astro.props as Props;
 const data = entry.data;
-const imageUrl = data.image ? entry.asset(data.image) : "";
-const videoUrl = data.coverVideo ? entry.asset(data.coverVideo) : "";
 const displayTags = [...(data.roleTags || []), ...(data.tags || [])].filter(Boolean).slice(0, 3);
 const titleId = `program-project-${entry.slug}`;
-const coverAlt = lang === "en" ? `${data.title} project cover` : `${data.title} 项目封面`;
 ---
 
-<article class:list={["program-project-card", !imageUrl && "program-project-card--no-media"]} aria-labelledby={titleId}>
+<article class="program-project-card" aria-labelledby={titleId}>
   <a href={entry.url}>
-    {imageUrl && (
-      <span class="program-project-card__media" aria-hidden="true">
-        <CoverMedia
-          imageSrc={imageUrl}
-          videoSrc={videoUrl}
-          alt={coverAlt}
-          sizes="(max-width: 767px) 112px, (max-width: 1180px) 28vw, 160px"
-          loading="lazy"
-          style={`object-position: ${data.imagePosition || "center"};`}
-        />
-      </span>
-    )}
-
     <span class="program-project-card__content">
       <strong id={titleId}>{data.title}</strong>
       {data.description && <span class="program-project-card__description">{data.description}</span>}
@@ -66,49 +49,17 @@ const coverAlt = lang === "en" ? `${data.title} project cover` : `${data.title} 
   }
 
   .program-project-card > a {
-    display: grid;
-    min-height: 164px;
-    grid-template-columns: minmax(112px, 38%) minmax(0, 1fr);
+    display: block;
+    min-height: 148px;
     color: inherit;
-  }
-
-  .program-project-card--no-media > a {
-    grid-template-columns: minmax(0, 1fr);
-  }
-
-  .program-project-card__media {
-    display: block;
-    min-width: 0;
-    overflow: hidden;
-    background: var(--leftjun-surface-muted);
-  }
-
-  .program-project-card__media :global(picture),
-  .program-project-card__media :global(img),
-  .program-project-card__media :global(video) {
-    display: block;
-    width: 100%;
-    height: 100%;
-  }
-
-  .program-project-card__media :global(img),
-  .program-project-card__media :global(video) {
-    object-fit: cover;
-    transition: transform 220ms ease;
-  }
-
-  .program-project-card:hover .program-project-card__media :global(img),
-  .program-project-card:hover .program-project-card__media :global(video),
-  .program-project-card:focus-within .program-project-card__media :global(img),
-  .program-project-card:focus-within .program-project-card__media :global(video) {
-    transform: scale(1.015);
   }
 
   .program-project-card__content {
     display: flex;
     min-width: 0;
     flex-direction: column;
-    padding: 15px;
+    min-height: 148px;
+    padding: 16px;
   }
 
   .program-project-card__content > strong {
@@ -186,16 +137,11 @@ const coverAlt = lang === "en" ? `${data.title} project cover` : `${data.title} 
 
   @media (min-width: 768px) and (max-width: 1180px) {
     .program-project-card > a {
-      min-height: 0;
-      grid-template-columns: minmax(0, 1fr);
-    }
-
-    .program-project-card__media {
-      height: 104px;
+      min-height: 146px;
     }
 
     .program-project-card__content {
-      min-height: 166px;
+      min-height: 146px;
       padding: 13px;
     }
 
@@ -214,11 +160,11 @@ const coverAlt = lang === "en" ? `${data.title} project cover` : `${data.title} 
     }
 
     .program-project-card > a {
-      min-height: 142px;
-      grid-template-columns: 112px minmax(0, 1fr);
+      min-height: 136px;
     }
 
     .program-project-card__content {
+      min-height: 136px;
       padding: 13px;
     }
 
@@ -237,18 +183,12 @@ const coverAlt = lang === "en" ? `${data.title} project cover` : `${data.title} 
   }
 
   @media (prefers-reduced-motion: reduce) {
-    .program-project-card,
-    .program-project-card__media :global(img),
-    .program-project-card__media :global(video) {
+    .program-project-card {
       transition: none;
     }
 
     .program-project-card:hover,
-    .program-project-card:focus-within,
-    .program-project-card:hover .program-project-card__media :global(img),
-    .program-project-card:hover .program-project-card__media :global(video),
-    .program-project-card:focus-within .program-project-card__media :global(img),
-    .program-project-card:focus-within .program-project-card__media :global(video) {
+    .program-project-card:focus-within {
       transform: none;
     }
   }

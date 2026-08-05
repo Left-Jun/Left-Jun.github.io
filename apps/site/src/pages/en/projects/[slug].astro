@@ -1,5 +1,6 @@
 ---
 import ProjectLayout from "../../../components/ProjectLayout.astro";
+import ProgramProjectLayout from "../../../components/ProgramProjectLayout.astro";
 import { getEntries } from "../../../lib/content.js";
 
 export async function getStaticPaths() {
@@ -11,4 +12,6 @@ export async function getStaticPaths() {
 
 const { entry } = Astro.props;
 ---
-<ProjectLayout entry={entry} />
+{entry.data.program === "guanghe-campus-co-creation"
+  ? <ProgramProjectLayout entry={entry} />
+  : <ProjectLayout entry={entry} />}

@@ -42,6 +42,13 @@ const projectAttachmentSchema = z.strictObject({
   pageCount: z.number().int().positive().optional()
 });
 
+const projectAttachmentGroupSchema = z.strictObject({
+  title: z.string().min(1),
+  path: z.string().min(1),
+  description: z.string().optional(),
+  attachments: z.array(projectAttachmentSchema).default([])
+});
+
 const projectLinkSchema = z.strictObject({
   label: z.string().min(1),
   url: z.string().min(1).refine(isSafeProjectLink, {
@@ -79,6 +86,7 @@ const baseSchema = z.looseObject({
   projectFacts: projectFactsSchema.optional(),
   projectLinks: z.array(projectLinkSchema).optional(),
   attachments: z.array(projectAttachmentSchema).optional().default([]),
+  attachmentGroups: z.array(projectAttachmentGroupSchema).optional().default([]),
   visualTheme: z.enum(VISUAL_THEME_IDS).optional(),
   featured: z.boolean().optional().default(false),
   featuredWeight: z.number().optional().default(999),

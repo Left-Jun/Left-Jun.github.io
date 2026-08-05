@@ -21,7 +21,7 @@ const { lang, section, projects, alternatePath } = Astro.props as Props;
 const isEn = lang === "en";
 const programProjects = projects.filter((entry) => entry.data.program === "guanghe-campus-co-creation");
 const portfolioProjects = projects.filter((entry) => entry.data.program !== "guanghe-campus-co-creation");
-const { core, archive } = splitProjectPortfolio(portfolioProjects);
+const { core, archive } = splitProjectPortfolio(portfolioProjects, 2);
 const counts = buildProjectTypeCounts(portfolioProjects);
 const latestProject = [...portfolioProjects].sort((left, right) => {
   const leftDate = left.data.updatedAt || left.data.date;
@@ -58,8 +58,8 @@ const labels = {
   coreEyebrow: isEn ? "Selected case studies" : "优先了解",
   coreTitle: isEn ? "Core cases" : "核心案例",
   coreHint: isEn
-    ? "Four projects that show independent production, gameplay ownership, team delivery, and engineering range."
-    : "优先呈现独立产品化、玩法负责范围、团队交付与工程能力的四个案例。",
+    ? "Two projects that show independent production, gameplay ownership, and team delivery."
+    : "优先呈现独立产品化、玩法负责范围与团队交付的两个案例。",
   archiveEyebrow: isEn ? "Complete portfolio" : "完整记录",
   archiveTitle: isEn ? "Complete works" : "完整作品",
   archiveHint: isEn

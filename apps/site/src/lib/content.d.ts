@@ -42,6 +42,13 @@ export interface ProjectAttachment {
   pageCount?: number;
 }
 
+export interface ProjectAttachmentGroup {
+  title: string;
+  path: string;
+  description?: string;
+  attachments: ProjectAttachment[];
+}
+
 export interface SiteEntryData {
   title: string;
   date?: Date;
@@ -68,6 +75,7 @@ export interface SiteEntryData {
   projectFacts?: ProjectFacts;
   projectLinks?: ProjectLink[];
   attachments?: ProjectAttachment[];
+  attachmentGroups?: ProjectAttachmentGroup[];
   visualTheme?: VisualTheme;
   featured?: boolean;
   featuredWeight?: number;

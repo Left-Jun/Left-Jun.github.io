@@ -1,0 +1,105 @@
+---
+import Icon from "./Icon.astro";
+import type { ProjectAttachment, ProjectAttachmentGroup, SiteLanguage } from "../lib/content.js";
+
+interface Props {
+  groups: ProjectAttachmentGroup[];
+  lang: SiteLanguage;
+}
+
+const { groups, lang } = Astro.props as Props;
+const isEn = lang === "en";
+const actionUrl = (attachment: ProjectAttachment) => attachment.previewUrl || attachment.externalUrl || attachment.downloadUrl || "";
+const linkProps = (url = "") => /^(?:https?:)?\/\//i.test(url)
+  ? { target: "_blank", rel: "noopener noreferrer" }
+  : {};
+const labels = {
+  title: isEn ? "Deliverables" : "交付物",
+  file: isEn ? "file" : "个文件",
+  files: isEn ? "files" : "个文件",
+  preview: isEn ? "Preview" : "预览",
+  download: isEn ? "Download" : "下载",
+  visit: isEn ? "Open" : "打开"
+};
+---
+
+<section class="attachment-folders" aria-labelledby="attachment-folders-title">
+  <header class="attachment-folders__title">
+    <h2 id="attachment-folders-title">{labels.title}</h2>
+  </header>
+
+  <div class="attachment-folders__list">
+    {groups.map((group, groupIndex) => (
+      <section class="attachment-folder" aria-labelledby={`attachment-folder-${groupIndex}`}>
+        <header class="attachment-folder__header">
+          <span class="attachment-folder__icon" aria-hidden="true"><Icon name="folder" /></span>
+          <div>
+            <h3 id={`attachment-folder-${groupIndex}`}>{group.title}</h3>
+            <p><span>{group.path}</span><strong>{group.attachments.length} {group.attachments.length === 1 ? labels.file : labels.files}</strong></p>
+          </div>
+        </header>
+
+        {group.attachments.length > 0 ? (
+          <div class="attachment-folder__files">
+            {group.attachments.map((attachment) => (
+              <article class="attachment-file">
+                <div class="attachment-file__heading">
+                  <span aria-hidden="true"><Icon name="file-text" /></span>
+                  <div>
+                    <small>{attachment.type}</small>
+                    <h4>{attachment.title}</h4>
+                  </div>
+                </div>
+                <p>{attachment.description}</p>
+                {attachment.fileSize && <span class="attachment-file__size">{attachment.fileSize}</span>}
+                <div class="attachment-file__actions">
+                  {attachment.previewUrl && <a href={attachment.previewUrl} {...linkProps(attachment.previewUrl)}><Icon name="display" /><span>{labels.preview}</span></a>}
+                  {attachment.downloadUrl && <a href={attachment.downloadUrl} download><Icon name="briefcase" /><span>{labels.download}</span></a>}
+                  {attachment.externalUrl && <a href={attachment.externalUrl} {...linkProps(actionUrl(attachment))}><Icon name="link" /><span>{labels.visit}</span></a>}
+                </div>
+              </article>
+            ))}
+          </div>
+        ) : (
+          <p class="attachment-folder__empty">{group.description}</p>
+        )}
+      </section>
+    ))}
+  </div>
+</section>
+
+<style>
+  .attachment-folders { margin-top: 24px; }
+  .attachment-folders__title { padding-bottom: 12px; border-bottom: 1px solid var(--card-separator-color); }
+  .attachment-folders__title h2 { margin: 0; color: var(--card-text-color-main); font-size: 24px; letter-spacing: 0; }
+  .attachment-folders__list { display: grid; gap: 32px; margin-top: 20px; }
+  .attachment-folder { min-width: 0; }
+  .attachment-folder__header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+  .attachment-folder__icon { display: inline-grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border-radius: 8px; background: color-mix(in srgb, var(--leftjun-primary) 10%, transparent); color: var(--leftjun-primary); }
+  .attachment-folder__icon :global(.inline-icon) { width: 21px; height: 21px; }
+  .attachment-folder__header > div { min-width: 0; }
+  .attachment-folder__header h3 { margin: 0; color: var(--card-text-color-main); font-size: 18px; line-height: 1.3; letter-spacing: 0; }
+  .attachment-folder__header p { display: flex; flex-wrap: wrap; gap: 5px 10px; margin: 3px 0 0; color: var(--card-text-color-tertiary); font-size: 12px; line-height: 1.4; }
+  .attachment-folder__header p span { overflow-wrap: anywhere; }
+  .attachment-folder__header p strong { font-weight: 700; }
+  .attachment-folder__files { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+  .attachment-file { display: flex; min-width: 0; min-height: 172px; flex-direction: column; padding: 16px; border: 1px solid var(--card-separator-color); border-radius: 8px; background: var(--leftjun-neutral-card-background); }
+  .attachment-file__heading { display: flex; min-width: 0; align-items: flex-start; gap: 10px; }
+  .attachment-file__heading > span { display: inline-grid; width: 30px; height: 30px; flex: 0 0 auto; place-items: center; color: var(--leftjun-primary); }
+  .attachment-file__heading > span :global(.inline-icon) { width: 20px; height: 20px; }
+  .attachment-file__heading > div { min-width: 0; }
+  .attachment-file small { color: var(--leftjun-primary); font-size: 11px; font-weight: 800; }
+  .attachment-file h4 { margin: 3px 0 0; color: var(--card-text-color-main); font-size: 15px; line-height: 1.4; letter-spacing: 0; overflow-wrap: anywhere; }
+  .attachment-file > p { margin: 9px 0 0; color: var(--card-text-color-secondary); font-size: 13px; line-height: 1.55; }
+  .attachment-file__size { margin-top: 8px; color: var(--card-text-color-tertiary); font-size: 12px; }
+  .attachment-file__actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: auto; padding-top: 14px; }
+  .attachment-file__actions a { display: inline-flex; min-height: 34px; align-items: center; gap: 6px; padding: 6px 9px; border: 1px solid var(--card-separator-color); border-radius: 8px; background: var(--leftjun-surface-strong); color: var(--leftjun-primary); font-size: 12px; font-weight: 760; }
+  .attachment-file__actions :global(.inline-icon) { width: 14px; height: 14px; }
+  .attachment-folder__empty { margin: 0; padding: 15px 16px; border: 1px dashed var(--card-separator-color); border-radius: 8px; color: var(--card-text-color-secondary); font-size: 13px; line-height: 1.55; }
+  @media (max-width: 767px) {
+    .attachment-folders { margin-top: 18px; }
+    .attachment-folders__list { gap: 26px; }
+    .attachment-folder__files { grid-template-columns: 1fr; }
+    .attachment-file { min-height: 0; }
+  }
+</style>

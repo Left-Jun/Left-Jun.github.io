@@ -43,9 +43,11 @@ test("project portfolio inserts the compact Guanghe row between core and archive
   assert.ok(archiveIndex > programIndex);
   assert.match(projectsPage, /programProjects\.map\(\(entry\) => <ProgramProjectCard entry=\{entry\} lang=\{lang\} \/>\)/);
   assert.doesNotMatch(projectsPage, /programProjects\.map[\s\S]*?variant="core"/);
+  assert.match(projectsPage, /splitProjectPortfolio\(portfolioProjects, 2\)/);
 });
 
-test("Guanghe cards keep summaries compact", () => {
+test("Guanghe cards are compact and contain no cover media", () => {
   assert.match(programCard, /program-project-card__description[\s\S]*?-webkit-line-clamp:\s*2/);
-  assert.match(programCard, /@media \(max-width: 767px\)[\s\S]*?grid-template-columns:\s*112px minmax\(0, 1fr\)/);
+  assert.doesNotMatch(programCard, /CoverMedia|program-project-card__media|imageUrl|videoUrl/);
+  assert.match(programCard, /@media \(max-width: 767px\)[\s\S]*?min-height:\s*136px/);
 });

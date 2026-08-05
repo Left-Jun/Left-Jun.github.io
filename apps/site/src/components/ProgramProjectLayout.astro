@@ -1,0 +1,68 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "./Icon.astro";
+import ProjectAttachmentFolders from "./ProjectAttachmentFolders.astro";
+import { getEntryBySlug, siteText } from "../lib/content.js";
+import type { ProjectAttachmentGroup, SiteEntry, SiteLanguage } from "../lib/content.js";
+
+interface Props {
+  entry: SiteEntry;
+  lang?: SiteLanguage;
+}
+
+const { entry, lang = entry.lang } = Astro.props as Props;
+const text = siteText(lang);
+const groups: ProjectAttachmentGroup[] = entry.data.attachmentGroups || [];
+const alternateLang = text.isEn ? "zh-cn" : "en";
+const alternateEntry = await getEntryBySlug("projects", entry.slug, alternateLang);
+const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
+---
+
+<BaseLayout
+  lang={lang}
+  title={entry.data.title}
+  description={entry.data.description}
+  active="projects"
+  bodyClass="article-page project-detail-page program-project-page"
+  alternateUrl={alternateEntry?.url}
+  alternateLang={alternateEntry?.lang}
+  breadcrumbs={[
+    { name: text.isEn ? "Home" : "首页", url: text.isEn ? "/en/" : "/" },
+    { name: text.isEn ? "Projects & Portfolio" : "项目&作品集", url: projectsUrl },
+    { name: entry.data.title, url: entry.url }
+  ]}
+>
+  <article class="program-project-detail">
+    <header class="program-project-detail__header">
+      <div>
+        <h1>{entry.data.title}</h1>
+        {entry.data.description && <p>{entry.data.description}</p>}
+      </div>
+      {alternateEntry && (
+        <a href={alternateEntry.url} data-language-transition>
+          <Icon name="language" />
+          <span>{text.isEn ? "中文" : "English"}</span>
+        </a>
+      )}
+    </header>
+
+    <ProjectAttachmentFolders groups={groups} lang={lang} />
+  </article>
+</BaseLayout>
+
+<style>
+  .program-project-detail { width: 100%; max-width: 1120px; margin: 0 auto; container: program-detail / inline-size; }
+  .program-project-detail__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 20px; padding: 4px 0 18px; border-bottom: 1px solid var(--card-separator-color); }
+  .program-project-detail__header > div { min-width: 0; }
+  .program-project-detail__header h1 { margin: 0; color: var(--card-text-color-main); font-size: 44px; line-height: 1.12; letter-spacing: 0; overflow-wrap: anywhere; }
+  .program-project-detail__header p { max-width: 900px; margin: 10px 0 0; color: var(--card-text-color-secondary); font-size: 15px; line-height: 1.65; }
+  .program-project-detail__header > a { display: inline-flex; min-height: 38px; flex: 0 0 auto; align-items: center; gap: 7px; padding: 7px 10px; border: 1px solid var(--card-separator-color); border-radius: 8px; background: var(--leftjun-surface-strong); color: var(--leftjun-primary); font-size: 13px; font-weight: 760; }
+  .program-project-detail__header > a :global(.inline-icon) { width: 16px; height: 16px; }
+  @media (max-width: 767px) {
+    .program-project-detail__header { gap: 12px; padding-top: 0; }
+    .program-project-detail__header h1 { font-size: 28px; }
+    .program-project-detail__header p { margin-top: 8px; font-size: 14px; }
+    .program-project-detail__header > a { width: 38px; height: 38px; min-height: 38px; justify-content: center; padding: 0; }
+    .program-project-detail__header > a span { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); }
+  }
+</style>

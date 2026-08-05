@@ -122,7 +122,8 @@ function updateSectionFields(section) {
     ["pinWeightGroup", policy.isProject],
     ["projectFactsGroup", policy.isProject],
     ["projectLinksGroup", policy.showLinks],
-    ["attachmentsGroup", policy.isProject]
+    ["attachmentsGroup", policy.isProject],
+    ["attachmentGroupsGroup", policy.isProject]
   ]) {
     const element = $(`#${id}`);
     if (element) element.hidden = !visible;
@@ -376,6 +377,7 @@ function fillForm(entry) {
   $("#projectFactsField").value = JSON.stringify(fm.projectFacts || {}, null, 2);
   $("#projectLinksField").value = JSON.stringify(fm.projectLinks || [], null, 2);
   $("#attachmentsField").value = JSON.stringify(fm.attachments || [], null, 2);
+  $("#attachmentGroupsField").value = JSON.stringify(fm.attachmentGroups || [], null, 2);
   $("#bodyField").value = entry.body || "";
   $("#previewLink").href = entry.previewUrl || "#";
   updateSectionFields($("#sectionField").value);
@@ -391,6 +393,7 @@ function readForm() {
   const facts = $("#projectFactsField").value.trim();
   const links = $("#projectLinksField").value.trim();
   const attachments = $("#attachmentsField").value.trim();
+  const attachmentGroups = $("#attachmentGroupsField").value.trim();
   const section = $("#sectionField").value;
   const numberValue = (selector) => {
     const value = $(selector).value.trim();
@@ -429,7 +432,8 @@ function readForm() {
     pinWeight: numberValue("#pinWeightField"),
     projectFacts: section === "projects" && facts ? JSON.parse(facts) : undefined,
     projectLinks: (section === "projects" || section === "updates") && links ? JSON.parse(links) : undefined,
-    attachments: section === "projects" && attachments ? JSON.parse(attachments) : undefined
+    attachments: section === "projects" && attachments ? JSON.parse(attachments) : undefined,
+    attachmentGroups: section === "projects" && attachmentGroups ? JSON.parse(attachmentGroups) : undefined
   });
   frontMatter = applyVisualThemeMetadata(frontMatter, $("#visualThemeField").value);
   return {

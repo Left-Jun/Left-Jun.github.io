@@ -11,6 +11,7 @@ const sectionOnlyKeys = [
   "projectFacts",
   "projectLinks",
   "attachments",
+  "attachmentGroups",
   "statusTags",
   "columnIds"
 ];
@@ -79,6 +80,7 @@ export function applySectionMetadata(frontMatter = {}, section, values = {}) {
     setOptional(next, "projectFacts", values.projectFacts);
     setOptional(next, "projectLinks", values.projectLinks);
     setOptional(next, "attachments", values.attachments);
+    setOptional(next, "attachmentGroups", values.attachmentGroups);
   } else if (section === "updates") {
     next.kind = String(values.kind || "").trim();
     setOptional(next, "contribution", String(values.contribution || "").trim());

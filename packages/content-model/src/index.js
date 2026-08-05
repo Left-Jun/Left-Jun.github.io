@@ -53,6 +53,13 @@ export const projectAttachmentSchema = z.strictObject({
   pageCount: z.number().int().positive().optional()
 });
 
+export const projectAttachmentGroupSchema = z.strictObject({
+  title: z.string().min(1),
+  path: z.string().min(1),
+  description: z.string().optional(),
+  attachments: z.array(projectAttachmentSchema).default([])
+});
+
 export function isStablePortfolioType(value) {
   return PORTFOLIO_TYPE_PATTERN.test(String(value || ""));
 }
@@ -132,6 +139,7 @@ export const contentFrontMatterSchema = z.looseObject({
   projectFacts: projectFactsSchema.optional(),
   projectLinks: z.array(projectLinkSchema).optional(),
   attachments: z.array(projectAttachmentSchema).optional().default([]),
+  attachmentGroups: z.array(projectAttachmentGroupSchema).optional().default([]),
   visualTheme: z.enum(VISUAL_THEME_IDS).optional(),
   featured: z.boolean().optional(),
   featuredWeight: z.number().optional(),
@@ -239,6 +247,13 @@ export function normalizeFrontMatter(input = {}) {
       copy.attachments = JSON.parse(copy.attachments);
     } catch {
       copy.attachments = [];
+    }
+  }
+  if (copy.attachmentGroups && typeof copy.attachmentGroups === "string") {
+    try {
+      copy.attachmentGroups = JSON.parse(copy.attachmentGroups);
+    } catch {
+      copy.attachmentGroups = [];
     }
   }
   return copy;
@@ -652,6 +667,49 @@ export async function validateContentRoot(contentRoot) {
                   path: translations[0]?.path || ref,
                   message: `Translation attachment mismatch for ${ref}: attachments[${index}].${key}`
                 });
+              }
+            }
+          }
+        }
+
+        const attachmentGroupSets = translations.map((entry) => (
+          Array.isArray(entry.frontMatter.attachmentGroups) ? entry.frontMatter.attachmentGroups : []
+        ));
+        const attachmentGroupCounts = attachmentGroupSets.map((groups) => groups.length);
+        if (new Set(attachmentGroupCounts).size > 1) {
+          errors.push({
+            path: translations[0]?.path || ref,
+            message: `Translation attachment group count mismatch for ${ref}: attachmentGroups`
+          });
+        } else {
+          for (let groupIndex = 0; groupIndex < (attachmentGroupCounts[0] || 0); groupIndex += 1) {
+            const groupPaths = attachmentGroupSets.map((groups) => String(groups[groupIndex]?.path || ""));
+            if (new Set(groupPaths).size > 1) {
+              errors.push({
+                path: translations[0]?.path || ref,
+                message: `Translation attachment group mismatch for ${ref}: attachmentGroups[${groupIndex}].path`
+              });
+            }
+            const groupedAttachments = attachmentGroupSets.map((groups) => (
+              Array.isArray(groups[groupIndex]?.attachments) ? groups[groupIndex].attachments : []
+            ));
+            const groupedCounts = groupedAttachments.map((attachments) => attachments.length);
+            if (new Set(groupedCounts).size > 1) {
+              errors.push({
+                path: translations[0]?.path || ref,
+                message: `Translation attachment count mismatch for ${ref}: attachmentGroups[${groupIndex}].attachments`
+              });
+              continue;
+            }
+            for (let attachmentIndex = 0; attachmentIndex < (groupedCounts[0] || 0); attachmentIndex += 1) {
+              for (const key of ["type", "thumbnail", "previewUrl", "downloadUrl", "externalUrl", "fileSize", "pageCount"]) {
+                const values = groupedAttachments.map((attachments) => JSON.stringify(attachments[attachmentIndex]?.[key] ?? null));
+                if (new Set(values).size > 1) {
+                  errors.push({
+                    path: translations[0]?.path || ref,
+                    message: `Translation attachment mismatch for ${ref}: attachmentGroups[${groupIndex}].attachments[${attachmentIndex}].${key}`
+                  });
+                }
               }
             }
           }

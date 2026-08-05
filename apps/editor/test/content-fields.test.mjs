@@ -127,6 +127,30 @@ test("editor writes project program, status tags, and attachments", () => {
   });
 });
 
+test("editor writes grouped project attachments", () => {
+  const attachmentGroups = [{
+    title: "Source files",
+    path: ".",
+    attachments: [{
+      title: "Report",
+      type: "DOCX",
+      description: "Source file",
+      downloadUrl: "/files/report.docx"
+    }]
+  }];
+  const result = applySectionMetadata({ title: "Study" }, "projects", {
+    portfolioType: "web",
+    attachmentGroups
+  });
+
+  assert.deepEqual(result, {
+    title: "Study",
+    portfolioType: "web",
+    featured: false,
+    attachmentGroups
+  });
+});
+
 test("editor writes update evidence and clears project-only metadata", () => {
   const result = applySectionMetadata({
     title: "Update",
