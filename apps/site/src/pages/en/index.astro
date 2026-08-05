@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import ProjectCard from "../../components/ProjectCard.astro";
+import ProgramProjectCard from "../../components/ProgramProjectCard.astro";
 import PostCard from "../../components/PostCard.astro";
 import Icon from "../../components/Icon.astro";
 import CoverMedia from "../../components/CoverMedia.astro";
@@ -23,9 +24,11 @@ const projects = await getEntries("projects", { lang });
 const heroProjects = projects
   .filter((entry) => Number.isFinite(entry.data.homeHeroWeight))
   .sort((a, b) => Number(a.data.homeHeroWeight) - Number(b.data.homeHeroWeight));
-const featured = projects
-  .filter((entry) => entry.data.featured)
-  .sort((a, b) => Number(a.data.featuredWeight ?? 999) - Number(b.data.featuredWeight ?? 999));
+const featured = (await Promise.all([
+  "emotion-mask",
+  "ashe-lament",
+  "ue5-coop-training-range"
+].map((slug) => getEntryBySlug("projects", slug, lang)))).filter((entry): entry is SiteEntry => Boolean(entry));
 const programProjects = (await Promise.all([
   "ai-game-project-management",
   "ai-game-creation-research",
@@ -143,33 +146,13 @@ const techStack = [
       </div>
     </div>
 
-    <a class="home-hero__scroll" href="#home-introduction">
+    <a class="home-hero__scroll" href="#home-featured-work">
       <span>Scroll down</span>
       <Icon name="chevron-right" />
     </a>
   </section>
 
-  <section class="home-introduction" id="home-introduction" aria-labelledby="home-introduction-title">
-    <p class="home-section__eyebrow">Current Positioning</p>
-    <h2 id="home-introduction-title">From hands-on development to coordinated delivery</h2>
-    <p>I coordinated a 14-person study of AI game-creation tools and independently completed an AI-assisted game-project-management study. In parallel, I continue moving Emotion Mask from a 48-hour prototype through public roadshows toward Steam release preparation. I can work across design, programming, art, QA, and platform-release needs while owning task breakdown, risk follow-up, version integration, and delivery. Left Jun / Limenauts remains my creator identity for independent games, gameplay systems, and personal products.</p>
-  </section>
-
   <section class="home-dashboard" id="home-featured-work">
-    <section class="home-section home-guanghe-program">
-      <div class="home-section__header home-section__header--with-link">
-        <div>
-          <p class="home-section__eyebrow">AI / PM / Combat Design</p>
-          <h2>Guanghe Campus Co-creation Program</h2>
-          <p class="home-section__description">Three studies on AI-assisted project management, AI game-creation-tool research, and action-game IP gameplay translation.</p>
-        </div>
-        <div class="home-section__side"><a class="home-section__link" href="/en/projects/"><span>All projects</span><Icon name="chevron-right" /></a></div>
-      </div>
-      <div class="home-project-grid home-project-grid--program">
-        {programProjects.map((entry) => <ProjectCard entry={entry} compact />)}
-      </div>
-    </section>
-
     <section class="home-section home-featured-projects">
       <div class="home-section__header home-section__header--with-link">
         <div>
@@ -225,6 +208,22 @@ const techStack = [
       </section>
     )}
   </section>
+
+  {programProjects.length > 0 && (
+    <section class="home-section home-guanghe-program" aria-labelledby="home-guanghe-title">
+      <div class="home-section__header home-section__header--with-link">
+        <div>
+          <p class="home-section__eyebrow">AI / PM / Combat Design</p>
+          <h2 id="home-guanghe-title">Guanghe Campus Co-creation Program</h2>
+          <p class="home-section__description">Three studies on AI-assisted project management, AI game-creation-tool research, and action-game IP gameplay translation.</p>
+        </div>
+        <div class="home-section__side"><a class="home-section__link" href="/en/projects/"><span>All projects</span><Icon name="chevron-right" /></a></div>
+      </div>
+      <div class="home-program-grid">
+        {programProjects.map((entry) => <ProgramProjectCard entry={entry} lang={lang} />)}
+      </div>
+    </section>
+  )}
 
   {posts.length > 0 && (
     <section class="home-section home-latest-posts">

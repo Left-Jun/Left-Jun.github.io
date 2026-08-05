@@ -126,30 +126,6 @@ html body.home-page .home-hero__identity-tags span {
   font-weight: 760;
 }
 
-html body.home-page .home-introduction {
-  max-width: 1180px;
-  margin: clamp(34px, 5vw, 64px) auto 0;
-  padding: clamp(22px, 3vw, 34px) 0;
-  border-top: 1px solid var(--card-separator-color);
-  border-bottom: 1px solid var(--card-separator-color);
-}
-
-html body.home-page .home-introduction h2 {
-  max-width: 820px;
-  margin: 0;
-  font-size: clamp(25px, 3vw, 36px);
-  line-height: 1.2;
-  letter-spacing: 0;
-}
-
-html body.home-page .home-introduction > p:last-child {
-  max-width: 980px;
-  margin: 14px 0 0;
-  color: var(--card-text-color-secondary);
-  font-size: 16px;
-  line-height: 1.75;
-}
-
 html body.home-page .home-section__description {
   max-width: 760px;
   margin: 8px 0 0;
@@ -158,15 +134,24 @@ html body.home-page .home-section__description {
   line-height: 1.6;
 }
 
-html body.home-page .home-project-grid--program {
+html body.home-page .home-guanghe-program {
+  order: 7;
+  gap: clamp(9px, 0.85vw, 12px);
+}
+
+html body.home-page .home-guanghe-program > .home-section__header--with-link {
+  transform: translateY(-2px);
+}
+
+html body.home-page .home-program-grid {
+  display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
+  align-items: stretch;
+  gap: 14px;
 }
 
 @media (max-width: 767.98px) {
-  html body.home-page .home-introduction { margin-top: 28px; padding: 22px 0; }
-  html body.home-page .home-introduction h2 { font-size: 24px; }
-  html body.home-page .home-introduction > p:last-child { font-size: 15px; }
-  html body.home-page .home-project-grid--program { grid-template-columns: 1fr; }
+  html body.home-page .home-program-grid { grid-template-columns: 1fr; }
 }
 
 @media (min-width: 768px) and (max-width: 1180px) {

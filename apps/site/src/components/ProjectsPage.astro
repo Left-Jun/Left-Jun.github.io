@@ -1,6 +1,7 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import ProjectPortfolioCard from "./ProjectPortfolioCard.astro";
+import ProgramProjectCard from "./ProgramProjectCard.astro";
 import {
   PROJECT_PORTFOLIO_FILTERS,
   buildProjectTypeCounts,
@@ -76,21 +77,6 @@ const labels = {
   active="projects"
   bodyClass="list-page projects-portfolio-page"
 >
-  {programProjects.length > 0 && (
-    <section class="projects-program" aria-labelledby="projects-program-title">
-      <div class="projects-portfolio__section-heading">
-        <div>
-          <p>{labels.programEyebrow}</p>
-          <h2 id="projects-program-title">{labels.programTitle}</h2>
-        </div>
-        <span>{labels.programHint}</span>
-      </div>
-      <div class="projects-program__grid">
-        {programProjects.map((entry) => <ProjectPortfolioCard entry={entry} lang={lang} variant="core" />)}
-      </div>
-    </section>
-  )}
-
   <div class="projects-portfolio" data-project-portfolio>
     <header class="projects-portfolio__header">
       <div class="projects-portfolio__header-copy">
@@ -131,6 +117,21 @@ const labels = {
       </div>
     </section>
 
+    {programProjects.length > 0 && (
+      <section class="projects-portfolio__section projects-program" aria-labelledby="projects-program-title">
+        <div class="projects-portfolio__section-heading">
+          <div>
+            <p>{labels.programEyebrow}</p>
+            <h2 id="projects-program-title">{labels.programTitle}</h2>
+          </div>
+          <span>{labels.programHint}</span>
+        </div>
+        <div class="projects-program__grid">
+          {programProjects.map((entry) => <ProgramProjectCard entry={entry} lang={lang} />)}
+        </div>
+      </section>
+    )}
+
     <section class="projects-portfolio__section" data-project-section="archive" data-project-section-root aria-labelledby="projects-archive-title">
       <div class="projects-portfolio__section-heading">
         <div>
@@ -169,12 +170,11 @@ const labels = {
     container: projects-portfolio / inline-size;
   }
 
-  .projects-program { margin-bottom: clamp(36px, 5vw, 64px); }
-
   .projects-program__grid {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 16px;
+    align-items: stretch;
+    gap: 14px;
   }
 
   .projects-portfolio__header-copy {
