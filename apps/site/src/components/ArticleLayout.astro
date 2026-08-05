@@ -88,11 +88,12 @@ const creativeWorkType: "VideoGame" | "SoftwareApplication" | "BlogPosting" | "C
   : entry.section === "posts"
     ? "BlogPosting"
     : "CreativeWork";
-const portfolioPdfUrl = "/files/left-jun-portfolio.pdf";
-const portfolioPdfLabel = text.isEn ? "Portfolio PDF" : "作品集 PDF";
-const portfolioDownloadLabel = text.isEn ? "Download" : "下载";
-const portfolioOpenAria = text.isEn ? "Open portfolio PDF" : "打开作品集 PDF";
-const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作品集 PDF";
+const resumePdfUrl = "/files/left-jun-ai-game-project-management.pdf";
+const resumePdfLabel = text.isEn ? "Resume PDF" : "简历 PDF";
+const resumeDownloadLabel = text.isEn ? "Download" : "下载";
+const resumeOpenAria = text.isEn ? "Open resume PDF" : "打开简历 PDF";
+const resumeDownloadAria = text.isEn ? "Download resume PDF" : "下载简历 PDF";
+const resumeDownloadName = "左涵俊_AI协作游戏项目管理_四川大学_2029届.pdf";
 const roleText = String(facts.role || "");
 const statusText = entry.data.status ? ({
   planned: text.isEn ? "Planned" : "计划中",
@@ -220,12 +221,12 @@ const articleBodyClass = isProject
         )}
         {isProject && (
           <footer class="project-detail-actions">
-            <a class="project-detail-action project-detail-action--pdf" href={portfolioPdfUrl} target="_blank" rel="noopener noreferrer" aria-label={portfolioOpenAria}>
+            <a class="project-detail-action project-detail-action--pdf" href={resumePdfUrl} target="_blank" rel="noopener noreferrer" aria-label={resumeOpenAria}>
               <Icon name="briefcase" label="" />
-              <span>{portfolioPdfLabel}</span>
+              <span>{resumePdfLabel}</span>
             </a>
-            <a class="project-detail-action project-detail-action--download" href={portfolioPdfUrl} download aria-label={portfolioDownloadAria}>
-              {portfolioDownloadLabel}
+            <a class="project-detail-action project-detail-action--download" href={resumePdfUrl} download={resumeDownloadName} aria-label={resumeDownloadAria}>
+              {resumeDownloadLabel}
             </a>
             {alternateUrl && <a class="project-detail-action project-detail-action--language" href={alternateUrl} data-language-transition>{alternateLabel}</a>}
           </footer>

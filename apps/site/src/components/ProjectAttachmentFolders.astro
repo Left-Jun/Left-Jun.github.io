@@ -30,7 +30,13 @@ const labels = {
 
   <div class="attachment-folders__list">
     {groups.map((group, groupIndex) => (
-      <section class="attachment-folder" aria-labelledby={`attachment-folder-${groupIndex}`}>
+      <section
+        class:list={[
+          "attachment-folder",
+          group.path === "." ? "attachment-folder--root" : "attachment-folder--nested"
+        ]}
+        aria-labelledby={`attachment-folder-${groupIndex}`}
+      >
         <header class="attachment-folder__header">
           <span class="attachment-folder__icon" aria-hidden="true"><Icon name="folder" /></span>
           <div>
@@ -53,7 +59,7 @@ const labels = {
                 <p>{attachment.description}</p>
                 {attachment.fileSize && <span class="attachment-file__size">{attachment.fileSize}</span>}
                 <div class="attachment-file__actions">
-                  {attachment.previewUrl && <a href={attachment.previewUrl} {...linkProps(attachment.previewUrl)}><Icon name="display" /><span>{labels.preview}</span></a>}
+                  {attachment.previewUrl && <a href={attachment.previewUrl} target="_blank" rel="noopener noreferrer"><Icon name="display" /><span>{labels.preview}</span></a>}
                   {attachment.downloadUrl && <a href={attachment.downloadUrl} download><Icon name="briefcase" /><span>{labels.download}</span></a>}
                   {attachment.externalUrl && <a href={attachment.externalUrl} {...linkProps(actionUrl(attachment))}><Icon name="link" /><span>{labels.visit}</span></a>}
                 </div>
@@ -72,13 +78,19 @@ const labels = {
   .attachment-folders { margin-top: 24px; }
   .attachment-folders__title { padding-bottom: 12px; border-bottom: 1px solid var(--card-separator-color); }
   .attachment-folders__title h2 { margin: 0; color: var(--card-text-color-main); font-size: 24px; letter-spacing: 0; }
-  .attachment-folders__list { display: grid; gap: 32px; margin-top: 20px; }
+  .attachment-folders__list { display: grid; gap: 24px; margin-top: 20px; }
   .attachment-folder { min-width: 0; }
+  .attachment-folder--root { padding: 18px; border: 1px solid color-mix(in srgb, var(--leftjun-primary) 24%, var(--card-separator-color)); border-radius: 8px; background: color-mix(in srgb, var(--leftjun-primary) 4%, var(--leftjun-neutral-card-background)); }
+  .attachment-folder--nested { position: relative; margin-left: 30px; padding: 4px 0 4px 22px; border-left: 2px solid color-mix(in srgb, var(--leftjun-primary) 30%, var(--card-separator-color)); }
+  .attachment-folder--nested::before { position: absolute; top: 22px; left: -2px; width: 14px; border-top: 2px solid color-mix(in srgb, var(--leftjun-primary) 30%, var(--card-separator-color)); content: ""; }
   .attachment-folder__header { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
   .attachment-folder__icon { display: inline-grid; width: 38px; height: 38px; flex: 0 0 auto; place-items: center; border-radius: 8px; background: color-mix(in srgb, var(--leftjun-primary) 10%, transparent); color: var(--leftjun-primary); }
   .attachment-folder__icon :global(.inline-icon) { width: 21px; height: 21px; }
   .attachment-folder__header > div { min-width: 0; }
   .attachment-folder__header h3 { margin: 0; color: var(--card-text-color-main); font-size: 18px; line-height: 1.3; letter-spacing: 0; }
+  .attachment-folder--root .attachment-folder__header h3 { font-size: 20px; font-weight: 800; }
+  .attachment-folder--nested .attachment-folder__header h3 { font-size: 16px; font-weight: 760; }
+  .attachment-folder--nested .attachment-folder__icon { width: 34px; height: 34px; background: color-mix(in srgb, var(--leftjun-primary) 7%, transparent); }
   .attachment-folder__header p { display: flex; flex-wrap: wrap; gap: 5px 10px; margin: 3px 0 0; color: var(--card-text-color-tertiary); font-size: 12px; line-height: 1.4; }
   .attachment-folder__header p span { overflow-wrap: anywhere; }
   .attachment-folder__header p strong { font-weight: 700; }
@@ -98,7 +110,10 @@ const labels = {
   .attachment-folder__empty { margin: 0; padding: 15px 16px; border: 1px dashed var(--card-separator-color); border-radius: 8px; color: var(--card-text-color-secondary); font-size: 13px; line-height: 1.55; }
   @media (max-width: 767px) {
     .attachment-folders { margin-top: 18px; }
-    .attachment-folders__list { gap: 26px; }
+    .attachment-folders__list { gap: 22px; }
+    .attachment-folder--root { padding: 14px; }
+    .attachment-folder--nested { margin-left: 8px; padding-left: 14px; }
+    .attachment-folder--nested::before { width: 9px; }
     .attachment-folder__files { grid-template-columns: 1fr; }
     .attachment-file { min-height: 0; }
   }

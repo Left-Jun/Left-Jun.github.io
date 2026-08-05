@@ -33,11 +33,12 @@ const statusDescription = status.description || "";
 const statusLabel = [statusTitle, statusDescription].filter(Boolean).join(": ");
 const rolePill = lang === "en" ? "Founder / Lead Creator at Limenauts" : "Limenauts 主创";
 const identityLines = String(sidebar.identity || "").split(/\n/).filter(Boolean);
-const portfolioPdfUrl = "/files/left-jun-portfolio.pdf";
-const portfolioPdfLabel = text.isEn ? "Portfolio PDF" : "作品集 PDF";
-const portfolioDownloadLabel = text.isEn ? "Download" : "下载";
-const portfolioOpenAria = text.isEn ? "Open portfolio PDF" : "打开作品集 PDF";
-const portfolioDownloadAria = text.isEn ? "Download portfolio PDF" : "下载作品集 PDF";
+const resumePdfUrl = "/files/left-jun-ai-game-project-management.pdf";
+const resumePdfLabel = text.isEn ? "Resume PDF" : "简历 PDF";
+const resumeDownloadLabel = text.isEn ? "Download" : "下载";
+const resumeOpenAria = text.isEn ? "Open resume PDF" : "打开简历 PDF";
+const resumeDownloadAria = text.isEn ? "Download resume PDF" : "下载简历 PDF";
+const resumeDownloadName = "左涵俊_AI协作游戏项目管理_四川大学_2029届.pdf";
 const mobileSearchCopy = isEn
   ? {
       search: "Search projects, updates, articles...",
@@ -128,13 +129,13 @@ const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
           </div>
         )}
         {sidebar.subtitle && <h2 class="site-description">{sidebar.subtitle}</h2>}
-        <div class="sidebar-portfolio-pdf" aria-label={portfolioPdfLabel}>
-          <a class="sidebar-portfolio-pdf__main" href={portfolioPdfUrl} target="_blank" rel="noopener noreferrer" aria-label={portfolioOpenAria}>
+        <div class="sidebar-portfolio-pdf" aria-label={resumePdfLabel}>
+          <a class="sidebar-portfolio-pdf__main" href={resumePdfUrl} target="_blank" rel="noopener noreferrer" aria-label={resumeOpenAria}>
             <Icon name="briefcase" label="" />
-            <span>{portfolioPdfLabel}</span>
+            <span>{resumePdfLabel}</span>
           </a>
-          <a class="sidebar-portfolio-pdf__download" href={portfolioPdfUrl} download aria-label={portfolioDownloadAria}>
-            {portfolioDownloadLabel}
+          <a class="sidebar-portfolio-pdf__download" href={resumePdfUrl} download={resumeDownloadName} aria-label={resumeDownloadAria}>
+            {resumeDownloadLabel}
           </a>
         </div>
       </div>

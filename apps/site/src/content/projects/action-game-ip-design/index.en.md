@@ -13,6 +13,7 @@ attachmentGroups:
       - title: "6.26动作游戏博弈体系搭建及IP角色设计_左涵俊_四川大学2029届.docx"
         type: "DOCX"
         description: "Complete original Word document from the desktop project folder; content unchanged."
+        previewUrl: "/content-assets/projects/action-game-ip-design/preview/action-game-ip-design.pdf"
         downloadUrl: "/content-assets/projects/action-game-ip-design/source/6.26动作游戏博弈体系搭建及IP角色设计_左涵俊_四川大学2029届.docx"
         fileSize: "16.79 MB"
 tags:

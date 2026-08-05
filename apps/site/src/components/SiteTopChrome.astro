@@ -51,8 +51,8 @@ const mobileNavItems = [
   { key: "posts", label: copy.posts, href: isEn ? "/en/posts/" : "/posts/", icon: "archives" }
 ];
 
-const portfolioPdfLabel = isEn ? "Portfolio PDF" : "作品集 PDF";
-const portfolioPdfAria = isEn ? "Open portfolio PDF" : "打开作品集 PDF";
+const resumePdfLabel = isEn ? "Resume PDF" : "简历 PDF";
+const resumePdfAria = isEn ? "Open resume PDF" : "打开简历 PDF";
 
 const searchIndexUrl = isEn ? "/en/search-index.json" : "/search-index.json";
 const searchResultsId = `site-search-results-${isEn ? "en" : "zh"}`;
@@ -98,9 +98,9 @@ const searchResultsId = `site-search-results-${isEn ? "en" : "zh"}`;
     </label>
 
     {activeKey === "projects" && (
-      <a class="home-topbar__portfolio-pdf" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer" aria-label={portfolioPdfAria}>
+      <a class="home-topbar__portfolio-pdf" href="/files/left-jun-ai-game-project-management.pdf" target="_blank" rel="noopener noreferrer" aria-label={resumePdfAria}>
         <Icon name="briefcase" label="" />
-        <span>{portfolioPdfLabel}</span>
+        <span>{resumePdfLabel}</span>
       </a>
     )}
 

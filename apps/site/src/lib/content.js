@@ -204,7 +204,7 @@ export function siteText(lang) {
     allPlans: key === "en" ? "All plans" : "全部计划",
     allUpdates: key === "en" ? "All updates" : "全部动态",
     viewProject: key === "en" ? "View Projects" : "查看项目",
-    portfolioPdf: key === "en" ? "Portfolio PDF" : "作品集 PDF",
+    portfolioPdf: key === "en" ? "Resume PDF" : "简历 PDF",
     aboutMe: key === "en" ? "About Me" : "关于我",
     contact: key === "en" ? "Contact" : "联系我",
     selectedWork: key === "en" ? "Selected Work" : "精选作品",

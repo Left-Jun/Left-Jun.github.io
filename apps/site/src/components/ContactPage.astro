@@ -29,9 +29,9 @@ const copy = isEn ? {
   copyFailed: "Copy failed. Select the address above instead.",
   currentStatus: "Current status",
   topics: "Good topics to discuss",
-  portfolio: "Portfolio and profiles",
-  portfolioDescription: "Open the PDF portfolio or continue through my existing public profiles.",
-  openPortfolio: "Open portfolio PDF",
+  portfolio: "Resume and profiles",
+  portfolioDescription: "Open my resume PDF or continue through my existing public profiles.",
+  openPortfolio: "Open resume PDF",
   downloadPortfolio: "Download PDF",
   opensNewTab: "opens in a new tab"
 } : {
@@ -44,9 +44,9 @@ const copy = isEn ? {
   copyFailed: "复制失败，请直接选择上方邮箱地址。",
   currentStatus: "当前状态",
   topics: "适合交流的话题",
-  portfolio: "作品集与公开主页",
-  portfolioDescription: "可以查看 PDF 作品集，或从已有公开主页继续了解我的工作。",
-  openPortfolio: "打开作品集 PDF",
+  portfolio: "简历与公开主页",
+  portfolioDescription: "可以查看简历 PDF，或从已有公开主页继续了解我的工作。",
+  openPortfolio: "打开简历 PDF",
   downloadPortfolio: "下载 PDF",
   opensNewTab: "将在新标签页打开"
 };
@@ -120,11 +120,11 @@ const copy = isEn ? {
         <p>{copy.portfolioDescription}</p>
       </div>
       <div class="contact-resource-links">
-        <a class="contact-resource contact-resource--portfolio" href="/files/left-jun-portfolio.pdf" target="_blank" rel="noopener noreferrer" aria-label={`${copy.openPortfolio} (${copy.opensNewTab})`}>
+        <a class="contact-resource contact-resource--portfolio" href="/files/left-jun-ai-game-project-management.pdf" target="_blank" rel="noopener noreferrer" aria-label={`${copy.openPortfolio} (${copy.opensNewTab})`}>
           <Icon name="briefcase" label="" />
           <span>{copy.openPortfolio}</span>
         </a>
-        <a class="contact-resource contact-resource--download" href="/files/left-jun-portfolio.pdf" download>
+        <a class="contact-resource contact-resource--download" href="/files/left-jun-ai-game-project-management.pdf" download="左涵俊_AI协作游戏项目管理_四川大学_2029届.pdf">
           <Icon name="arrow-back" label="" />
           <span>{copy.downloadPortfolio}</span>
         </a>

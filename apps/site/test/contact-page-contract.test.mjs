@@ -33,7 +33,10 @@ test("contact page exposes direct actions, existing status, topics, PDF, and soc
   assert.match(contactPage, /text\.sidebar\.status/);
   assert.match(contactPage, /"项目实现", "试玩反馈", "合作", "实习机会", "作品集材料"/);
   assert.match(contactPage, /"Implementation discussions", "Playtest feedback", "Collaboration", "Internship opportunities", "Portfolio material"/);
-  assert.match(contactPage, /left-jun-portfolio\.pdf/);
+  assert.match(contactPage, /left-jun-ai-game-project-management\.pdf/);
+  assert.match(contactPage, /简历与公开主页/);
+  assert.match(contactPage, /Resume and profiles/);
+  assert.doesNotMatch(contactPage, /left-jun-portfolio\.pdf|作品集 PDF|Portfolio PDF/);
   assert.match(contactPage, /text\.menus\.social/);
   assert.doesNotMatch(contactPage, /formattedDate|readingMinutes|tocItems|<form/);
 });

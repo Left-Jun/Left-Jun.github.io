@@ -17,6 +17,8 @@ const files = {
 
 const sources = Object.fromEntries(await Promise.all(Object.entries(files).map(async ([key, url]) => [key, await fs.readFile(url, "utf8")])));
 const downloadCount = (source) => source.match(/^\s+downloadUrl:/gm)?.length || 0;
+const attachmentBlocks = (source) => source.match(/^\s{6}- title:[\s\S]*?(?=^\s{6}- title:|^\s{2}- title:|^tags:)/gm) || [];
+const previewUrls = (source) => source.match(/^\s+previewUrl:.*$/gm) || [];
 
 test("Guanghe routes use the compact deliverables layout", () => {
   for (const route of [sources.routeZh, sources.routeEn]) {
@@ -48,5 +50,23 @@ test("folder view shows directory metadata and no thumbnails", () => {
   assert.match(sources.folders, /group\.path/);
   assert.match(sources.folders, /group\.attachments\.length/);
   assert.match(sources.folders, /attachment-folder__empty/);
+  assert.match(sources.folders, /group\.path === "\." \? "attachment-folder--root" : "attachment-folder--nested"/);
+  assert.match(sources.folders, /\.attachment-folder--nested[\s\S]*?border-left:/);
+  assert.match(sources.folders, /@media \(max-width: 767px\)[\s\S]*?\.attachment-folder--nested/);
   assert.doesNotMatch(sources.folders, /ResponsiveImage|thumbnail/);
+});
+
+test("every published Guanghe document is previewable except the ZIP archive", () => {
+  for (const source of [sources.researchZh, sources.researchEn, sources.actionZh, sources.actionEn, sources.pmZh, sources.pmEn]) {
+    for (const block of attachmentBlocks(source)) {
+      const type = block.match(/^\s+type: "([A-Z]+)"/m)?.[1];
+      if (!type) continue;
+      if (type === "ZIP") assert.doesNotMatch(block, /previewUrl:/);
+      else assert.match(block, /previewUrl:/, `${type} attachment must expose a preview URL`);
+    }
+  }
+  assert.deepEqual(previewUrls(sources.researchZh), previewUrls(sources.researchEn));
+  assert.deepEqual(previewUrls(sources.actionZh), previewUrls(sources.actionEn));
+  assert.deepEqual(previewUrls(sources.pmZh), previewUrls(sources.pmEn));
+  assert.doesNotMatch([...previewUrls(sources.researchZh), ...previewUrls(sources.actionZh), ...previewUrls(sources.pmZh)].join("\n"), /\/source\/.*\.(?:docx|pptx)$/i);
 });
