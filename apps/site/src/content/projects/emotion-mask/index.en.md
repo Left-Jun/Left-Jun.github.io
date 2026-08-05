@@ -26,6 +26,10 @@ projectFacts:
   platform: "Windows / TapTap / submitted to Steam"
   result: "9.4 TapTap rating and nearly 100 in-person plays; both the Steam main game and standalone demo have been submitted for review."
 projectLinks:
+  - label: "Steam store"
+    url: "https://store.steampowered.com/app/4880940/_/"
+    icon: "link"
+    kind: "store"
   - label: "TapTap page"
     url: "https://www.taptap.cn/app/868040?os=pc"
     icon: "link"

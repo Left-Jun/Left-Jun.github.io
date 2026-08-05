@@ -26,6 +26,10 @@ projectFacts:
   platform: "Windows / TapTap / Steam 送审"
   result: "TapTap 评分 9.4，完成近百人次线下路演；Steam 本体与独立 Demo 均已提交审核。"
 projectLinks:
+  - label: "Steam 商店"
+    url: "https://store.steampowered.com/app/4880940/_/"
+    icon: "link"
+    kind: "store"
   - label: "TapTap 页面"
     url: "https://www.taptap.cn/app/868040?os=pc"
     icon: "link"
