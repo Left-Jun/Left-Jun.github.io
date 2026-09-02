@@ -14,12 +14,18 @@ const sectionOnlyKeys = [
   "attachments",
   "attachmentGroups",
   "statusTags",
+  "access",
   "columnIds"
 ];
 
 export const visualThemeOptions = Object.freeze([
   { value: "", label: "默认站点主题" },
   { value: "emotion-mask", label: "Emotion Mask 主题" }
+]);
+
+export const accessOptions = Object.freeze([
+  { value: "public", label: "公开" },
+  { value: "password", label: "密码保护" }
 ]);
 
 function setOptional(next, key, value) {
@@ -43,6 +49,7 @@ export function sectionFieldPolicy(section) {
     isUpdate,
     isPost,
     showFeatured: isProject || isUpdate || isPost,
+    showAccess: isProject,
     showLinks: isProject || isUpdate,
     featuredLabel: isUpdate ? "精选动态" : isPost ? "精选文章" : "首页代表项目",
     featuredWeightLabel: isUpdate ? "精选动态权重" : isPost ? "精选文章权重" : "代表项目权重",
@@ -74,6 +81,8 @@ export function applySectionMetadata(frontMatter = {}, section, values = {}) {
       : [];
     if (statusTags.length > 0) next.statusTags = statusTags;
     setOptional(next, "program", String(values.program || "").trim());
+    if (values.access === "password") next.access = "password";
+    else delete next.access;
     next.featured = Boolean(values.featured);
     setOptional(next, "featuredWeight", values.featuredWeight);
     setOptional(next, "homeHeroWeight", values.homeHeroWeight);

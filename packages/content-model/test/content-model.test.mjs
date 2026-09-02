@@ -6,6 +6,7 @@ import test from "node:test";
 
 import {
   PROJECT_LINK_KINDS,
+  CONTENT_ACCESS_POLICIES,
   VISUAL_THEME_IDS,
   assetUrl,
   entryUrl,
@@ -22,6 +23,13 @@ import {
   validateContentRoot,
   validateFrontMatter
 } from "../src/index.js";
+
+test("password access policy is explicit and validated", () => {
+  assert.deepEqual(CONTENT_ACCESS_POLICIES, ["public", "password"]);
+  const protectedProject = validateFrontMatter({ title: "Protected study", portfolioType: "web", access: "password" }, { section: "projects" });
+  assert.equal(protectedProject.access, "password");
+  assert.throws(() => validateFrontMatter({ title: "Unknown policy", access: "members-only" }), /access/i);
+});
 
 test("visual themes use the shared explicit registry", () => {
   assert.deepEqual(VISUAL_THEME_IDS, ["emotion-mask"]);

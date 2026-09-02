@@ -11,6 +11,7 @@ export const CONTENT_STATUSES = ["planned", "in-progress", "completed", "paused"
 export const UPDATE_KINDS = ["project", "event", "award", "training", "research", "release", "article"];
 export const PROJECT_LINK_KINDS = ["playable", "store", "video", "source", "report", "site", "evidence"];
 export const VISUAL_THEME_IDS = ["emotion-mask"];
+export const CONTENT_ACCESS_POLICIES = ["public", "password"];
 export const PORTFOLIO_TYPE_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const COLUMN_ID_PATTERN = /^[a-z0-9]+(?:-[a-z0-9]+)*$/;
 export const POST_COLUMN_IDS = ["technical"];
@@ -129,6 +130,7 @@ export const contentFrontMatterSchema = z.looseObject({
   relatedPages: z.array(z.string()).optional().default([]),
   roleTags: z.array(z.string()).optional().default([]),
   statusTags: z.array(z.string()).optional().default([]),
+  access: z.enum(CONTENT_ACCESS_POLICIES).optional().default("public"),
   program: z.string().optional().default(""),
   mentorFeedback: z.string().optional().default(""),
   portfolioType: z.union([
@@ -567,7 +569,7 @@ export async function validateContentRoot(contentRoot) {
       errors.push({ path: pathForError, message: `Translation slug mismatch for ${ref}: ${[...slugs].join(", ")}` });
     }
 
-    const invariantKeys = ["date", "updatedAt", "status", "draft", "relatedPages", "coverVideo", "visualTheme"];
+    const invariantKeys = ["date", "updatedAt", "status", "draft", "relatedPages", "coverVideo", "visualTheme", "access"];
     if (translations[0]?.section === "projects") {
       invariantKeys.push("portfolioType", "program", "featured", "featuredWeight", "homeHeroWeight", "pinWeight", "weight");
     }

@@ -1,0 +1,388 @@
+---
+import Icon from "./Icon.astro";
+import type { SiteEntry, SiteLanguage } from "../lib/content.js";
+
+interface Props {
+  entry: SiteEntry;
+  lang: SiteLanguage;
+}
+
+const { entry, lang } = Astro.props as Props;
+const isEn = lang === "en";
+const labels = {
+  eyebrow: isEn ? "Password-protected study archive" : "密码保护的课题档案",
+  notice: isEn ? "Enter the shared access code to view the private project record and deliverables." : "输入共享访问口令后查看项目档案与完整交付物。",
+  password: isEn ? "Access code" : "访问口令",
+  placeholder: isEn ? "Enter the access code" : "输入访问口令",
+  unlock: isEn ? "Unlock archive" : "解锁课题档案",
+  unlocking: isEn ? "Unlocking…" : "正在解锁…",
+  wrong: isEn ? "The access code is incorrect or the archive is unavailable." : "访问口令不正确，或课题档案暂时不可用。",
+  unsupported: isEn ? "This browser cannot decrypt the archive. Please use a current browser with JavaScript enabled." : "当前浏览器不支持解密，请使用启用 JavaScript 的现代浏览器。",
+  unlocked: isEn ? "Archive unlocked in this tab" : "本标签页已解锁课题档案",
+  lock: isEn ? "Lock archive" : "锁定课题档案",
+  details: isEn ? "Private project record" : "受保护的项目档案",
+  facts: isEn ? "Project facts" : "项目事实",
+  deliverables: isEn ? "Deliverables" : "交付物",
+  preview: isEn ? "Preview" : "预览",
+  download: isEn ? "Download" : "下载",
+  loading: isEn ? "Preparing file…" : "正在准备文件…",
+  failed: isEn ? "File could not be opened. Try again." : "文件打开失败，请重试。",
+  file: isEn ? "file" : "个文件",
+  files: isEn ? "files" : "个文件"
+};
+---
+
+<section
+  class="guanghe-access"
+  data-guanghe-access
+  data-guanghe-slug={entry.slug}
+  data-guanghe-lang={lang}
+  data-guanghe-manifest-url="/protected/guanghe/manifest.json"
+  data-labels={JSON.stringify(labels)}
+  aria-labelledby={`guanghe-access-title-${entry.slug}`}
+>
+  <div class="guanghe-access__gate" data-guanghe-gate>
+    <div class="guanghe-access__gate-icon" aria-hidden="true"><Icon name="lock" /></div>
+    <p class="guanghe-access__eyebrow">{labels.eyebrow}</p>
+    <h2 id={`guanghe-access-title-${entry.slug}`}>{labels.details}</h2>
+    <p class="guanghe-access__notice">{labels.notice}</p>
+    <form class="guanghe-access__form" data-guanghe-form>
+      <label for={`guanghe-password-${entry.slug}`}>{labels.password}</label>
+      <div class="guanghe-access__input-row">
+        <input id={`guanghe-password-${entry.slug}`} name="password" type="password" autocomplete="current-password" placeholder={labels.placeholder} required data-guanghe-password />
+        <button class="guanghe-access__submit" type="submit" data-guanghe-submit>{labels.unlock}</button>
+      </div>
+      <p class="guanghe-access__error" data-guanghe-error role="alert" hidden></p>
+    </form>
+  </div>
+
+  <div class="guanghe-access__unlocked" data-guanghe-unlocked hidden>
+    <div class="guanghe-access__unlocked-bar">
+      <span><Icon name="unlock" /> {labels.unlocked}</span>
+      <button type="button" data-guanghe-lock>{labels.lock}</button>
+    </div>
+    <div data-guanghe-private-content></div>
+  </div>
+</section>
+
+<script is:inline>
+  (() => {
+    const root = document.currentScript?.previousElementSibling;
+    if (!root?.matches?.("[data-guanghe-access]")) return;
+    const labels = JSON.parse(root.dataset.labels || "{}");
+    const gate = root.querySelector("[data-guanghe-gate]");
+    const unlocked = root.querySelector("[data-guanghe-unlocked]");
+    const form = root.querySelector("[data-guanghe-form]");
+    const passwordInput = root.querySelector("[data-guanghe-password]");
+    const submit = root.querySelector("[data-guanghe-submit]");
+    const error = root.querySelector("[data-guanghe-error]");
+    const content = root.querySelector("[data-guanghe-private-content]");
+    const storageKey = "LeftJunGuangheKeyV1";
+    let manifest;
+    let key;
+    let payload;
+
+    const bytesFromBase64 = (value) => {
+      const binary = atob(value);
+      const bytes = new Uint8Array(binary.length);
+      for (let index = 0; index < binary.length; index += 1) bytes[index] = binary.charCodeAt(index);
+      return bytes;
+    };
+    const bytesToBase64 = (bytes) => {
+      let binary = "";
+      for (let index = 0; index < bytes.length; index += 0x8000) binary += String.fromCharCode(...bytes.subarray(index, index + 0x8000));
+      return btoa(binary);
+    };
+    const text = (tag, value, className) => {
+      const element = document.createElement(tag);
+      if (className) element.className = className;
+      element.textContent = value == null ? "" : String(value);
+      return element;
+    };
+    const decrypt = (envelope, cryptoKey) => crypto.subtle.decrypt(
+      { name: "AES-GCM", iv: bytesFromBase64(envelope.iv), additionalData: new TextEncoder().encode(envelope.aad) },
+      cryptoKey,
+      bytesFromBase64(envelope.ciphertext)
+    );
+    const deriveKey = async (password) => {
+      const material = await crypto.subtle.importKey("raw", new TextEncoder().encode(password), "PBKDF2", false, ["deriveBits"]);
+      const bits = await crypto.subtle.deriveBits(
+        { name: "PBKDF2", salt: bytesFromBase64(manifest.salt), iterations: manifest.kdf.iterations, hash: "SHA-256" },
+        material,
+        manifest.kdf.keyLength
+      );
+      const raw = new Uint8Array(bits);
+      return { raw, key: await crypto.subtle.importKey("raw", raw, "AES-GCM", false, ["decrypt"]) };
+    };
+    const verifyAndRead = async (candidate) => {
+      const verifier = new TextDecoder().decode(await decrypt(manifest.verifier, candidate));
+      if (verifier !== "leftjun-guanghe-access-v1") throw new Error("invalid access code");
+      const decoded = await decrypt(manifest.payload, candidate);
+      return JSON.parse(new TextDecoder().decode(decoded));
+    };
+    const setError = (message) => {
+      error.textContent = message;
+      error.hidden = !message;
+    };
+    const setBusy = (busy) => {
+      submit.disabled = busy;
+      submit.textContent = busy ? labels.unlocking : labels.unlock;
+      passwordInput.disabled = busy;
+    };
+    const factLabels = {
+      projectType: labels.projectType || (root.dataset.guangheLang === "en" ? "Type" : "类型"),
+      developmentTime: root.dataset.guangheLang === "en" ? "Development" : "开发时间",
+      duration: root.dataset.guangheLang === "en" ? "Cycle" : "周期",
+      team: root.dataset.guangheLang === "en" ? "Team" : "团队",
+      event: root.dataset.guangheLang === "en" ? "Event" : "活动",
+      competition: root.dataset.guangheLang === "en" ? "Competition" : "赛事",
+      role: root.dataset.guangheLang === "en" ? "Role" : "角色",
+      tools: root.dataset.guangheLang === "en" ? "Tools" : "工具",
+      platform: root.dataset.guangheLang === "en" ? "Platform" : "平台",
+      result: root.dataset.guangheLang === "en" ? "Result" : "结果"
+    };
+    const renderFacts = (project) => {
+      const facts = project.projectFacts || {};
+      const entries = Object.entries(facts).filter(([, value]) => value != null && String(value).trim());
+      if (!entries.length) return null;
+      const section = document.createElement("section");
+      section.className = "guanghe-private-facts";
+      section.append(text("h3", labels.facts));
+      const list = document.createElement("dl");
+      for (const [keyName, value] of entries) {
+        const row = document.createElement("div");
+        row.append(text("dt", factLabels[keyName] || keyName), text("dd", value));
+        list.append(row);
+      }
+      section.append(list);
+      return section;
+    };
+    const renderBody = (body) => {
+      if (!String(body || "").trim()) return null;
+      const article = document.createElement("article");
+      article.className = "guanghe-private-body";
+      for (const block of String(body).split(/\n\s*\n/).map((item) => item.trim()).filter(Boolean)) {
+        const lines = block.split("\n");
+        const heading = lines[0].match(/^#{1,6}\s+(.+)$/);
+        if (heading) article.append(text(`h${Math.min(6, heading[0].match(/^#+/)[0].length)}`, heading[1]));
+        else article.append(text("p", lines.join("\n")));
+      }
+      return article;
+    };
+    const renderAttachments = (project, assets) => {
+      const groups = project.attachmentGroups || [];
+      if (!groups.length) return null;
+      const section = document.createElement("section");
+      section.className = "guanghe-private-attachments";
+      section.append(text("h3", labels.deliverables));
+      const list = document.createElement("div");
+      list.className = "guanghe-private-folders";
+      for (const group of groups) {
+        const folder = document.createElement("section");
+        folder.className = "guanghe-private-folder";
+        const heading = document.createElement("header");
+        heading.append(text("h4", group.title));
+        const count = (group.attachments || []).length;
+        heading.append(text("span", `${group.path || "."} · ${count} ${count === 1 ? labels.file : labels.files}`, "guanghe-private-folder__meta"));
+        folder.append(heading);
+        if (group.description) folder.append(text("p", group.description, "guanghe-private-folder__description"));
+        const files = document.createElement("div");
+        files.className = "guanghe-private-files";
+        for (const attachment of group.attachments || []) {
+          const card = document.createElement("article");
+          card.className = "guanghe-private-file";
+          const headingRow = document.createElement("div");
+          headingRow.append(text("small", attachment.type || "FILE"), text("h5", attachment.title));
+          card.append(headingRow);
+          if (attachment.description) card.append(text("p", attachment.description));
+          if (attachment.fileSize) card.append(text("span", attachment.fileSize, "guanghe-private-file__size"));
+          const actions = document.createElement("div");
+          actions.className = "guanghe-private-file__actions";
+          for (const [field, label, mode] of [["previewAsset", labels.preview, "preview"], ["downloadAsset", labels.download, "download"]]) {
+            if (!attachment[field]) continue;
+            const button = document.createElement("button");
+            button.type = "button";
+            button.textContent = label;
+            button.dataset.assetId = attachment[field];
+            button.dataset.assetMode = mode;
+            button.dataset.filename = attachment.title || "download";
+            button.addEventListener("click", () => openAsset(button, assets));
+            actions.append(button);
+          }
+          card.append(actions);
+          files.append(card);
+        }
+        folder.append(files);
+        list.append(folder);
+      }
+      section.append(list);
+      return section;
+    };
+    const render = (project, assets) => {
+      content.replaceChildren();
+      const heading = document.createElement("div");
+      heading.className = "guanghe-private-heading";
+      heading.append(text("p", labels.details, "guanghe-access__eyebrow"));
+      if (project.mentorFeedback) heading.append(text("blockquote", project.mentorFeedback, "guanghe-private-mentor"));
+      content.append(heading);
+      const facts = renderFacts(project);
+      if (facts) content.append(facts);
+      const body = renderBody(project.body);
+      if (body) content.append(body);
+      const attachments = renderAttachments(project, assets);
+      if (attachments) content.append(attachments);
+    };
+    const openAsset = async (button, assets) => {
+      const asset = assets[button.dataset.assetId];
+      if (!asset || button.disabled) return;
+      const mode = button.dataset.assetMode;
+      const popup = mode === "preview" ? window.open("about:blank", "_blank", "noopener,noreferrer") : null;
+      button.disabled = true;
+      const originalLabel = button.textContent;
+      button.textContent = labels.loading;
+      try {
+        const response = await fetch(asset.url, { cache: "no-store" });
+        if (!response.ok) throw new Error("asset fetch failed");
+        const encrypted = new Uint8Array(await response.arrayBuffer());
+        const decrypted = new Uint8Array(await decrypt({ iv: asset.iv, aad: asset.aad, ciphertext: bytesToBase64(encrypted) }, key));
+        const digest = Array.from(new Uint8Array(await crypto.subtle.digest("SHA-256", decrypted)), (value) => value.toString(16).padStart(2, "0")).join("");
+        if (digest !== asset.sha256) throw new Error("asset integrity failed");
+        const url = URL.createObjectURL(new Blob([decrypted], { type: asset.mime }));
+        if (mode === "preview" && popup) popup.location.href = url;
+        else {
+          const link = document.createElement("a");
+          link.href = url;
+          link.download = button.dataset.filename || asset.filename || "download";
+          document.body.append(link);
+          link.click();
+          link.remove();
+        }
+        window.setTimeout(() => URL.revokeObjectURL(url), mode === "preview" ? 300_000 : 30_000);
+      } catch {
+        if (popup) popup.close();
+        button.textContent = labels.failed;
+        window.setTimeout(() => { button.textContent = originalLabel; }, 2400);
+      } finally {
+        button.disabled = false;
+        if (button.textContent === labels.loading) button.textContent = originalLabel;
+      }
+    };
+    const unlock = async (candidate, persist = true) => {
+      manifest ||= await fetch(root.dataset.guangheManifestUrl, { cache: "no-store" }).then((response) => {
+        if (!response.ok) throw new Error("manifest unavailable");
+        return response.json();
+      });
+      const derived = await deriveKey(candidate);
+      const nextPayload = await verifyAndRead(derived.key);
+      key = derived.key;
+      payload = nextPayload;
+      if (persist) sessionStorage.setItem(storageKey, bytesToBase64(derived.raw));
+      const project = payload.projects.find((item) => item.slug === root.dataset.guangheSlug && item.lang === root.dataset.guangheLang);
+      if (!project) throw new Error("project unavailable");
+      render(project, payload.assets || {});
+      gate.hidden = true;
+      unlocked.hidden = false;
+    };
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault();
+      setError("");
+      setBusy(true);
+      try {
+        if (!crypto?.subtle) throw new Error("unsupported");
+        await unlock(passwordInput.value);
+        passwordInput.value = "";
+      } catch (unlockError) {
+        setError(unlockError.message === "unsupported" ? labels.unsupported : labels.wrong);
+      } finally {
+        setBusy(false);
+      }
+    });
+    root.querySelector("[data-guanghe-lock]").addEventListener("click", () => {
+      sessionStorage.removeItem(storageKey);
+      key = undefined;
+      payload = undefined;
+      content.replaceChildren();
+      unlocked.hidden = true;
+      gate.hidden = false;
+      passwordInput.focus();
+    });
+    (async () => {
+      try {
+        if (!crypto?.subtle) throw new Error("unsupported");
+        const stored = sessionStorage.getItem(storageKey);
+        if (!stored) return;
+        manifest = await fetch(root.dataset.guangheManifestUrl, { cache: "no-store" }).then((response) => response.json());
+        key = await crypto.subtle.importKey("raw", bytesFromBase64(stored), "AES-GCM", false, ["decrypt"]);
+        const nextPayload = await verifyAndRead(key);
+        payload = nextPayload;
+        const project = payload.projects.find((item) => item.slug === root.dataset.guangheSlug && item.lang === root.dataset.guangheLang);
+        if (!project) throw new Error("project unavailable");
+        render(project, payload.assets || {});
+        gate.hidden = true;
+        unlocked.hidden = false;
+      } catch {
+        sessionStorage.removeItem(storageKey);
+      }
+    })();
+  })();
+</script>
+
+<style>
+  .guanghe-access { margin-top: 24px; }
+  .guanghe-access__gate { max-width: 720px; padding: clamp(22px, 4vw, 34px); border: 1px solid color-mix(in srgb, var(--leftjun-primary) 28%, var(--card-separator-color)); border-radius: 22px; background: var(--leftjun-surface); box-shadow: var(--leftjun-surface-shadow-soft); }
+  .guanghe-access__gate-icon { display: inline-grid; width: 42px; height: 42px; place-items: center; border-radius: 13px; background: color-mix(in srgb, var(--leftjun-primary) 11%, transparent); color: var(--leftjun-primary); }
+  .guanghe-access__gate-icon :global(.inline-icon) { width: 22px; height: 22px; }
+  .guanghe-access__eyebrow { margin: 14px 0 5px; color: var(--leftjun-primary); font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
+  .guanghe-access h2 { margin: 0; color: var(--card-text-color-main); font-size: clamp(21px, 2.2vw, 28px); line-height: 1.22; }
+  .guanghe-access__notice { max-width: 620px; margin: 10px 0 0; color: var(--card-text-color-secondary); font-size: 15px; line-height: 1.65; }
+  .guanghe-access__form { max-width: 620px; margin-top: 22px; }
+  .guanghe-access__form label { display: block; margin-bottom: 7px; color: var(--card-text-color-main); font-size: 13px; font-weight: 760; }
+  .guanghe-access__input-row { display: flex; gap: 10px; }
+  .guanghe-access__input-row input { min-width: 0; min-height: 44px; flex: 1; padding: 9px 12px; border: 1px solid var(--card-separator-color); border-radius: 10px; background: var(--leftjun-neutral-card-background); color: var(--card-text-color-main); font: inherit; }
+  .guanghe-access__submit, .guanghe-access__unlocked-bar button { min-height: 44px; padding: 9px 14px; border: 1px solid var(--leftjun-primary); border-radius: 10px; background: var(--leftjun-primary); color: white; font-size: 13px; font-weight: 780; cursor: pointer; }
+  .guanghe-access__submit:disabled { opacity: .65; cursor: wait; }
+  .guanghe-access__error { margin: 9px 0 0; color: #b13b3b; font-size: 13px; line-height: 1.5; }
+  .guanghe-access__unlocked { margin-top: 24px; }
+  .guanghe-access__unlocked-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 14px; border: 1px solid var(--card-separator-color); border-radius: 12px; background: var(--leftjun-surface); color: var(--card-text-color-secondary); font-size: 13px; }
+  .guanghe-access__unlocked-bar > span { display: inline-flex; align-items: center; gap: 7px; }
+  .guanghe-access__unlocked-bar :global(.inline-icon) { width: 16px; height: 16px; color: var(--leftjun-primary); }
+  .guanghe-access__unlocked-bar button { min-height: 34px; padding: 5px 9px; border-color: var(--card-separator-color); background: transparent; color: var(--leftjun-primary); font-size: 12px; }
+  .guanghe-private-content { margin-top: 22px; }
+  .guanghe-private-heading { padding-bottom: 18px; border-bottom: 1px solid var(--card-separator-color); }
+  .guanghe-private-heading .guanghe-access__eyebrow { margin-top: 0; }
+  .guanghe-private-mentor { margin: 12px 0 0; padding: 12px 15px; border-left: 3px solid var(--leftjun-primary); border-radius: 0 10px 10px 0; background: color-mix(in srgb, var(--leftjun-primary) 7%, var(--leftjun-surface)); color: var(--card-text-color-secondary); font-size: 14px; line-height: 1.65; }
+  .guanghe-private-facts, .guanghe-private-attachments { margin-top: 24px; }
+  .guanghe-private-facts h3, .guanghe-private-attachments h3 { margin: 0 0 12px; color: var(--card-text-color-main); font-size: 20px; }
+  .guanghe-private-facts dl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0 18px; margin: 0; border-top: 1px solid var(--card-separator-color); }
+  .guanghe-private-facts dl > div { display: grid; grid-template-columns: minmax(74px, .35fr) minmax(0, 1fr); gap: 10px; padding: 10px 0; border-bottom: 1px solid var(--card-separator-color); }
+  .guanghe-private-facts dt { color: var(--card-text-color-tertiary); font-size: 12px; font-weight: 760; }
+  .guanghe-private-facts dd { margin: 0; color: var(--card-text-color-secondary); font-size: 13px; line-height: 1.45; overflow-wrap: anywhere; }
+  .guanghe-private-body { margin-top: 24px; color: var(--card-text-color-secondary); font-size: 15px; line-height: 1.7; }
+  .guanghe-private-body h1, .guanghe-private-body h2, .guanghe-private-body h3, .guanghe-private-body h4 { margin: 20px 0 8px; color: var(--card-text-color-main); }
+  .guanghe-private-body p { margin: 0 0 12px; white-space: pre-wrap; }
+  .guanghe-private-folders { display: grid; gap: 16px; }
+  .guanghe-private-folder { padding: 16px; border: 1px solid var(--card-separator-color); border-radius: 16px; background: var(--leftjun-neutral-card-background); }
+  .guanghe-private-folder > header { display: flex; align-items: baseline; justify-content: space-between; gap: 12px; }
+  .guanghe-private-folder h4 { margin: 0; color: var(--card-text-color-main); font-size: 17px; }
+  .guanghe-private-folder__meta { color: var(--card-text-color-tertiary); font-size: 12px; }
+  .guanghe-private-folder__description { margin: 8px 0 0; color: var(--card-text-color-secondary); font-size: 13px; line-height: 1.55; }
+  .guanghe-private-files { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; margin-top: 12px; }
+  .guanghe-private-file { display: flex; min-width: 0; flex-direction: column; padding: 13px; border: 1px solid var(--card-separator-color); border-radius: 12px; background: var(--leftjun-surface); }
+  .guanghe-private-file > div:first-child { display: grid; gap: 3px; }
+  .guanghe-private-file small { color: var(--leftjun-primary); font-size: 11px; font-weight: 800; }
+  .guanghe-private-file h5 { margin: 0; color: var(--card-text-color-main); font-size: 14px; line-height: 1.4; overflow-wrap: anywhere; }
+  .guanghe-private-file > p { margin: 8px 0 0; color: var(--card-text-color-secondary); font-size: 12px; line-height: 1.5; }
+  .guanghe-private-file__size { margin-top: 7px; color: var(--card-text-color-tertiary); font-size: 12px; }
+  .guanghe-private-file__actions { display: flex; flex-wrap: wrap; gap: 7px; margin-top: auto; padding-top: 12px; }
+  .guanghe-private-file__actions button { min-height: 34px; padding: 6px 9px; border: 1px solid var(--card-separator-color); border-radius: 8px; background: var(--leftjun-surface-strong); color: var(--leftjun-primary); font-size: 12px; font-weight: 760; cursor: pointer; }
+  .guanghe-private-file__actions button:disabled { opacity: .65; cursor: wait; }
+  @media (max-width: 767px) {
+    .guanghe-access { margin-top: 18px; }
+    .guanghe-access__gate { padding: 20px 16px; border-radius: 18px; }
+    .guanghe-access__input-row { align-items: stretch; flex-direction: column; }
+    .guanghe-access__submit { width: 100%; }
+    .guanghe-private-facts dl { grid-template-columns: 1fr; }
+    .guanghe-private-folder > header { align-items: flex-start; flex-direction: column; gap: 4px; }
+    .guanghe-private-files { grid-template-columns: 1fr; }
+  }
+</style>

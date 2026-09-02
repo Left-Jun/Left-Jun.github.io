@@ -1,9 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
 import Icon from "./Icon.astro";
-import ProjectAttachmentFolders from "./ProjectAttachmentFolders.astro";
+import GuangheAccess from "./GuangheAccess.astro";
 import { getEntryBySlug, siteText } from "../lib/content.js";
-import type { ProjectAttachmentGroup, SiteEntry, SiteLanguage } from "../lib/content.js";
+import type { SiteEntry, SiteLanguage } from "../lib/content.js";
 import { formatProjectMonth } from "../lib/project-date.js";
 
 interface Props {
@@ -13,18 +13,7 @@ interface Props {
 
 const { entry, lang = entry.lang } = Astro.props as Props;
 const text = siteText(lang);
-const groups: ProjectAttachmentGroup[] = entry.data.attachmentGroups || [];
-const facts = entry.data.projectFacts || {};
-const mentorFeedback = String(entry.data.mentorFeedback || "").trim();
-const hasMentorEvaluation = Boolean(facts.result || mentorFeedback);
 const recordMonth = formatProjectMonth(entry.data.date);
-const metadata = [
-  { label: "", value: recordMonth },
-  { label: text.isEn ? "Development" : "开发时间", value: facts.developmentTime },
-  { label: text.isEn ? "Cycle" : "周期", value: facts.duration },
-  { label: text.isEn ? "Team" : "团队", value: facts.team },
-  { label: text.isEn ? "Tools" : "工具", value: facts.tools }
-].filter((item) => item.value);
 const alternateLang = text.isEn ? "zh-cn" : "en";
 const alternateEntry = await getEntryBySlug("projects", entry.slug, alternateLang);
 const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
@@ -44,30 +33,13 @@ const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
     { name: entry.data.title, url: entry.url }
   ]}
 >
+  <meta slot="head" name="robots" content="noindex, noarchive" />
   <article class="program-project-detail">
     <header class="program-project-detail__header">
       <div>
         <h1>{entry.data.title}</h1>
-        {metadata.length > 0 && (
-          <dl class="program-project-detail__meta">
-            {metadata.map((item) => (
-              <div>
-                <dt>{item.label || item.value}</dt>
-                {item.label && <dd>{item.value}</dd>}
-              </div>
-            ))}
-          </dl>
-        )}
+        {recordMonth && <p class="program-project-detail__date">{recordMonth}</p>}
         {entry.data.description && <p>{entry.data.description}</p>}
-        {hasMentorEvaluation && (
-          <aside class="program-project-detail__mentor" aria-label={text.isEn ? "Mentor evaluation" : "导师评价"}>
-            <div class="program-project-detail__mentor-heading">
-              <span>{text.isEn ? "Mentor grade" : "导师评分"}</span>
-              {facts.result && <strong>{facts.result}</strong>}
-            </div>
-            {mentorFeedback && <blockquote>{mentorFeedback}</blockquote>}
-          </aside>
-        )}
       </div>
       {alternateEntry && (
         <a href={alternateEntry.url} data-language-transition>
@@ -76,8 +48,7 @@ const projectsUrl = text.isEn ? "/en/projects/" : "/projects/";
         </a>
       )}
     </header>
-
-    <ProjectAttachmentFolders groups={groups} lang={lang} />
+    <GuangheAccess entry={entry} lang={lang} />
   </article>
 </BaseLayout>
 

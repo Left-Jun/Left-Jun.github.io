@@ -1,6 +1,7 @@
 import {
   applySectionMetadata,
   applyVisualThemeMetadata,
+  accessOptions,
   sectionFieldPolicy,
   visualThemeOptions
 } from "./content-fields.js";
@@ -115,6 +116,7 @@ function updateSectionFields(section) {
     ["resultGroup", policy.isUpdate],
     ["portfolioTypeGroup", policy.isProject],
     ["programGroup", policy.isProject],
+    ["accessGroup", policy.showAccess],
     ["columnIdsGroup", policy.isPost],
     ["featuredGroup", policy.showFeatured],
     ["featuredWeightGroup", policy.showFeatured],
@@ -161,6 +163,17 @@ function fillVisualThemeOptions() {
   const select = $("#visualThemeField");
   select.replaceChildren();
   for (const item of visualThemeOptions) {
+    const option = document.createElement("option");
+    option.value = item.value;
+    option.textContent = item.label;
+    select.append(option);
+  }
+}
+
+function fillAccessOptions() {
+  const select = $("#accessField");
+  select.replaceChildren();
+  for (const item of accessOptions) {
     const option = document.createElement("option");
     option.value = item.value;
     option.textContent = item.label;
@@ -364,6 +377,7 @@ function fillForm(entry) {
   $("#imageField").value = fm.image || "";
   $("#coverVideoField").value = fm.coverVideo || "";
   $("#visualThemeField").value = fm.visualTheme || "";
+  $("#accessField").value = fm.access || "public";
   $("#portfolioTypeField").value = fm.portfolioType || "";
   $("#programField").value = fm.program || "";
   $("#columnIdsField").value = listToText(fm.columnIds);
@@ -427,6 +441,7 @@ function readForm() {
     result: $("#resultField").value,
     portfolioType: $("#portfolioTypeField").value,
     program: $("#programField").value,
+    access: $("#accessField").value,
     columnIds: textToList($("#columnIdsField").value),
     featured: $("#featuredField").checked,
     featuredWeight: numberValue("#featuredWeightField"),
@@ -551,6 +566,7 @@ async function saveConfig() {
 function bind() {
   fillSectionOptions();
   fillVisualThemeOptions();
+  fillAccessOptions();
   $("#sectionFilter").value = "projects";
   for (const tab of document.querySelectorAll(".page-tab")) {
     tab.addEventListener("click", () => switchPage(tab.dataset.pageTarget));

@@ -4,9 +4,21 @@ import test from "node:test";
 import {
   applySectionMetadata,
   applyVisualThemeMetadata,
+  accessOptions,
   sectionFieldPolicy,
   visualThemeOptions
 } from "../public/content-fields.js";
+
+test("editor exposes password access policy", () => {
+  assert.deepEqual(accessOptions, [
+    { value: "public", label: "公开" },
+    { value: "password", label: "密码保护" }
+  ]);
+  assert.equal(applySectionMetadata({ title: "Study" }, "projects", {
+    portfolioType: "web",
+    access: "password"
+  }).access, "password");
+});
 
 test("editor exposes and serializes the supported visual themes", () => {
   assert.deepEqual(visualThemeOptions, [
