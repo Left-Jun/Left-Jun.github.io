@@ -6,7 +6,10 @@ export default defineConfig({
   output: "static",
   integrations: [
     sitemap({
-      filter: (page) => !page.includes("/404/")
+      filter: (page) => {
+        if (page.includes("/404/")) return false;
+        return !/(?:^|\/)projects\/(?:action-game-ip-design|ai-game-creation-research|ai-game-project-management)\/?$/.test(new URL(page).pathname);
+      }
     })
   ],
   markdown: {

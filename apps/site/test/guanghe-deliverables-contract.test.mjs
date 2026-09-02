@@ -20,30 +20,28 @@ const downloadCount = (source) => source.match(/^\s+downloadUrl:/gm)?.length || 
 const attachmentBlocks = (source) => source.match(/^\s{6}- title:[\s\S]*?(?=^\s{6}- title:|^\s{2}- title:|^tags:)/gm) || [];
 const previewUrls = (source) => source.match(/^\s+previewUrl:.*$/gm) || [];
 
-test("Guanghe routes use the compact deliverables layout", () => {
+test("Guanghe routes use the password access layout", () => {
   for (const route of [sources.routeZh, sources.routeEn]) {
     assert.match(route, /ProgramProjectLayout/);
     assert.match(route, /entry\.data\.program === "guanghe-campus-co-creation"/);
   }
-  assert.match(sources.layout, /ProjectAttachmentFolders/);
-  assert.doesNotMatch(sources.layout, /ProjectLayout|set:html|CoverMedia/);
+  assert.match(sources.layout, /GuangheAccess/);
+  assert.match(sources.layout, /noindex, noarchive/);
+  assert.doesNotMatch(sources.layout, /ProjectAttachmentFolders/);
 });
 
-test("research deliverables preserve source folders and exclude raw records", () => {
+test("localized Guanghe entries expose only public summaries", () => {
   for (const source of [sources.researchZh, sources.researchEn]) {
-    assert.equal(downloadCount(source), 8);
-    assert.ok(source.indexOf('path: "."') < source.indexOf('path: "Codex约束文档"'));
-    assert.ok(source.indexOf('path: "Codex约束文档"') < source.indexOf('path: "原始数据"'));
-    assert.doesNotMatch(source, /samples-all-mixed-filtered-answers|定性访谈五样本汇总_摘要与逐字稿|样本[一二三四五]_H5-\d+_摘要与逐字稿/);
-    assert.match(source, /pageCount: 29/);
+    assert.match(source, /access: "password"/);
+    assert.doesNotMatch(source, /attachmentGroups:|projectFacts:|mentorFeedback:|previewUrl:|downloadUrl:/);
   }
 });
 
-test("action and PM projects publish one and eight source files", () => {
-  assert.equal(downloadCount(sources.actionZh), 1);
-  assert.equal(downloadCount(sources.actionEn), 1);
-  assert.equal(downloadCount(sources.pmZh), 8);
-  assert.equal(downloadCount(sources.pmEn), 8);
+test("all six localized projects use the shared password policy", () => {
+  for (const source of [sources.researchZh, sources.researchEn, sources.actionZh, sources.actionEn, sources.pmZh, sources.pmEn]) {
+    assert.match(source, /access: "password"/);
+    assert.doesNotMatch(source, /content-assets\/projects\//);
+  }
 });
 
 test("folder view shows directory metadata and no thumbnails", () => {
@@ -56,17 +54,12 @@ test("folder view shows directory metadata and no thumbnails", () => {
   assert.doesNotMatch(sources.folders, /ResponsiveImage|thumbnail/);
 });
 
-test("every published Guanghe document is previewable except the ZIP archive", () => {
-  for (const source of [sources.researchZh, sources.researchEn, sources.actionZh, sources.actionEn, sources.pmZh, sources.pmEn]) {
-    for (const block of attachmentBlocks(source)) {
-      const type = block.match(/^\s+type: "([A-Z]+)"/m)?.[1];
-      if (!type) continue;
-      if (type === "ZIP") assert.doesNotMatch(block, /previewUrl:/);
-      else assert.match(block, /previewUrl:/, `${type} attachment must expose a preview URL`);
-    }
-  }
-  assert.deepEqual(previewUrls(sources.researchZh), previewUrls(sources.researchEn));
-  assert.deepEqual(previewUrls(sources.actionZh), previewUrls(sources.actionEn));
-  assert.deepEqual(previewUrls(sources.pmZh), previewUrls(sources.pmEn));
-  assert.doesNotMatch([...previewUrls(sources.researchZh), ...previewUrls(sources.actionZh), ...previewUrls(sources.pmZh)].join("\n"), /\/source\/.*\.(?:docx|pptx)$/i);
+test("encrypted manifest keeps project files off public front matter", async () => {
+  const manifest = JSON.parse(await fs.readFile(new URL("../public/protected/guanghe/manifest.json", import.meta.url), "utf8"));
+  assert.equal(manifest.algorithm, "AES-256-GCM");
+  assert.equal(manifest.kdf.name, "PBKDF2");
+  assert.equal(manifest.kdf.keyLength, 256);
+  assert.ok(manifest.payload?.ciphertext);
+  assert.ok(manifest.verifier?.ciphertext);
+  assert.equal((await fs.readdir(new URL("../public/protected/guanghe/assets/", import.meta.url))).length, 28);
 });
