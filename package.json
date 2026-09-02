@@ -13,6 +13,7 @@
   "scripts": {
     "test": "npm --workspace @left-jun/content-model run test && npm --workspace @left-jun/editor run test && npm --workspace @left-jun/site run test",
     "optimize:media": "node scripts/optimize-media.mjs",
+    "seal:guanghe": "node scripts/seal-guanghe.mjs",
     "validate:media": "node scripts/validate-media.mjs",
     "check:links": "node scripts/check-built-links.mjs",
     "dev:site": "npm --workspace @left-jun/site run dev",
@@ -23,7 +24,9 @@
     "validate:content": "npm --workspace @left-jun/content-model run validate"
   },
   "devDependencies": {
+    "js-yaml": "^4.3.2",
     "markdown-it": "^14.1.0",
+    "nanoid": "^3.3.18",
     "parse5": "^7.3.0",
     "sharp": "^0.35.3"
   }

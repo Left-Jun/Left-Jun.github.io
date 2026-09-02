@@ -4,6 +4,7 @@ export type ContentStatus = "planned" | "in-progress" | "completed" | "paused" |
 export type UpdateKind = "project" | "event" | "award" | "training" | "research" | "release" | "article";
 export type ProjectLinkKind = "playable" | "store" | "video" | "source" | "report" | "site" | "evidence";
 export type VisualTheme = "emotion-mask";
+export type ContentAccess = "public" | "password";
 
 export interface ProjectLink {
   label: string;
@@ -69,6 +70,7 @@ export interface SiteEntryData {
   relatedPages: string[];
   roleTags: string[];
   statusTags: string[];
+  access?: ContentAccess;
   program?: string;
   mentorFeedback?: string;
   columnIds: string[];

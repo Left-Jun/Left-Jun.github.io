@@ -4,6 +4,7 @@ import { z } from "astro/zod";
 import {
   PROJECT_LINK_KINDS,
   VISUAL_THEME_IDS,
+  CONTENT_ACCESS_POLICIES,
   isKnownPostColumnId,
   isSafeProjectLink,
   isStablePortfolioType
@@ -73,6 +74,7 @@ const baseSchema = z.looseObject({
   relatedPages: z.array(z.string()).optional().default([]),
   roleTags: z.array(z.string()).optional().default([]),
   statusTags: z.array(z.string()).optional().default([]),
+  access: z.enum(CONTENT_ACCESS_POLICIES).optional().default("public"),
   program: z.string().optional().default(""),
   columnIds: z.array(z.string().refine(isKnownPostColumnId, {
     message: "Post column IDs must reference the shared registry"
