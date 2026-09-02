@@ -327,11 +327,11 @@ const labels = {
   })();
 </script>
 
-<style>
+<style is:global>
   .guanghe-access { margin-top: 24px; }
   .guanghe-access__gate { max-width: 720px; padding: clamp(22px, 4vw, 34px); border: 1px solid color-mix(in srgb, var(--leftjun-primary) 28%, var(--card-separator-color)); border-radius: 22px; background: var(--leftjun-surface); box-shadow: var(--leftjun-surface-shadow-soft); }
   .guanghe-access__gate-icon { display: inline-grid; width: 42px; height: 42px; place-items: center; border-radius: 13px; background: color-mix(in srgb, var(--leftjun-primary) 11%, transparent); color: var(--leftjun-primary); }
-  .guanghe-access__gate-icon :global(.inline-icon) { width: 22px; height: 22px; }
+  .guanghe-access__gate-icon .inline-icon { width: 22px; height: 22px; }
   .guanghe-access__eyebrow { margin: 14px 0 5px; color: var(--leftjun-primary); font-size: 12px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; }
   .guanghe-access h2 { margin: 0; color: var(--card-text-color-main); font-size: clamp(21px, 2.2vw, 28px); line-height: 1.22; }
   .guanghe-access__notice { max-width: 620px; margin: 10px 0 0; color: var(--card-text-color-secondary); font-size: 15px; line-height: 1.65; }
@@ -345,7 +345,7 @@ const labels = {
   .guanghe-access__unlocked { margin-top: 24px; }
   .guanghe-access__unlocked-bar { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 11px 14px; border: 1px solid var(--card-separator-color); border-radius: 12px; background: var(--leftjun-surface); color: var(--card-text-color-secondary); font-size: 13px; }
   .guanghe-access__unlocked-bar > span { display: inline-flex; align-items: center; gap: 7px; }
-  .guanghe-access__unlocked-bar :global(.inline-icon) { width: 16px; height: 16px; color: var(--leftjun-primary); }
+  .guanghe-access__unlocked-bar .inline-icon { width: 16px; height: 16px; color: var(--leftjun-primary); }
   .guanghe-access__unlocked-bar button { min-height: 34px; padding: 5px 9px; border-color: var(--card-separator-color); background: transparent; color: var(--leftjun-primary); font-size: 12px; }
   .guanghe-private-content { margin-top: 22px; }
   .guanghe-private-heading { padding-bottom: 18px; border-bottom: 1px solid var(--card-separator-color); }
