@@ -16,22 +16,18 @@ const sources = Object.fromEntries(await Promise.all(
   Object.entries(files).map(async ([key, url]) => [key, await fs.readFile(url, "utf8")])
 ));
 
-test("mentor evaluation follows the project description and precedes deliverables", () => {
+test("project details show public summary before the password gate", () => {
   const descriptionIndex = sources.layout.indexOf("entry.data.description");
-  const mentorIndex = sources.layout.indexOf('class="program-project-detail__mentor"');
-  const deliverablesIndex = sources.layout.indexOf("<ProjectAttachmentFolders");
+  const gateIndex = sources.layout.indexOf("<GuangheAccess");
 
   assert.ok(descriptionIndex >= 0);
-  assert.ok(mentorIndex > descriptionIndex);
-  assert.ok(deliverablesIndex > mentorIndex);
-  assert.match(sources.layout, /Mentor grade/);
-  assert.match(sources.layout, /导师评分/);
-  assert.match(sources.layout, /hasMentorEvaluation/);
-  assert.match(sources.projectZh, /result: "S 档"/);
-  assert.match(sources.projectZh, /品类认知最深的一个/);
-  assert.match(sources.projectZh, /独立思考力极强/);
-  assert.match(sources.projectEn, /result: "Grade S"/);
-  assert.match(sources.projectEn, /extremely strong independent thinking/);
+  assert.ok(gateIndex > descriptionIndex);
+  assert.match(sources.layout, /noindex, noarchive/);
+  assert.match(sources.layout, /program-project-page/);
+  for (const source of [sources.projectZh, sources.projectEn]) {
+    assert.match(source, /access: "password"/);
+    assert.doesNotMatch(source, /mentorFeedback:|projectFacts:|attachmentGroups:/);
+  }
 });
 
 test("Guanghe content sits between the spotlight and regular columns", () => {

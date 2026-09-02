@@ -15,21 +15,21 @@ I study Communication Engineering at Sichuan University and expect to graduate i
 
 I am interested in game project-management and AI-application work that requires both development context and cross-discipline delivery. I can discuss task boundaries with design, programming, art, QA, and platform-release contributors while owning requirement breakdown, owner alignment, version integration, risk follow-up, and delivery.
 
-This positioning comes from work rather than a job title. I have independently built Unity games and pixel art, led cross-university game-jam teams, and coordinated a 14-person research group. Engineering experience helps me identify dependencies and testing risk, while independent-game work keeps scope, completion quality, and public release concrete.
+This positioning comes from work rather than a job title. I have independently built Unity games and pixel art, led cross-university game-jam teams, and coordinated research and delivery work. Engineering experience helps me identify dependencies and testing risk, while independent-game work keeps scope, completion quality, and public release concrete.
 
 ## Guanghe Campus Co-creation Program
 
 ### AI-Assisted Game Project Management
 
-Using my own notes and project experience, I completed a 48-hour takeover SOP, three conflict decisions, a launch review, and a three-month roadmap, receiving an S grade. This was a simulated commercial assignment rather than live-project employment. The Codex risk-monitoring section is a proposed workflow, not a production deployment.
+An individual study on PM handover, conflict decisions, launch review, and roadmap planning. The full record and mentor evaluation require the shared access code.
 
 ### User Research on AI Game-Creation Tools
 
-I coordinated a 14-person team and owned research alignment, sample definitions, the H5 product and backend flow, report integration, and the final presentation. The study exported 117 records, retained 115 usable responses, used 69 university-student samples as the primary analysis scope, and completed five interviews. Public material includes only aggregate results and methodological limits, not the backend, raw responses, or transcripts.
+User research on AI game-creation tools covering the H5 and backend flow, report integration, and final presentation. Full research material and deliverables require the shared access code.
 
 ### Action-Game Combat and IP Gameplay Translation
 
-I organized a methodology covering action PVP, resource exchange, attack-defense transitions, balance, long-term operation, and IP behavior translation. The public result retains the completed first three chapters. A specific character answer that lacked sufficient source review and gameplay validation is not presented as final work.
+Research on action-game attack-defense, resource exchange, version balance, and IP gameplay translation. The complete document requires the shared access code.
 
 ## Emotion Mask: From Prototype to Release Preparation
 

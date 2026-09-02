@@ -43,6 +43,7 @@ const titleId = `program-project-${entry.slug}`;
             {displayTags.map((tag) => <span>{tag}</span>)}
           </span>
         )}
+        {data.access === "password" && <span class="program-project-card__access"><Icon name="lock" label={lang === "en" ? "Password required" : "需要密码"} /></span>}
         <span class="program-project-card__arrow" aria-hidden="true"><Icon name="chevron-right" label="" /></span>
       </span>
     </span>
@@ -165,6 +166,8 @@ const titleId = `program-project-${entry.slug}`;
     width: 16px;
     height: 16px;
   }
+  .program-project-card__access { display: inline-grid; width: 28px; height: 28px; flex: 0 0 auto; place-items: center; color: var(--card-text-color-tertiary); }
+  .program-project-card__access :global(.inline-icon) { width: 15px; height: 15px; }
 
   @media (min-width: 768px) and (max-width: 1180px) {
     .program-project-card > a {

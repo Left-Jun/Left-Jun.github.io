@@ -43,6 +43,7 @@ const labels = {
       <a href={entry.url}>
         <span class="guanghe-program-feature__topic-index">{String(index + 1).padStart(2, "0")}</span>
         <strong>{entry.data.title}</strong>
+        {entry.data.access === "password" && <Icon name="lock" label={isEn ? "Password required" : "需要密码"} />}
         <Icon name="chevron-right" label="" />
       </a>
     ))}
