@@ -1,0 +1,9 @@
+---
+import PsykeidosDevlogDetail from "../../../../../components/PsykeidosDevlogDetail.astro";
+import { psykeidosDevlogs } from "../../../../../data/psykeidos-devlogs";
+export function getStaticPaths() {
+  return psykeidosDevlogs.map((entry) => ({ params: { version: entry.id }, props: { entry } }));
+}
+const { entry } = Astro.props;
+---
+<PsykeidosDevlogDetail entry={entry} lang="en" />

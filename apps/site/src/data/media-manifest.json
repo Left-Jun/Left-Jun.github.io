@@ -1673,5 +1673,104 @@
       }
     ],
     "poster": "/theme-assets/emotion-mask/page-background-960.webp"
+  },
+  "/content-assets/projects/psykeidos/cover.jpg": {
+    "width": 1920,
+    "height": 1080,
+    "avif": [
+      {
+        "src": "/content-assets/projects/psykeidos/cover-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/cover-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/cover-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/psykeidos/cover-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/cover-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/cover-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/psykeidos/cover-960.webp"
+  },
+  "/content-assets/projects/psykeidos/v019-local-comparison.jpg": {
+    "width": 2048,
+    "height": 810,
+    "avif": [
+      {
+        "src": "/content-assets/projects/psykeidos/v019-local-comparison-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/v019-local-comparison-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/v019-local-comparison-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/psykeidos/v019-local-comparison-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/v019-local-comparison-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/v019-local-comparison-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/psykeidos/v019-local-comparison-960.webp"
+  },
+  "/content-assets/projects/psykeidos/v019-main-color.jpg": {
+    "width": 1920,
+    "height": 1080,
+    "avif": [
+      {
+        "src": "/content-assets/projects/psykeidos/v019-main-color-480.avif",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/v019-main-color-960.avif",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/v019-main-color-1440.avif",
+        "width": 1440
+      }
+    ],
+    "webp": [
+      {
+        "src": "/content-assets/projects/psykeidos/v019-main-color-480.webp",
+        "width": 480
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/v019-main-color-960.webp",
+        "width": 960
+      },
+      {
+        "src": "/content-assets/projects/psykeidos/v019-main-color-1440.webp",
+        "width": 1440
+      }
+    ],
+    "poster": "/content-assets/projects/psykeidos/v019-main-color-960.webp"
   }
 }

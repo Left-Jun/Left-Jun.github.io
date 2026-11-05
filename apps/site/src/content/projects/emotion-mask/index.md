@@ -59,6 +59,7 @@ relatedPages:
   - "retrospectives/emotion-mask-retrospective"
   - "plans/emotion-mask-roadmap"
   - "posts/shuguang-youji-roadshow"
+  - "projects/psykeidos"
 ---
 
 ## 项目简介
@@ -66,6 +67,10 @@ relatedPages:
 《Emotion Mask》是一款以“情绪切换”为核心机制的 2D 平台跳跃解谜游戏，也是我从 Global Game Jam 2026 的 48 小时独立原型持续推进的长期项目。玩家操控一位戴着空白面具的少年，在破碎的内心世界中切换“平静”“快乐”“愤怒”三种情绪状态，用不同能力观察道路、跨越障碍、粉碎阻挡，并收集散落的情绪碎片。
 
 项目后来发布到 TapTap 并获得 9.4 分，在成都“蜀光游集”完成近百人次线下路演。此后我继续调整角色 3C、关卡内容、手柄适配和发行配置，并将 Steam 抢先体验本体与独立 Demo 提交审核。当前定位已经从一次限时原型转为面向 Steam 发行与市场验证的独立游戏，但尚未把送审等同于正式上线。
+
+## 设计方向的延续：Psykeidos
+
+[《Psykeidos》](/projects/psykeidos/)作为独立项目承继情绪切换的设计方向，并探索 2D 纸片人物与三维场景结合的 2.5D 表现，当前主要记录世界地图的 Blender 地貌与构图迭代。它的[开发日志](/projects/psykeidos/devlog/)提供真实模型多视图和阶段检查；这不代表新的三维地图已替换本页项目的正式关卡或完成玩法接入。
 
 ## 项目时间线
 

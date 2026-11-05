@@ -1,0 +1,90 @@
+---
+import BaseLayout from "../layouts/BaseLayout.astro";
+import Icon from "./Icon.astro";
+import type { SiteLanguage } from "../lib/seo";
+import type { PsykeidosDevlog } from "../data/psykeidos-devlogs";
+import { devlogAsset, devlogArtStatus, devlogDate, orderedPsykeidosDevlogs, psykeidosDevlogUrl, psykeidosProjectUrl } from "../data/psykeidos-devlogs";
+
+interface Props { entry: PsykeidosDevlog; lang?: SiteLanguage }
+const { entry, lang = "zh-cn" } = Astro.props;
+const isEn = lang === "en";
+const alternateLang: SiteLanguage = isEn ? "zh-cn" : "en";
+const title = `Psykeidos ${entry.id} · ${entry.title[lang]}`;
+const reviewSummary = entry.artStatus === "accepted"
+  ? (isEn ? "Art review accepted. These views remain as the record of this version." : "本轮美术验收已通过，保留这些视图作为版本记录。")
+  : entry.artStatus === "revision-needed"
+    ? (isEn ? "Review feedback calls for another revision. The current model stays available for comparison." : "验收反馈要求继续修改，当前模型保留用于后续对照。")
+    : (isEn ? "Real structure first; the visual result still awaits review." : "先检查真实结构，视觉效果继续等待验收。");
+const sections = [
+  { id: "changes", title: isEn ? "What changed" : "本轮修改" },
+  { id: "comparison", title: isEn ? "Before and after" : "同机位前后对照" },
+  { id: "renders", title: isEn ? "Actual model views" : "真实模型多视图" },
+  { id: "checks", title: isEn ? "Checks and review" : "检查与验收" },
+  { id: "next", title: isEn ? "Next revision" : "下一轮重点" }
+];
+---
+
+<BaseLayout lang={lang} title={title} description={entry.summary[lang]} image={devlogAsset(entry.gallery[0].file)} active="projects" bodyClass="psykeidos-devlog-page" alternateUrl={psykeidosDevlogUrl(alternateLang, entry.id)} alternateLang={alternateLang} ogType="article" creativeWork={{ type: "BlogPosting", name: title, description: entry.summary[lang], datePublished: entry.date, dateModified: entry.date, url: psykeidosDevlogUrl(lang, entry.id), image: devlogAsset(entry.gallery[0].file), keywords: ["Psykeidos", "Blender", "World map", "Development log"] }} breadcrumbs={[
+  { name: isEn ? "Home" : "首页", url: isEn ? "/en/" : "/" },
+  { name: "Psykeidos", url: psykeidosProjectUrl(lang) },
+  { name: isEn ? "Development log" : "开发日志", url: psykeidosDevlogUrl(lang) },
+  { name: entry.id, url: psykeidosDevlogUrl(lang, entry.id) }
+]}>
+  <article class="devlog-detail main-article">
+    <header class="detail-head">
+      <a class="back-link" href={psykeidosDevlogUrl(lang)}><Icon name="chevron-right" />{isEn ? "All development records" : "全部开发记录"}</a>
+      <div class="detail-meta"><span class="version">{entry.id}</span><time datetime={entry.date}>{devlogDate(entry.date, lang)}</time><span class="pending">{devlogArtStatus(entry, lang)}</span></div>
+      <h1>{entry.title[lang]}</h1>
+      <p class="lead">{entry.summary[lang]}</p>
+      <p class="provenance">{isEn ? "Continued from Emotion Mask · real Blender model · fixed 16:9 overview" : "承继自 Emotion Mask · 真实 Blender 模型 · 固定 16:9 主视"}</p>
+    </header>
+    <nav class="section-nav" aria-label={isEn ? "On this page" : "本页内容"}>{sections.map((s) => <a href={`#${s.id}`}>{s.title}</a>)}</nav>
+
+    <section class="text-section" id="changes" aria-labelledby="changes-title">
+      <p class="section-kicker">01 / {isEn ? "Revision" : "本轮修改"}</p><h2 id="changes-title">{isEn ? "What changed in this revision." : "这一轮完成了哪些修改。"}</h2>
+      <ol class="change-list">{entry.changes.map((item) => <li>{item[lang]}</li>)}</ol>
+    </section>
+
+    <section class="media-section" id="comparison" aria-labelledby="comparison-title">
+      <div class="section-title"><p class="section-kicker">02 / {isEn ? "Comparison" : "固定机位比较"}</p><h2 id="comparison-title">{isEn ? "The same camera, before and after." : "同一机位，看修改前后。"}</h2><p>{isEn ? "The reference and model are identified separately. Every result shown here is rendered from an actual saved model." : "参考图与当前模型分别标注。此处成果均来自实际保存模型的渲染。"}</p></div>
+      {entry.comparison.map((item) => <figure><a href={devlogAsset(item.file)} target="_blank" rel="noopener noreferrer" aria-label={`${item.title[lang]} · ${isEn ? "Open full image" : "打开完整图"}`}><img src={devlogAsset(item.file)} alt={item.title[lang]} width={item.width} height={item.height} loading="lazy" decoding="async" /></a><figcaption><strong>{item.title[lang]}</strong><span>{item.caption[lang]}</span></figcaption></figure>)}
+    </section>
+
+    <section class="media-section" id="renders" aria-labelledby="renders-title">
+      <div class="section-title"><p class="section-kicker">03 / {isEn ? "Actual model" : "同模型检查"}</p><h2 id="renders-title">{isEn ? "Look beyond the main camera." : "从主视之外，检查真实结构。"}</h2><p>{isEn ? "Cloud-free views retain their original proportions. Open an image for a closer look." : "无云视图保留原始比例，可点击图片查看完整画面。"}</p></div>
+      <div class="render-gallery">{entry.gallery.map((item, index) => <figure class:list={[(index < 2 || item.file.includes("side-levels")) && "is-overview"]}><a href={devlogAsset(item.file)} target="_blank" rel="noopener noreferrer" aria-label={`${item.title[lang]} · ${isEn ? "Open full image" : "打开完整图"}`}><img src={devlogAsset(item.file)} alt={item.title[lang]} width={item.width} height={item.height} loading="lazy" decoding="async" /></a><figcaption><strong>{item.title[lang]}</strong><span>{item.caption[lang]}</span></figcaption></figure>)}</div>
+    </section>
+
+    <section class="text-section" id="checks" aria-labelledby="checks-title">
+      <p class="section-kicker">04 / {isEn ? "Review" : "检查结论"}</p><h2 id="checks-title">{isEn ? "Checks and the current review state." : "检查与当前验收结论。"}</h2><p class="check-summary">{entry.technicalStatus === "passed" ? (isEn ? "Technical checks passed" : "技术检查通过") : (isEn ? "Technical checks pending" : "技术检查待完成")} · {devlogArtStatus(entry, lang)}</p>
+      <div class="check-list">{entry.checks.map((check) => <div><span class="check-state">{isEn ? "Checked" : "已核对"}</span><h3>{check.title[lang]}</h3><p>{check.detail[lang]}</p></div>)}</div>
+      <aside class="review-note" aria-labelledby="limits-title"><h3 id="limits-title">{isEn ? "Still unresolved" : "仍未解决"}</h3><ul>{entry.limitations.map((item) => <li>{item[lang]}</li>)}</ul></aside>
+    </section>
+
+    <section class="text-section next-section" id="next" aria-labelledby="next-title"><p class="section-kicker">05 / {isEn ? "Next" : "下一轮"}</p><h2 id="next-title">{isEn ? "What to focus on next." : "下一轮关注什么。"}</h2><p>{entry.nextStep[lang]}</p><a class="project-link" href={psykeidosProjectUrl(lang)}>{isEn ? "About Psykeidos" : "了解 Psykeidos 项目"}<Icon name="chevron-right" /></a></section>
+  </article>
+  <Fragment slot="right-sidebar">
+    <aside class="sidebar right-sidebar sticky log-sidebar">
+      <section class="widget"><p class="sidebar-kicker">Psykeidos / {entry.id}</p><h2>{isEn ? "Development record" : "开发记录"}</h2><p>{reviewSummary}</p><nav aria-label={isEn ? "Record sections" : "记录目录"}>{sections.map((s) => <a href={`#${s.id}`}>{s.title}</a>)}</nav></section>
+      <section class="widget"><h2>{isEn ? "Versions" : "版本记录"}</h2><nav aria-label={isEn ? "Versions" : "版本记录"}>{orderedPsykeidosDevlogs().map((log) => <a href={psykeidosDevlogUrl(lang, log.id)} aria-current={log.id === entry.id ? "page" : undefined}>{log.id}<span>{log.title[lang]}</span></a>)}</nav></section>
+    </aside>
+  </Fragment>
+</BaseLayout>
+
+<style>
+  .devlog-detail{width:100%;max-width:1200px;margin-inline:auto;overflow:hidden;border:1px solid var(--card-separator-color);border-radius:var(--leftjun-radius-lg);background:var(--leftjun-reading-surface);color:var(--card-text-color-main);box-shadow:var(--leftjun-surface-shadow-soft)}
+  .detail-head{padding:clamp(24px,4vw,48px)}.back-link,.project-link{display:inline-flex;align-items:center;gap:8px;color:var(--leftjun-primary);font-size:14px;font-weight:750;text-decoration:none}.back-link :global(svg){width:14px;height:14px;transform:rotate(180deg)}
+  .detail-meta{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin:32px 0 18px;font-size:13px;color:var(--card-text-color-secondary)}.version{font-weight:800;letter-spacing:.04em;color:var(--leftjun-primary)}.pending{padding:5px 9px;border:1px solid color-mix(in srgb,#ac8145 35%,var(--card-separator-color));background:color-mix(in srgb,#d1ad65 13%,transparent);border-radius:5px;color:var(--card-text-color-main)}
+  h1{max-width:780px;margin:0;font-size:clamp(32px,3.5vw,48px);line-height:1.25;font-weight:850;text-wrap:balance;letter-spacing:-.02em}.lead{max-width:720px;font-size:18px;color:var(--card-text-color-secondary);line-height:1.85;margin:20px 0}.provenance{font-size:12px;color:var(--card-text-color-secondary);margin:20px 0 0;line-height:1.7}
+  .section-nav{display:flex;gap:8px 22px;flex-wrap:wrap;padding:18px clamp(24px,4vw,48px);background:var(--leftjun-surface-muted);border-block:1px solid var(--card-separator-color)}.section-nav a{font-size:13px;font-weight:750;color:var(--card-text-color-main);text-decoration:none;line-height:1.8}.section-nav a:hover{text-decoration:underline;text-underline-offset:4px}
+  .text-section{padding:clamp(28px,4vw,48px);scroll-margin-top:32px}.section-kicker{margin:0 0 12px;font-size:11px;letter-spacing:.12em;font-weight:800;text-transform:uppercase;color:var(--card-text-color-secondary)}h2{margin:0 0 22px;font-size:clamp(24px,2.4vw,31px);line-height:1.35;font-weight:820;text-wrap:balance}
+  .change-list{list-style:none;counter-reset:changes;display:grid;gap:0;padding:0;margin:0}.change-list li{counter-increment:changes;position:relative;margin:0;padding:20px 0 20px 43px;border-top:1px solid var(--card-separator-color);font-size:16px;line-height:1.85;color:var(--card-text-color-secondary)}.change-list li::before{content:counter(changes,decimal-leading-zero);position:absolute;left:0;top:23px;color:var(--leftjun-primary);font-size:12px;font-weight:800;font-variant-numeric:tabular-nums}
+  .media-section{padding:clamp(24px,3vw,36px) 0 0;border-top:1px solid var(--card-separator-color);scroll-margin-top:32px}.section-title{padding:0 clamp(24px,4vw,48px) 20px}.section-title h2{margin-bottom:14px}.section-title>p:last-child{font-size:15px;color:var(--card-text-color-secondary);line-height:1.8;margin:0}
+  figure{margin:0;background:var(--leftjun-reading-surface);border-top:1px solid var(--card-separator-color);min-width:0}figure>a{display:block;background:#d6d8d6}figure img{display:block;width:100%;height:auto;object-fit:contain}figure a:focus-visible{outline:3px solid var(--leftjun-primary);outline-offset:-3px}figcaption{padding:18px clamp(24px,4vw,48px) 26px}figcaption strong{display:block;margin:0 0 7px;font-size:15px;font-weight:800;line-height:1.5}figcaption span{display:block;font-size:13px;line-height:1.75;color:var(--card-text-color-secondary)}
+  .render-gallery{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr)}.render-gallery .is-overview{grid-column:1/-1}.render-gallery figure:not(.is-overview) figcaption{padding:18px 24px 26px}.render-gallery figure:nth-child(even):not(.is-overview){border-left:1px solid var(--card-separator-color)}
+  #checks{border-top:1px solid var(--card-separator-color)}.check-summary{margin:-8px 0 24px;font-size:14px;line-height:1.8;color:var(--card-text-color-secondary)}.check-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.check-list>div{padding:20px;background:var(--leftjun-surface-muted);border:1px solid var(--card-separator-color);border-radius:var(--leftjun-radius-sm);min-width:0}.check-state{font-size:11px;color:var(--leftjun-primary);font-weight:800}.check-list h3{margin:12px 0 8px;font-size:16px;font-weight:800;line-height:1.5}.check-list p{margin:0;font-size:13px;line-height:1.8;color:var(--card-text-color-secondary)}
+  .review-note{margin:26px 0 0;border-left:3px solid #b68e52;padding:20px 24px;background:color-mix(in srgb,#c8a776 9%,var(--leftjun-reading-surface))}.review-note h3{margin:0 0 12px;font-size:17px;font-weight:800}.review-note ul{margin:0;padding:0 0 0 20px}.review-note li{padding-left:3px;margin:8px 0;color:var(--card-text-color-secondary);font-size:14px;line-height:1.85}.next-section{border-top:1px solid var(--card-separator-color);background:var(--leftjun-surface-muted)}.next-section>p:not(.section-kicker){font-size:16px;line-height:1.85;color:var(--card-text-color-secondary);margin:0 0 24px}.project-link :global(svg){width:16px;height:16px}
+  .log-sidebar .widget{padding:22px;background:var(--leftjun-reading-surface);border:1px solid var(--card-separator-color);border-radius:var(--leftjun-radius-md)}.log-sidebar h2{font-size:16px;margin:0 0 12px}.sidebar-kicker{margin:0 0 12px;font-size:11px;color:var(--leftjun-primary);font-weight:800;letter-spacing:.06em}.log-sidebar .widget>p:not(.sidebar-kicker){font-size:13px;line-height:1.75;color:var(--card-text-color-secondary);margin:0 0 18px}.log-sidebar nav{display:grid;gap:7px}.log-sidebar nav a{padding:7px 0;font-size:13px;line-height:1.6;color:var(--card-text-color-main);text-decoration:none;border-bottom:1px solid var(--card-separator-color)}.log-sidebar nav a:hover,.log-sidebar nav a[aria-current]{color:var(--leftjun-primary)}.log-sidebar nav a span{display:block;font-size:12px;color:var(--card-text-color-secondary);margin-top:5px}
+  @media(max-width:1100px){.check-list{grid-template-columns:1fr}.check-list>div{padding:18px}.render-gallery{grid-template-columns:1fr}.render-gallery figure:nth-child(even):not(.is-overview){border-left:0}}
+  @media(max-width:600px){.detail-head,.text-section{padding:24px 20px}.section-title{padding-inline:20px}.section-nav{padding:14px 20px;gap:7px 17px}h1{font-size:32px}.lead{font-size:16px;line-height:1.8}.detail-meta{gap:9px;font-size:12px;margin-top:26px}.change-list li{padding-left:34px;font-size:15px}.review-note{padding:18px}.review-note li{font-size:14px}figcaption{padding:16px 20px 22px}.render-gallery figure:not(.is-overview) figcaption{padding:16px 20px 22px}.next-section>p:not(.section-kicker){font-size:15px}}
+</style>

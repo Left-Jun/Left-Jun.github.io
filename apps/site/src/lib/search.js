@@ -1,4 +1,5 @@
 import { getAllEntries } from "./content.js";
+import { getPsykeidosDevlogSearchEntries } from "../data/psykeidos-devlogs";
 
 const labels = {
   en: {
@@ -32,7 +33,7 @@ export async function buildSearchIndex(lang = "zh-cn") {
   const sectionLabels = labels[key];
   const entries = await getAllEntries({ lang: key });
 
-  return entries.map((entry) => {
+  const contentEntries = entries.map((entry) => {
     const tags = [
       ...(entry.data.tags || []),
       ...(entry.data.roleTags || []),
@@ -50,6 +51,10 @@ export async function buildSearchIndex(lang = "zh-cn") {
       search: [entry.data.title, description, body, ...tags, entry.section].join(" ").toLowerCase()
     };
   });
+  return [...contentEntries, ...getPsykeidosDevlogSearchEntries(key).map((entry) => ({
+    ...entry,
+    section: key === "en" ? "Development log" : "开发日志"
+  }))];
 }
 
 export function searchIndexResponse(entries) {

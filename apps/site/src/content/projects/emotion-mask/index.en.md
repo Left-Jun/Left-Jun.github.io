@@ -59,6 +59,7 @@ relatedPages:
   - "retrospectives/emotion-mask-retrospective"
   - "plans/emotion-mask-roadmap"
   - "posts/shuguang-youji-roadshow"
+  - "projects/psykeidos"
 ---
 
 ## Overview
@@ -66,6 +67,10 @@ relatedPages:
 Emotion Mask is a 2D platformer-puzzle game centered on emotion switching and a long-term project I have continued from a solo 48-hour Global Game Jam 2026 prototype. The player controls a boy wearing a blank mask and switches between Calm, Joy, and Anger. Each state changes movement, world readability, and obstacle interaction.
 
 The project was published on TapTap with a 9.4 rating and received nearly one hundred in-person plays at the Shuguang Youji roadshow in Chengdu. I have continued work on character 3C, content, controller adaptation, and release configuration, and submitted both the Steam Early Access main game and a standalone demo for review. Submission is reported as submission, not as a completed Steam launch.
+
+## Continuing the direction: Psykeidos
+
+[Psykeidos](/en/projects/psykeidos/) is documented as a separate project continuing the emotion-switching direction and exploring a 2.5D presentation that combines 2D billboard characters with three-dimensional scenes. Current work focuses on Blender landforms and composition for a world map. Its [development log](/en/projects/psykeidos/devlog/) shows real multiple-view renders and iteration checks; it does not claim that the new map has replaced Emotion Mask's production levels or completed gameplay integration.
 
 ## Timeline
 
