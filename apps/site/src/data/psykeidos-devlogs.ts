@@ -53,23 +53,23 @@ export const psykeidosDevlogs: PsykeidosDevlog[] = [
       { title: text("源码与发布", "Source and release"), detail: text("实现与设计文档已合入 Emotion-Mask main，提交 5083058；本轮没有发布游戏安装包。", "Implementation and design rules merged into Emotion-Mask main at commit 5083058. No downloadable game build was released.") }
     ],
     limitations: [
-      text("下方截图是 v020 文字系统基础验收的真实运行画面，作为改造前的对照记录；不是 v021 左右立绘与世界地图统一后的新截图。", "The screenshots below are genuine v020 runtime captures, shown as before-change reference only. They are not new screenshots of the v021 portrait layout or world-map integration."),
-      text("v021 已通过自动化布局与交互断言，但尚未取得改造后的实机视觉截图；人物专属立绘和最终镜头观感仍需人工验收。", "v021 passed automated layout and interaction assertions, but fresh post-change visual captures are not yet available. Final portrait art and camera feel still need hands-on review."),
+      text("v021 新截图来自 2026-11-12 重新构建的 Windows 开发版，使用真实 Unity 运行画面和测试角色资源；不是实际剧情关卡的最终美术。", "New v021 screenshots come from a freshly built Windows development player on 2026-11-12, using real Unity runtime captures with test speaker assets, not final story-level art."),
+      text("本次完成立绘左右、姓名与选项的实机截图；世界地图 NPC 实际场景与 2D 镜头拉近/退出的逐帧视觉截图仍待补拍。", "Runtime captures now cover left/right portraits, speaker names and choices. Real world-map NPC scenes and frame-by-frame 2D camera transitions still await dedicated screenshots."),
       text("本轮不代表全工程零缺陷；完整 EditMode 批量运行曾在旧预览渲染阶段遇到 Unity 原生崩溃。", "This does not establish project-wide defect-free status; a full EditMode batch previously encountered a native Unity crash during legacy preview rendering.")
     ],
     nextStep: text(
-      "在真实 2D 关卡与世界地图采集 v021 左右发言、分支和镜头进退的新实机截图，核对最终立绘与排版后替换本页的旧版对照图。",
-      "Capture fresh v021 runtime images for both speaker sides, branching and camera transitions in real 2D and world-map scenes; replace the baseline images after visual review."
+      "继续采集真实世界地图 NPC 场景与 2D 镜头进退截图；补齐角色最终立绘并进行排版人工验收。",
+      "Next, capture NPC conversations in the real world map and 2D camera entry/exit; finish portrait assets and perform final visual review."
     ),
     comparison: [
-      image("v020-zh-complete.png", "改造前 · 中文对话框（v020）", "Before · Chinese dialogue box (v020)", "历史实机基线：展示原文字系统的正文和布局；不是本轮 v021 的最终界面。", "Historical runtime baseline of text and layout; not the final v021 UI."),
-      image("v020-zh-worldpaper.png", "改造前 · 世界地图纸张会话（v020）", "Before · world-map paper conversation (v020)", "历史实机基线：v021 已改为统一 NPC 对话框，此图只用于说明旧方案。", "Historical runtime baseline. v021 now uses the shared NPC box; this image shows the old approach.")
+      image("v021-player-left.png", "v021 实机 · 玩家左侧发言", "v021 runtime · player speaking on left", "2026-11-12 Windows 开发版 1600×900：玩家立绘及其下方姓名，正文仍从大对话框左侧开始。", "2026-11-12 Windows development player at 1600×900: player portrait and name beneath it, with body text starting at the left."),
+      image("v021-npc-right.png", "v021 实机 · NPC 右侧发言", "v021 runtime · NPC speaking on right", "同一构建同一对话框：NPC 立绘及其下方姓名位于右侧，正文阅读起点保持不变。", "Same build and shared dialogue box: NPC portrait and name on the right while body alignment stays unchanged.")
     ],
     gallery: [
-      image("v020-zh-choices.png", "历史基线 · 中文选项", "Historical baseline · Chinese choices", "v020 运行截图；v021 选项逻辑已调整，视觉效果仍待新截图验收。", "v020 runtime capture; v021 choice logic changed and awaits fresh visual evidence."),
-      image("v020-en-complete.png", "历史基线 · 英文正文", "Historical baseline · English text", "v020 四语言验收的一部分，用于保留多语言显示对照。", "Part of the v020 multilingual runtime matrix, retained for comparison."),
-      image("v020-ja-complete.png", "历史基线 · 日文正文", "Historical baseline · Japanese text", "v020 运行截图，不代表本轮新立绘位置。", "v020 runtime capture; not evidence of the new portrait positions."),
-      image("v020-ko-complete.png", "历史基线 · 韩文正文", "Historical baseline · Korean text", "v020 运行截图，不代表本轮新立绘位置。", "v020 runtime capture; not evidence of the new portrait positions.")
+      image("v021-choices-left.png", "v021 实机 · 左侧分支选项", "v021 runtime · left-aligned choices", "NPC 发言后的分支选项仍在大对话框左侧排版。", "Branch choices remain aligned to the left of the shared dialogue box after the NPC speaks."),
+      image("v021-expression.png", "v021 实机 · 表情立绘切换", "v021 runtime · portrait expression", "对话播放中的角色立绘表情切换截图。", "Runtime capture of a speaker portrait expression change."),
+      image("v021-missing-portrait.png", "v021 实机 · 缺少立绘的台词", "v021 runtime · line without portrait", "没有指定立绘资源时的文字与姓名显示，用于检查降级布局。", "Text/name fallback when no portrait resource is assigned."),
+      image("v020-zh-worldpaper.png", "历史对照 · 世界地图旧纸张对话（v020）", "Historical comparison · old world-map paper dialogue (v020)", "这是改造前的 v020 运行画面，不是 v021 世界地图实机验收。", "This is a pre-change v020 runtime image, not v021 world-map acceptance evidence.")
     ]
   },
   {
