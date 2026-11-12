@@ -30,6 +30,59 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v022",
+    date: "2026-11-12T23:55:00+08:00",
+    title: text("Blender 世界地图：蓝域河谷、前湖与双瀑地形", "Blender overworld: blue-region river valley, forelake and two waterfalls"),
+    summary: text(
+      "以 v019 三域灰模为基础，保存独立可编辑的 Blender v020 工程，重新塑造蓝域内陆河谷、灯塔左前湖盆与前瀑，并检查桥塔承托、岩体闭合及水面连通。14 张评审画面均来自本次保存模型。技术结构检查通过；构图、美术及正式游戏中的效果仍待验收。",
+      "Built on the v019 three-region blockout and saved a separate editable Blender v020 scene. Reshaped the blue-region inland river valley, the lake before the lighthouse and the front waterfall, while checking bridge/lighthouse support, solid meshes and continuous water. Fourteen review images come from the saved model. Technical geometry checks passed; composition, art and in-game presentation remain unapproved."
+    ),
+    technicalStatus: "passed",
+    artStatus: "pending",
+    changes: [
+      text("保持原有灯塔山网格、塔桥位置、营地及相机，针对蓝域河谷与海岸主体塑形；对相关地貌进行 5 米重采样重拓扑，并为前湖增加连续岩足与湖床。", "Preserved the original lighthouse hill mesh, bridge, camp and cameras while reshaping the blue-region valley and coastal masses. Applied 5 m remeshing to affected terrain and added continuous solid support and a bed beneath the forelake."),
+      text("将内陆弯曲河道接入桥下水湾，再向灯塔左前展开为湖盆；右支沿低谷通往第二处瀑布，两条水路共用上层水位。", "Connected the winding inland river to the bay beneath the bridge and widened it into a lake in front-left of the lighthouse. A second branch follows the low valley to the other waterfall at the same upper water level."),
+      text("将前湖溢流口真实下切至低海，降低原有中间平顶结构并补齐灯塔山左前岸肩；在后方陆地补充连续坡脊。", "Cut the front-lake spillway down toward the lower sea, lowered a former flat intermediate shelf, filled the lighthouse hill's front-left coastal shoulder and extended continuous dry ridges behind the water."),
+      text("保留六个已确认的选关节点平面位置，并在地形修改后核对接地；节点仅用于本轮结构评审，非最终章节配置。", "Retained the approved plan positions of six level-selection nodes and checked their ground contact after the terrain edits. These markers are review aids, not final chapter configuration."),
+      text("生成同一模型的 14 张 1920×1080 无云评审图，包含固定主镜头、蓝域俯侧后视、河湖水网和 v019／母图对照。", "Generated fourteen cloud-free 1920×1080 review captures of the same model: fixed overview, blue-region top/side/rear views, water-network inspection and comparisons against v019 and the composition reference.")
+    ],
+    checks: [
+      { title: text("模型与原始场景保护", "Model and scene preservation"), detail: text("检查原有 487 个对象的位置、层级与可见性，以及 54 台相机参数；灯塔山、塔桥与 PLAN 节点保持。", "Verified transforms, hierarchy and visibility for 487 original objects and parameters for 54 cameras, preserving the lighthouse hill, bridge and PLAN nodes.") },
+      { title: text("岩体拓扑与基础承托", "Solid topology and ground support"), detail: text("三块重点岩体均闭合、正体积、自交为 0；基础承托通过，最大地面偏差 0.98 毫米。", "All three inspected rock masses are closed and positively oriented with zero self-intersections; ground-support checks passed with 0.98 mm maximum deviation.") },
+      { title: text("湖床、水网与双瀑", "Lakebed, water connectivity and waterfalls"), detail: text("六个核心水点处于同一上层连通水网；29,032 个湖床探针漏床为 0；两处瀑布的源水接触、堰床和落海检查通过。", "Six key water points belong to one connected upper network; 29,032 lakebed probes found zero missing beds. Both waterfall outlets passed source, sill and lower-sea checks.") },
+      { title: text("水位与区域边界", "Water levels and region boundaries"), detail: text("模型内上层水位比低海高 95 米；三域实体分离、右岸干地及黄红相邻边界检查通过。", "The model's upper water level sits 95 m above the lower sea. Three-region separation, dry right bank and yellow/red adjacency checks passed.") },
+      { title: text("真实模型与渲染证据", "Saved scene and render evidence"), detail: text("保存 Psykeidos_WorldMap_v020.blend；14 张评审图附相机与哈希记录，最终模型 SHA256 为 3f0e360deca79a8a305bdb5f759ab5320e2002bb587d88755e175f5d2607b904。", "Saved Psykeidos_WorldMap_v020.blend. Fourteen captures have camera and hash records; final model SHA256: 3f0e360deca79a8a305bdb5f759ab5320e2002bb587d88755e175f5d2607b904.") }
+    ],
+    limitations: [
+      text("这是 Blender 蓝域结构阶段的可编辑模型，不是已经导入 Unity 的最终 Overworld，也未获得美术或用户验收。", "This is an editable Blender model at the blue-region structural stage, not the final Overworld imported into Unity. Neither art nor user acceptance has been granted."),
+      text("前湖岸缘仍偏连续、局部左岸接缝与上游右岸尖角待修；有一处岸缘岩唇仅高于水面约 1.7 厘米。", "The forelake banks remain too continuous in places, with left-bank seams and a sharp upstream right bank still requiring polish. One local rock lip rises only about 1.7 cm above the water."),
+      text("上游河源、部分后方坡脊与选关节点落点尚待确定；固定主镜头的整体纵深、黄红体量和营地比例仍需与母图对照。", "The precise river source, some hinterland ridges and node placements remain provisional. Overall depth, yellow/red massing and camp proportions still need reference-based composition review."),
+      text("本页的水网标注图和母图对比是评审材料；标注节点不是游戏内最终 UI，母图也不是已实现的游戏画面。", "Water-network overlays and reference comparisons are review evidence. Node annotations are not final in-game UI, and the composition reference is not a completed game render.")
+    ],
+    nextStep: text(
+      "先验收蓝域前湖与河谷在固定 16:9 镜头中的实际轮廓、上下水位和两处瀑布，再修整岸岬与河源；之后再推进三域整体构图与 Unity 接入。",
+      "First review the forelake/valley silhouette, water levels and both waterfalls in the fixed 16:9 camera; then refine shoreline shapes and the river source before global three-region composition and Unity integration."
+    ),
+    comparison: [
+      image("v022-13-main-v019-v020.png", "固定主镜头 · v019 与 v020", "Fixed overview · v019 vs v020", "同机位版本对照，检查蓝域结构修改对整体构图的实际影响。", "Same-camera version comparison showing the effect of blue-region geometry edits on the overall composition."),
+      image("v022-14-mother-blue-comparison.png", "蓝域母图对照", "Blue-region reference comparison", "母图是构图目标，右侧为实际 Blender 评审模型；两者不可混淆。", "The reference shows the intended composition; the other view is actual Blender review geometry. The reference is not a finished model.")
+    ],
+    gallery: [
+      image("v022-01-main-grey.png", "正式眺望 · 灰模", "Primary vista · clay render", "无云遮挡、固定 16:9 主视角。", "Cloud-free fixed 16:9 overview."),
+      image("v022-02-main-color.png", "正式眺望 · 淡彩", "Primary vista · muted regions", "以区域色区分蓝、黄、红三个地貌主体，尚非正式材质。", "Region colours distinguish blue, yellow and red terrain masses; not final materials."),
+      image("v022-06-local-close.png", "蓝域近景 · 灯塔与前湖", "Blue close-up · lighthouse and forelake", "观察湖盆、岸肩及溢流口的局部实体关系。", "Inspecting the local lake basin, coastal shoulder and spillway."),
+      image("v022-03-local-top.png", "前湖局部俯视", "Forelake top view", "检查河道进入湖盆、岸线围合与前溢流路径。", "Checking river inflow, lakebank enclosure and fore-spillway routing."),
+      image("v022-04-blue-top.png", "蓝域全貌俯视", "Blue region top view", "检查蓝域河谷、灯塔山和海岸的总体占地。", "Reviewing the footprints of the river valley, lighthouse hill and coastal masses."),
+      image("v022-05-global-top.png", "三域整体俯视", "Three-region top view", "核对蓝、黄、红地形的真实空间分布。", "Checking the actual spatial arrangement of all three regions."),
+      image("v022-07-blue-side.png", "蓝域侧视 · 水位与岩层", "Blue side view · water and rock", "侧面核对湖床、厚岩岸、瀑布及低海。", "Inspecting lakebed, solid banks, waterfall and lower sea from the side."),
+      image("v022-08-blue-rear.png", "蓝域斜后视", "Blue rear oblique", "从主镜头以外检查后陆连续性与真实地形厚度。", "Assessing dry hinterland continuity and solid terrain depth beyond the main camera."),
+      image("v022-09-formal-code-camera.png", "正式镜头基准对照", "Formal camera baseline", "保留固定镜头的代码基准；并非 Unity 最终稳定态验收。", "A reference for the fixed production camera, not acceptance of the final Unity runtime view."),
+      image("v022-10-global-noderoute.png", "全局选关节点与路线", "Global node and route review", "评审用节点标注，非最终玩家界面。", "Planning node annotations for review only, not final gameplay UI."),
+      image("v022-11-blue-noderoute.png", "蓝域选关路线", "Blue-region node routing", "六个节点的地形接地与路径位置核对。", "Review of six node positions, ground contact and route."),
+      image("v022-12-local-waterstructure.png", "湖盆水网结构", "Forelake water-network structure", "展示前湖、桥下水湾、右支与双瀑的模型关系。", "Visualizing the model relationships between forelake, bridge bay, right branch and two waterfalls.")
+    ]
+  },
+  {
     id: "v021",
     date: "2026-11-12T17:30:00+08:00",
     title: text("NPC 对话统一：立绘身份、镜头与世界地图接入", "Unified NPC dialogue: speaker portraits, cameras and world-map integration"),
