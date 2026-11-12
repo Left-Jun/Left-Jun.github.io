@@ -30,6 +30,49 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v021",
+    date: "2026-11-12T17:30:00+08:00",
+    title: text("NPC 对话统一：立绘身份、镜头与世界地图接入", "Unified NPC dialogue: speaker portraits, cameras and world-map integration"),
+    summary: text(
+      "将 2D 关卡与 2.5D 世界地图 NPC 接入同一套立绘对话框与播放状态机。玩家固定左侧、NPC 固定右侧，姓名跟随发言立绘；正文始终从左侧排版，选项左对齐。新增镜头进退与异常退出恢复，并通过定向自动化测试。",
+      "NPC conversations in 2D levels and the 2.5D world map now share the same portrait dialogue box and playback state machine. Player portraits remain left, NPC portraits right, with names beneath the active portrait. The text body stays left-aligned and choices remain on the left. Camera transitions and invalidation recovery received targeted automated coverage."
+    ),
+    technicalStatus: "passed",
+    artStatus: "pending",
+    changes: [
+      text("世界地图 NPC 从独立纸张会话切换到统一 DialoguePlayback + DialogueBox；纸张信息面板继续服务非 NPC 地点。", "World-map NPCs now use the shared DialoguePlayback + DialogueBox instead of a separate paper conversation; the paper panel remains for non-NPC location information."),
+      text("新增显式的玩家／NPC 身份字段及角色资源继承，避免根据本地化姓名猜测立绘左右位置。姓名跟随发言者，正文不随立绘换边。", "Explicit player/NPC identity and speaker-profile inheritance prevent guessing portrait positions from localized names. Speaker labels follow the active portrait without moving the dialogue body."),
+      text("2D 对话通过现有 GameplayCameraDirector 以 Dialogue 优先级平滑拉近和恢复；世界地图保留既有 NPC 聚焦镜头。", "2D conversations smoothly zoom using the existing GameplayCameraDirector at Dialogue priority; the world map retains its established NPC focus camera."),
+      text("分支确认改为报告真实推进结果，避免把快显误判为已选择；新增 NPC 失效、镜头与输入恢复的回归测试。", "Branch confirmation now reports actual advancement rather than treating quick reveal as a choice; regression coverage includes NPC invalidation, camera return and input recovery."),
+      text("将布局、镜头时序、文本继承和验收边界写入版本化设计规则，并同步 Text & Dialogue Studio 的角色侧设置。", "Versioned design rules now cover layout, camera timing, text inheritance and acceptance boundaries; the authoring tool exposes speaker-side controls.")
+    ],
+    checks: [
+      { title: text("角色身份解析", "Speaker identity resolution"), detail: text("EditMode 13/13 通过：角色资源身份、单段显式覆盖与多语言姓名独立解析。", "13/13 EditMode tests passed for speaker-profile identity, explicit per-line overrides and localized speaker names.") },
+      { title: text("统一对话回归", "Unified dialogue regression"), detail: text("文字系统 PlayMode 12/12 通过，包含左右立绘与姓名、正文位置不变、分支和输入生命周期。", "12/12 text-system PlayMode tests passed, including portrait/name sides, fixed body placement, branching and input lifecycle.") },
+      { title: text("世界地图交互", "World-map interaction"), detail: text("NPC 分支与镜头回归、鼠标/手柄混合输入、NPC 中途禁用恢复三项定向 PlayMode 均通过。", "Targeted PlayMode checks passed for NPC branches/camera, mixed mouse/controller input and recovery when an NPC is disabled mid-conversation.") },
+      { title: text("源码与发布", "Source and release"), detail: text("实现与设计文档已合入 Emotion-Mask main，提交 5083058；本轮没有发布游戏安装包。", "Implementation and design rules merged into Emotion-Mask main at commit 5083058. No downloadable game build was released.") }
+    ],
+    limitations: [
+      text("下方截图是 v020 文字系统基础验收的真实运行画面，作为改造前的对照记录；不是 v021 左右立绘与世界地图统一后的新截图。", "The screenshots below are genuine v020 runtime captures, shown as before-change reference only. They are not new screenshots of the v021 portrait layout or world-map integration."),
+      text("v021 已通过自动化布局与交互断言，但尚未取得改造后的实机视觉截图；人物专属立绘和最终镜头观感仍需人工验收。", "v021 passed automated layout and interaction assertions, but fresh post-change visual captures are not yet available. Final portrait art and camera feel still need hands-on review."),
+      text("本轮不代表全工程零缺陷；完整 EditMode 批量运行曾在旧预览渲染阶段遇到 Unity 原生崩溃。", "This does not establish project-wide defect-free status; a full EditMode batch previously encountered a native Unity crash during legacy preview rendering.")
+    ],
+    nextStep: text(
+      "在真实 2D 关卡与世界地图采集 v021 左右发言、分支和镜头进退的新实机截图，核对最终立绘与排版后替换本页的旧版对照图。",
+      "Capture fresh v021 runtime images for both speaker sides, branching and camera transitions in real 2D and world-map scenes; replace the baseline images after visual review."
+    ),
+    comparison: [
+      image("v020-zh-complete.png", "改造前 · 中文对话框（v020）", "Before · Chinese dialogue box (v020)", "历史实机基线：展示原文字系统的正文和布局；不是本轮 v021 的最终界面。", "Historical runtime baseline of text and layout; not the final v021 UI."),
+      image("v020-zh-worldpaper.png", "改造前 · 世界地图纸张会话（v020）", "Before · world-map paper conversation (v020)", "历史实机基线：v021 已改为统一 NPC 对话框，此图只用于说明旧方案。", "Historical runtime baseline. v021 now uses the shared NPC box; this image shows the old approach.")
+    ],
+    gallery: [
+      image("v020-zh-choices.png", "历史基线 · 中文选项", "Historical baseline · Chinese choices", "v020 运行截图；v021 选项逻辑已调整，视觉效果仍待新截图验收。", "v020 runtime capture; v021 choice logic changed and awaits fresh visual evidence."),
+      image("v020-en-complete.png", "历史基线 · 英文正文", "Historical baseline · English text", "v020 四语言验收的一部分，用于保留多语言显示对照。", "Part of the v020 multilingual runtime matrix, retained for comparison."),
+      image("v020-ja-complete.png", "历史基线 · 日文正文", "Historical baseline · Japanese text", "v020 运行截图，不代表本轮新立绘位置。", "v020 runtime capture; not evidence of the new portrait positions."),
+      image("v020-ko-complete.png", "历史基线 · 韩文正文", "Historical baseline · Korean text", "v020 运行截图，不代表本轮新立绘位置。", "v020 runtime capture; not evidence of the new portrait positions.")
+    ]
+  },
+  {
     id: "v020",
     date: "2026-11-12T15:00:00+08:00",
     title: text("文字与多语言系统：统一播放框架", "Text and localization: unified playback foundation"),
