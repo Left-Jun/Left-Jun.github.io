@@ -30,6 +30,52 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v023",
+    date: "2026-11-13T10:50:00+08:00",
+    title: text("Blender 世界地图：构图接管、黄域塑形与红域失败回退", "Blender overworld: composition takeover, yellow-land sculpt and rejected red spur"),
+    summary: text(
+      "从保存的 Blender v020 出发，独立保存 v021 与 v022，围绕原始母图开展第一轮整体灰模修正。黄域调整连续丘陵起伏，营地局部收窄；v021 尝试的红域前伸山脊在固定主视中形成巨大遮挡，经真实截图评审后主动否决。v022 移除失败岩脊，改为现有红域实体的局部雕塑。模型已保存、6 张 1920×1080 截图真实生成；整体美术仍需继续修改。",
+      "Started from saved Blender v020 and created separate v021/v022 models for a first composition-oriented blockout pass against the original mother reference. Sculpted continuous yellow hills and slightly narrowed the camp lookout. The v021 red forward spur became an oversized occluding wall in the fixed camera and was explicitly rejected from genuine renders. v022 removes that spur and sculpts existing red terrain instead. The model and six native 1920×1080 captures are saved; overall art still requires revision."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("黄域在原有三块实体地形上调整大尺度丘陵起伏，共变动 1,208 个网格顶点，并保留风车、城镇基础的局部接地位置。", "Reshaped large-scale rolling relief on three existing yellow landforms, editing 1,208 mesh vertices while masking windmill and town foundations."),
+      text("v021 新增真实体积的红域前伸岩脊，但固定主镜头显示其形成过大的斜向岩墙，阻挡远景；该修改已在 v022 删除，没有将失败版本作为完成效果。", "A volumetric red forward spur was created in v021, but the fixed camera showed an oversized diagonal wall obstructing the vista. It was removed in v022 rather than presented as a finished result."),
+      text("v022 改为塑形红域原有前崖、峡谷西侧、城镇肩部与东侧坡脊，避免再次增加独立巨型山体。", "v022 instead sculpts the existing red forecrag, western canyon, city shoulder and eastern flank, avoiding another massive freestanding landform."),
+      text("营地眺望尖角局部收窄并增加轻微崖壁起伏；角色锚点及 54 台原有相机均未移动。", "Slightly narrowed the camp lookout and adjusted cliff relief while preserving the player anchor and all 54 existing cameras."),
+      text("保留蓝域湖盆、水网、灯塔和桥的现有结构，本轮没有修改 Unity 正式地图。", "Retained blue basin, water network, lighthouse and bridge structures without modifying the production Unity world.")
+    ],
+    checks: [
+      { title: text("原始工程与独立版本", "Source and version isolation"), detail: text("v020 原工程 SHA256 仍为 3f0e360deca79a8a305bdb5f759ab5320e2002bb587d88755e175f5d2607b904；分别另存 v021 与 v022。v022 模型 SHA256 为 48729ad9fb4ff8fd82de16b95d81035d56ee67cfdcfdbe49185c5cc7b8a7ca62。", "The untouched v020 source retains SHA256 3f0e360deca79a8a305bdb5f759ab5320e2002bb587d88755e175f5d2607b904. Both v021 and v022 were saved separately. v022 SHA256: 48729ad9fb4ff8fd82de16b95d81035d56ee67cfdcfdbe49185c5cc7b8a7ca62.") },
+      { title: text("镜头与蓝域保护", "Camera and blue-region protection"), detail: text("建模脚本核对 54 台原有相机的变换与参数保持；蓝域水网相关对象的顶点／面数量保持。本轮没有重跑 v020 全部水网与自交验证。", "The build script confirmed preserved transformations and parameters for all 54 cameras and unchanged vertex/face counts on blue-water objects. The full v020 water and intersection suite was not rerun.") },
+      { title: text("真实截图与主动否决", "Genuine captures and explicit rejection"), detail: text("v022 同一保存模型生成 6 张原生 1920×1080 渲染；另保留 v021 失败主视与俯视，并制作 v020→v022 和母图→v022 比较图。", "Six native 1920×1080 renders come from the same saved v022 model. The rejected v021 overview and top view remain available, alongside v020/v022 and mother/v022 comparisons.") }
+    ],
+    limitations: [
+      text("母图的宏大纵深尚未实现。黄域整体仍偏单峰台地，红域仍有规则岩块与背景墙感，营地尖角的前景面积依然偏大；美术状态明确为需要继续修改。", "The reference's monumental depth is still missing. Yellow reads too much like a single plateau, red remains blocky and wall-like, and the camp lookout still occupies too much foreground. Art review explicitly requires revision."),
+      text("这次为构图试雕塑，没有做全工程碰撞、节点路径、岩体自交或 Unity 实机验收；不能继承 v020 的完整技术通过结论。", "This was a composition sculpting pass, not a full validation of collisions, navigation, mesh self-intersections or Unity runtime. It cannot inherit v020's full technical acceptance."),
+      text("v021 的红色斜向岩墙是失败候选，截图仅用于展示问题和回退依据，不应作为正式视觉成果。", "The v021 diagonal red wall is a rejected candidate, shown solely to document the failure and subsequent correction.")
+    ],
+    nextStep: text(
+      "下一轮仍以原始 Mother Composition 为 P0，先重新安排黄域前中后丘陵与红域的遮挡层级，控制右下营地在主镜头中的占幅；保持蓝域水网、原镜头和地标不动，直到灰模轮廓真正成立。",
+      "Next, retain the mother composition as P0 and revise the yellow landform's near/mid/far rhythm, red occlusion hierarchy and camp footprint in the main camera. Blue waterways, established cameras and landmarks remain protected until the blockout silhouette works."
+    ),
+    comparison: [
+      image("v023-09-v020-v022-comparison.png", "固定 16:9 主视：v020 → v022", "Fixed 16:9 overview: v020 → v022", "相同主镜头，记录本轮较小的有效变化；不代表母图构图已经达成。", "Same camera: small retained changes only; not acceptance of the mother composition.", 1960, 608),
+      image("v023-10-mother-v022-comparison.png", "最高母图与 v022 灰模", "Highest-priority mother reference vs v022", "左侧是原始视觉目标，右侧是真实 Blender v022；母图不是当前实现画面。", "The original visual reference is on the left and actual Blender v022 on the right; they are not the same artifact.", 1960, 608)
+    ],
+    gallery: [
+      image("v023-01-main-grey.png", "v022 · 固定眺望灰模", "v022 · fixed grey overview", "同一保存工程的无云 1920×1080 灰模。", "Cloud-free 1920×1080 render of the saved model."),
+      image("v023-02-main-color.png", "v022 · 三域淡彩", "v022 · muted region colours", "仅用于区分三域形态，不代表完成的艺术材质。", "Muted region colours are for identification, not finished art."),
+      image("v023-03-global-top.png", "v022 · 世界俯视", "v022 · global top view", "核对三域实际空间分布和红域回退后的地形范围。", "Inspecting the three regions and the revised red-land footprint."),
+      image("v023-04-blue-top.png", "v022 · 蓝域俯视", "v022 · blue top view", "蓝域保持原有 v020 河谷与湖盆水网结构。", "Blue valley, basin and water network retain their v020 structure."),
+      image("v023-05-blue-side.png", "v022 · 蓝域侧视", "v022 · blue side view", "从侧面检查保存地形中的岩体与水位关系。", "Side view of saved land geometry and water levels."),
+      image("v023-06-blue-local-close.png", "v022 · 蓝域湖盆近景", "v022 · blue basin close-up", "局部对比所保护的灯塔、桥梁和湖盆关系。", "Close-up of the preserved lighthouse, bridge and forelake."),
+      image("v023-07-rejected-v021-main.png", "v021 失败候选 · 红域遮挡", "Rejected v021 · red occlusion", "巨大斜向岩墙挡住远景，已经在 v022 删除。", "An oversized diagonal rock wall obstructed the vista and was removed in v022."),
+      image("v023-08-rejected-v021-top.png", "v021 失败候选 · 狭长岩脊", "Rejected v021 · narrow spur", "俯视说明该体量缺乏自然前伸高地的形态，不能通过验收。", "Top view shows the narrow spur was not a convincing natural foreland.")
+    ]
+  },
+  {
     id: "v022",
     date: "2026-11-12T23:55:00+08:00",
     title: text("Blender 世界地图：蓝域河谷、前湖与双瀑地形", "Blender overworld: blue-region river valley, forelake and two waterfalls"),
