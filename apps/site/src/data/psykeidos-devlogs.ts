@@ -30,6 +30,55 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v024",
+    date: "2026-11-13T11:59:00+08:00",
+    title: text("Blender 蓝域：灯塔山、河道与前湖盆连续性试雕塑", "Blender blue region: lighthouse hill, river and forelake continuity review"),
+    summary: text(
+      "围绕灯塔山显得孤立、前湖盆像独立圆盘的问题，从 v022 独立保存并实机比较 v023 至 v027 多个 Blender 候选。v023、v024 的上层局部抬升产生竖直岩帘，v027 过度收窄湖岸造成缺口，均主动否决。当前保留 v026：岸床与同一连通水面采用协调的水平曲线变形，并在避开水道和塔桥基础的干岸区域扩宽灯塔山肩。真实 16:9 灰模与多角度截图齐全，但整体美术仍未通过。",
+      "Addressed the isolated lighthouse mound and disconnected-looking circular forelake by saving and reviewing independent Blender v023–v027 candidates from v022. v023/v024 created torn vertical rock curtains and were rejected. v027 over-constricted the forelake and created a shoreline gap, also rejected. The retained v026 uses coordinated horizontal deformation of the continuous water and banks and expands dry lighthouse shoulders without touching channels or tower/bridge foundations. Native 16:9 renders and multi-view captures are provided, but artistic acceptance is still pending revision."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("核实原 v022 高位水面本来就是单一连通网格；问题不在于水被拆成两个对象，而在于湖盆环岸、灯塔山脚和后方曲折河谷在主镜头中不连贯。", "Confirmed that the v022 upper water was already one connected mesh. The mismatch is visual: the circular forebank, lighthouse foothills and winding rear river do not read as one coherent landform."),
+      text("v025 先将前湖湾水面与两块大型岸床同步进行曲线平面变形，保留上下水位、桥与瀑口位置，避免另建独立湖面。", "v025 first reshaped the existing lake surface and supporting coast meshes together in the horizontal plane, preserving the water levels, bridge and waterfall outlets without adding a separate pond."),
+      text("v026 在实际干岸区域对灯塔山肩和后方地貌做整柱平滑升降，保留灯塔台基不动，试图加厚山体并增强与后方山地的联系。", "v026 used smooth full-column displacement on dry lighthouse and hinterland shoulders to broaden the terrain without moving the lighthouse footing."),
+      text("主动否决 v023/v024 岩帘和 v027 前湖岸缘缺口，只保留经过实机截图比较后较稳妥的 v026 独立工程。", "Rejected the v023/v024 rock curtains and the v027 forelake gap, retaining only the comparatively stable independently saved v026 model."),
+      text("所有版本均独立保存，未覆盖 v020、v022；未修改 Unity 世界地图、角色、玩法、相机或菜单逻辑。", "Saved each candidate independently without overwriting v020/v022, and made no changes to the Unity overworld, characters, gameplay, cameras or menus.")
+    ],
+    checks: [
+      { title: text("水面连通性", "Water connectivity"), detail: text("保留模型中高位水网为 1 个连通分量、4,111 个顶点、7,258 个面；世界水位 −225 米未变。", "The retained upper-water mesh remains one connected component with 4,111 vertices and 7,258 faces at world height −225 m.") },
+      { title: text("湖床抽样对照", "Lakebed probe comparison"), detail: text("从水面三角形间隔抽检 1,452 个位置，v022 与 v026 均为 0 个漏床；此为抽样结果，不替代 v020 的完整 29,032 点验证。", "A 1,452-position subsample of upper-water faces found no missing bed in either v022 or v026. This sampling is not a substitute for the earlier comprehensive 29,032-point v020 verification.") },
+      { title: text("相机和重要地标", "Camera and landmark preservation"), detail: text("建模脚本核对 54 台摄像机的参数，以及灯塔组件、石桥结构和两处瀑布对象的变换与顶点数保持。", "Build scripts verified the original 54 cameras and preserved transforms/vertex counts for lighthouse components, bridge elements and both waterfall objects.") },
+      { title: text("已保存工程与渲染", "Saved model and native captures"), detail: text("v026 独立模型 SHA256 为 6a6b106e3945aee45d9d11b6b3a3c25aa93570f5bb2698320c32b1f770b775dd，7 张无云评审图由同一保存工程在 1920×1080 真实渲染。", "The separate v026 model has SHA256 6a6b106e3945aee45d9d11b6b3a3c25aa93570f5bb2698320c32b1f770b775dd. Seven cloud-free 1920×1080 images were rendered from this same saved model.") }
+    ],
+    limitations: [
+      text("固定主视与俯视下，前湖盆仍有较强的独立椭圆盆口感，灯塔山与湖水的自然咬合尚不充分。没有宣布蓝域一体化完成，整体美术需要继续修改。", "The forelake still reads as a distinct oval basin in fixed overview and top view, and the lighthouse hill does not yet interlock naturally with the lake. No full integration or art approval is claimed."),
+      text("本轮验证了水面拓扑和部分湖床抽样，但没有完整重跑三大岩体自交、细部岸线密封、关卡行走路径、碰撞以及 Unity 实机流程。", "Water topology and sampled bed support were checked, but complete rock self-intersection, fine bank sealing, navigation, collision and Unity runtime tests have not been rerun."),
+      text("失败候选图片是明确的反例，不能视作可采用美术。黄色和红色区域的整体体量、营地主构图也仍需按最高母图继续验收。", "Rejected candidate screenshots document failure, not usable artwork. Yellow/red massing and the camp composition still require review against the original mother image.")
+    ],
+    nextStep: text(
+      "下一轮优先用连续重拓扑／局部布尔融合重塑灯塔山—前湖岸床的实体关系，再根据真实水路重新生成不规则湖缘，而非反复对已有细密网格施加大幅单独变形；沿用固定主镜头和原始母图验收。",
+      "Next, rebuild the lighthouse–forelake rock relationship through coherent local remeshing or boolean fusion, then regenerate the irregular shore based on the actual river network instead of repeatedly warping dense existing meshes. Validate against the fixed camera and original mother image."
+    ),
+    comparison: [
+      image("v024-10-v022-v026-main.png", "固定主视：v022 与保留 v026", "Fixed overview: v022 and retained v026", "相同 16:9 镜头；改动仍不足以宣布整体视觉完成。", "Same fixed 16:9 camera; changes are not sufficient for artistic acceptance.", 1960, 610),
+      image("v024-11-mother-v026-main.png", "原始最高母图对照", "Original mother-reference comparison", "左侧为构图母图的主要眺望部分，右侧为真实 Blender 灰模。", "The primary vista from the mother reference is on the left; actual Blender clay render is on the right.", 1960, 610),
+      image("v024-12-v022-v026-top.png", "蓝域俯视：v022 与 v026", "Blue top view: v022 and v026", "显示现有连续水网和前湖盆的实际轮廓，仍有独立盆口感。", "Shows the real contiguous water footprint and still-overisolated forelake outline.", 1960, 610)
+    ],
+    gallery: [
+      image("v024-01-main-grey.png", "v026 固定主镜头灰模", "v026 fixed overview clay", "同一保存工程的真实 1920×1080 无云渲染。", "Native cloud-free 1920×1080 render of the retained model."),
+      image("v024-02-main-color.png", "v026 三域淡彩主视", "v026 muted region overview", "颜色只区分地貌，不是正式材质。", "Region colour is diagnostic, not finished material."),
+      image("v024-03-blue-top.png", "v026 蓝域俯视", "v026 blue-region top", "用于检验河谷、湖盆与灯塔山的真实平面关系。", "Checks the real river valley, lake and lighthouse footprint."),
+      image("v024-04-blue-side.png", "v026 蓝域侧视", "v026 blue-region side", "检查上湖、厚岩岸与下海高差。", "Verifies upper lake, solid banks and lower sea from the side."),
+      image("v024-05-blue-rear.png", "v026 蓝域斜后视", "v026 blue-region rear", "确认后方地貌的实体厚度和山地延伸。", "Checks the thickness and continuity of the rear terrain."),
+      image("v024-06-global-top.png", "v026 全局俯视", "v026 global top", "确认三域构图和营地均保留，不以局部代替全局。", "Confirms all regions and camp are retained; local views do not replace global review."),
+      image("v024-07-local-close.png", "v026 前湖与灯塔近景", "v026 lighthouse and forelake close-up", "核查保留塔桥和岸线，仍可见未解决的分离感。", "Inspecting preserved bridge/tower and the still unresolved shoreline split."),
+      image("v024-08-rejected-v023.png", "被否决的 v023 岩帘", "Rejected v023 rock curtains", "过强的分层变形造成突兀岩壁和网格缺陷。", "Over-aggressive partial-height sculpt generated unnatural rock curtains."),
+      image("v024-09-rejected-v027.png", "被否决的 v027 湖岸缺口", "Rejected v027 shoreline gap", "过度收窄湖盆时，水岸承托出现明显裂口。", "Over-constriction produced a clear break in the forelake bank.")
+    ]
+  },
+  {
     id: "v023",
     date: "2026-11-13T10:50:00+08:00",
     title: text("Blender 世界地图：构图接管、黄域塑形与红域失败回退", "Blender overworld: composition takeover, yellow-land sculpt and rejected red spur"),
