@@ -30,6 +30,52 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v026",
+    date: "2026-11-13T13:26:00+08:00",
+    title: text("Blender 蓝域返工：撤销外围重构，只修灯塔左下连接处", "Blender blue-region rollback: restore coast, edit only the lighthouse-left connector"),
+    summary: text(
+      "针对上一轮 v035 改动范围错误、在湖盆外侧增添大块地形并使灯塔山显小的问题，明确否决该版。重新从 v026 原件出发，保持灯塔山和前湖全部外围轮廓，仅在灯塔山左下、河道与前湖之间的短岩埂做平滑下沉，让原本分开的观感转为一处连续浅水连接。v036、v037 的布尔切割产生生硬缺口而被否决，保留 v038 局部塑形候选，并提供真实同镜头对照。美术仍需用户验收。",
+      "The previous v035 iteration went outside the requested scope, added a large exterior land mass and made the lighthouse hill read smaller; that version is rejected. Restarting from untouched v026, v038 preserves the lighthouse and every outer forelake boundary, smoothly lowering only the short internal ridge connecting the river and forelake. Boolean-cut v036/v037 created hard openings and were rejected. Native same-camera comparisons are provided; art still awaits review."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("v035 全域重构被撤销：不再采用新增的外围陆地、重新生成的外岸和变小的灯塔山视觉比例。保留历史文件仅供问题复盘。", "The v035 whole-landscape rebuild was rolled back; its oversized exterior, regenerated coast and visually reduced lighthouse mass are not retained. Historical files remain for review only."),
+      text("从原始 v026 另存新工程，锁定灯塔山、外湖岸、石桥、瀑口及主视相机；仅操作左下连接处的后岸与前岸两块现有实体。", "Created new isolated models from v026, locking the lighthouse, original lake perimeter, bridge, outlets and main camera; only the two existing rock meshes at the local connection were sculpted."),
+      text("v036、v037 使用局部布尔开口，但真实近景出现垂直切口和尖角，均被否决；v038 改为沿原网格平滑降低岩埂，不新建外围地形。", "v036/v037 attempted local Boolean cuts, but genuine close-up renders showed harsh creases and spikes. v038 instead smoothly lowers the existing ridge vertices without adding outer terrain."),
+      text("v038 在原水面边界约束下只补齐连接处水面，其他岸线保持原状；水位仍为 −225 米。", "v038 extends only the short connecting segment of the existing planar water, preserving all other shoreline geometry and keeping the level at −225 m.")
+    ],
+    checks: [
+      { title: text("原模型与灯塔保护", "Source model and lighthouse protection"), detail: text("v026 原件 SHA256 为 6a6b106e3945aee45d9d11b6b3a3c25aa93570f5bb2698320c32b1f770b775dd。新 v038 的灯塔山主体、塔身、桥梁、两处瀑口和原有摄像机经过脚本核对，保持原网格或变换参数。", "The v026 source keeps SHA256 6a6b106e3945aee45d9d11b6b3a3c25aa93570f5bb2698320c32b1f770b775dd. Script checks protected the headland, tower components, bridge, both falls and existing cameras.") },
+      { title: text("外围轮廓未变", "Unchanged outer shoreline"), detail: text("围绕连接处排除局部范围后，以 10 米步长抽检原水面与 v038 的覆盖区域，发现 0 个差异点；两块被修改的岩体仅在连接带局部平滑下沉，未更改其网格拓扑。", "Outside the connector ROI, a 10 m coverage sampling comparison between original and v038 upper water found zero differences. The two affected rock bodies were smoothly lowered only within the connector band, with their topology preserved.") },
+      { title: text("水网和局部湖床", "Water network and local lakebed"), detail: text("v038 上层水面为一个连通分量，4,431 顶点、7,907 个三角面。按 5 米网格复核连接区附近 2,959 个被水覆盖位置，未发现漏床和岩体穿出水面的情况；这仍不是全工程的技术回归。", "v038 upper water remains one connected component with 4,431 vertices and 7,907 triangles. A five-metre grid sampled 2,959 wet positions around the connector with no missing bed or exposed rock, but this does not constitute full project validation.") },
+      { title: text("独立工程与真实截图", "Independent Blender source and native captures"), detail: text("v038 独立工程 SHA256 为 48ad5160006f67662b523cb6d455883c8fff165f3bcb4b6df4667c6616848adb，保留 v026、v035、v036 和 v037；展示的 1920×1080 灰模均为真实 Blender 渲染。", "The independent v038 model has SHA256 48ad5160006f67662b523cb6d455883c8fff165f3bcb4b6df4667c6616848adb. v026, v035, v036 and v037 remain preserved. All 1920×1080 blockout shots are genuine Blender renders.") }
+    ],
+    limitations: [
+      text("本次只解决被错误扩大的修改范围与局部连接口，不将这一轮宣布为整体母图美术通过。湖缘的自然过渡和塔山规模观感仍须以主镜头及原始 Mother Composition 继续检验。", "This corrects the over-broad edit and local connection only, not the entire mother-reference composition. Natural banks and lighthouse visual scale still require final art review in the preserved camera."),
+      text("脚本验证的是局部采样、保护对象及水面连通性，没有完成岩体全局自交、碰撞、路径、Unity 导入或完整项目回归。", "Checks cover local sampling, protected meshes and water connectivity; global intersections, collision, navigation, Unity import and full-project regression remain unverified."),
+      text("v035 是明确否决版本，不作为继续施工基底。v038 是当前局部修正候选，并非自动通过美术验收。", "v035 is explicitly rejected as a future base. v038 is the current localized correction candidate, not automatically art-approved.")
+    ],
+    nextStep: text(
+      "仅针对 v038 的连接口近景检查水岸是否自然贯通；如需继续，仍以 v026 外轮廓和灯塔体量为不可变条件，只微调局部过渡，不触碰湖盆外围。",
+      "Review only the v038 connector close-up for natural water-to-land continuity. Further changes must keep the v026 outer perimeter and lighthouse scale fixed, adjusting only the local transition."
+    ),
+    comparison: [
+      image("v026-07-v026-v038-close.png", "局部近景：原 v026 与仅改连接处的 v038", "Local close-up: v026 vs connector-only v038", "相同镜头，重点观察灯塔左下短岩埂与两片水面的衔接，不以新增外岸掩盖问题。", "Same camera shows the original short bank and newly opened local transition; no new outer coast is used.", 1960, 608),
+      image("v026-08-v026-v038-top.png", "蓝域俯视：外圈不变", "Blue top view: original shoreline retained", "验证前湖外缘仍是 v026 形态，仅改变内部连接处。", "Confirms the forelake perimeter stays as in v026, with the edit confined to the inner connection.", 1960, 608),
+      image("v026-09-v035-v038-main.png", "撤销错误外围：v035 与 v038", "Rejecting enlarged exterior: v035 vs v038", "左图为否决的额外外围地形，右图重新恢复 v026 的主视构图。", "The rejected oversized exterior appears left; right restores the original v026 composition.", 1960, 608),
+      image("v026-10-mother-v038.png", "原始 Mother Composition 与新灰模", "Original mother composition and revised clay view", "母图永远高于灰模，v038 不改变母图约束。", "The mother reference remains authoritative over the blockout.", 1960, 608)
+    ],
+    gallery: [
+      image("v026-01-local-v038.png", "v038 · 灯塔与湖盆近景", "v038 · lighthouse and forelake close-up", "独立保存工程的真实局部灰模，展示仅修改连接处。", "Native close-up of the saved model showing the local change."),
+      image("v026-02-top-v038.png", "v038 · 蓝域俯视", "v038 · blue-region top", "外围轮廓保留，便于检查局部连通。", "Preserved outer lake footprint, with the connection visible."),
+      image("v026-03-main-v038.png", "v038 · 固定主视 16:9", "v038 · fixed 16:9 overview", "与 v026 相机一致，灯塔山及其他区域均保留。", "Same original camera, lighthouse and other regions preserved."),
+      image("v026-04-side-v038.png", "v038 · 蓝域侧视", "v038 · blue-region side", "对照水面与地形体量。", "Terrain volume and water-level relationship."),
+      image("v026-05-color-v038.png", "v038 · 淡彩三域主视", "v038 · muted three-region overview", "仅用于识别区域，不代表最终材质。", "Colour is diagnostic, not final art."),
+      image("v026-06-rejected-v035.png", "被否决的 v035 近景", "Rejected v035 close-up", "此前错误增加外围地形的案例，保留用于解释为什么回滚。", "Shows the unwanted outer-landmass changes that were rolled back.")
+    ]
+  },
+  {
     id: "v025",
     date: "2026-11-13T12:44:00+08:00",
     title: text("Blender 蓝域重构：打通灯塔左下水湾与前湖盆", "Blender blue-region rebuild: unify lighthouse inlet, river and forelake"),
