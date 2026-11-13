@@ -30,6 +30,44 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v027",
+    date: "2026-11-13T13:49:00+08:00",
+    title: text("Blender 蓝域：锁定开放水岸与唯一连接处，停止外围扩建", "Blender blue region: lock open shoreline and the only editable inlet"),
+    summary: text(
+      "重新对照原始 Mother Composition 与现有蓝域实机俯视，确认前湖不应被新建的环形岸墙当作封闭水池。把 v035 的外围陆地扩建与湖面缩小明确列为禁改方案。以 v038 保留灰模为基础，独立保存 v039 评审指引：在 Blender 视图中添加不参与渲染的边界线，在真实俯视和近景上标记唯一允许修改的灯塔左下短连接处。v039 没有变更任何实体地形、水网或镜头，本轮用于锁定美术方向，不冒充模型修改成功。",
+      "Reviewed the original mother composition against genuine Blender blue-region views. The projecting lake should not be treated as an enclosed pond requiring a new perimeter wall. The rejected v035 exterior expansion and lake shrinkage are explicitly forbidden. Starting from retained v038, an independent v039 review guide adds viewport-only lines and marked real top/close-up captures identifying just the short internal inlet below-left of the lighthouse. No terrain, water or camera meshes were changed in v039; it is an art-direction boundary lock, not a sculpting acceptance."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("固定母图中的开放水岸关系：水沿连续山岸自然扩展，不能将前湖变为外圈围墙的水库。", "Locked the open-shore interpretation of the mother reference: the water broadens naturally against continuous coast, not into a reservoir with a new wall around it."),
+      text("明确禁止把 v035 的外缘扩建和缩湖引入后续版本；现有 v038 的湖水覆盖范围及灯塔山体量是本轮的暂时保护基线。", "Prohibited reinstating v035's exterior expansion or shrunken lake. v038's water footprint and lighthouse mass are the current protected baseline."),
+      text("只在灯塔左下内部连接带设置局部可编辑范围；青色水流轴线表达河道接入前湖，而不是一张新水面。", "Marked only the lower-left interior connector as editable; the cyan flow guide represents continuity, not a new water surface."),
+      text("独立创建 v039 Blender 评审工程，添加四组仅在视图中显示的曲线。原始地形、水面、地标及所有相机的网格数量、变换保持不变。", "Created an independent v039 Blender review guide with four non-rendering viewport curves. Original terrain, water, landmarks and all camera geometry/transforms were verified unchanged.")
+    ],
+    checks: [
+      { title: text("不改动已有几何", "No original geometry changes"), detail: text("v039 检查所有原有网格对象的变换、顶点与面数及可渲染状态，和 v038 基线一致；相机的变换与参数亦一致。", "v039 checks preserved all original mesh object transforms, vertex/face counts and render visibility, plus camera transforms and settings, against v038.") },
+      { title: text("独立评审版本", "Independent review version"), detail: text("原 v038 完整保留。v039 单独保存，SHA256 为 dda0f97c49ca4b909939bd5d66bed8b5d297a576287fdd57713537694775c8ca；没有把指导曲线当作地形提交。", "v038 remains intact. The separate v039 guide has SHA256 dda0f97c49ca4b909939bd5d66bed8b5d297a576287fdd57713537694775c8ca, and its guide curves are not terrain.") },
+      { title: text("真实截图标注", "Annotations on genuine captures"), detail: text("俯视、近景均来自 v038 保存工程的 1920×1080 原始 Blender 灰模，只叠加颜色与说明；不是渲染修改后的新地形。", "Both top and close-up images originate in true 1920×1080 v038 Blender captures. Coloured lines and captions were overlaid for review; they do not show newly modified geography.") }
+    ],
+    limitations: [
+      text("当前仍有明显人工圆盆感，这份图示只是把设计意图与施工禁区明确下来，未修正湖岸模型；不能标记美术通过。", "The old bowl-like appearance remains. The guide clarifies intent and exclusion zones but does not yet correct the lake coast; art remains unaccepted."),
+      text("绿色只表示原有湖面占地和外围位置不可进一步改动，不表示必须保留高出水面的规则围堤。后续需要在不改变范围的条件下处理不合理的围堤视觉。", "Green marks the protected water footprint and outer spatial position, not an endorsement of a raised artificial ring. Future sculpting must address the unnatural berm without enlarging the land or shrinking water.")
+    ],
+    nextStep: text(
+      "以 v039 保护区域为边界，先测内部岩埂的真实高程，再仅修灯塔左下连接口。保留湖面范围和灯塔山，完成后重新从真实主视、局部近景、俯视和侧视验收，不扩大至外围重构。",
+      "Using the v039 boundary lock, measure the true ridge profile first, then change only the short inlet below-left of the lighthouse. Preserve the lake footprint and lighthouse hill, and validate genuine overview, close-up, top and side views without revisiting the outer landscape."
+    ),
+    comparison: [
+      image("v027-01-water-boundary-top.png", "蓝域俯视 · 施工禁区与水路", "Blue top view · locked shoreline and flow direction", "黄色为唯一可改范围，青色为连续水路轴线，绿色只锁位置和范围，不表示保留圆形围墙。标注依据真实灰模，并非新模型。", "Amber is the sole editable connector, cyan is the flow axis, green locks footprint only—not a circular wall. Annotation on a real blockout, not a new model."),
+      image("v027-02-connector-close.png", "局部近景 · 只动连接处", "Close-up · connector only", "没有移动灯塔或外岸；画面用于避免后续再次误改整片湖。", "Lighthouse and outer shore are untouched; this is a scope guide for the next sculpting pass.")
+    ],
+    gallery: [
+      image("v027-03-original-top.png", "v038 原始俯视（未标注）", "Original v038 top view without annotation", "提供无标注灰模供判断实际地形。", "Unannotated Blender reference for evaluating actual geometry."),
+      image("v027-04-original-close.png", "v038 原始近景（未标注）", "Original v038 close-up without annotation", "旧盆口和内部割裂仍在，此图不是已完成修复。", "The former rim and separation still remain; this is not a finished repair.")
+    ]
+  },
+  {
     id: "v026",
     date: "2026-11-13T13:26:00+08:00",
     title: text("Blender 蓝域返工：撤销外围重构，只修灯塔左下连接处", "Blender blue-region rollback: restore coast, edit only the lighthouse-left connector"),
