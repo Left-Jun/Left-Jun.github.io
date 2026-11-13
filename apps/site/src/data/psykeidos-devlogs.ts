@@ -30,6 +30,55 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v025",
+    date: "2026-11-13T12:44:00+08:00",
+    title: text("Blender 蓝域重构：打通灯塔左下水湾与前湖盆", "Blender blue-region rebuild: unify lighthouse inlet, river and forelake"),
+    summary: text(
+      "针对灯塔山左下水域仍像两块独立池塘的问题，不再继续拉伸旧网格，而是实机重建了蓝域主体的一块连续实体地形，并依照新河谷重新生成单一高位水面。河道、桥下水湾、灯塔侧水路与前伸湖盆如今都位于同一个地形系统。最终保留 Blender v035，完整保留旧地形作隐藏档案。结构连通与抽样湖床检查通过，但外侧崖壁仍有规则的灰模条纹，整体美术尚未验收。",
+      "Responding to the separated-looking water below-left of the lighthouse, this pass replaces the old split coast meshes with one contiguous closed terrain solid and regenerates one upper-water mesh across the river, bridge bay, lighthouse inlet and projecting forelake. The retained Blender v035 keeps the old terrain hidden for rollback. Connectivity and sampled lakebed checks pass, while the stepped outer rock faces still need artistic refinement."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("v028 在真实三维岩体中尝试布尔开宽河谷，v029 重建水面；实机暴露水岸悬空和切割痕迹，两版均否决。", "v028 carved an actual 3D inlet with booleans; v029 regenerated the water. Native review revealed exposed gaps and cutting artifacts, so both were rejected."),
+      text("v030 从 v026 基础重新采样，将后方海岸、前伸湖岸和灯塔山脚重建为一块闭合的连续地形；三块旧地形仅隐藏，没有删除。", "v030 resampled v026 to rebuild the mainland, forelake shores and lighthouse hillside as one closed continuous terrain; the three original source meshes remain archived and hidden."),
+      text("v031 按实际新河谷重建同一张高位水面，删除 5 个面、约 36 平方米的离散残片；六个水路验证节点保留在唯一主体连通分量内。", "v031 regenerated one planar upper-water mesh on the actual riverbed, dropping only a five-face, roughly 36 m² detached fragment while retaining all six approved water witnesses in the main component."),
+      text("v032 重新雕塑连续的灯塔山肩和湖盆过渡，v033、v034 分别处理外海崖壁与河岸，不再把每处水边都做成直立围墙。", "v032 resculpted the connected lighthouse shoulders and lake transition; v033/v034 refined the distinction between offshore cliffs and submerged riverbanks instead of treating every shore as an upright wall."),
+      text("v035 依据最终真实地形重新裁剪水面，消除抽样发现的水面—岩岸穿插；没有移动灯塔、石桥、瀑口和冻结镜头。", "v035 reclipped the upper water to the final terrain, removing sampled water/rock overlaps while leaving the lighthouse, bridge, outlets and frozen cameras in place.")
+    ],
+    checks: [
+      { title: text("实体地形一体化", "Single connected terrain solid"), detail: text("v035 蓝域主体网格包含 36,296 顶点、36,294 面，封闭边检查为 0 条非流形边；源自一块单连通实体，而非三个并列灰模。", "The v035 main blue solid has 36,296 vertices and 36,294 faces with zero nonmanifold edges and descends from one topologically connected terrain mesh rather than three adjacent blockouts.") },
+      { title: text("上层水系连续", "Contiguous upper water"), detail: text("v035 最终高位水面为 4,703 顶点、8,510 个三角面，只有 1 个连通分量。上游、桥下、前湖盆、右支与两瀑入口六个节点均属于同一水网，水平水位 −225 米。", "The final upper water contains 4,703 vertices and 8,510 triangles in one connected component. All six witnesses—from upstream and bridge bay through forelake and right branch to two outlet inlets—remain connected at world elevation −225 m.") },
+      { title: text("实际湖床抽样复核", "Actual lakebed sample validation"), detail: text("抽查 2,837 个最终水面三角形位置，漏床 0、水面上方岩体穿插 0；相较重裁剪前的 39 处穿插已修正。此为抽样，不等于全工程完整技术验收。", "Sampling 2,837 final water triangles found zero missing terrain bed and zero exposed rock above the water; 39 sampled overlaps found before reclipping were corrected. This is sampled evidence, not full technical sign-off.") },
+      { title: text("独立版本与真实截图", "Independent files and actual renders"), detail: text("保留 v026 及 v028—v035 的独立工程记录。v035 源工程 SHA256 为 2ec47423865636bf6cd65f81c0593783e2a1f9a75ffd90d7424c223a9ff8dff2，7 张 1920×1080 无云渲染均来自这一保存工程。", "v026 and independent v028–v035 candidates remain intact. Retained v035 source SHA256: 2ec47423865636bf6cd65f81c0593783e2a1f9a75ffd90d7424c223a9ff8dff2. Seven native 1920×1080 cloud-free images were rendered from that saved model.") }
+    ],
+    limitations: [
+      text("完成的是实际拓扑与水路的一体化，不等于母图美术完成：当前外海崖壁仍有明显规则条纹，灯塔山—湖盆的自然曲折仍需修形，主视整体尺度、黄红域和营地纵深仍有差距。", "Actual land and water connectivity are rebuilt, but this is not mother-reference art approval. Offshore cliffs retain repetitive bands, the hill–lake bends need sculpting, and the world-scale composition, yellow/red regions and camp depth remain unfinished."),
+      text("本轮尚未重跑完整岩体自交检测、碰撞、角色路径、瀑布近景物理细节或 Unity 实机联动。旧版的技术通过结论不能直接移植到新网格。", "Full mesh self-intersection, collision, traversal, waterfall close-up and Unity runtime checks have not been rerun. Earlier technical acceptance cannot simply be inherited by the rebuilt solid."),
+      text("v028 与 v031 的截图用作失败案例，不能当作正式采用版本；水面裁剪完成的最终评审版本为 v035。", "v028 and v031 screenshots document rejected candidates rather than approved art; v035 is the saved candidate for this review.")
+    ],
+    nextStep: text(
+      "继续精修 v035 的外海岸坡与近湖岩层，消除规则条纹和人工高度场边缘；保持已验证的单连通水网、岩床与灯塔地标位置，然后按最高母图复验蓝域体量、俯视轮廓和实际 Unity 眺望镜头。",
+      "Next refine the outer shore slope and near-lake cliff strata to remove repeating heightfield bands without undoing the verified continuous water, rockbed or landmark anchors. Reassess the reference composition and eventual Unity vantage afterwards."
+    ),
+    comparison: [
+      image("v025-10-v026-v035-main.png", "旧 v026 与重构 v035 · 同一主视", "Original v026 vs rebuilt v035 · fixed overview", "左右均为真实 Blender 灰模，右侧结构已重建，但仍不代表美术完成。", "Both are genuine Blender blockout renders; the rebuilt structure still needs artistic finishing.", 1960, 610),
+      image("v025-11-v026-v035-blue-top.png", "蓝域俯视 · 河道—前湖连续性", "Blue top view · river–forelake continuity", "比较两轮的河谷、灯塔山、前湖岸床关系。", "Comparing the river valley, lighthouse landmass and forelake banks.", 1960, 610),
+      image("v025-12-mother-v035-main.png", "最高母图对照", "Highest-priority mother comparison", "左侧是母图的整体眺望主画面，右侧是保存的 v035 实机灰模。", "The original primary reference vista is left; the actual saved v035 clay render is right.", 1960, 610)
+    ],
+    gallery: [
+      image("v025-01-main-grey.png", "v035 · 固定 16:9 灰模", "v035 · fixed 16:9 clay overview", "真实主镜头渲染。", "Real fixed-camera render."),
+      image("v025-02-main-color.png", "v035 · 三域淡彩主视", "v035 · muted three-region overview", "淡彩仅作为结构识别，不是完成材质。", "Colours are structural markers, not final materials."),
+      image("v025-03-blue-top.png", "v035 · 蓝域俯视", "v035 · blue-region top", "可检查水面与山体连续关系。", "Shows the water and landmass continuity."),
+      image("v025-04-local-close.png", "v035 · 灯塔与前湖近景", "v035 · lighthouse/forelake close-up", "可见目前仍有过于规整的岩层，保留真实问题。", "Retains evidence of unfinished repetitive rock layers."),
+      image("v025-05-blue-side.png", "v035 · 蓝域侧视", "v035 · blue side", "观察真实高差与承托关系。", "Actual heights and rockbed relationships."),
+      image("v025-06-blue-rear.png", "v035 · 蓝域斜后视", "v035 · blue rear", "检查从后方看到的实体岩岸。", "Checks the solid terrain from behind."),
+      image("v025-07-global-top.png", "v035 · 三域整体俯视", "v035 · global top", "确保重建没有借用透视掩盖空间问题。", "Checks actual spatial placement independent of perspective."),
+      image("v025-08-rejected-v028.png", "否决候选 · 初次实体开谷", "Rejected candidate · first CSG inlet", "开谷后水面尚未适配，出现真实缺口，已被后续方案替代。", "Exposed openings before water was regenerated; replaced later."),
+      image("v025-09-rejected-v031.png", "否决候选 · 未精修的连续地形", "Rejected candidate · raw unified land", "虽已合成实体，但粗糙采样造成岩齿和折面，不能当作成果。", "Although physically unified, rough sampling caused faceted spikes, so it was rejected.")
+    ]
+  },
+  {
     id: "v024",
     date: "2026-11-13T11:59:00+08:00",
     title: text("Blender 蓝域：灯塔山、河道与前湖盆连续性试雕塑", "Blender blue region: lighthouse hill, river and forelake continuity review"),
