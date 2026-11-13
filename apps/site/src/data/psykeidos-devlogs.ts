@@ -97,7 +97,7 @@ export const psykeidosDevlogs: PsykeidosDevlog[] = [
       { title: text("岩体拓扑与基础承托", "Solid topology and ground support"), detail: text("三块重点岩体均闭合、正体积、自交为 0；基础承托通过，最大地面偏差 0.98 毫米。", "All three inspected rock masses are closed and positively oriented with zero self-intersections; ground-support checks passed with 0.98 mm maximum deviation.") },
       { title: text("湖床、水网与双瀑", "Lakebed, water connectivity and waterfalls"), detail: text("六个核心水点处于同一上层连通水网；29,032 个湖床探针漏床为 0；两处瀑布的源水接触、堰床和落海检查通过。", "Six key water points belong to one connected upper network; 29,032 lakebed probes found zero missing beds. Both waterfall outlets passed source, sill and lower-sea checks.") },
       { title: text("水位与区域边界", "Water levels and region boundaries"), detail: text("模型内上层水位比低海高 95 米；三域实体分离、右岸干地及黄红相邻边界检查通过。", "The model's upper water level sits 95 m above the lower sea. Three-region separation, dry right bank and yellow/red adjacency checks passed.") },
-      { title: text("真实模型与渲染证据", "Saved scene and render evidence"), detail: text("保存 Psykeidos_WorldMap_v020.blend；14 张评审图附相机与哈希记录，最终模型 SHA256 为 3f0e360deca79a8a305bdb5f759ab5320e2002bb587d88755e175f5d2607b904。", "Saved Psykeidos_WorldMap_v020.blend. Fourteen captures have camera and hash records; final model SHA256: 3f0e360deca79a8a305bdb5f759ab5320e2002bb587d88755e175f5d2607b904.") }
+      { title: text("真实模型与渲染证据", "Saved scene and render evidence"), detail: text("保存 Blender v020 源工程；14 张评审图附相机与哈希记录，最终模型 SHA256 为 3f0e360deca79a8a305bdb5f759ab5320e2002bb587d88755e175f5d2607b904。", "Saved the Blender v020 source project. Fourteen captures have camera and hash records; final model SHA256: 3f0e360deca79a8a305bdb5f759ab5320e2002bb587d88755e175f5d2607b904.") }
     ],
     limitations: [
       text("这是 Blender 蓝域结构阶段的可编辑模型，不是已经导入 Unity 的最终 Overworld，也未获得美术或用户验收。", "This is an editable Blender model at the blue-region structural stage, not the final Overworld imported into Unity. Neither art nor user acceptance has been granted."),
@@ -110,8 +110,8 @@ export const psykeidosDevlogs: PsykeidosDevlog[] = [
       "First review the forelake/valley silhouette, water levels and both waterfalls in the fixed 16:9 camera; then refine shoreline shapes and the river source before global three-region composition and Unity integration."
     ),
     comparison: [
-      image("v022-13-main-v019-v020.png", "固定主镜头 · v019 与 v020", "Fixed overview · v019 vs v020", "同机位版本对照，检查蓝域结构修改对整体构图的实际影响。", "Same-camera version comparison showing the effect of blue-region geometry edits on the overall composition."),
-      image("v022-14-mother-blue-comparison.png", "蓝域母图对照", "Blue-region reference comparison", "母图是构图目标，右侧为实际 Blender 评审模型；两者不可混淆。", "The reference shows the intended composition; the other view is actual Blender review geometry. The reference is not a finished model.")
+      image("v022-13-main-v019-v020.png", "固定主镜头 · v019 与 v020", "Fixed overview · v019 vs v020", "同机位版本对照，检查蓝域结构修改对整体构图的实际影响。", "Same-camera version comparison showing the effect of blue-region geometry edits on the overall composition.", 1920, 630),
+      image("v022-14-mother-blue-comparison.png", "蓝域母图对照", "Blue-region reference comparison", "母图是构图目标，右侧为实际 Blender 评审模型；两者不可混淆。", "The reference shows the intended composition; the other view is actual Blender review geometry. The reference is not a finished model.", 1920, 630)
     ],
     gallery: [
       image("v022-01-main-grey.png", "正式眺望 · 灰模", "Primary vista · clay render", "无云遮挡、固定 16:9 主视角。", "Cloud-free fixed 16:9 overview."),
@@ -123,9 +123,9 @@ export const psykeidosDevlogs: PsykeidosDevlog[] = [
       image("v022-07-blue-side.png", "蓝域侧视 · 水位与岩层", "Blue side view · water and rock", "侧面核对湖床、厚岩岸、瀑布及低海。", "Inspecting lakebed, solid banks, waterfall and lower sea from the side."),
       image("v022-08-blue-rear.png", "蓝域斜后视", "Blue rear oblique", "从主镜头以外检查后陆连续性与真实地形厚度。", "Assessing dry hinterland continuity and solid terrain depth beyond the main camera."),
       image("v022-09-formal-code-camera.png", "正式镜头基准对照", "Formal camera baseline", "保留固定镜头的代码基准；并非 Unity 最终稳定态验收。", "A reference for the fixed production camera, not acceptance of the final Unity runtime view."),
-      image("v022-10-global-noderoute.png", "全局选关节点与路线", "Global node and route review", "评审用节点标注，非最终玩家界面。", "Planning node annotations for review only, not final gameplay UI."),
-      image("v022-11-blue-noderoute.png", "蓝域选关路线", "Blue-region node routing", "六个节点的地形接地与路径位置核对。", "Review of six node positions, ground contact and route."),
-      image("v022-12-local-waterstructure.png", "湖盆水网结构", "Forelake water-network structure", "展示前湖、桥下水湾、右支与双瀑的模型关系。", "Visualizing the model relationships between forelake, bridge bay, right branch and two waterfalls.")
+      image("v022-10-global-noderoute.png", "全局选关节点与路线", "Global node and route review", "评审用节点标注，非最终玩家界面。", "Planning node annotations for review only, not final gameplay UI.", 1920, 1164),
+      image("v022-11-blue-noderoute.png", "蓝域选关路线", "Blue-region node routing", "六个节点的地形接地与路径位置核对。", "Review of six node positions, ground contact and route.", 1920, 1164),
+      image("v022-12-local-waterstructure.png", "湖盆水网结构", "Forelake water-network structure", "展示前湖、桥下水湾、右支与双瀑的模型关系。", "Visualizing the model relationships between forelake, bridge bay, right branch and two waterfalls.", 1920, 1164)
     ]
   },
   {
