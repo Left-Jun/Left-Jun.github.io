@@ -30,6 +30,51 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v028",
+    date: "2026-11-13T18:06:17+08:00",
+    title: text("Blender 蓝域：只补灯塔左下缺失水面，不再改外湖岸", "Blender blue region: fill only missing lighthouse-left water, preserve outer shore"),
+    summary: text(
+      "恢复 Chat On Steroids 连接后，继续从 v038 独立另存 Blender v040。分色实机渲染确认前湖入口附近的橙色后岸和绿色前岸有重叠视觉，同时发现一批岩床已低于 −225 米水位、但高位水面没有覆盖的空缺。此次仅重建同一个高位水面的局部三角面片，补齐小范围缺水约 4,336 平方米；岩岸、湖盆外围、灯塔山、桥、瀑布和相机均不动。结构抽查通过，但旧环状岩岸的美术问题依旧存在，不作美术通过判定。",
+      "After reconnecting to the desktop tools, a separate Blender v040 was built from v038. Object-coloured diagnostic renders exposed the overlapping back/near banks and a series of genuine gaps where the rockbed lay below −225 m but the upper-water mesh was absent. This pass retriangulates only the existing upper-water object, filling roughly 4,336 m² of missing local water without sculpting terrain, changing the outer lake, lighthouse, bridge, waterfalls or cameras. Structural sampling passes; the old circular-looking cliff rim still needs art work."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("基于 v039 标记的唯一连接口检查高程、岩体归属和水面覆盖，不把上层水网连通性误当成视觉已解决。", "Surveyed terrain height, mesh ownership and actual wet coverage in the small v039-marked connector; topological connection alone is not treated as visual acceptance."),
+      text("利用独立分色实机渲染辨识灯塔左下橙色后岸、绿色前岸及蓝色水面，确认部分空缺实质上是水面三角网遗漏。", "Rendered true object-coloured diagnostics for the orange back coast, green near cape and blue water, showing that some apparent separations were missing water triangles."),
+      text("v040 只修改 V015 蓝域高位水面的已有网格；以原水体边缘为约束，重新三角化并在限定范围补水，没有创建第二张湖面或增添一圈外岸。", "v040 modifies the existing V015 upper-water mesh only. Constrained triangulation preserves the original shoreline while filling a tightly bounded gap—no separate pond or new exterior berm."),
+      text("未修改任一地形网格，未动灯塔山、桥、瀑口或固定镜头，原 v038 保留。", "No terrain meshes, lighthouse, bridge, outlets or frozen cameras were edited; v038 remains intact.")
+    ],
+    checks: [
+      { title: text("水域外圈保护", "Outer lake footprint protected"), detail: text("对连接口以外的水面覆盖范围以 10 米步长抽查，v038 与 v040 差异为 0。水位继续为世界坐标 −225 米。", "A 10-metre coverage comparison outside the local connector found zero differences between v038 and v040. World-space water elevation stays at −225 m.") },
+      { title: text("局部真实补水", "Measured local water fill"), detail: text("原水面面积 448,249.51 平方米，新水面 452,585.94 平方米，增加约 4,336.43 平方米；原连接区域 5 米采样覆盖点为 916，新版为 1,084。", "Upper-water area increased from 448,249.51 to 452,585.94 m² (+4,336.43 m²). The count of locally wet 5-metre sample positions rose from 916 to 1,084.") },
+      { title: text("单一水面与承托", "Single water mesh and rockbed"), detail: text("v040 高位水面为 1 个连通分量，5,172 顶点、9,355 个三角面。连接区域内 1,084 个水面覆盖采样位置没有检测到漏床或水面上方岩体穿插。", "v040 upper water remains one connected component containing 5,172 vertices and 9,355 triangles. No missing terrain bed or exposed rock was found across 1,084 wet positions in the local five-metre sample.") },
+      { title: text("独立源工程与真实渲染", "Independent model and genuine renders"), detail: text("v040 原生源工程 SHA256：149adf7cd40057a5c5705ba05de3ec14845a38e1947c3e7c4bb3af9187d4ac2c。五张 1920×1080 的正式角度截图均来自这份已保存的模型。", "Blender v040 model SHA256: 149adf7cd40057a5c5705ba05de3ec14845a38e1947c3e7c4bb3af9187d4ac2c. Five native 1920×1080 angle captures were rendered directly from the saved model.") }
+    ],
+    limitations: [
+      text("本轮仅补齐原有水面缺口，原来人工环形岩岸与山脚过渡仍然没有完成美术精修；不能将增水面积或连通分量数视为母图验收通过。", "This pass fills missing water only. The artificial circular bank and hill-to-water transition remain unresolved artistically; water area and component count do not establish mother-reference art acceptance."),
+      text("新增三角网经过局部湖床抽样与外围覆盖保护，但尚未进行全场网格碰撞、行走路径、渲染材质、Unity 联调和完整物理回归。", "New triangles passed local lakebed sampling and outer footprint checks, but global mesh collisions, traversal, materials, Unity integration and a full physics regression remain outstanding."),
+      text("诊断分色图及对比图是用于说明真实问题的评审资料，颜色并非最终美术材质，也没有伪装为完成地形。", "The object-colour and comparison images explain the observed issue; their colours are diagnostic, not final art materials.")
+    ],
+    nextStep: text(
+      "下一轮继续严格以 v039 的内部连接口为唯一施工边界，重点去除橙色后岸和绿色前岸重叠造成的突兀岩舌；只在不改变外围轮廓与灯塔山体量的前提下修顺岸坡。每次修改后必须实际渲染并复验水面范围和湖床承托。",
+      "Next work only inside the v039 connector boundary, smoothing the overlapping orange/green rock tongue while keeping the entire outer footprint and lighthouse mass unchanged. Every sculpt must be checked with genuine renders and water/bed sampling."
+    ),
+    comparison: [
+      image("v028-07-v038-v040-close.png", "局部近景：原 v038 与补水 v040", "Local close-up: v038 versus filled-water v040", "同镜头真实渲染；新增水面只在内部缺口，不是外围陆地扩建。", "Real same-camera comparison; water fills internal gaps only, without exterior terrain expansion.", 1960, 610),
+      image("v028-08-v038-v040-top.png", "蓝域俯视：外围形状不变", "Blue top view: unchanged outer boundary", "对照原有湖盆形状与内部补水范围。", "Compares the protected lake footprint with the small internal fill.", 1960, 610),
+      image("v028-09-mother-v040.png", "原始母图与真实主视", "Mother composition and genuine overview", "结构仍未完全达到母图，美术状态保持待修。", "The terrain remains short of the master composition, so art acceptance stays pending.", 1960, 610)
+    ],
+    gallery: [
+      image("v028-01-main-grey.png", "v040 固定主视灰模", "v040 fixed overview clay", "来自已保存 Blender 工程的 16:9 真实渲染。", "Genuine 16:9 render from the saved Blender model."),
+      image("v028-02-main-color.png", "v040 三域淡彩主视", "v040 muted region overview", "用于区分区域结构，非正式材质。", "Region distinction only; not finished material."),
+      image("v028-03-blue-top.png", "v040 蓝域俯视", "v040 blue-region top", "用于确认湖盆原有外缘未改变。", "Checks the unchanged outer forelake footprint."),
+      image("v028-04-local-close.png", "v040 连接处近景", "v040 connector close-up", "补水后仍有需精修的山脚岩岸。", "The hill banks still need sculpting after the water repair."),
+      image("v028-05-blue-side.png", "v040 蓝域侧视", "v040 blue-region side", "用于检查上湖与下海的高差关系。", "Shows height separation between upper lake and lower sea."),
+      image("v028-06-diagnostic-source.png", "v038 岩岸对象分色诊断", "v038 source terrain ownership diagnostic", "橙色后岸、绿色前岸与蓝色水面来自实际 Blender 对象，帮助识别连接处缺水原因。", "Orange back-coast, green near-cape and blue water are real Blender objects, revealing missing water at the connector.")
+    ]
+  },
+  {
     id: "v027",
     date: "2026-11-13T13:49:00+08:00",
     title: text("Blender 蓝域：锁定开放水岸与唯一连接处，停止外围扩建", "Blender blue region: lock open shoreline and the only editable inlet"),
