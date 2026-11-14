@@ -30,6 +30,53 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v030",
+    date: "2026-11-15T01:15:09+08:00",
+    title: text("Blender 蓝域体量重分配：两道折面山肩切入空湖", "Blender blue-region massing: faceted hill shoulders reclaim lake space"),
+    summary: text(
+      "针对 v043 蓝域前湖太大太空、山体显得小而单薄的问题，本轮直接在原有蓝域承托岩床上试雕塑两道不对称的折面岬角：一处从灯塔侧山脚压入湖中，另一处从左侧山岸延伸。水体、外湖轮廓、灯塔、石桥、瀑口和固定镜头均不移动。v044 初稿突起太陡、像人工岩盒而被否决；v045 调整连接与坡度；v046 形成从山侧高、向湖侧降低的多面折脊。最终保留 v046 为可回退的艺术候选，实际可见水面抽样减少约 6.6%，水路未被截断，但湖盆环岸仍明显过圆，未通过整体美术验收。",
+      "To address the oversized, visually empty lake and under-scaled hills in v043, this pass sculpted two asymmetric angular headlands directly out of the existing blue rockbed: one projecting from the lighthouse-side hills and another advancing from the left coast. The water mesh, external lake boundary, lighthouse, bridge, spillways and fixed cameras remain intact. v044 rose too abruptly and was rejected as box-like; v045 softened and attached the shoulders; v046 introduced stronger directional rock strata, higher inland and tapering toward the water. v046 is retained as a reversible art candidate. Sampled visible water coverage fell by 6.6% without obstructing the water route; the old circular lake rim still needs correction."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("从 v043 原始硬面风格工程独立保存 v044、v045、v046；未叠加外围山墙、独立岛屿对象或第二张水面。", "Built independent v044, v045 and v046 projects from the preserved faceted v043, adding no exterior enclosing wall, separate island object or second water plane."),
+      text("仅修改现有 V007_Blue_Near_Cape 的 10,283 个网格顶点，以两片不规则多边形占地和有方向的折脊塑造岸地；最大世界高度调整约 83.9 米。", "Modified only 10,283 vertices of the existing V007_Blue_Near_Cape mesh, using two irregular polygonal extents and directional facet ridges; maximum world-height change is approximately 83.9 m."),
+      text("重点从塔山近岸和左侧山岸向内湖推进，山体靠近内陆更厚、接近水面逐步变低；从视觉上打断整片空水皮，而不缩小原湖水对象。", "The lighthouse and left coastal shoulders now project toward the inner lake, with bulkier uphill sides descending toward the water to break up the empty visible surface without shrinking the actual lake object."),
+      text("v044 出现过高的块状岩台后主动否决；v045 调整山脚联系，v046 以多方向倾斜面取代单一水平平台。保留所有版本以供回退。", "Rejected the excessively box-like v044. v045 reinforced the landward transition, and v046 replaced flat mesa-like tops with multiple inclined rock planes. Every candidate remains saved for rollback."),
+      text("没有改动海岸外轮廓、营地尖角、黄红域、灯塔、桥、两处瀑布及 54 台相机；沿用 v043 的岩体多切面与原水面平滑效果。", "Preserved the outer coast, pointed campsite, yellow/red domains, lighthouse, bridge, both waterfalls and 54 cameras, retaining v043's angular rock treatment and original smooth water.")
+    ],
+    checks: [
+      { title: text("可见湖面的实际减少", "Measured visible-water reduction"), detail: text("在固定蓝域采样窗口以 12 米间隔比较原 v043 与 v046 的水面被岩岸遮挡情况：原有 1,536 个可见水面位置，新版为 1,435 个，减少 101 个，约 6.58%。这是限定窗口内的可见面积估计，不是水体对象面积减少。", "A 12-metre sampling grid across the fixed blue-region window found 1,536 visible-water locations in v043 versus 1,435 in v046: 101 fewer, a 6.58% reduction. This estimates visible water in the sampled region, not a reduction in water-mesh area.") },
+      { title: text("水面与瀑口保护", "Water and outlet protection"), detail: text("原有 9,355 个高位水面三角面完全保留，水位仍为 −225 米；从上游河谷到前方湖口的采样连通路径未阻断。未新增外围水面，也没有删减原水体。", "All 9,355 upper-water triangles remain intact at −225 m. A visible-water connectivity grid retains a path from the upstream valley to the foreground outlet. No exterior water was added and none of the original upper-water mesh was deleted.") },
+      { title: text("地标与源文件独立", "Landmark and source preservation"), detail: text("灯塔山本体、塔身、桥梁和瀑布对象保持原网格和变换；54 台相机变换与镜头参数保持。v046 独立工程 SHA256 为 a5b8b712766bcc821fc71c094f2815876a457672c7c28ba15d48c10bdc973993。", "Lighthouse landmass, tower components, bridge and waterfall object geometry/transforms are unchanged; all 54 cameras retain their transforms and lens settings. Independent v046 model SHA256: a5b8b712766bcc821fc71c094f2815876a457672c7c28ba15d48c10bdc973993.") },
+      { title: text("真实 16:9 多机位", "Genuine 16:9 multi-angle renders"), detail: text("主视、灯塔近景、蓝域俯视、侧视与淡彩识别图均由保存的 v046 Blender 原生工程真实渲染；比较图为相同镜头的 v043 与 v046 拼接。", "Overview, lighthouse close-up, blue top/side and muted-region images were genuinely rendered from the saved v046 Blender source; comparisons juxtapose v043 and v046 from matching cameras.") }
+    ],
+    limitations: [
+      text("可见水面只减少约 6.6%，并未彻底解决湖过大、形状过圆的问题；现有前湖仍显得像一片被环岸围住的空水盘，当前只能作为体量实验。", "Only about 6.6% of sampled visible water has been reclaimed; the lake remains overly large and circular, with an old ring-like retaining bank. This is a massing experiment, not a complete design fix."),
+      text("岩岬的斜切面仍有部分规整、人工感，且目前没有对整张模型进行高精度布尔自交、角色移动、碰撞与 Unity 运行时回归。", "Some new planar cliff sections are still rather regular and artificial. High-resolution self-intersection, navigation, collision and Unity runtime regressions have not been completed."),
+      text("旧湖盆外围在本轮未修改，避免重演 v035 大幅外扩的问题；后续不能把限制修改范围理解为要求保留不合理的整圈高墙。", "The original outer lake geometry was left untouched to avoid repeating v035's runaway exterior expansion. Preserving the editing boundary does not mean the unrealistic ring wall should be artistically accepted.")
+    ],
+    nextStep: text(
+      "以 v046 的原生工程为体量对照，继续针对灯塔山肩与左岸接合处去掉过于规则的岩面，同时优先解决旧湖盆的环形高岸；保持前方瀑口、开放水岸、单一水路和冻结镜头，必要时回退到 v043。",
+      "Use v046 as the massing reference, refine still-regular facet transitions at the lighthouse and left shore, then correct the pre-existing artificial circular bank. Keep the spillway, open shore, continuous water route and frozen cameras, with v043 available for rollback."
+    ),
+    comparison: [
+      image("v030-07-v043-v046-main.png", "相同固定主视：v043 → v046", "Same fixed overview: v043 → v046", "对照山肩向湖内延伸后主视可见水面是否减少，以及湖仍然过空的地方。", "Compare how landward shoulders reclaim visible lake area, including what remains overly empty.", 1960, 610),
+      image("v030-08-v043-v046-local.png", "灯塔近景：岩面体量与水岸", "Lighthouse close-up: facet massing and shore", "实际网格变化，不是二维贴片；水仍平滑，岩面朝湖方向降低。", "Genuine mesh changes, not a painted overlay; smooth water and descending angular geology.", 1960, 610),
+      image("v030-09-v043-v046-top.png", "俯视：水路连续、外围保持", "Top view: open water, unchanged exterior", "可看出两个不对称岸岬和仍未解决的湖盆圆形外岸。", "Shows the two asymmetric rocky projections and the old unresolved circular rim.", 1960, 610),
+      image("v030-10-mother-v046.png", "最高母图与 v046 实机", "Master reference versus native v046", "母图仍为绝对构图与造型最高参考，本版未宣称通过。", "The mother reference remains authoritative for all shape and composition checks; v046 is not art-approved.", 1960, 610)
+    ],
+    gallery: [
+      image("v030-01-main-v046.png", "v046 固定主视灰模", "v046 fixed overview clay", "真实 1920×1080 Blender 渲染。", "Native 1920×1080 Blender capture."),
+      image("v030-02-local-v046.png", "v046 灯塔与湖岸近景", "v046 lighthouse and shore close-up", "重点检视不对称岩肩、折面大小与人工感。", "Inspecting asymmetric rocky shoulders, facet size and remaining artificial planes."),
+      image("v030-03-top-v046.png", "v046 蓝域俯视", "v046 blue top view", "保留原水网和外侧轮廓，新增地貌位于原湖水内侧。", "Original water network and exterior remain, with land rising inside the former lake footprint."),
+      image("v030-04-side-v046.png", "v046 蓝域侧视", "v046 blue side view", "检查山体相对湖面的高度。", "Verifying relative rock and lake heights."),
+      image("v030-05-color-v046.png", "v046 三域淡彩结构识别", "v046 muted three-region overview", "淡彩仅用于识别体量，非最终水墨材质。", "Muted colour identifies terrain massing, not final ink-wash materials."),
+      image("v030-06-rejected-v044.png", "否决的 v044 高岩台", "Rejected v044 box-like rock mesa", "第一轮过于突兀，故另存重做 v045 与 v046。", "First attempt rose too abruptly and was replaced by v045/v046.")
+    ]
+  },
+  {
     id: "v029",
     date: "2026-11-14T19:00:08+08:00",
     title: text("Psykeidos 地貌风格试验：多边形硬折面，水面保留曲线", "Psykeidos geology style test: angular rock planes, smooth water"),
