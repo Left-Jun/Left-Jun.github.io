@@ -30,6 +30,54 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v031",
+    date: "2026-11-15T02:12:09+08:00",
+    title: text("Blender 蓝域轮廓重做：收窄左湖，水湾向右前方弯出", "Blender blue-region reshaping: narrower left lake, forward-right curved bay"),
+    summary: text(
+      "按俯视图反馈，撤回 v046 在湖里顶出两块岩岬的方案，回到没有岩岬的 v043。逐行测量原高位水域，确认前湖左侧由约 300 米宽的河道骤增为 600 多米宽的湖面。先后尝试 v047 的大幅抬湖床与 v048、v049 的水平拉伸，实际渲染出现巨大土坡、岩帘和裂缝，均否决。v050 依据旧湖床实际高程，将左侧多余水域收回为与原陆地相连的浅坡；v051 在同一地形网格上增加不同方向的大块岩层切面。湖面保持单体与平滑曲线，主体逐渐向右前鼓出，原有灯塔、石桥、瀑口及镜头不动。该版是更稳定的构图候选，但前缘人工环形岩岸仍需精修，未通过美术总验收。",
+      "The new review rejects v046's protruding capes and restarts from clean v043. Measured cross-sections confirmed that a roughly 300 m upstream river spread into a 600+ m-wide left forelake. v047's extreme uplift and v048/v049's broad planar warps were rejected after native renders revealed huge wedges, geological curtains and cracks. v050 instead uses surveyed lakebed elevation to form a shallow connected shore while clipping only the oversized left water; v051 adds large directional strata on the same rock mesh. The smooth upper water now bends forward-right. Lighthouse, bridge, spillways and cameras stay fixed. This is a safer composition candidate, not an accepted final landscape: the old ring-like front cliff still needs art work."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("从 v043 独立另存多轮候选，完全放弃 v046 往湖内顶出两块凸起岩肩的错误造型。", "Returned to a clean independent v043 baseline, abandoning v046's two protruding interior headlands."),
+      text("实际扫描蓝域水位、岸床与多条俯视剖面：v=−240 米处的原有水宽约 660 米，后方河道约 300 米；明确问题是左侧整体水面过宽，而非缺少湖中装饰。", "Surveyed actual terrain and lake cross-sections: at v=−240 m the former water was roughly 660 m wide versus a roughly 300 m river upstream. The issue was over-broad water to the left, not missing decorative rocks."),
+      text("否决 v047、v048、v049：过度抬高地形或水平拉扯旧网格产生无法接受的巨型坡面、薄岩带与破缝，所有失败截图和工程保留用于复盘。", "Rejected v047, v048 and v049; excessive vertical uplift or horizontal warping produced large artificial wedges, thin rock strips and visible cracks. Their files and genuine failed renders remain preserved."),
+      text("v050 只对旧湖床浅层抬高，最大约 25.4 米，不再上抬百余米；在现有湖面对象上重建水面三角网，形成前湖向右前方弯出的收窄主体。", "v050 raised the surveyed bedrock shelf by at most about 25.4 m—not hundreds of metres—and retriangulated the original water object to create a narrowed, forward-right bend."),
+      text("v051 在同一实体岸床上添加两组非均匀斜切地层，局部最多再抬约 16.3 米；未新增独立岛屿、环形外堤、第二水面，也未移动固定镜头与灯塔。", "v051 formed two nonuniform angled strata across the same underlying bank, raising it at most a further 16.3 m locally. No islands, exterior ring, second water body or camera/landmark shifts were introduced.")
+    ],
+    checks: [
+      { title: text("真实水宽对照", "Actual cross-section widths"), detail: text("在相同的世界坐标 v=−240 米剖面，原 v043 约 660 米宽，新 v051 约 350 米；在 v=−300 米，新水道约 240 米宽，延续向右前收束的弧线。此为地形 UV 中的水平剖面，并非相机截图像素宽度。", "At the same world-space v=−240 m cross-section, water width changed from roughly 660 m in v043 to 350 m in v051. At v=−300 m the channel is about 240 m wide and bends toward the front-right. These are terrain-plane measurements, not screenshot pixel lengths.") },
+      { title: text("上层水域面积与连通", "Upper-water area and connectivity"), detail: text("高位水面从 452,585.9 平方米调整为 382,239.2 平方米，减少约 70,346.7 平方米（15.5%）。最终仍是一个连续水网，8,815 个三角面，水位维持 −225 米；上游河道、前湖出口均得到保留。", "Upper water area fell from 452,585.9 m² to 382,239.2 m², a reduction of roughly 70,346.7 m² (15.5%). The result remains a single continuous network of 8,815 triangles at −225 m, retaining upstream and forelake outlet witnesses.") },
+      { title: text("实地形岩床抽样", "Actual terrain-bed sampling"), detail: text("从实际评估后的岩体顶面向下抽检最终水面 2,939 个三角形位置，发现漏床 0 处、穿水岩体 3 处；这 3 处均位于未修改的远处旧网格，原 v043 在相同测试方案下有 5 处。仍不能算完整技术验收。", "Across 2,939 final-water triangle samples, evaluated rock geometry showed no missing bed and three small exposed-rock intersections, located in distant unchanged older geometry; the v043 baseline had five in the same test. This is not full technical acceptance.") },
+      { title: text("保留原件、地标与 16:9 实拍", "Preserved originals, landmarks and native renders"), detail: text("v043 原件、v047 至 v051 独立文件均保留；v051 SHA256：9b800cbecd24bca4e85ec2599e7f87efb332907cf6474f365adecf106a9fed57。灯塔山、石桥、两瀑口和 54 台相机保持不变，5 张 1920×1080 主视/俯视/近景/侧视/淡彩图均真实渲染于 v051。", "The original v043 and independent v047–v051 files remain intact. v051 SHA256: 9b800cbecd24bca4e85ec2599e7f87efb332907cf6474f365adecf106a9fed57. Lighthouse, bridge, two falls and 54 cameras retain their placement; five genuine 1920×1080 views come from v051.") },
+    ],
+    limitations: [
+      text("虽然水域由左侧大圆盆改为渐窄、向右前弯的水湾，但旧前缘石墙仍有明显人工环形感，左岸新露出的部分岩面也比较平，尚不能称为真实地质效果。", "The lake now narrows into a forward-right curve rather than a broad left bowl, but the original front stone rim still looks artificially circular and portions of the reclaimed bank are too flat for a finished natural-geology treatment."),
+      text("后岸、灯塔山及外湖岸并未整体重做。新地形还没有完成全网格自交、碰撞、路径导航和 Unity 导入回归；本轮艺术状态仍为需要继续修订。", "The rear coast, lighthouse hill and entire outer shore have not been fully rebuilt. Complete intersection, collision, navigation and Unity-import regressions remain undone; art status stays revision-needed."),
+      text("v047 的高土坡和 v048 的破碎岸面是明确失败案例，不将它们用于下一轮基底；v051 只是当前最稳的可回退候选，不应直接替换正式 Unity 地图。", "v047's giant bank and v048's torn coast are explicitly rejected. v051 is a stable, reversible candidate rather than an approved replacement for the Unity scene.")
+    ],
+    nextStep: text(
+      "围绕 v051 继续精修前缘圆形人工岩墙，将其处理为有主次切片和自然破角的开放海岸，同时强化左岸与后岸的地层连接。所有后续改动仍需保留前缘瀑布、灯塔和右前弧形水道，固定俯视及主镜头逐轮真实验收。",
+      "Continue from v051 by replacing the circular-looking front retaining rim with an open rocky coastline of hierarchical large and small angular strata, and better integrating the left/rear banks. Preserve the front waterfall, lighthouse and forward-right water curve, reviewing actual overhead and fixed-camera captures each round."
+    ),
+    comparison: [
+      image("v031-08-v043-v051-blue-top.png", "俯视对照：大圆湖 → 右前弯水湾", "Top comparison: oversized bowl → forward-right curve", "v043 与 v051 的相同真实俯视镜头；这是本次最重要的轮廓修改。", "Matching genuine top views, the principal planform change in this round.", 1960, 610),
+      image("v031-09-v043-v051-local-close.png", "灯塔近景：左岸从大水面变成连续岩岸", "Lighthouse close-up: water replaced by connected shore", "仍能看到前缘人工岩墙，保留问题供下一轮精修。", "The artificial front rim remains visible and is not concealed.", 1960, 610),
+      image("v031-10-v043-v051-main-grey.png", "固定主视：三域整体与蓝域占比", "Fixed overview: regional scale and blue share", "真正相同镜头，用于观察蓝域水陆体量变化是否可读。", "Same authentic camera, used to judge the water/land massing shift.", 1960, 610),
+      image("v031-11-mother-v051.png", "最高母图与 v051 原生灰模", "Mother reference and native v051 clay", "左为最高母图，右为实际 Blender 渲染；不将技术连通等同美术通过。", "Master reference versus actual Blender render; topology is not art approval.", 1960, 610)
+    ],
+    gallery: [
+      image("v031-01-v051-main-grey.png", "v051 固定主视灰模", "v051 fixed overview clay", "16:9 实际 Blender 输出，镜头位置未更改。", "Actual 16:9 Blender render with the original camera."),
+      image("v031-02-v051-main-color.png", "v051 蓝黄红淡彩体块", "v051 three-region muted clay", "淡彩为审查区域关系，不是最终材质。", "Colour identifies regions, not final materials."),
+      image("v031-03-v051-blue-top.png", "v051 蓝域真实俯视", "v051 true blue-region top", "湖湾轮廓向右前方收束，左岸不再大片铺水。", "The bay narrows and turns toward the right front, reducing the left water bowl."),
+      image("v031-04-v051-local-close.png", "v051 岸坡与灯塔近景", "v051 bank and lighthouse close-up", "便于检查新岸的切片效果及残留问题。", "Shows new angled strata and remaining unfinished details."),
+      image("v031-05-v051-blue-side.png", "v051 蓝域真实侧视", "v051 blue-region real side", "观察湖水、岸坡与前缘悬崖的高差。", "Elevation relationship of water, banks and forward cliff."),
+      image("v031-06-rejected-v047.png", "否决 v047：过高地形形成岩帘", "Rejected v047: excessive uplifting rock curtains", "失败截图公开记录，不冒充完成版。", "True failed render retained as transparent evidence."),
+      image("v031-07-rejected-v048.png", "否决 v048：旧网格水平拉裂", "Rejected v048: horizontally torn legacy mesh", "水平压缩虽然使水湾变窄，却造成不可接受的结构破坏。", "Planform became narrower, but inherited mesh geometry tore under horizontal warping.")
+    ]
+  },
+  {
     id: "v030",
     date: "2026-11-15T01:15:09+08:00",
     title: text("Blender 蓝域体量重分配：两道折面山肩切入空湖", "Blender blue-region massing: faceted hill shoulders reclaim lake space"),
