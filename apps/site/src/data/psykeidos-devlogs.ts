@@ -30,6 +30,52 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v029",
+    date: "2026-11-14T19:00:08+08:00",
+    title: text("Psykeidos 地貌风格试验：多边形硬折面，水面保留曲线", "Psykeidos geology style test: angular rock planes, smooth water"),
+    summary: text(
+      "从 v040 独立试验整体地貌的多边形切面语言，回应原模型山坡、峡谷和岸壁过于圆滑的问题。v041 仅取消地形平滑着色，实际渲染出现密集碎三角纹理，判为不合适；v042、v043 进一步在蓝、黄、红地貌采用可撤销的 Decimate 减面修改器与硬面法线，形成更大、方向不同的斜切岩面。最终保留 v043 作风格候选，水、瀑布、塔桥及相机均未改动。前湖沿岸原本过圆的围岸仍存在，需要另行重塑，不能视为美术验收通过。",
+      "Starting from immutable v040, this pass tests a more polygonal art direction across blue, yellow and red rock masses. Simply disabling smooth normals in v041 produced excessive tiny triangle noise and was rejected. v042 and v043 instead combine unsmoothed face normals with reversible decimation modifiers to produce fewer, larger, differently oriented rock planes. v043 is retained as a style candidate; water, waterfalls, landmarks and cameras remain unedited. The old overly circular forelake bank remains a separate art problem."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("把“地貌多切面、水流保留平滑曲线”作为分开的两种造型规则，不再整场景统一抹圆。", "Separated polygonal terrain geology from the smooth curvature intended for water."),
+      text("v041 仅取消平滑法线，实机发现高密度微小三角纹，否决这种假低模效果。", "v041 switched off terrain smoothing only, but dense microfacets made the result noisy and were rejected."),
+      text("v042 与 v043 针对蓝域海岸、灯塔山、黄域丘陵、红域山峰等地貌单独调整面片密度，采用非破坏性可调节减面修改器。", "v042/v043 applied independent, non-destructive face-density settings to the blue coast, lighthouse hill, yellow highlands and red mountains."),
+      text("保留 v040、v041、v042 和 v043 独立原生工程。未重新生成湖水、未增建前湖外围岩圈，灯塔、桥、瀑口及相机保持不变。", "Preserved all four standalone Blender models, without regenerating water, adding an outer rock ring, or editing lighthouse, bridge, outlets or cameras.")
+    ],
+    checks: [
+      { title: text("蓝域实际渲染", "Blue-region native rendering"), detail: text("固定主视、灯塔近景、蓝域俯视与侧视，以及主视淡彩识别图，均从 v043 保存工程真实渲染，不是二维叠图伪装模型。", "Fixed overview, lighthouse close-up, blue-region top/side and muted-colour view were rendered natively from the saved v043 model, not fabricated 2D model edits.") },
+      { title: text("硬面与水面分离", "Faceted terrain, smooth water"), detail: text("共 29 个地貌对象切换到多边形面法线，其中 15 个主要地形对象使用不同强度的可撤销减面修改器；原始水体三角面数量与平滑法线设置保持不变。", "Twenty-nine terrain objects use flat polygon normals and fifteen major terrain objects gain separately tuned, reversible decimation modifiers. Water topology and smooth shading remain unchanged.") },
+      { title: text("湖床抽样回归", "Sampled lakebed regression"), detail: text("对 9,355 个高位水面三角形间隔抽样 1,560 个位置：v040、v042 与 v043 均为 0 个漏床、0 个岩体穿出水面。减面改变评估后的地形面数，但原始网格数据不被覆盖。", "Across 1,560 sampled positions from 9,355 upper-water triangles, v040, v042 and v043 each showed zero missing bed and zero exposed rock. Decimation changes evaluated terrain geometry while preserving original base meshes.") },
+      { title: text("版本可回退", "Independent model and reversibility"), detail: text("v043 SHA256：84d5b0dc0a47fccdcfb3d9b48f71b5480f91d05cb6b3c0ef751e3f38d1406222。减面为 Blender 修改器，可直接禁用或调节比例，未经应用，不覆盖 v040 基线。", "v043 SHA256: 84d5b0dc0a47fccdcfb3d9b48f71b5480f91d05cb6b3c0ef751e3f38d1406222. Decimation remains editable and unapplied; v040 is not overwritten.") }
+    ],
+    limitations: [
+      text("该轮改变的是地貌光照切面和评估后的面片疏密，并没有完成方向明确的手工断层雕刻。部分三角面仍偏均匀，需要进一步塑造大块不等距、棱脊有层次的岩层。", "This pass changes facet normals and evaluated polygon density, not a fully hand-sculpted fault and stratum system. Some triangles remain uniform; larger irregular planes and stratified ridges are still needed."),
+      text("前湖盆的旧圆形岸壁和灯塔山脚关系仍未符合最高母图；水系虽然平滑连通，但不代表外围地貌的造型已经正确。", "The old round forelake bank and lighthouse foothill relationship still differ from the master composition. Smooth connected water does not establish shoreline art approval."),
+      text("本轮没有完整测试 Unity 导入、碰撞、路径与所有地形布尔自交；水面抽样不等于整项技术验证。", "Unity import, collision, traversal and full self-intersection checks were not rerun. Sampled water support is not a full technical sign-off.")
+    ],
+    nextStep: text(
+      "下一轮按大块不规则平面与分层棱脊造型，手工处理灯塔山及蓝域岸壁，优先消除前湖外围圆形高墙的视觉语言；河流水面、灯塔、桥与固定镜头必须保留，并在每轮真实渲染中比较。",
+      "Next sculpt asymmetric broad rock planes and layered ridges at the lighthouse and blue coast, especially replacing the circular visual language of the forelake retaining wall. Preserve river water, lighthouse, bridge and fixed camera and compare in native renders."
+    ),
+    comparison: [
+      image("v029-07-v040-v043-main.png", "固定主视：弧形 v040 与多切面 v043", "Fixed overview: rounded v040 vs faceted v043", "相同固定镜头的真实灰模，用来检查整体蓝黄红三域的造型变化。", "Same camera and genuine blockout captures showing the style shift across all regions.", 1960, 608),
+      image("v029-08-v040-v043-close.png", "蓝域近景：山坡与岩壁切面比较", "Blue close-up: angular geology comparison", "v043 的灯塔山与前岸切面更大，水面则保留平滑。", "The lighthouse and bank show larger planar faces in v043, while water stays smooth.", 1960, 608),
+      image("v029-09-v041-v043-close.png", "错误的微三角纹理 vs 大块岩面", "Tiny-triangle failure vs larger planar rock faces", "左侧 v041 只取消平滑产生高密度纹理，已否决；右侧为减面后的 v043。", "Rejected v041 merely disabled smoothing, creating small facets; v043 reduces geometry density.", 1960, 608),
+      image("v029-10-mother-v043.png", "最高母图与 v043 实机主视", "Master reference vs native v043 overview", "这是审美差距记录，不表示符合母图或已经被验收。", "Documents the remaining visual gap rather than claiming master-reference acceptance.", 1960, 608)
+    ],
+    gallery: [
+      image("v029-01-faceted-main.png", "v043 16:9 主视灰模", "v043 16:9 fixed clay overview", "蓝黄红三域的地貌切面层次。", "Terrain face hierarchy across blue, yellow and red."),
+      image("v029-02-faceted-local.png", "v043 灯塔山局部近景", "v043 lighthouse close-up", "清晰查看地形面片大小与方向。", "Inspecting size and direction of real terrain facets."),
+      image("v029-03-faceted-blue-top.png", "v043 蓝域俯视", "v043 blue-region top", "用于检查水域范围与岸线是否保持。", "Reviewing preserved water extent and shore."),
+      image("v029-04-faceted-side.png", "v043 蓝域侧视", "v043 blue-region side", "检查多切面后山体和上下水位的层级。", "Checking faceted hills and height separation between water levels."),
+      image("v029-05-faceted-color.png", "v043 淡彩主视", "v043 muted region overview", "配色仅用于识别地貌，非最终材质。", "Region colour remains diagnostic, not final art."),
+      image("v029-06-rejected-flat-only.png", "被否决的 v041 微小三角纹", "Rejected v041 microfacet noise", "不将密集三角纹理冒充真正的大块硬面地貌。", "Dense triangles alone are not proper angular geology.")
+    ]
+  },
+  {
     id: "v028",
     date: "2026-11-13T18:06:17+08:00",
     title: text("Blender 蓝域：只补灯塔左下缺失水面，不再改外湖岸", "Blender blue region: fill only missing lighthouse-left water, preserve outer shore"),
