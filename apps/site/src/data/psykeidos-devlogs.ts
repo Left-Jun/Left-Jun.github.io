@@ -30,6 +30,67 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v032",
+    date: "2026-11-15T10:26:20+08:00",
+    title: text("Blender 蓝域返工：重塑左岸岩层与前崖，否决三角形灯塔山", "Blender blue-region rework: stratified left bank, fractured front cliff, rejected triangular hill"),
+    summary: text(
+      "针对 v051 的前湖左岸像平滑三角土坡、前缘崖壁像规则半圆水库的问题，直接用已连接的 Blender 进行 v052—v057 六轮独立建模与相同机位实拍。v052 抬出连续的斜切岸坡，v053 改动既有前崖的立面斜度与厚度，v054 在干燥岩壁雕出不等距的地质断槽，v055 让前崖上缘不再全是同一条圆弧。v056 试图扩张灯塔山脚却在实拍中出现另一块突兀大三角，立即否决；v057 回到 v055，微调前崖断口作可回退候选。所有这些实际地形修改都不是最终美术通过：旧版 C 形水库感仍然明显，说明后续必须动前崖的整体轮廓拓扑，不能继续靠小范围加减高度堆迭。",
+      "Six independent Blender iterations (v052–v057) address v051's flat triangular reclaimed shore and man-made semicircular retaining cliff. v052 builds broad continuous angular bank planes; v053 inclines and shears the original exterior cliff; v054 erodes nonuniform stratal gullies; v055 varies the existing dry rim geometry. v056 expanded the lighthouse base but native captures revealed an unwanted triangular rock protrusion, so it was rejected. v057 restarts from v055 for a limited broken escarpment experiment. This is not art-approved: the C-shaped reservoir look still persists and a more fundamental outer-cliff topology redesign is required rather than incremental local deformations."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("v052：在原有 V007_Blue_Near_Cape 网格雕刻连续岩层，调整 18,117 个干岸顶点，最大高程变化约 67.7 米；不添加独立岩块。", "v052 sculpts the existing Near Cape into continuous strata, changing 18,117 dry-bank vertices with up to 67.7 m uplift, without adding detached rocks."),
+      text("v053：调整 16,807 个前崖顶点，使崖壁下部呈不等距倾斜岩面，最大水平移动约 52.9 米；不改变上湖水网。", "v053 moves 16,807 existing exterior-cliff vertices to create asymmetric inclined faces, with up to 52.9 m horizontal displacement; the water mesh remains unchanged."),
+      text("v054、v055：继续在既有崖面雕刻断槽与分层，并对局部干燥崖缘作水平剪切，试图打破人工连续圆墙。", "v054/v055 add faulted strata and localized dry-cliff shear on the same source mesh to break the monotonous circular retaining wall."),
+      text("v056 灯塔山脚扩建实拍出现突兀的三角块，与之前被否决的插入式岬角同类，明确否决；v057 不继承 v056 的任何灯塔山网格修改。", "v056's lighthouse-hill expansion produced an obvious triangular projection and was rejected. v057 inherits none of that trial's lighthouse geometry."),
+      text("v057 在 v055 基础上对 12,745 个干燥前崖顶点进行不规则轮廓下切，最大降低 11 米，另存独立 Blender 文件并渲染 16:9 主视、近景、俯视、侧视及淡彩。", "v057 performs a bounded erosion pass on 12,745 dry escarpment vertices from v055 (maximum lowering 11 m) and saves a separate native Blender model with authentic overview, close-up, top, side and muted-colour renders.")
+    ],
+    checks: [
+      {
+        title: text("水网与地标锁定", "Water and landmark constraints"),
+        detail: text("v051 → v057 保持同一张 8,815 三角面的高位水网，面积约 382,239 平方米、水位 −225 米。v057 没有移动塔、桥、瀑口和固定相机；被否决 v056 的山脚放大没有进入保留版。", "v051 → v057 retains the same 8,815-triangle upper-water mesh covering approximately 382,239 m² at −225 m. Tower, bridge, outlet and frozen cameras are untouched in v057; the rejected v056 headland expansion is excluded.")
+      },
+      {
+        title: text("真实水底承托复测", "Actual lakebed sampling"),
+        detail: text("相同 2,939 个水面三角形抽样位置：v051、v055、v057 的漏床数量均为 0，旧模型微小岩体穿水均为 3 处，未因为这一轮新增。这只是采样，并非完整碰撞与自交回归。", "The same 2,939 sampled water-triangle positions show zero missing bed in v051, v055 and v057, with the same three inherited minor exposed-rock hits. These samples do not replace a complete collision and self-intersection regression.")
+      },
+      {
+        title: text("失败方案主动否决", "Rejection of malformed candidate"),
+        detail: text("v056 实机近景出现明显新三角大岩块，故没有将它误标为成功；v052—v057 源文件彼此独立，旧版不覆盖。", "Actual v056 close-up revealed a large inserted-looking triangular rock face, so the model was rejected. v052–v057 are independent native Blender files and earlier versions remain available.")
+      },
+      {
+        title: text("当前保留源文件", "Retained native Blender candidate"),
+        detail: text("v057 原生文件 SHA256 为 f1577c12cd0bbb539adbda9b933a4c26bb3c4f2b70e98d567d29b4106b3a4d61。真实截图均来自这一已保存的模型或明确标记的失败版，不能用作艺术完成证明。", "The native v057 model SHA256 is f1577c12cd0bbb539adbda9b933a4c26bb3c4f2b70e98d567d29b4106b3a4d61. Every capture is from the saved model or an explicitly rejected native trial; none establishes art sign-off.")
+      }
+    ],
+    limitations: [
+      text("虽然岩层方向和崖壁底部有所调整，C 字形的前湖环岸仍然过于像人工蓄水池；v057 与最高 Mother Composition 差距明显，当前不建议替换 Unity 正式世界。", "Despite different rock directions and cliff slopes, the C-shaped retaining rim still resembles an artificial reservoir. v057 remains visibly far from the master composition and is not recommended as a Unity production-map replacement."),
+      text("旧网格拓扑已经成为视觉瓶颈。靠降低、拉伸、零星切角很难从根本上改掉环形峡谷，下一次需要在锁定瀑口、河道和灯塔后局部重建前崖几何轮廓。", "The legacy mesh topology is the visual bottleneck. Incremental lifts, stretches and small cuts cannot reliably remove the artificial ring; the front escarpment needs topology-level reconstruction while preserving the river, outlet and lighthouse."),
+      text("尚未完成全网格自交、路径、碰撞、Unity 导入与最终水墨材质回归；技术和美术都保持待验证状态。", "Full mesh-intersection, navigation, collision, Unity import and ink-wash material regression remain unverified. Both technical and art statuses are pending.")
+    ],
+    nextStep: text(
+      "不再沿 C 字形旧外墙逐段雕泥塑。下一轮应该先重新画多折面悬崖的开放前缘轮廓，再重建局部岸床与水面交接处的真正拓扑，确保水只在所需出口形成瀑布。固定相机和母图将继续作为最高验收参考。",
+      "Stop incrementally sculpting around the old C-shaped wall. Redraw an open faceted escarpment silhouette, then reconstruct the local cliff/shore topology around the river and waterfall while keeping all protected landmarks and evaluating the master reference from fixed cameras."
+    ),
+    comparison: [
+      image("v032-08-v051-v057-close.png", "近景对比：旧平滑盆壁与局部斜切岩面", "Close-up: original smooth rim vs local angular geology", "这组是相同 Blender 相机下的真实岩体变化；外圈人工环墙仍未彻底解决。", "True same-camera rock changes, but the old artificial enclosing rim remains unresolved.", 1960, 610),
+      image("v032-09-v051-v057-top.png", "俯视：湖面范围不变、干岸有局部调整", "Top view: same water footprint with changed dry shore", "水网没有被再缩小；检查旧 C 字形环岸仍存在的问题。", "Water was not further narrowed; the C-shaped ring remains a known failure.", 1960, 610),
+      image("v032-10-v051-v057-main.png", "主视：同机位实机灰模", "Overview: native fixed-camera clay comparison", "未移动任何主镜头，重点看蓝域实际可见体量变化。", "No main-camera changes; evaluates visible blue-region massing.", 1960, 610),
+      image("v032-11-v055-v056-failure.png", "否决 v056：灯塔山脚变成大三角", "Rejected v056: triangular lighthouse-foot protrusion", "左为继承基底，右为错误扩建；该错误没有进入最终候选。", "The rejected triangular expansion on the right was not kept in the retained candidate.", 1960, 610),
+      image("v032-12-mother-v057.png", "最高母图与 v057 灰模", "Master composition versus v057 clay", "如实保留美术差距，不宣称已达到目标。", "Documents the remaining art discrepancy; no acceptance claimed.", 1960, 610)
+    ],
+    gallery: [
+      image("v032-01-v057-main-grey.png", "v057 · 固定主视", "v057 · fixed clay overview", "来自保存的真实 Blender 工程。", "Native render from the saved Blender project."),
+      image("v032-02-v057-main-color.png", "v057 · 三域淡彩主视", "v057 · muted three-region overview", "诊断用配色，不是正式材质。", "Diagnostic colours, not final materials."),
+      image("v032-03-v057-blue-top.png", "v057 · 蓝域俯视", "v057 · blue-region top", "检查水陆分配与人工环岸问题。", "Reviewing water/land massing and the circular-rim issue."),
+      image("v032-04-v057-local-close.png", "v057 · 灯塔与前崖近景", "v057 · lighthouse and front cliff close-up", "主要观察面片与前缘岩层。", "Inspection of facets and escarpment layers."),
+      image("v032-05-v057-blue-side.png", "v057 · 蓝域侧视", "v057 · blue-region side view", "对照高位水和下海的悬崖高差。", "High lake and lower sea cliff-height relationship."),
+      image("v032-06-rejected-v056.png", "否决 v056 形体", "Rejected v056 geometry", "山体多出不自然的三角形巨块。", "Unnatural triangular projection from the mountain base."),
+      image("v032-07-v052-diagnostic.png", "岩体对象分色诊断", "Object-colour terrain diagnostic", "显示前崖与左岸是同一块绿色实体网格，非独立拼接石块。", "Confirms the front cliff and left shore belong to the same green solid rock mesh.")
+    ]
+  },
+  {
     id: "v031",
     date: "2026-11-15T02:12:09+08:00",
     title: text("Blender 蓝域轮廓重做：收窄左湖，水湾向右前方弯出", "Blender blue-region reshaping: narrower left lake, forward-right curved bay"),
