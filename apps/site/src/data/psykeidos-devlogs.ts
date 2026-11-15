@@ -30,6 +30,65 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v033",
+    date: "2026-11-15T11:04:47+08:00",
+    title: text("蓝域地貌重建反思：三版原生拓扑试验全部否决", "Blue geology reset: three native topology-rebuild trials rejected"),
+    summary: text(
+      "针对 v057 完全不像自然地形的反馈，重新核对最高参考 Mother Composition 与灯塔局部参考，并暂停既有半圆湖墙上不断抬顶点、减面、塞岬角的做法。本轮直接在 Blender 从 v051 原件另存 v058、v059、v060 三份完整地貌重建试验：先用水岸距离场重新生成前湖左岸，后将前岸与后岸合并重建，最后以实际桥梁与瀑口为锚点重新生成变宽连续的右前转弯河道。但三版真实渲染均未过审：v058 留下不自然的矩形拼接与大盆口，v059 仍是巨大平滑山坡且出现大量河床穿水，v060 虽不再使用圆形湖墙，却出现了人工挖槽式水渠、边岸尖刺与水陆裂缝。三版均作为失败实验保留，不推荐作为正式场景。",
+      "After feedback that v057 looked nothing like natural terrain, the highest-priority Mother Composition and blue-detail reference were reviewed again. Incremental vertex pushes, low-poly modifiers and inserted capes on the circular reservoir wall were abandoned. Three separate native Blender geology rebuilds started from the preserved v051: v058 replaced the forelake land via a shoreline distance field, v059 replaced the disconnected front/back coast with an integrated landscape, and v060 regenerated a curved river around the preserved bridge, lighthouse and waterfall. All three failed visual review: v058 shows an obvious rectangular land-mesh join; v059 retains featureless broad slopes and extensive rock/water intersections; v060 creates an artificial trench with jagged edges and terrain/water gaps. None is accepted or recommended as a production scene."
+    ),
+    technicalStatus: "pending",
+    artStatus: "revision-needed",
+    changes: [
+      text("重新打开原始母图与蓝域局部母图，对照确认：母图要的是成组海岸岩层、峡谷与近景水域，不是单一半圆蓄水池。", "Reopened the actual master composition and blue detail to confirm the intended coastal archipelago, strata and natural valley are not one semicircular reservoir."),
+      text("v058：独立替换前岸地形网格，用水岸距离和分层岩脊重新生成 12,816 个面；近景出现方形拼接和水边悬空，否决。", "v058 independently rebuilt the near-cape terrain with 12,816 faces from shoreline distance and strata; visible rectangular joins and suspended water edges caused rejection."),
+      text("v059：独立替换后岸与前岸为一个整合的 36,590 面地形，试图修复地貌割裂；近景仍像巨大单调土坡，且水底露石问题加重，否决。", "v059 replaced the mismatched back/near banks with one 36,590-face land mesh; it remained a featureless mass with worsened rock/water intersection and was rejected."),
+      text("v060：以曲线水路重建河道与两岸，保持原有灯塔、石桥、瀑口和镜头位置；实际渲染显示深挖人工渠、尖刺与河岸断裂，否决。", "v060 rebuilt a curved river and surrounding banks while retaining lighthouse, bridge, falls and cameras; genuine renders showed an excavated artificial trench, spikes and broken bank transitions, so it was rejected."),
+      text("没有替换 Unity 场景，也没有把任何失败工程覆盖到 v051、v057 的历史源文件。", "No Unity scenes were replaced and none of these failed experiments overwrote the v051 or v057 source models.")
+    ],
+    checks: [
+      {
+        title: text("实机多角度审查", "Native multi-angle review"),
+        detail: text("每个试验均保存独立 Blender 源工程，并渲染相同灯塔近景和蓝域俯视；对比图包括 v057、v058、v059、v060 与最高母图，没有概念合成冒充实际模型。", "Each trial has a separate saved native Blender model and genuine matching close-up and top renders; the page compares v057–v060 with the master art reference without passing off concept imagery as models.")
+      },
+      {
+        title: text("v059 水床技术失败", "v059 lakebed technical failure"),
+        detail: text("以 2,939 个水面三角中心检查，整合后的陆地有 123 处高于水面；不符合“水道自然贴合岩床”的基本要求。", "Across 2,939 sampled water triangle centres, v059 had 123 above-water terrain hits, violating basic riverbed continuity.")
+      },
+      {
+        title: text("v060 水岸仍未正确接合", "v060 river/shore joins remain defective"),
+        detail: text("v060 新水网为 360 个三角面、面积约 310,060 平方米。在 120 个水面中心抽样中有 1 处岩体穿水，虽然样本数较少，但原生近景暴露了更明显的裂口和直线拼接问题。", "v060 generated a 360-triangle upper-water strip covering about 310,060 m². One above-water rock hit was found across 120 sampled triangle centres; the native render exposes more significant cracks and straight-edged joins despite the lower sample count.")
+      },
+      {
+        title: text("明确不通过美术验收", "No art approval"),
+        detail: text("三版相较母图都存在结构性错误：真实岩层主次缺失、河岸与山脊互不支撑、前缘瀑口不像自然出水口。各版本保留用于问题复盘，不作为下一轮默认底模。", "All three remain structurally unlike the mother composition: missing geological mass hierarchy, banks disconnected from ridge formation, and an implausible waterfall mouth. They remain archived studies rather than the next production baseline.")
+      }
+    ],
+    limitations: [
+      text("这轮没有制作出合格的新蓝域。程序性距离场和规则高度场即使替换了旧拓扑，也无法自动获得符合母图的地质构造和视觉节奏；继续在错误造型上加法线或岩块不是答案。", "No acceptable new blue region emerged. Even replacing old topology using procedural distance/height fields did not reproduce the reference's geological structures or visual rhythm; more modifiers or rock inserts will not solve it."),
+      text("仅检查了水面三角中心的部分岩床关系，尚无全网格自交、路径、碰撞和 Unity 导入验收；技术状态同样不能通过。", "Only sampled waterbed intersections were assessed. Full self-intersections, collision, traversal and Unity import remain unverified."),
+      text("原始母图中的蓝域主要是灯塔高地、分层海岸、桥与下层海面，以及从上层水域向前溢流的视觉关系。新地形必须先形成这套大体量结构，再谈低多边形风格。", "The blue mother art is structured around lighthouse highlands, layered coastal landforms, bridges and lower sea, with foreground spilling from a higher watercourse. A new large-scale geological blockout must establish that composition before low-poly stylization.")
+    ],
+    nextStep: text(
+      "停止对现有错误湖盆及本轮失败的程序性高度场继续打补丁。下一阶段以母图中的大块分层海岸、岩脊方向及峡谷开口为优先，先独立确定多视角自然地质体量，再将真实连续水道嵌入岩层；未获实机视觉通过前不进入正式地图。",
+      "Stop patching the old enclosed basin or these unsuccessful generated heightfields. The next stage needs a geology-first blockout with large stratified coasts, coherent ridge directions and an open gorge, verified against multiple reference camera angles before fitting a truly continuous watercourse. Do not replace the production world before visual acceptance."
+    ),
+    comparison: [
+      image("v033-08-v057-v060-close.png", "旧围墙与新挖渠：两条错误路线", "Old retaining wall vs excavated channel: both rejected", "v057 是人工水库墙，v060 是过深的人工水渠，两者都不是自然地形。", "v057 looks like a constructed retaining wall; v060 looks like a dug trench. Both are rejected.", 1960, 610),
+      image("v033-09-v058-v059-close.png", "整体地貌试验：明显拼接与大斜坡", "Geology prototypes: rectangular seam and broad slope", "v058 的方形接缝、v059 的大块平坡均不符合母图。", "v058's visible seam and v059's broad monotone hill do not match the reference.", 1960, 610),
+      image("v033-10-mother-v060.png", "最高母图与失败试验同屏", "Master reference and failed prototype", "用于检视差距，不暗示已符合最高参考。", "Shows the discrepancy rather than implying acceptance.", 1960, 610)
+    ],
+    gallery: [
+      image("v033-01-v060-main-grey.png", "v060 否决 · 固定主视", "v060 rejected · fixed overview", "真实渲染，展示错误地貌的大体量关系。", "Authentic render revealing the incorrect landform hierarchy."),
+      image("v033-02-v060-blue-top.png", "v060 否决 · 蓝域俯视", "v060 rejected · overhead", "河道重画了，但岩岸连接仍不自然。", "River planform changed but land joints remained unnatural."),
+      image("v033-03-v060-local-close.png", "v060 否决 · 灯塔近景", "v060 rejected · lighthouse close-up", "可见不合理沟槽、尖刺及破面。", "Exposes artificial channel, spikes and visible breaks."),
+      image("v033-04-v060-blue-side.png", "v060 否决 · 地形侧视", "v060 rejected · terrain side", "用于审查高差和断面。", "Checking elevation and geological profile."),
+      image("v033-05-v058-failure.png", "v058 否决 · 方形地形拼接", "v058 rejected · rectangular seam", "前湖承托面被重建后仍有明显人工接缝。", "The rebuilt forelake bed visibly fails to merge with the natural coast."),
+      image("v033-06-v059-failure.png", "v059 否决 · 过度光滑的大片山体", "v059 rejected · featureless hillside", "整合后岸也不能凭程序生成自然岩层。", "Merging terrain does not automatically generate realistic strata."),
+      image("v033-07-v057-baseline.png", "v057 废弃基线", "v057 rejected baseline", "旧环形高墙的失败形态，用作反面比较。", "Legacy enclosing cliff retained only as a negative comparison.")
+    ]
+  },
+  {
     id: "v032",
     date: "2026-11-15T10:26:20+08:00",
     title: text("Blender 蓝域返工：重塑左岸岩层与前崖，否决三角形灯塔山", "Blender blue-region rework: stratified left bank, fractured front cliff, rejected triangular hill"),
