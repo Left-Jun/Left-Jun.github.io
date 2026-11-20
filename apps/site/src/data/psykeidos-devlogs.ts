@@ -30,6 +30,41 @@ const image = (file: string, zh: string, en: string, captionZh: string, captionE
 
 export const psykeidosDevlogs: PsykeidosDevlog[] = [
   {
+    id: "v034",
+    date: "2026-11-20T13:40:00+08:00",
+    title: text("对白系统：从场景编排到纸片演出", "Dialogue: from scene authoring to paper cards"),
+    summary: text(
+      "这轮把触发范围、对白编排和播放预览接成了一条工作流。开发时可以在场景里框出一个对白区域，回到同一个窗口写正文、设分支和试播。横版沿用纸片对白框，世界地图则先调整近景，让玩家和发言角色完整露在正文上方。",
+      "This round connects trigger placement, writing and playback preview in a single workflow. A dialogue area can be drawn in the scene, then written, branched and previewed in the same window. Side-scrolling dialogue uses paper cards, while a reframed world-map close-up keeps the player and speaker visible above the text."
+    ),
+    technicalStatus: "passed",
+    artStatus: "pending",
+    changes: [
+      text("Text & Dialogue Studio 可管理 NPC 和环境文字。共享 Tuning、整条对白默认值、分段覆盖和正文内联标记可以一起使用，试播直接走游戏里的文字演出。", "Text & Dialogue Studio handles NPC conversations and environmental text. Shared tuning, conversation defaults, line overrides and inline markup work together. Preview uses the in-game text presentation."),
+      text("同一 NPC 可以按进度或状态选取对白。分支、确认和结束由一次独立会话管理，编辑器试播不会触发游戏事件。", "The same NPC can choose a conversation based on progress or state. Each playback owns its branches, confirmation and ending, and editor previews skip gameplay events."),
+      text("纸片对白框支持随名字伸缩的单行姓名签、角色底色和可选立绘。选项依次出现，确认后其他项先退，选中项短暂停留再淡出。", "The paper dialogue box has single-line nameplates that fit the name, per-speaker tints and optional portraits. Choices enter in sequence, and the chosen card lingers briefly after the others fade."),
+      text("暂停菜单保留扇形抽出手感。选中大卡有一张右下错位的半透明灰白衬纸，展开确认分支时衬纸淡下来。", "The pause menu keeps its fan-shaped pull-out motion. A translucent grey-white sheet sits behind the focused card and recedes as the confirmation branch opens."),
+      text("世界地图降低对白近景的瞄点和机位，角色本体可以完整出现在纸框上方。", "Lowering the world-map conversation camera and its aim brings both in-world characters fully above the paper box.")
+    ],
+    checks: [
+      { title: text("Unity 运行回归", "Unity regression checks"), detail: text("核对了对白分支、镜头返回、鼠标与手柄选择，以及暂停分支打开和取消。", "Verified dialogue branches, camera return, mouse and gamepad selection, and opening and cancelling pause confirmations.") },
+      { title: text("实际画面对照", "Rendered comparison"), detail: text("以山崖营地绘图员的对白对照镜头调整前后，并检查了英文长名和暂停确认分支。", "Compared the cartographer conversation before and after reframing, and checked a long English name and the pause confirmation branch.") }
+    ],
+    limitations: [
+      text("对白布局和动效已有可用基线。常规世界对白是否采用立绘，以及最终纸面与角色美术仍在评估。", "The dialogue layout and motion have a working baseline. Routine world-map portraits and the final paper and character art are still under review.")
+    ],
+    nextStep: text("先用世界里的角色和近景完成日常对白构图，再按剧情需要决定哪些时刻值得加立绘。", "Review everyday conversations with the in-world characters and close-up camera, then choose which story moments warrant portraits."),
+    comparison: [
+      image("v034-world-dialogue-before.png", "调镜头前", "Before reframing", "正文框挡住了玩家和绘图员。", "The dialogue box obscures the player and cartographer.", 2267, 1246),
+      image("v034-world-dialogue.png", "调镜头后", "After reframing", "两名角色都露在正文框上方。", "Both characters are visible above the dialogue box.", 1280, 720)
+    ],
+    gallery: [
+      image("v034-world-dialogue.png", "山崖营地对白", "Cliff camp dialogue", "绘图员的话题分支与新的对白近景。", "The cartographer's choices in the reframed close-up.", 1280, 720),
+      image("v034-nameplate.png", "长姓名预览", "Long nameplate preview", "姓名签随译名长度伸展，保持单行。", "The nameplate fits the localized name on a single line.", 1280, 720),
+      image("v034-pause-branch.png", "暂停确认分支", "Pause confirmation branch", "左侧父卡在展开时保留一线淡灰白衬纸。", "The source card keeps a thin grey-white edge as the branch opens.", 1280, 720)
+    ]
+  },
+  {
     id: "v033",
     date: "2026-11-15T11:04:47+08:00",
     title: text("蓝域地貌重建反思：三版原生拓扑试验全部否决", "Blue geology reset: three native topology-rebuild trials rejected"),
